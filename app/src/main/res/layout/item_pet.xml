@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+
+        <variable
+            name="pet"
+            type="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/grid_1"
+        android:clickable="true"
+        android:focusable="true"
+        android:stateListAnimator="@animator/selector_lift_on_touch"
+        android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="@dimen/grid_1"
+        app:cardElevation="@dimen/plane_12"
+        app:cardPreventCornerOverlap="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="160dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_pet"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:srcUrl="@{pet.getPetPhoto()}"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                android:background="?attr/colorPrimarySurface"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholder="@{@drawable/vc_paw}" />
+
+            <com.droid47.petgoogle.base.widgets.components.CheckableImageButton
+                android:id="@+id/cib_star"
+                android:layout_width="@dimen/grid_5"
+                android:layout_height="@dimen/grid_5"
+                android:layout_gravity="center"
+                android:checked="@{pet.bookmarkStatus}"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="@dimen/grid_1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/selector_checked_star"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="42dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardElevation="@dimen/plane_08"
+                app:cardPreventCornerOverlap="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.SmallComponent.Top">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/csl_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:padding="@dimen/grid_0_5"
+                        android:text="@{StringUtilsKt.wordCapitalize(pet.name)}"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface"
+                        app:layout_constraintBottom_toTopOf="@id/tv_desc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Poly" />
+
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:paddingStart="@dimen/grid_0_5"
+                        android:paddingEnd="@dimen/grid_0_5"
+                        android:text="@{@string/age_breed(pet.age, pet.breedEntity.primary)}"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="8sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_distance"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name"
+                        tools:text="Young" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_distance"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:paddingStart="@dimen/grid_0_5"
+                        android:paddingEnd="@dimen/grid_0_5"
+                        android:text="@{StringUtilsKt.wordCapitalize(pet.status)}"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_desc"
+                        tools:text="13 miles away" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</layout>

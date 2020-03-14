@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>app_upgrade</key>
+        <value>
+            {"play_store_version_code":1,"upgrade_info_list":[{"update_type":"immediate","app_version_code":1}]}
+        </value>
+    </entry>
+</defaultsMap>

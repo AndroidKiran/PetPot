@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+
+        <variable
+            name="petDetailsViewModel"
+            type="com.droid47.petgoogle.petDetails.presentation.viewmodels.PetDetailsViewModel" />
+    </data>
+
+    <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@{petDetailsViewModel.nameLiveData}"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_breed_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tommy" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_breed_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:alpha=".6"
+            android:gravity="center_vertical|start"
+            android:text="@string/breed"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_breed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.breedLiveData)}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_breed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:gravity="center_vertical|start"
+            android:text="@{petDetailsViewModel.breedLiveData}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/cls_age_gender_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_breed_heading"
+            app:layout_constraintTop_toBottomOf="@id/tv_breed_heading"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.breedLiveData)}"
+            tools:text="Dachshund Mix" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cls_age_gender_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/grid_2"
+            app:layout_constraintBottom_toTopOf="@id/tv_address_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_breed">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_age_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:alpha=".6"
+                android:gravity="start|center_vertical"
+                android:text="@string/age"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/tv_age"
+                app:layout_constraintEnd_toStartOf="@id/tv_gender_heading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.ageLiveData)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:lines="1"
+                android:text="@{petDetailsViewModel.ageLiveData}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_age_heading"
+                app:layout_constraintStart_toStartOf="@id/tv_age_heading"
+                app:layout_constraintTop_toBottomOf="@id/tv_age_heading"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.ageLiveData)}"
+                tools:text="Young" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_gender_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:alpha=".6"
+                android:gravity="start|center_vertical"
+                android:text="@string/gender"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/tv_gender"
+                app:layout_constraintEnd_toStartOf="@id/tv_size_heading"
+                app:layout_constraintStart_toEndOf="@id/tv_age_heading"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.genderLiveData)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:text="@{petDetailsViewModel.genderLiveData}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_gender_heading"
+                app:layout_constraintStart_toStartOf="@id/tv_gender_heading"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender_heading"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.genderLiveData)}"
+                tools:text="Female" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_size_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:alpha=".6"
+                android:gravity="start|center_vertical"
+                android:text="@string/size"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/tv_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_gender_heading"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:lines="1"
+                android:text="@{petDetailsViewModel.sizeLiveData}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="@id/tv_gender"
+                app:layout_constraintEnd_toEndOf="@id/tv_size_heading"
+                app:layout_constraintStart_toStartOf="@id/tv_size_heading"
+                app:layout_constraintTop_toBottomOf="@id/tv_size_heading"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}"
+                tools:text="Medium" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_address_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:alpha=".6"
+            android:gravity="start|center_vertical"
+            android:lines="1"
+            android:text="@string/address"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cls_age_gender_size"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.addressLiveData)}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:gravity="center_vertical|start"
+            android:text="@{petDetailsViewModel.addressLiveData}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/divider_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_address_heading"
+            app:layout_constraintTop_toBottomOf="@id/tv_address_heading"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.addressLiveData)}"
+            tools:text="New York, NY" />
+
+        <View
+            android:id="@+id/divider_one"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@drawable/list_divider_all_inset"
+            app:layout_constraintBottom_toTopOf="@id/tv_about"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:gravity="center"
+            android:text="@string/about"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_characteristics_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_one" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_characteristics_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:gravity="center_vertical|start"
+            android:text="@string/characteristics"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_characteristics"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_about"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
+            tools:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_characteristics"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:gravity="center_vertical|start"
+            android:text="@{petDetailsViewModel.characteristicsLiveData}"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/csl_coat_trained"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_characteristics_heading"
+            app:layout_constraintTop_toBottomOf="@id/tv_characteristics_heading"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
+            tools:text="Cuddly, Calm, Sweet"
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csl_coat_trained"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/grid_2"
+            app:layout_constraintBottom_toTopOf="@id/tv_health_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_characteristics">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_coat_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:alpha=".6"
+                android:gravity="center_vertical|start"
+                android:text="@string/coat_length"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/tv_coat"
+                app:layout_constraintEnd_toStartOf="@id/tv_trained_heading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.coatLiveData)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_coat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:lines="1"
+                android:text="@{petDetailsViewModel.coatLiveData}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_coat_heading"
+                app:layout_constraintStart_toStartOf="@id/tv_coat_heading"
+                app:layout_constraintTop_toBottomOf="@id/tv_coat_heading"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.coatLiveData)}"
+                tools:text="Long" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_trained_heading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:alpha=".6"
+                android:gravity="center_vertical|start"
+                android:lines="1"
+                android:text="@string/house_trained"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toTopOf="@id/tv_trained"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_coat_heading"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_trained"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical|start"
+                android:lines="1"
+                android:text="@{petDetailsViewModel.homeTrainedLiveData}"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="?attr/colorOnSurface"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_trained_heading"
+                app:layout_constraintStart_toStartOf="@id/tv_trained_heading"
+                app:layout_constraintTop_toBottomOf="@id/tv_trained_heading"
+                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}"
+                tools:text="Yes" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_health_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:alpha=".6"
+            android:gravity="center_vertical|start"
+            android:lines="1"
+            android:text="@string/health"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_health"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/csl_coat_trained"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.healthLiveData)}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_health"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:gravity="center_vertical|start"
+            android:lines="1"
+            android:text="@{petDetailsViewModel.healthLiveData}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_good_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_health_heading"
+            app:layout_constraintTop_toBottomOf="@id/tv_health_heading"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.healthLiveData)}"
+            tools:text="New York, NY" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_good_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:alpha=".6"
+            android:gravity="center_vertical|start"
+            android:lines="1"
+            android:text="@string/good_with"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_good"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_health"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.goodLiveData)}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_good"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:gravity="center_vertical|start"
+            android:text="@{petDetailsViewModel.goodLiveData}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/divider_two"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_good_heading"
+            app:layout_constraintTop_toBottomOf="@id/tv_good_heading"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.goodLiveData)}"
+            tools:text="Other dogs." />
+
+        <View
+            android:id="@+id/divider_two"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@drawable/list_divider_all_inset"
+            app:layout_constraintBottom_toTopOf="@id/tv_meet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_good"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_meet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@{@string/meet(petDetailsViewModel.nameLiveData)}"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/tv_meet_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_two"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            tools:text="AMYYU" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_meet_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:gravity="center_vertical|start"
+            android:text="@{petDetailsViewModel.descLiveData}"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_meet"
+            app:layout_constraintTop_toBottomOf="@id/tv_meet"
+            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            tools:text="Vaccinations up to date, spayed / neutered." />
+
+    </merge>
+</layout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/navigation_search">
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.droid47.petgoogle.search.presentation.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/to_pet_details"
+            app:destination="@id/navigation_pet_details" />
+
+        <action
+            android:id="@+id/to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_pet_details"
+        android:name="com.droid47.petgoogle.petDetails.presentation.PetDetailsFragment"
+        android:label="@string/nav_animal_details_label"
+        tools:layout="@layout/fragment_pet_details">
+
+        <argument
+            android:name="petEntity"
+            app:argType="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.droid47.petgoogle.home.presentation.SettingFragment"
+        android:label="@string/settings" />
+
+    <fragment
+        android:id="@+id/navigation_about_us"
+        android:name="com.droid47.petgoogle.aboutUs.presentation.AboutUsFragment"
+        android:label="@string/menu_about_us"
+        tools:layout="@layout/fragment_about_us" />
+
+    <fragment
+        android:id="@+id/navigation_bookmark_pet"
+        android:name="com.droid47.petgoogle.bookmark.presentation.BookmarkFragment"
+        android:label="@string/menu_favourite"
+        tools:layout="@layout/fragment_book_mark">
+
+        <action
+            android:id="@+id/to_pet_details"
+            app:destination="@id/navigation_pet_details"/>
+
+        <action
+            android:id="@+id/to_settings"
+            app:destination="@id/navigation_settings"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
+
+    </fragment>
+
+</navigation>

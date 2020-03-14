@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="themeListArray">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Set by Battery Saver</item>
+    </string-array>
+
+    <string-array name="themeEntryArray">
+        <item>light</item>
+        <item>dark</item>
+        <item>default</item>
+    </string-array>
+
+
+    <string-array name="introTitleArray">
+        <item>@string/app_name</item>
+        <item>@string/menu_search</item>
+        <item>@string/menu_favourite</item>
+    </string-array>
+
+    <string-array name="introDescriptionArray">
+        <item>@string/loperum_sum_2</item>
+        <item>@string/loperum_sum_2</item>
+        <item>@string/loperum_sum_2</item>
+    </string-array>
+</resources>

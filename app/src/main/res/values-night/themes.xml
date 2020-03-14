@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Final, top-level theme-->
+    <style name="Theme.Pet.DayNight" parent="Base.Pet.Dark"/>
+
+    <style name="Base.Pet.Dark" parent="Base.Pet">
+        <!--Color-->
+        <item name="colorPrimary">?attr/colorPrimarySurface</item>
+        <item name="colorPrimaryVariant">?attr/colorPrimarySurfaceVariant</item>
+        <item name="colorSecondary">@color/pet_orange_500</item>
+        <item name="colorSecondaryVariant">@color/pet_orange_400</item>
+
+        <item name="android:colorBackground">@color/pet_black_900</item>
+        <item name="colorSurface">@color/pet_black_800</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorSurface</item>
+        <item name="colorError">@color/pet_red_400</item>
+
+        <item name="colorOnPrimary">@color/pet_black_900</item>
+        <item name="colorOnSecondary">@color/pet_black_900</item>
+        <item name="colorOnBackground">@color/pet_white_50</item>
+        <item name="colorOnSurface">@color/pet_white_50</item>
+        <item name="colorOnError">@color/pet_black_900</item>
+        <item name="colorOnPrimarySurface">@color/pet_white_50</item>
+        <item name="colorLoader">@color/pet_white_50</item>
+
+        <item name="scrimBackground">@color/pet_black_900_alpha_060</item>
+        <item name="android:statusBarColor">@color/pet_black_900_alpha_060</item>
+
+        <item name="elevationOverlayEnabled">true</item>
+
+        <!--System/Platform attributes-->
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="preferenceTheme">@style/AppPreferenceTheme</item>
+    </style>
+
+</resources>

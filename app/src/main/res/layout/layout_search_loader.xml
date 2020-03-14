@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/grid_2">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_1"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginEnd="@dimen/grid_1"
+        android:layout_marginBottom="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toTopOf="@id/cv_4"
+        app:layout_constraintEnd_toStartOf="@id/cv_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_2"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginStart="@dimen/grid_1"
+        android:layout_marginEnd="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toStartOf="@id/cv_3"
+        app:layout_constraintStart_toEndOf="@id/cv_1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_3"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginStart="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cv_2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_4"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/grid_1"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toTopOf="@id/cv_7"
+        app:layout_constraintEnd_toEndOf="@id/cv_1"
+        app:layout_constraintStart_toStartOf="@id/cv_1"
+        app:layout_constraintTop_toBottomOf="@id/cv_1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_5"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_2"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="@id/cv_2"
+        app:layout_constraintStart_toStartOf="@id/cv_2"
+        app:layout_constraintTop_toBottomOf="@id/cv_2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_6"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_2"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="@id/cv_3"
+        app:layout_constraintStart_toStartOf="@id/cv_3"
+        app:layout_constraintTop_toBottomOf="@id/cv_3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_7"
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_2"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="@id/cv_4"
+        app:layout_constraintStart_toStartOf="@id/cv_4"
+        app:layout_constraintTop_toBottomOf="@id/cv_4">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_2"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="@id/cv_5"
+        app:layout_constraintStart_toStartOf="@id/cv_5"
+        app:layout_constraintTop_toBottomOf="@id/cv_5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/zero"
+        android:layout_height="160dp"
+        android:layout_marginTop="@dimen/grid_2"
+        app:cardBackgroundColor="?attr/colorOnPrimarySurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_08"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="@id/cv_6"
+        app:layout_constraintStart_toStartOf="@id/cv_6"
+        app:layout_constraintTop_toBottomOf="@id/cv_6">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/merge_search_loader_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

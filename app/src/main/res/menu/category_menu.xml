@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_filter_gender"
+            android:title="@string/menu_gender"/>
+
+        <item
+            android:id="@+id/menu_filter_color"
+            android:title="@string/menu_color" />
+
+        <item
+            android:id="@+id/menu_filter_breed"
+            android:title="@string/menu_breed" />
+
+        <item
+            android:id="@+id/menu_filter_coat"
+            android:title="@string/menu_coat" />
+
+        <item
+            android:id="@+id/menu_filter_size"
+            android:title="@string/menu_size" />
+
+        <item
+            android:id="@+id/menu_filter_ager"
+            android:title="@string/menu_age" />
+
+        <item
+            android:id="@+id/menu_filter_status"
+            android:title="@string/menu_status" />
+
+    </group>
+</menu>

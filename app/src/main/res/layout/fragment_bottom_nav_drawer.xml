@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="navigationViewModel"
+            type="com.droid47.petgoogle.home.presentation.viewmodels.NavigationViewModel" />
+
+        <variable
+            name="homeViewModel"
+            type="com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/scrim_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="?attr/scrimBackground"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/background_container"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:behavior_hideable="true"
+            app:behavior_skipCollapsed="true"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            tools:background="?attr/colorPrimarySurfaceVariant">
+
+            <ImageView
+                android:id="@+id/profile_image_view"
+                android:layout_width="@dimen/navigation_drawer_profile_image_size"
+                android:layout_height="@dimen/navigation_drawer_profile_image_size"
+                android:layout_gravity="center|top"
+                android:contentDescription="@string/bottom_nav_drawer_image_content_desc"
+                android:padding="@dimen/grid_1"
+                android:src="@drawable/vc_paw" />
+
+            <FrameLayout
+                android:id="@+id/foreground_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/grid_3"
+                tools:background="?attr/colorPrimarySurface">
+
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/navigationMenuView"
+                    style="@style/Widget.PetGoogle.NavigationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:layout_marginTop="@dimen/grid_2"
+                    app:paddingTopSystemWindowInsets="@{true}"
+                    app:paddingBottomSystemWindowInsets="@{true}"
+                    app:menu="@menu/home_nav_menu" />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

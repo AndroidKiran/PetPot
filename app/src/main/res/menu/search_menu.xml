@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_order"
+        android:title="@string/search_order"
+        app:actionLayout="@layout/order_action_view"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/vc_settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+
+</menu>

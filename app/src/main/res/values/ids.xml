@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="navigation_home_board" type="id"/>
+    <item name="navigation_search" type="id" />
+    <item name="navigation_about_us" type="id" />
+    <item name="navigation_pet_details" type="id" />
+    <item name="navigation_bookmark_pet" type="id" />
+    <item name="navigation_filter" type="id" />
+    <item name="navigation_bottom" type="id" />
+    <item name="navigation_settings" type="id"/>
+    <item name="navigation_splash" type="id"/>
+    <item name="navigation_intro" type="id"/>
+    <item name="navigation_tnc" type="id"/>
+
+    <item name="similar_pets" type="id"/>
+
+<!--    <item name="filter_gender" type="id" />-->
+
+    <item name="tag_system_window_inset_top" type="id" />
+    <item name="tag_view_top_snapshot" type="id" />
+
+</resources>

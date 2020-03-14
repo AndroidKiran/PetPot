@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.PetGoogle.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">?attr/colorPrimarySurface</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+    </style>
+
+    <style name="Widget.PetGoogle.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="insetForeground">@android:color/transparent</item>
+        <!--Set the background color of NavigationView-->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="elevation">@dimen/zero</item>
+        <item name="itemTextAppearance">?attr/textAppearanceSubtitle1</item>
+        <item name="itemTextColor">@color/color_navigation_drawer_menu_item</item>
+        <item name="itemIconSize">@dimen/grid_3</item>
+        <item name="itemIconTint">@color/color_navigation_drawer_menu_item</item>
+        <item name="itemIconPadding">@dimen/grid_3</item>
+    </style>
+
+    <style name="Widget.PetGoogle.ContentProgress" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">?attr/colorLoader</item>
+        <item name="android:elevation">@dimen/plane_16</item>
+    </style>
+
+    <style name="AppPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="preferenceFragmentCompatStyle">@style/AppPreferenceFragmentCompatStyle</item>
+    </style>
+
+   <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
+        <item name="android:layout">@layout/layout_setting</item>
+    </style>
+
+    <style name="Widget.PetGoogle.SheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.PetGoogle.SheetModel</item>
+    </style>
+
+    <style name="Widget.PetGoogle.SheetModel" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:colorBackground">?attr/scrimBackground</item>
+    </style>
+</resources>

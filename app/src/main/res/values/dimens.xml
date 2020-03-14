@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="button_size">48dp</dimen>
+    <dimen name="full_screen_place_holder_size">160dp</dimen>
+    <dimen name="list_height">40dp</dimen>
+    <dimen name="book_mark_image_height">100dp</dimen>
+
+    <dimen name="bottom_app_bar_height">56dp</dimen>
+    <dimen name="navigation_drawer_menu_item_height">56dp</dimen>
+    <dimen name="navigation_drawer_profile_image_size">48dp</dimen>
+
+    <dimen name="bottom_app_bar_fab_cradle_corner_radius">32dp</dimen>
+    <dimen name="bottom_app_bar_fab_cradle_margin">8dp</dimen>
+
+    <dimen name="pet_small_component_corner_radius">24dp</dimen>
+    <dimen name="pet_medium_component_corner_radius">8dp</dimen>
+    <dimen name="pet_large_component_corner_radius">16dp</dimen>
+    <dimen name="pet_larger_component_corner_radius">56dp</dimen>
+    <dimen name="loading_circular_dimen">82dp</dimen>
+
+    <dimen name="small_card_height">70dp</dimen>
+    <dimen name="btn_min_size">90dp</dimen>
+    <dimen name="back_drop_image_height">100dp</dimen>
+
+</resources>

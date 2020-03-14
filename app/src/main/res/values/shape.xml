@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Shape-->
+
+    <style name="ShapeAppearance.pet.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/pet_small_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.pet.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/pet_medium_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.pet.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/pet_large_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.pet.MediumComponent.LeftCorners" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/pet_small_component_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/pet_small_component_corner_radius</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay.pet.SmallComponent.Top" parent="">
+        <item name="cornerSizeTopRight">@dimen/pet_medium_component_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/zero</item>
+        <item name="cornerSizeBottomRight">@dimen/zero</item>
+        <item name="cornerSizeTopLeft">@dimen/pet_medium_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.pet.LargeComponent.Top" parent="">
+        <item name="cornerSizeTopRight">@dimen/pet_small_component_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/zero</item>
+        <item name="cornerSizeBottomRight">@dimen/zero</item>
+        <item name="cornerSizeTopLeft">@dimen/pet_small_component_corner_radius</item>
+    </style>
+
+</resources>

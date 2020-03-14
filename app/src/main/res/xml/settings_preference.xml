@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:icon="@drawable/vc_paw"
+        app:key="@string/key_app_version"
+        app:summary="@string/versionName"
+        app:title="@string/title_app_version"
+        app:singleLineTitle="true" />
+
+    <PreferenceCategory
+        app:key="@string/category_personal"
+        app:title="@string/category_personal">
+
+        <ListPreference
+            app:icon="@drawable/vc_brightness"
+            app:key="@string/key_current_theme"
+            app:title="@string/title_choose_theme"
+            app:defaultValue="default"
+            app:dialogTitle="Choose theme"
+            app:entries="@array/themeListArray"
+            app:entryValues="@array/themeEntryArray"
+            app:useSimpleSummaryProvider="true"
+            app:singleLineTitle="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="@string/category_search"
+        app:title="@string/category_search">
+
+        <SeekBarPreference
+            app:icon="@drawable/vc_search"
+            app:key="@string/key_search_limit"
+            android:max="100"
+            app:title="@string/title_search_limit"
+            app:defaultValue="20"
+            app:min="20"
+            app:seekBarIncrement="10"
+            app:useSimpleSummaryProvider="true"
+            app:showSeekBarValue="true"
+            app:singleLineTitle="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

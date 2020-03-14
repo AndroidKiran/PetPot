@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="tncViewModel"
+            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.TnCViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/grid_12"
+            app:loadUrl="@{tncViewModel.webViewModel.url}"
+            app:paddingBottomSystemWindowInsets="@{true}"
+            app:setWebViewClient="@{tncViewModel.webViewModel.webViewClient}" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/circular_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="@dimen/loading_circular_dimen"
+            android:layout_height="@dimen/loading_circular_dimen"
+            android:layout_gravity="center"
+            android:elevation="24dp"
+            android:theme="@style/Widget.PetGoogle.ContentProgress"
+            android:visibility="visible"
+            app:visible="@{tncViewModel.webViewModel.showProgress}" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/tnc_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:text="@string/i_accept"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceButton"
+            app:icon="@drawable/vc_edit"
+            app:layout_anchor="@id/web_view"
+            app:layout_anchorGravity="center|bottom"
+            app:marginBottomSystemWindowInsets="@{true}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

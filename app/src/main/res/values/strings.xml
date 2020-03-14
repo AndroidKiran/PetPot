@@ -1,0 +1,110 @@
+<resources>
+    <string name="app_name">PetGoogle</string>
+    <string name="menu_home_board">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_favourite">Favourite</string>
+
+    <string name="hint_search">City/State/latitude longitude/postal code</string>
+
+    <!--Nav target label-->
+    <string name="nav_animal_details_label">Details</string>
+
+    <string name="retry">Retry</string>
+    <string name="menu_gender">Gender</string>
+    <string name="menu_color">Color</string>
+    <string name="menu_breed">Breed</string>
+    <string name="menu_coat">Coat</string>
+    <string name="menu_age">Age</string>
+    <string name="menu_size">Size</string>
+    <string name="menu_status">Status</string>
+    <string name="i_am_alone">I am alone!</string>
+    <string name="reset_filter">Rest Filter And Try again</string>
+    <string name="please_star">Find me friends by clicking on Heart \u2661 while searching</string>
+
+    <string name="something_went_wrong">Oops! Something is broken</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="no_internet">Slow or No Internet !</string>
+    <string name="no_internet_subtitle">Please check your network connection \n and try again.</string>
+    <string name="non_serving_location">Our service is not enabled for entered location
+        yet!</string>
+    <string name="age_breed">%1$s • %2$s</string>
+    <string name="about">About</string>
+    <string name="meet">Meet %1$s</string>
+    <string name="un_known">Unknown</string>
+    <string name="mix">Mix</string>
+    <string name="vacci_upto_date">Vaccinations up to date</string>
+    <string name="spayed_neutered">Spayed / neutered.</string>
+    <string name="de_clawed">De-clawed</string>
+    <string name="other_dogs">Other dogs</string>
+    <string name="dogs">Dogs</string>
+    <string name="other_cats">Other cats</string>
+    <string name="cats">Cats</string>
+    <string name="children">Children</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="bottom_nav_drawer_image_content_desc">profile avatar image</string>
+    <string name="fab_search_filter_content_description">Filter search</string>
+    <string name="fab_delete_all_favorite">Reply to email</string>
+    <string name="settings">Settings</string>
+    <string name="clear">Clear</string>
+    <string name="go_to_search">To search</string>
+    <string name="remove_bookmark">Pet  removed from favorite</string>
+    <string name="undo">Undo</string>
+    <string name="clear_pets">Are you sure?\nWant to delete all the favourite pets</string>
+    <string name="search_filters">Search Filters</string>
+    <string name="no_items_found">No items found</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="reset">Reset</string>
+    <string name="recent">Recent</string>
+    <string name="distance">Distance</string>
+    <string name="you_ll_also_like">You\'ll Also Like</string>
+    <string name="breed">breed:</string>
+    <string name="age">Age:</string>
+    <string name="gender">Gender:</string>
+    <string name="size">Size:</string>
+    <string name="address">Address:</string>
+    <string name="coat_length">Coat Length:</string>
+    <string name="house_trained">House Trained:</string>
+    <string name="health">Health:</string>
+    <string name="good_with">Good with:</string>
+    <string name="characteristics">Characteristics:</string>
+
+    <string name="pet_card_transition_name">pet_card_%1$s</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="key_app_version">key_app_version</string>
+    <string name="summary_app_version">About current app version</string>
+    <string name="title_app_version">App Version</string>
+    <string name="key_current_theme">current_theme</string>
+    <string name="category_personal">Personal</string>
+    <string name="key_search_limit">search_limit</string>
+    <string name="title_search_limit">Search Items limit</string>
+    <string name="category_search">Search</string>
+    <string name="title_choose_theme">Choose Theme</string>
+    <string name="action_view">actionView</string>
+    <string name="loperum_sum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere ultrices quam, eget scelerisque quam suscipit ac. In ac mollis risus, nec porttitor arcu. Morbi at gravida quam, eu commodo nunc. Phasellus blandit, neque et pellentesque rutrum, massa odio ultricies sem, quis molestie elit urna non nisl. Vestibulum velit massa, faucibus ut tristique at, faucibus sed leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur eu lacus laoreet orci mollis lobortis non ut nulla. Etiam viverra dui vel tellus dapibus hendrerit.
+
+Curabitur ut ultricies arcu. In sodales, augue eu aliquam condimentum, nisl enim luctus leo, nec maximus mauris ipsum ac dolor. Proin lobortis quam et felis malesuada, iaculis blandit elit laoreet. Mauris auctor congue sapien. Praesent tempor suscipit imperdiet. Morbi eleifend quis ante quis vehicula. Proin sed lorem venenatis, varius velit luctus, cursus velit. Quisque vitae mollis lorem. Fusce dictum vel tortor a auctor.
+
+Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra purus a, bibendum neque. Morbi nec dolor at turpis varius ultricies et vitae tortor. Ut quis sagittis justo, lacinia vehicula ligula. Duis convallis dapibus viverra. Duis pharetra dolor quis mattis dignissim. Suspendisse vel mi nisi. Suspendisse imperdiet tellus vel felis aliquet auctor. Curabitur ut magna semper, vulputate massa sit amet, viverra eros. Nunc sed nulla non ante consequat pharetra.</string>
+    <string name="my_email">ravikiran.surpur@gmail.com</string>
+    <string name="search_order">Search result order</string>
+    <string name="no_animal_found">No pet found!</string>
+    <string name="loperum_sum_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+    posuere ultrices quam, eget scelerisque quam suscipit ac.</string>
+    <string name="previous">Prev</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="i_accept">I accept</string>
+    <string name="share">Share</string>
+    <string name="check_cute_one">Hey, check this cute fellow</string>
+    <string name="share_with">Share with</string>
+    <string name="rate_app">Rate us</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="version_key">upgrade_version_%s</string>
+    <string name="update_downloaded">An update has just been downloaded.</string>
+    <string name="restart">Restart</string>
+
+</resources>

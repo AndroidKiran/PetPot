@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_rate_app"
+        android:icon="@drawable/vc_star"
+        android:title="@string/rate_app"
+        app:showAsAction="ifRoom" />
+
+</menu>

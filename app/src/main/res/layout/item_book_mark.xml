@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pet"
+            type="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_bookmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_2"
+        android:layout_marginTop="@dimen/grid_1"
+        android:layout_marginEnd="@dimen/grid_2"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:stateListAnimator="@animator/selector_lift_on_touch"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardElevation="@dimen/plane_12"
+        app:cardPreventCornerOverlap="true"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.pet.MediumComponent">
+
+        <ImageView
+            android:id="@+id/iv_pet_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/book_mark_image_height"
+            android:background="?attr/colorPrimarySurface"
+            android:scaleType="centerCrop"
+            android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:transform="@{true}"
+            app:srcUrl="@{pet.getPetPhoto()}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/grid_1">
+
+            <ImageView
+                android:id="@+id/iv_pet_pic"
+                android:layout_width="@dimen/book_mark_image_height"
+                android:layout_height="@dimen/small_card_height"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/csl_details"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholder="@{@drawable/vc_paw}"
+                app:srcUrl="@{pet.getPetPhoto()}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_details"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/small_card_height"
+                android:background="@color/pet_blue_50_alpha_070"
+                android:elevation="@dimen/plane_08"
+                android:padding="@dimen/grid_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_pet_pic"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_pet_name"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{pet.name}"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@id/tv_details"
+                    app:layout_constraintEnd_toStartOf="@id/cib_star"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Rivago" />
+
+                <TextView
+                    android:id="@+id/tv_details"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{@string/age_breed(pet.age, pet.breedEntity.primary)}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="@android:color/background_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cib_star"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pet_name"
+                    tools:text="Young . Labrodor" />
+
+                <com.droid47.petgoogle.base.widgets.components.CheckableImageButton
+                    android:id="@+id/cib_star"
+                    android:layout_width="@dimen/grid_4"
+                    android:layout_height="@dimen/grid_4"
+                    android:layout_margin="@dimen/grid_1"
+                    android:checked="true"
+                    android:padding="@dimen/grid_2"
+                    android:src="@drawable/selector_checked_star"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

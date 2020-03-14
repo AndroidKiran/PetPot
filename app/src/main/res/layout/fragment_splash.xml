@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.droid47.petgoogle.base.widgets.Loading" />
+
+        <import type="com.droid47.petgoogle.base.widgets.Success" />
+
+        <import type="com.droid47.petgoogle.base.widgets.Failure" />
+
+        <import type="com.droid47.petgoogle.base.widgets.Empty" />
+
+        <variable
+            name="splashViewModel"
+            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layoutFullscreen="@{true}">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/iv_logo"
+            android:layout_width="@dimen/full_screen_place_holder_size"
+            android:layout_height="@dimen/full_screen_place_holder_size"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="good_boy.json"
+            app:lottie_loop="true" />
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="140dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:indeterminate="@{splashViewModel.resultEvent instanceof Loading || splashViewModel.resultEvent instanceof Success}"
+            android:indeterminateTint="?attr/colorSecondary" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/grid_2"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAppearance="?attr/textAppearanceHeadline3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRetry"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/grid_2"
+            android:backgroundTint="?attr/colorSecondary"
+            android:gravity="center"
+            android:onClick="@{() -> splashViewModel.startOneTimeAuthRequest()}"
+            android:text="@string/retry"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorOnSecondary"
+            app:visible="@{splashViewModel.resultEvent instanceof Failure}" />
+
+    </LinearLayout>
+</layout>

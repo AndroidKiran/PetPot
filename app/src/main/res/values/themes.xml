@@ -1,0 +1,74 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Pet.DayNight" parent="Base.Pet" />
+
+<!--    <style name="ThemeOverlay.Pet.Details" parent="Theme.Pet">-->
+<!--        <item name="android:colorBackground">@color/colorPrimary</item>-->
+<!--        <item name="android:statusBarColor">@color/immersive_sys_ui</item>-->colorOppTheme
+<!--    </style>-->
+
+    <style name="Base.Pet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!--Color-->
+        <item name="colorPrimary">@color/pet_blue_700</item>
+        <item name="colorPrimaryVariant">@color/pet_blue_800</item>
+        <item name="colorSecondary">@color/pet_orange_500</item>
+        <item name="colorSecondaryVariant">@color/pet_orange_400</item>
+
+        <item name="android:colorBackground">@color/pet_blue_50</item>
+        <item name="colorSurface">@color/pet_white_50</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
+        <item name="colorError">@color/pet_red_400</item>
+
+        <item name="colorOnPrimary">@color/pet_white_50</item>
+        <item name="colorOnSecondary">@color/pet_black_900</item>
+        <item name="colorOnBackground">@color/pet_black_900</item>
+        <item name="colorOnSurface">@color/pet_black_900</item>
+        <item name="colorOnError">@color/pet_black_900</item>
+        <item name="colorOnPrimarySurface">@color/pet_white_50</item>
+        <item name="scrimBackground">@color/pet_blue_50_alpha_060</item>
+        <item name="android:statusBarColor">@color/pet_blue_50_alpha_060</item>
+        <item name="android:navigationBarColor">@color/nav_bar</item>
+        <item name="colorLoader">@color/pet_black_900</item>
+        <!--Shape style-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.pet.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.pet.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.pet.LargeComponent</item>
+
+        <!--Typography-->
+        <item name="textAppearanceHeadline2">@style/TextAppearance.pet.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.pet.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.pet.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.pet.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.pet.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.pet.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.pet.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.pet.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.pet.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.pet.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.pet.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.pet.Overline</item>
+
+        <item name="emphasisHighAlpha">0.87</item>
+        <item name="emphasisMediumAlpha">0.60</item>
+        <item name="emphasisDisabledAlpha">0.38</item>
+
+        <item name="motionInterpolatorPersistent">@android:interpolator/fast_out_slow_in</item>
+        <item name="motionInterpolatorIncoming">@android:interpolator/decelerate_cubic</item>
+        <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
+
+        <!--Styles-->
+        <item name="bottomAppBarStyle">
+            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+        </item>
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+        <item name="navigationViewStyle">@style/Widget.PetGoogle.NavigationView</item>
+        <item name="spinnerStyle">@style/Widget.AppCompat.Spinner.DropDown.ActionBar</item>
+        <!--System/Platform attributes-->
+        <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+
+        <item name="preferenceTheme">@style/AppPreferenceTheme</item>
+    </style>
+
+</resources>

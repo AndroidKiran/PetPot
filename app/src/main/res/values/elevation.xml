@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="plane_06">6dp</dimen>
+    <dimen name="plane_08">8dp</dimen>
+    <dimen name="plane_12">12dp</dimen>
+    <dimen name="plane_16">16dp</dimen>
+</resources>

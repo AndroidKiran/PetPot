@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="pet_motion_default_large">600</integer>
+    <integer name="pet_motion_duration_medium">225</integer>
+    <integer name="pet_motion_duration_small">175</integer>
+
+</resources>

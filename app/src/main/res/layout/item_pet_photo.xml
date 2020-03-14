@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="petPhotoUrl"
+            type="String" />
+
+        <variable
+            name="imageLoadListener"
+            type="com.droid47.petgoogle.base.extensions.GlideDrawableLoadListener" />
+
+    </data>
+
+    <ImageView
+        android:id="@+id/iv_pet_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:loadListener="@{imageLoadListener}"
+        app:placeholder="@{@drawable/vc_paw}"
+        app:srcUrl="@{petPhotoUrl}" />
+
+</layout>

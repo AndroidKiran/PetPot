@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="filterItem"
+            type="com.droid47.petgoogle.search.data.models.FilterItemEntity" />
+    </data>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip"
+        style="@style/Widget.MaterialComponents.Chip.Entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipMinHeight="@dimen/grid_3"
+        android:layout_marginStart="@dimen/grid_0_5"
+        android:layout_marginEnd="@dimen/grid_0_5"
+        android:text="@{filterItem.name}"
+        app:checkedIconEnabled="false"
+        app:checkedIconVisible="false"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="?attr/colorOnSecondary"
+        app:chipIconTint="?attr/colorOnSecondary"
+        app:chipSurfaceColor="?attr/colorPrimarySurface"
+        app:chipBackgroundColor="?attr/colorSecondary"
+        tools:text="Chip" />
+
+</layout>

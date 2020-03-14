@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.droid47.petgoogle.base.widgets.Success" />
+
+        <import type="com.droid47.petgoogle.base.widgets.Loading" />
+
+        <import type="com.droid47.petgoogle.base.widgets.Failure" />
+
+        <variable
+            name="petDetailsViewModel"
+            type="com.droid47.petgoogle.petDetails.presentation.viewmodels.PetDetailsViewModel" />
+
+        <variable
+            name="loadingStateConfig"
+            type="com.droid47.petgoogle.base.bindingConfig.ContentLoadingConfiguration" />
+
+        <variable
+            name="errorStateConfig"
+            type="com.droid47.petgoogle.base.bindingConfig.ErrorViewConfiguration" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/pet_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="@{@string/pet_card_transition_name(petDetailsViewModel.transitionName)}">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:expanded="false"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/ctl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="@android:color/transparent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+                <com.droid47.petgoogle.base.widgets.components.IndefinitePagerIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="@dimen/grid_11"
+                    app:dotColor="?attr/colorOnPrimarySurface"
+                    app:dotSeparation="@dimen/grid_1"
+                    app:selectedDotColor="?attr/colorSecondary" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_3"
+                    android:background="?attr/scrimBackground"
+                    android:paddingStart="@dimen/grid_2"
+                    android:paddingEnd="@dimen/zero"
+                    android:text="@string/nav_animal_details_label"
+                    android:textAppearance="?attr/textAppearanceHeadline3"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_collapseMode="parallax" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:behavior_overlapTop="@dimen/grid_4"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_pet_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:paddingBottomSystemWindowInsets="@{true}">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_pet_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="?attr/colorSurface"
+                        app:cardElevation="@dimen/plane_08"
+                        app:cardPreventCornerOverlap="true"
+                        app:layout_constraintBottom_toTopOf="@id/similar_pets"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <include
+                                android:id="@+id/include_pet_details"
+                                layout="@layout/layout_pet_details"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:petDetailsViewModel="@{petDetailsViewModel}" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <fragment
+                        android:id="@+id/similar_pets"
+                        android:name="com.droid47.petgoogle.petDetails.presentation.SimilarPetsFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cv_pet_details" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:visible="@{petDetailsViewModel.petLiveData instanceof Loading}">
+
+                <include layout="@layout/layout_pet_details_loader" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <include
+                android:id="@+id/layout_error"
+                layout="@layout/layout_error_screen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/grid_12"
+                app:errorViewConfig="@{errorStateConfig}"
+                app:isVisible="@{petDetailsViewModel.petLiveData instanceof Failure}"
+                tools:visibility="gone" />
+
+        </FrameLayout>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:elevation="@dimen/plane_08"
+            app:fabAlignmentMode="center"
+            app:fabAnimationMode="scale"
+            app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
+            app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/search_menu">
+
+            <LinearLayout
+                android:id="@+id/bottom_app_bar_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/grid_12"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/plane_08"
+            app:ensureMinTouchTargetSize="true"
+            app:fabIcon="@{petDetailsViewModel.bookMarkStatusLiveData instanceof Success}"
+            app:fabSize="normal"
+            app:layout_anchor="@id/bottom_app_bar" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

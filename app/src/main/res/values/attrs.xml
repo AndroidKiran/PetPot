@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SectionFilter">
+        <attr name="filter_search_visible" format="boolean"/>
+        <attr name="filter_name" format="string"/>
+        <attr name="filter_type" format="enum">
+            <enum name="color" value="0"/>
+            <enum name="coat" value="1"/>
+            <enum name="gender" value="2"/>
+            <enum name="breed" value="3"/>
+            <enum name="size" value="4"/>
+            <enum name="age" value="5"/>
+            <enum name="status" value="6"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SnackbarStyle">
+        <attr name="android:textColor" />
+        <attr name="android:background" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundedView">
+        <attr name="topLeftCornerRadius" format="dimension" />
+        <attr name="topRightCornerRadius" format="dimension" />
+        <attr name="bottomLeftCornerRadius" format="dimension" />
+        <attr name="bottomRightCornerRadius" format="dimension" />
+    </declare-styleable>
+
+
+    <attr name="colorPrimarySurfaceVariant" format="color" />
+
+    <!--Emphasis values are used in combination with each "on" color to create three available -->
+    <!--levels of emphasis for text and content.-->
+    <attr name="emphasisHighAlpha" format="float"/>
+    <attr name="emphasisMediumAlpha" format="float"/>
+    <attr name="emphasisDisabledAlpha" format="float"/>
+
+    <attr name="motionInterpolatorPersistent" format="reference"/>
+    <attr name="motionInterpolatorIncoming" format="reference"/>
+    <attr name="motionInterpolatorOutgoing" format="reference"/>
+
+    <!--Custom view themes/styles-->
+    <attr name="bottomNavigationDrawerStyle" format="reference" />
+    <attr name="bottomNavigationDrawerNavigationViewTheme" format="reference" />
+
+    <attr name="transitionShapeAppearance" format="reference"/>
+
+    <declare-styleable name="SpannedGridLayoutManager">
+        <attr name="android:orientation" />
+        <attr name="spanCount" />
+        <attr name="aspectRatio" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="IndefinitePagerIndicator">
+        <attr name="dotCount" format="integer" />
+        <attr name="fadingDotCount" format="integer" />
+        <attr name="dotRadius" format="dimension" />
+        <attr name="selectedDotRadius" format="dimension" />
+        <attr name="dotColor" format="color" />
+        <attr name="selectedDotColor" format="color" />
+        <attr name="dotSeparation" format="dimension" />
+        <attr name="supportRTL" format="boolean" />
+        <attr name="verticalSupport" format="boolean" />
+    </declare-styleable>
+
+    <attr name="colorHint" format="reference|color"/>
+    <attr name="colorLoader" format="reference|color"/>
+
+</resources>

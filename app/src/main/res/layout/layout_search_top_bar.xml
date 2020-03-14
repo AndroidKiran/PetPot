@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+
+        <variable
+            name="petSpinnerViewModelAndLocation"
+            type="com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/fl_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/grid_2"
+            android:text="@string/menu_search"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_search"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/grid_6"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_2"
+            app:cardElevation="@dimen/plane_16"
+            app:cardPreventCornerOverlap="true"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.pet.SmallComponent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_size">
+
+                <com.droid47.petgoogle.search.presentation.widgets.PetSpinner
+                    android:id="@+id/spinnerAnimal"
+                    style="@style/Widget.PetGoogle.Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:entries="@{petSpinnerViewModelAndLocation.petNamesLiveData}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.35"
+                    app:petSpinnerViewModelAndLocation="@{petSpinnerViewModelAndLocation}"
+                    app:popupElevationOverlay="@{@dimen/plane_16}"
+                    app:selectedValue="@={petSpinnerViewModelAndLocation.selectedPetNameLiveData}" />
+
+                <View
+                    android:layout_width="@dimen/grid_3"
+                    android:layout_height="@dimen/grid_3"
+                    android:layout_marginEnd="@dimen/grid_1"
+                    android:background="@drawable/vc_drop_down"
+                    app:layout_constraintBottom_toBottomOf="@id/spinnerAnimal"
+                    app:layout_constraintEnd_toEndOf="@id/spinnerAnimal"
+                    app:layout_constraintTop_toTopOf="@id/spinnerAnimal" />
+
+                <EditText
+                    android:id="@+id/tv_location"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@null"
+                    android:gravity="start|center"
+                    android:hint="@string/hint_search"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/grid_1"
+                    android:paddingEnd="@dimen/grid_6"
+                    android:text="@={petSpinnerViewModelAndLocation.locationLiveData}"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:textColor="?attr/colorOnSurface"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/spinnerAnimal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="New jersy" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/clear_text_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> petSpinnerViewModelAndLocation.onFabClick()}"
+                    android:src="@{StringUtilsKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
+                    app:elevation="@dimen/plane_08"
+                    app:fabCustomSize="@dimen/grid_4"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_location"
+                    app:layout_constraintEnd_toEndOf="@id/tv_location"
+                    app:layout_constraintTop_toTopOf="@id/tv_location" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</layout>
