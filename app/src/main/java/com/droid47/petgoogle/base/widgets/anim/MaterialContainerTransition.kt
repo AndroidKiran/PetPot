@@ -183,8 +183,10 @@ class MaterialContainerTransition(
                 endView.descendantBackgroundColor()
             )
 
-        return ObjectAnimator.ofFloat(dr,
-            MaterialContainerTransitionDrawable.PROGRESS, 0f, 1f)
+        return ObjectAnimator.ofFloat(
+                dr,
+                MaterialContainerTransitionDrawable.PROGRESS, 0f, 1f
+            )
             .apply {
                 doOnStart {
                     dr.setBounds(0, 0, drawIn.width, drawIn.height)
@@ -253,9 +255,11 @@ private class MaterialContainerTransitionDrawable(
     // The fading out of the outgoing element
     private val alphaOutStartPoint = 0.0F
     private val alphaOutEndPoint = 0.3F
+
     //The fading in of the incoming element
     private val alphaInStartPoint = 0.3F
     private val alphaInEndPoint = 1.0F
+
     // The corner shape animation of the container
     private val shapeStartPoint = 0.0F
     private val shapeEndPoint = 0.8F

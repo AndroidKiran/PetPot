@@ -25,11 +25,11 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/grid_2"
-            android:text="@string/menu_search"
-            android:textAlignment="center"
             android:layout_gravity="start"
+            android:layout_marginStart="@dimen/grid_2"
             android:gravity="center"
+            android:text="@string/search"
+            android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline3"
             android:textColor="?attr/colorOnSurface" />
 

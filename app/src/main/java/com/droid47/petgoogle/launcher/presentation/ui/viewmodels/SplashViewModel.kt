@@ -2,7 +2,6 @@ package com.droid47.petgoogle.launcher.presentation.ui.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.work.WorkManager
 import com.droid47.petgoogle.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petgoogle.base.firebase.CrashlyticsExt
 import com.droid47.petgoogle.base.widgets.*
@@ -38,7 +37,7 @@ class SplashViewModel @Inject constructor(
             SingleObserver<BaseStateModel<List<PetTypeEntity>>> {
             override fun onSuccess(baseStateModel: BaseStateModel<List<PetTypeEntity>>) {
                 _resultEvent.postValue(baseStateModel)
-                if(baseStateModel is Success) {
+                if (baseStateModel is Success) {
                     navigationEvent.postValue(executeNavigationFlow())
                 }
             }

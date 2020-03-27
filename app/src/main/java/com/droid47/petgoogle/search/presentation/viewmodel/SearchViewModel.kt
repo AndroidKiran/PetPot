@@ -6,11 +6,15 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petgoogle.base.extensions.applyIOSchedulers
-import com.droid47.petgoogle.base.extensions.isNotEmpty
+import com.droid47.petgoogle.base.extensions.toLiveData
 import com.droid47.petgoogle.base.firebase.CrashlyticsExt
-import com.droid47.petgoogle.base.widgets.*
+import com.droid47.petgoogle.base.widgets.BaseAndroidViewModel
+import com.droid47.petgoogle.base.widgets.BaseStateModel
+import com.droid47.petgoogle.base.widgets.Failure
+import com.droid47.petgoogle.base.widgets.Success
 import com.droid47.petgoogle.base.widgets.components.LiveEvent
 import com.droid47.petgoogle.bookmark.domain.interactors.AddOrRemoveBookmarkUseCase
+import com.droid47.petgoogle.bookmark.domain.interactors.FetchBookmarkListUseCase
 import com.droid47.petgoogle.search.data.models.FilterItemEntity
 import com.droid47.petgoogle.search.data.models.LOCATION
 import com.droid47.petgoogle.search.data.models.PAGE_NUM
@@ -34,7 +38,8 @@ class SearchViewModel @Inject constructor(
     private val searchPetUseCase: SearchPetUseCase,
     private val updateFilterUseCase: UpdateFilterUseCase,
     private val addOrRemoveBookmarkUseCase: AddOrRemoveBookmarkUseCase,
-    private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase
+    private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
+    fetchBookmarkListUseCase: FetchBookmarkListUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -173,7 +178,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
     private fun onPetStarError(throwable: Throwable) {
         val err = throwable
     }
@@ -241,10 +245,10 @@ class SearchViewModel @Inject constructor(
 
     private fun obtainCurrentLoadedAllItems() = searchStateLiveData.value?.loadedAllItems ?: false
 
-    companion object {
-        private const val REQUEST_SEARCH = 1001
-        private const val REQUEST_UPDATE_FILTER = 1003
-        private const val REQUEST_BOOK_MARK_PET = 1004
-        private const val PAGE_ONE = 1
-    }
+companion object {
+    private const val REQUEST_SEARCH = 1001
+    private const val REQUEST_UPDATE_FILTER = 1003
+    private const val REQUEST_BOOK_MARK_PET = 1004
+    private const val PAGE_ONE = 1
+}
 }

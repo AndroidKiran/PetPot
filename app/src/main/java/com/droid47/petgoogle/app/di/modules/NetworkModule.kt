@@ -4,7 +4,6 @@ import android.app.Application
 import com.droid47.petgoogle.BuildConfig
 import com.droid47.petgoogle.app.NetworkHeadersInterceptor
 import com.droid47.petgoogle.app.TokenAuthenticator
-import com.droid47.petgoogle.app.di.scopes.ApplicationScope
 import com.droid47.petgoogle.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petgoogle.launcher.data.datasources.TokenNetworkSource
 import com.google.gson.Gson
@@ -22,13 +21,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module(includes = [NetworkApiModule::class])
 object NetworkModule {
 
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         if (BuildConfig.DEBUG) {
             level = HttpLoggingInterceptor.Level.HEADERS
@@ -40,17 +40,14 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun provideGson(): Gson = GsonBuilder()
         .excludeFieldsWithModifiers(Modifier.TRANSIENT)
         .create()
 
-//        .disableHtmlEscaping()
-
-
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun provideNetworkHeaderInterceptor(
         localPreferencesRepository: LocalPreferencesRepository,
         gson: Gson
@@ -59,15 +56,17 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    @ApplicationScope
-    fun provideAuthenticator(localPreferencesRepository: LocalPreferencesRepository,
-                             gson: Gson,
-                             tokenNetworkSource: Lazy<TokenNetworkSource>): TokenAuthenticator =
-        TokenAuthenticator(localPreferencesRepository,gson, tokenNetworkSource)
+    @Singleton
+    fun provideAuthenticator(
+        localPreferencesRepository: LocalPreferencesRepository,
+        gson: Gson,
+        tokenNetworkSource: Lazy<TokenNetworkSource>
+    ): TokenAuthenticator =
+        TokenAuthenticator(localPreferencesRepository, gson, tokenNetworkSource)
 
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun providesOkHttpCache(application: Application): Cache {
         val cacheSize = 10 * 1024 * 1024 // 10 MB
         return Cache(application.cacheDir, cacheSize.toLong())
@@ -75,7 +74,7 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         headersInterceptor: NetworkHeadersInterceptor,
@@ -92,20 +91,20 @@ object NetworkModule {
             .addInterceptor(headersInterceptor)
             .build()
 
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun providesGsonConverterFactory(gson: Gson): Converter.Factory =
+        GsonConverterFactory.create(gson)
 
     @Provides
     @JvmStatic
-    @ApplicationScope
-    fun providesGsonConverterFactory(gson: Gson): Converter.Factory = GsonConverterFactory.create(gson)
-
-    @Provides
-    @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun providesCallAdapterFactory(): CallAdapter.Factory = RxJava2CallAdapterFactory.create()
 
     @Provides
     @JvmStatic
-    @ApplicationScope
+    @Singleton
     fun provideNetworkClient(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: Converter.Factory,
@@ -116,6 +115,4 @@ object NetworkModule {
         .addCallAdapterFactory(callAdapterFactor)
         .client(okHttpClient)
         .build()
-
-
 }

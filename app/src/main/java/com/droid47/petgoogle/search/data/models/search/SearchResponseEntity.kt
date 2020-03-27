@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class SearchResponseEntity(
     @field:SerializedName("pagination")
-	var paginationEntity: PaginationEntity? = null,
+    var paginationEntity: PaginationEntity? = null,
 
     @field:SerializedName("animals")
-	var animals: List<PetEntity>? = null
-): Parcelable
+    var animals: List<PetEntity>? = null
+) : Parcelable

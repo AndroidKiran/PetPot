@@ -21,7 +21,8 @@ class FetchAppliedFilterUseCase @Inject constructor(
 ) : FlowableUseCase<BaseStateModel<Filters>, Unit>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Unit?): Flowable<BaseStateModel<Filters>> =
-        filterRepository.fetchPageFilterOnUpdate(PAGE_NUM)
+        filterRepository.fetchPageFilterOnUpdate()
+            .filter { it.selected }
             .switchMapSingle {
                 fetchAppliedFilters()
             }.onErrorReturn {
@@ -97,12 +98,12 @@ class FetchAppliedFilterUseCase @Inject constructor(
             if (locationStr.isNotEmpty()) {
                 location = locationStr
             }
-
-            val limit = filterRepository.getSearchLimit()
-            this.limit = limit.toString()
         }
 
-    private fun transformListToString(filterItemEntityList: List<FilterItemEntity>, type: String): String =
+    private fun transformListToString(
+        filterItemEntityList: List<FilterItemEntity>,
+        type: String
+    ): String =
         filterItemEntityList.filter { filterItem -> filterItem.type == type }
             .map { filterItem ->
                 val name = filterItem.name

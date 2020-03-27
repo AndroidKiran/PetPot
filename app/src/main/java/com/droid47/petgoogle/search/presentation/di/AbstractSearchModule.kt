@@ -1,15 +1,12 @@
 package com.droid47.petgoogle.search.presentation.di
 
 import androidx.lifecycle.ViewModel
-import com.droid47.petgoogle.app.di.scopes.ChildFragmentScope
 import com.droid47.petgoogle.app.di.scopes.ViewModelKey
-import com.droid47.petgoogle.search.presentation.FilterFragment
 import com.droid47.petgoogle.search.presentation.viewmodel.FilterViewModel
 import com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
 import com.droid47.petgoogle.search.presentation.viewmodel.SearchViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 @Module
@@ -29,9 +26,5 @@ interface AbstractSearchModule {
     @IntoMap
     @ViewModelKey(FilterViewModel::class)
     fun bindFilterViewModel(filterViewModel: FilterViewModel): ViewModel
-
-    @ChildFragmentScope
-    @ContributesAndroidInjector
-    fun bindFilterFragment(): FilterFragment
 
 }

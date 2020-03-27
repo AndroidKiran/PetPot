@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petgoogle.base.extensions.isEmpty
-import com.droid47.petgoogle.base.extensions.switchMap
 import com.droid47.petgoogle.base.firebase.CrashlyticsExt
 import com.droid47.petgoogle.base.widgets.BaseAndroidViewModel
 import com.droid47.petgoogle.base.widgets.components.LiveEvent
@@ -12,7 +11,6 @@ import com.droid47.petgoogle.search.domain.interactors.FetchPetNamesUseCase
 import com.droid47.petgoogle.search.domain.interactors.RefreshFilterUseCase
 import com.droid47.petgoogle.search.domain.interactors.RefreshSelectedPetUseCase
 import io.reactivex.Completable
-import io.reactivex.CompletableObserver
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -60,7 +58,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
             .andThen(refreshFilterUseCase.buildUseCaseCompletable(locationLiveData.value ?: ""))
 
     fun onFabClick() {
-        if(locationLiveData.value.isEmpty()) {
+        if (locationLiveData.value.isEmpty()) {
             currentLocationLiveData.postValue(Unit)
         } else {
             locationLiveData.postValue("")

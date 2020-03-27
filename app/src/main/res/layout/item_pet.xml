@@ -45,14 +45,14 @@
                 android:id="@+id/iv_pet"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:srcUrl="@{pet.getPetPhoto()}"
-                app:layout_constraintBottom_toTopOf="@id/guideline"
                 android:background="?attr/colorPrimarySurface"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:placeholder="@{@drawable/vc_paw}" />
+                app:placeholder="@{@drawable/vc_paw}"
+                app:srcUrl="@{pet.getPetPhoto()}" />
 
             <com.droid47.petgoogle.base.widgets.components.CheckableImageButton
                 android:id="@+id/cib_star"
@@ -101,8 +101,8 @@
                         android:padding="@dimen/grid_0_5"
                         android:text="@{StringUtilsKt.wordCapitalize(pet.name)}"
                         android:textAppearance="?attr/textAppearanceHeadline5"
-                        android:textSize="16sp"
                         android:textColor="?attr/colorOnSurface"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_desc"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

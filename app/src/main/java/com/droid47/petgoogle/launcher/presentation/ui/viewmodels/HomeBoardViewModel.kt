@@ -28,7 +28,6 @@ class HomeBoardViewModel @Inject constructor(
     }
 
 
-
     companion object {
         const val START_POSITION = 0
         const val END_POSITION = 2

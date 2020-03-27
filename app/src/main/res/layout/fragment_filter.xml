@@ -123,12 +123,12 @@
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/grid_0_5"
                     android:paddingEnd="@dimen/grid_0_5"
+                    app:invisible="@{newFilterViewModel.allSelectedFilterListLiveData instanceof Success}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/fl_circular_reveal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cv_search"
-                    app:invisible="@{newFilterViewModel.allSelectedFilterListLiveData instanceof Success}"
                     tools:listitem="@layout/item_selected_filter" />
 
                 <com.google.android.material.circularreveal.CircularRevealFrameLayout
@@ -189,7 +189,7 @@
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:menu="@menu/filter_menu" >
+            app:menu="@menu/filter_menu">
 
             <LinearLayout
                 android:id="@+id/bottom_app_bar_content_container"

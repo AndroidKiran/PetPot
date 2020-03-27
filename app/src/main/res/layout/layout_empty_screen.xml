@@ -33,9 +33,9 @@
             android:layout_width="@dimen/full_screen_place_holder_size"
             android:layout_height="@dimen/full_screen_place_holder_size"
             android:layout_gravity="center"
+            app:lottieAnimState="@{isVisible}"
             app:lottie_autoPlay="false"
             app:lottie_fileName="good_boy.json"
-            app:lottieAnimState="@{isVisible}"
             app:lottie_loop="true" />
 
         <TextView

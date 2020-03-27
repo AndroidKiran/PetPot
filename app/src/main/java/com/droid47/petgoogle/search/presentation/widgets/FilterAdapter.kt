@@ -86,10 +86,16 @@ class FilterAdapter @Inject constructor(
     }
 
     object FilterDiff : DiffUtil.ItemCallback<FilterItemEntity>() {
-        override fun areItemsTheSame(oldItemEntity: FilterItemEntity, newItemEntity: FilterItemEntity): Boolean =
+        override fun areItemsTheSame(
+            oldItemEntity: FilterItemEntity,
+            newItemEntity: FilterItemEntity
+        ): Boolean =
             oldItemEntity.id == newItemEntity.id
 
-        override fun areContentsTheSame(oldItemEntity: FilterItemEntity, newItemEntity: FilterItemEntity): Boolean =
+        override fun areContentsTheSame(
+            oldItemEntity: FilterItemEntity,
+            newItemEntity: FilterItemEntity
+        ): Boolean =
             oldItemEntity == newItemEntity
     }
 

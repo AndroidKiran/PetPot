@@ -1,8 +1,8 @@
 package com.droid47.petgoogle.search.data.repos
 
-import com.droid47.petgoogle.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petgoogle.search.data.datasource.FilterItemDao
 import com.droid47.petgoogle.search.data.models.FilterItemEntity
+import com.droid47.petgoogle.search.data.models.PAGE_NUM
 import com.droid47.petgoogle.search.domain.repositories.FilterRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -10,12 +10,11 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class FilterRepo @Inject constructor(
-    private val filterItemDao: FilterItemDao,
-    private val localPreferencesRepository: LocalPreferencesRepository
-    ) : FilterRepository {
+    private val filterItemDao: FilterItemDao
+) : FilterRepository {
 
-    override fun fetchPageFilterOnUpdate(type: String): Flowable<FilterItemEntity> =
-        filterItemDao.getPageFilterOnUpdate(type)
+    override fun fetchPageFilterOnUpdate(): Flowable<FilterItemEntity> =
+        filterItemDao.getPageFilterOnUpdate(PAGE_NUM)
 
     override fun updateLastAppliedFilter(checked: Boolean, filterNameList: List<String>) =
         Completable.create { emitter ->
@@ -50,10 +49,12 @@ class FilterRepo @Inject constructor(
         filterItemDao.getFilterItemsForSelectedCategory(type)
 
     override fun getFilterItemForCategory(type: String): Single<FilterItemEntity> =
-        Single.create<FilterItemEntity> { emitter ->
+        Single.create { emitter ->
             try {
-                val filterItem = filterItemDao.getFilterItemForCategory(type, true)
-                emitter.onSuccess(filterItem)
+                when(val filterItem = filterItemDao.getFilterItemForCategory(type, true)) {
+                    null -> emitter.onError(IllegalStateException("FilterItem is null"))
+                    else -> emitter.onSuccess(filterItem)
+                }
             } catch (exception: Exception) {
                 emitter.onError(exception)
             }
@@ -118,6 +119,4 @@ class FilterRepo @Inject constructor(
                 emitter.onError(exception)
             }
         }
-
-    override fun getSearchLimit(): Int = localPreferencesRepository.fetchSearchLimit()
 }

@@ -29,7 +29,10 @@ interface FilterItemDao {
     fun getFilterItemsForSelectedCategory(type: String): Flowable<List<FilterItemEntity>>
 
     @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} =:type AND ${FilterItemEntity.COL_SELECTED}=:checked")
-    fun getFilterItemForCategory(type: String, checked: Boolean): FilterItemEntity
+    fun getFilterItemForCategory(type: String, checked: Boolean): FilterItemEntity?
+
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} =:type")
+    fun getFilterItemFor(type: String): FilterItemEntity?
 
     @Query("DELETE FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE}=:type")
     fun deleteFilterByType(type: String)
@@ -49,11 +52,15 @@ interface FilterItemDao {
     @Transaction
     fun insertOrUpdateFilterItem(filterItemEntity: FilterItemEntity) {
         try {
-            val existingItem = getFilterItemForCategory(filterItemEntity.type, filterItemEntity.selected)
-            if(existingItem == null) {
+            val existingItem = getFilterItemFor(filterItemEntity.type)
+            if (existingItem == null) {
                 insertFilter(filterItemEntity)
             } else {
-                updateFilterItemFor(filterItemEntity.name, filterItemEntity.type, filterItemEntity.selected)
+                updateFilterItemFor(
+                    filterItemEntity.name,
+                    filterItemEntity.type,
+                    filterItemEntity.selected
+                )
             }
         } catch (exception: Exception) {
             insertFilter(filterItemEntity)

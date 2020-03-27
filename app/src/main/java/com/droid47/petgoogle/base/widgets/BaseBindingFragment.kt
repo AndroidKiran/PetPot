@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import com.droid47.petgoogle.R
 import com.google.android.material.bottomappbar.BottomAppBar
-import dagger.android.support.DaggerFragment
 
 interface NavigationHost {
     /** Called by BaseBindingFragment to setup it's toolbar with the navigation controller. */
@@ -18,7 +18,7 @@ interface NavigationHost {
 }
 
 abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidViewModel, out PV : BaseAndroidViewModel> :
-    DaggerFragment() {
+    Fragment() {
 
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V

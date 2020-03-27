@@ -1,4 +1,3 @@
-
 package com.droid47.petgoogle.base.extensions
 
 import androidx.annotation.ColorInt
@@ -149,5 +148,5 @@ fun Float.normalize(
     }
 
     return outputMin * (1 - (this - inputMin) / (inputMax - inputMin)) +
-        outputMax * ((this - inputMin) / (inputMax - inputMin))
+            outputMax * ((this - inputMin) / (inputMax - inputMin))
 }

@@ -3,7 +3,8 @@ package com.droid47.petgoogle.base.widgets
 import androidx.recyclerview.widget.DiffUtil
 
 
-abstract class BaseDiffCallback<T>(private val oldItems: List<T>, private val newItems: List<T>) : DiffUtil.Callback() {
+abstract class BaseDiffCallback<T>(private val oldItems: List<T>, private val newItems: List<T>) :
+    DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
         return oldItems.size

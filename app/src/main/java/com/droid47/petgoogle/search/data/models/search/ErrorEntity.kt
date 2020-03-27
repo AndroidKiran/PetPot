@@ -17,4 +17,4 @@ data class ErrorEntity(
     var title: String? = null,
     @SerializedName("type")
     var type: String? = null
-):Parcelable
+) : Parcelable

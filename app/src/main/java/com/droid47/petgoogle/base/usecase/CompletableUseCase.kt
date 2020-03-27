@@ -4,7 +4,6 @@ import com.droid47.petgoogle.base.usecase.executor.PostExecutionThread
 import com.droid47.petgoogle.base.usecase.executor.ThreadExecutor
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
-import io.reactivex.observers.DisposableCompletableObserver
 
 abstract class CompletableUseCase<in Params>(
     threadExecutor: ThreadExecutor,
@@ -19,7 +18,7 @@ abstract class CompletableUseCase<in Params>(
 
     private fun buildUseCaseCompletableWithSchedulers(params: Params?): Completable {
         return buildUseCaseCompletable(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
     }
 }

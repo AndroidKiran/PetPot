@@ -2,18 +2,12 @@ package com.droid47.petgoogle.search.presentation.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSpinner
-import com.droid47.petgoogle.R
 import com.droid47.petgoogle.base.extensions.clearDisposable
-import com.droid47.petgoogle.base.extensions.themeColor
 import com.droid47.petgoogle.base.firebase.CrashlyticsExt
 import com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
 import com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.REQUEST_REFRESH_SELECTED_PET
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -28,6 +22,7 @@ class PetSpinner @JvmOverloads constructor(
 
     private var petSpinnerAndLocationViewModel: PetSpinnerAndLocationViewModel? = null
     private var location: String? = null
+
     //    private val baseSharedPreference = BaseSharedPreference(context)
     private val subject = PublishSubject.create<String>().toSerialized()
     private val compositeDisposable = CompositeDisposable()

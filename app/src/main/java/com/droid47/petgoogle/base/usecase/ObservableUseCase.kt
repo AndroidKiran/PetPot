@@ -18,7 +18,7 @@ abstract class ObservableUseCase<Results, in Params>(
 
     private fun buildUseCaseObservableWithSchedulers(params: Params?): Observable<Results> {
         return buildUseCaseObservable(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
     }
 }

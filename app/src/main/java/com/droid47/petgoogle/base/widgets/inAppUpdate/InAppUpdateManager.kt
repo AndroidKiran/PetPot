@@ -80,10 +80,10 @@ class InAppUpdateManager private constructor(
         val rootView: View = appCompatActivity.window.decorView.findViewById(android.R.id.content)
         snackBar = Snackbar.make(
             rootView,
-            snackBarMessage?:"",
+            snackBarMessage ?: "",
             Snackbar.LENGTH_INDEFINITE
         ).apply {
-            setAction(snackBarAction?:"") {
+            setAction(snackBarAction ?: "") {
                 completeUpdate()
             }
         }
@@ -153,7 +153,7 @@ class InAppUpdateManager private constructor(
     }
 
     private val installStateUpdateListener = InstallStateUpdatedListener {
-        val installState = it?:return@InstallStateUpdatedListener
+        val installState = it ?: return@InstallStateUpdatedListener
         inAppUpdateStatus.setInstallState(installState)
         reportStatus()
 

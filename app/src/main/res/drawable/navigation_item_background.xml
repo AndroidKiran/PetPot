@@ -3,11 +3,7 @@
     <item android:state_checked="true">
         <inset>
             <shape>
-                <corners
-                    android:bottomLeftRadius="@dimen/zero"
-                    android:bottomRightRadius="@dimen/zero"
-                    android:topLeftRadius="@dimen/zero"
-                    android:topRightRadius="@dimen/zero" />
+                <corners android:bottomLeftRadius="@dimen/zero" android:bottomRightRadius="@dimen/zero" android:topLeftRadius="@dimen/zero" android:topRightRadius="@dimen/zero" />
             </shape>
         </inset>
     </item>

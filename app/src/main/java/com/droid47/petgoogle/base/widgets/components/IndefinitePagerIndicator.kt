@@ -28,6 +28,7 @@ class IndefinitePagerIndicator @JvmOverloads constructor(
         private const val DEFAULT_FADING_DOT_COUNT = 1
         private const val DEFAULT_DOT_RADIUS_DP = 4
         private const val DEFAULT_SELECTED_DOT_RADIUS_DP = 5.5f
+
         // Measured outside of first dot to outside of next dot: O<->O
         private const val DEFAULT_DOT_SEPARATION_DISTANCE_DP = 10
 
@@ -53,6 +54,7 @@ class IndefinitePagerIndicator @JvmOverloads constructor(
     @ColorInt
     private var dotColor: Int =
         ContextCompat.getColor(this.context, R.color.design_default_color_secondary)
+
     @ColorInt
     private var selectedDotColor: Int = ContextCompat.getColor(
         this.context,

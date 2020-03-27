@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.droid47.petgoogle.search.data.models.FilterItemEntity.Companion.TABLE_NAME
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = TABLE_NAME)
@@ -23,7 +22,7 @@ data class FilterItemEntity(
     @ColumnInfo(name = COL_SELECTED)
     @field:SerializedName(COL_SELECTED)
     var selected: Boolean
-): Parcelable {
+) : Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_ID, index = true)

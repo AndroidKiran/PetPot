@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.launcher.presentation.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -12,7 +13,6 @@ import com.droid47.petgoogle.databinding.FragmentTncBinding
 import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.TnCViewModel
-import com.google.android.material.bottomappbar.BottomAppBar
 import javax.inject.Inject
 
 class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
@@ -42,6 +42,11 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
             it.tncViewModel = getViewModel()
             it.executePendingBindings()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as LauncherActivity).launcherComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +87,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
 
     private val closeOnBackPressed = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
-            if(getViewDataBinding().webView.canGoBack()) {
+            if (getViewDataBinding().webView.canGoBack()) {
                 getViewDataBinding().webView.goBack()
             } else {
                 activity?.finish()

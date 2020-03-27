@@ -3,7 +3,6 @@ package com.droid47.petgoogle.base.usecase
 import com.droid47.petgoogle.base.usecase.executor.PostExecutionThread
 import com.droid47.petgoogle.base.usecase.executor.ThreadExecutor
 import io.reactivex.Flowable
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.subscribers.DisposableSubscriber
 
 abstract class FlowableUseCase<Results, in Params>(
@@ -19,7 +18,7 @@ abstract class FlowableUseCase<Results, in Params>(
 
     private fun buildUseCaseObservableWithSchedulers(params: Params?): Flowable<Results> {
         return buildUseCaseObservable(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
     }
 }

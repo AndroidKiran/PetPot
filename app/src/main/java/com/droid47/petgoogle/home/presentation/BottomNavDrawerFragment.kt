@@ -1,6 +1,7 @@
 package com.droid47.petgoogle.home.presentation
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -8,17 +9,12 @@ import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import com.droid47.petgoogle.R
-import com.droid47.petgoogle.base.extensions.activityViewModelProvider
-import com.droid47.petgoogle.base.extensions.viewModelProvider
-import com.droid47.petgoogle.base.extensions.lerp
-import com.droid47.petgoogle.base.extensions.themeColor
-import com.droid47.petgoogle.base.extensions.themeInterpolator
+import com.droid47.petgoogle.base.extensions.*
 import com.droid47.petgoogle.base.widgets.BaseBindingFragment
 import com.droid47.petgoogle.databinding.FragmentBottomNavDrawerBinding
 import com.droid47.petgoogle.home.presentation.components.*
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.home.presentation.viewmodels.NavigationViewModel
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
 import javax.inject.Inject
@@ -89,6 +85,7 @@ class BottomNavDrawerFragment :
     private val sandwichInterp by lazy(LazyThreadSafetyMode.NONE) {
         requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
     }
+
     // Progress value which drives the animation of the sandwiching account picker. Responsible
     // for both calling progress updates and state updates.
     private var sandwichProgress: Float = 0F
@@ -126,6 +123,11 @@ class BottomNavDrawerFragment :
     override fun getViewModel(): NavigationViewModel = navigationViewModel
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

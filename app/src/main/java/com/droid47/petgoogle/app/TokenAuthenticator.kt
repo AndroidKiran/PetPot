@@ -19,7 +19,8 @@ class TokenAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        val tokenModel = tokenNetworkSource.get().getAuthToken(ClientCredentialModel()).blockingGet()
+        val tokenModel =
+            tokenNetworkSource.get().getAuthToken(ClientCredentialModel()).blockingGet()
         saveToken(tokenModel)
         return response.request.newBuilder()
             .header("Authorization", "${tokenModel.tokenType} ${tokenModel.accessToken}")

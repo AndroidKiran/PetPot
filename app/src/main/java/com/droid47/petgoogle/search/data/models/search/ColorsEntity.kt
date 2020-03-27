@@ -6,12 +6,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class ColorsEntity(
-	@field:SerializedName("secondary")
-	val secondary: String? = null,
+    @field:SerializedName("secondary")
+    val secondary: String? = null,
 
-	@field:SerializedName("tertiary")
-	val tertiary: String? = null,
+    @field:SerializedName("tertiary")
+    val tertiary: String? = null,
 
-	@field:SerializedName("primary")
-	val primary: String? = null
-): Parcelable
+    @field:SerializedName("primary")
+    val primary: String? = null
+) : Parcelable

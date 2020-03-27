@@ -1,12 +1,12 @@
 package com.droid47.petgoogle.search.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
@@ -28,11 +28,11 @@ import com.droid47.petgoogle.base.widgets.Success
 import com.droid47.petgoogle.base.widgets.snappy.SnapType
 import com.droid47.petgoogle.base.widgets.snappy.SnappyGridLayoutManager
 import com.droid47.petgoogle.databinding.FragmentSearchBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
 import com.droid47.petgoogle.search.data.models.search.PetEntity
 import com.droid47.petgoogle.search.presentation.SearchFragmentDirections.Companion.toPetDetails
-import com.droid47.petgoogle.search.presentation.SearchFragmentDirections.Companion.toSettings
 import com.droid47.petgoogle.search.presentation.models.*
 import com.droid47.petgoogle.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petgoogle.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
@@ -43,7 +43,6 @@ import com.droid47.petgoogle.search.presentation.widgets.PetAdapter.Companion.SE
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 import kotlin.random.Random
-
 
 class SearchFragment :
     BaseBindingFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
@@ -93,7 +92,12 @@ class SearchFragment :
     }
 
     override fun getFragmentNavId(): Int = R.id.navigation_search
-    
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -137,11 +141,11 @@ class SearchFragment :
             setOnClickListener(this@SearchFragment)
         }
 
-        with(getViewDataBinding().bottomAppBar){
+        with(getViewDataBinding().bottomAppBar) {
             setNavigationIcon(R.drawable.vc_nav_menu)
             replaceMenu(R.menu.search_menu)
             setNavigationOnClickListener(this@SearchFragment)
-            setOnMenuItemClickListener(onMenuClickListener)
+//            setOnMenuItemClickListener(onMenuClickListener)
             resultOrderMenuItem = menu.findItem(R.id.menu_order)
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
@@ -226,7 +230,8 @@ class SearchFragment :
                 }
             }
         }
-        getParentViewModel().similarPetList.postValue(itemList.distinctBy { petEntity -> petEntity.id }.toList())
+        getParentViewModel().similarPetList.postValue(itemList.distinctBy { petEntity -> petEntity.id }
+            .toList())
     }
 
     private val searchObserver = Observer<SearchState> {
@@ -402,7 +407,7 @@ class SearchFragment :
 
     private fun updateFabStatus() {
         activity?.hideKeyboard()
-        if(isLoading) return
+        if (isLoading) return
         getViewDataBinding().fab.isExpanded = !getViewDataBinding().fab.isExpanded
         if (getViewDataBinding().fab.isExpanded) {
             filterFragment.onFilterExpanded()
@@ -427,23 +432,17 @@ class SearchFragment :
             }
     }
 
-    private val onMenuClickListener = Toolbar.OnMenuItemClickListener {
-        val menuItem = it ?: return@OnMenuItemClickListener false
-        when (menuItem.itemId) {
-            R.id.menu_setting -> {
-                navigateToSettings()
-                true
-            }
-
-            else -> false
-        }
-    }
-
-    private fun navigateToSettings() {
-        if (findNavController().currentDestination?.id != R.id.navigation_settings) {
-            findNavController().navigate(toSettings())
-        }
-    }
+//    private val onMenuClickListener = Toolbar.OnMenuItemClickListener {
+//        val menuItem = it ?: return@OnMenuItemClickListener false
+//        when (menuItem.itemId) {
+//            R.id.menu_setting -> {
+//                navigateToSettings()
+//                true
+//            }
+//
+//            else -> false
+//        }
+//    }
 
     companion object {
         const val TAG = "search_fragment"

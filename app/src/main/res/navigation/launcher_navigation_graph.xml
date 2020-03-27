@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_splash"
         android:name="com.droid47.petgoogle.launcher.presentation.ui.SplashFragment"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/to_intro"
             app:destination="@id/navigation_home_board" />
@@ -31,6 +31,6 @@
     <fragment
         android:id="@+id/navigation_tnc"
         android:name="com.droid47.petgoogle.launcher.presentation.ui.TnCFragment"
-        tools:layout="@layout/fragment_tnc"/>
+        tools:layout="@layout/fragment_tnc" />
 
 </navigation>

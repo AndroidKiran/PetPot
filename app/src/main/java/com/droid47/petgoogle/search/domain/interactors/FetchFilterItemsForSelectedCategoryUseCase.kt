@@ -16,7 +16,10 @@ class FetchFilterItemsForSelectedCategoryUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val filterRepository: FilterRepository
-) : FlowableUseCase<BaseStateModel<List<FilterItemEntity>>, String>(threadExecutor, postExecutionThread) {
+) : FlowableUseCase<BaseStateModel<List<FilterItemEntity>>, String>(
+    threadExecutor,
+    postExecutionThread
+) {
 
     override fun buildUseCaseObservable(params: String?): Flowable<BaseStateModel<List<FilterItemEntity>>> =
         if (params == null) {

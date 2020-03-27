@@ -21,4 +21,4 @@ class PaginationEntity(
 
     @field:SerializedName("current_page")
     val currentPage: Int = 0
-):Parcelable
+) : Parcelable

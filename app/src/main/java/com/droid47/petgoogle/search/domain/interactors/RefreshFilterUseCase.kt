@@ -28,7 +28,7 @@ class RefreshFilterUseCase @Inject constructor(
                     addAll(transformToFilterItemList(petType.age, AGE))
                     addAll(transformToFilterItemList(petType.status, STATUS))
                     add(FilterItemEntity(petType.name, PET_TYPE, true))
-                    add(FilterItemEntity(1.toString(), PAGE_NUM,true))
+                    add(FilterItemEntity(1.toString(), PAGE_NUM, true))
                     add(FilterItemEntity("recent", SORT, true))
                     val locationStr = params ?: ""
                     if (locationStr.isNotEmpty()) {
@@ -37,7 +37,10 @@ class RefreshFilterUseCase @Inject constructor(
                 })
             }
 
-    private fun transformToFilterItemList(strList: List<String>, type: String): List<FilterItemEntity> {
+    private fun transformToFilterItemList(
+        strList: List<String>,
+        type: String
+    ): List<FilterItemEntity> {
         val filterItemList = mutableListOf<FilterItemEntity>()
         strList.forEach { filterName ->
             val filterItem = FilterItemEntity(

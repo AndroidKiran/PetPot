@@ -2,7 +2,6 @@ package com.droid47.petgoogle.launcher.domain.interactors
 
 import android.app.Application
 import com.droid47.petgoogle.base.extensions.LoggerExt
-import com.droid47.petgoogle.base.firebase.CrashlyticsExt
 import com.droid47.petgoogle.base.usecase.SingleUseCase
 import com.droid47.petgoogle.base.usecase.executor.PostExecutionThread
 import com.droid47.petgoogle.base.usecase.executor.ThreadExecutor

@@ -12,4 +12,4 @@ class TokenModel(
     val expiresIn: Long,
     @field:SerializedName("access_token")
     val accessToken: String
-): Parcelable
+) : Parcelable

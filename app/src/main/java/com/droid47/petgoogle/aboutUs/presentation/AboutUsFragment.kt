@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.aboutUs.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -9,6 +10,7 @@ import com.droid47.petgoogle.aboutUs.presentation.viewmodel.AboutUsViewModel
 import com.droid47.petgoogle.base.extensions.*
 import com.droid47.petgoogle.base.widgets.BaseBindingFragment
 import com.droid47.petgoogle.databinding.FragmentAboutUsBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import javax.inject.Inject
 
@@ -42,6 +44,11 @@ class AboutUsFragment :
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
@@ -56,7 +63,7 @@ class AboutUsFragment :
         getViewDataBinding().lottieCelebration.pauseLottie()
         super.onStop()
     }
-    
+
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
             R.id.fab -> requireContext().sendEmail(
@@ -86,7 +93,7 @@ class AboutUsFragment :
     }
 
     private val menuClickListener = Toolbar.OnMenuItemClickListener {
-        when(it?.itemId?:return@OnMenuItemClickListener false) {
+        when (it?.itemId ?: return@OnMenuItemClickListener false) {
             R.id.menu_rate_app -> requireContext().rateMyApp()
             else -> throw IllegalStateException("No match menu id")
         }

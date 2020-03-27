@@ -79,7 +79,8 @@ private fun isDelimiter(ch: Char, delimiters: CharArray?): Boolean {
 }
 
 fun String.stringSentenceCase(): String {
-    return if (trim { it <= ' ' }.isEmpty()) this else Character.toUpperCase(this[0]).toString() + this.substring(
+    return if (trim { it <= ' ' }.isEmpty()) this else Character.toUpperCase(this[0])
+        .toString() + this.substring(
         1
     ).toLowerCase(Locale.US)
 }

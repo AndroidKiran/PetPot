@@ -7,6 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class SelfEntity(
 
-	@field:SerializedName("href")
-	val href: String? = null
-): Parcelable
+    @field:SerializedName("href")
+    val href: String? = null
+) : Parcelable

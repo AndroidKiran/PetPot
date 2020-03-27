@@ -27,39 +27,4 @@ data class Filters(
     var sort: String = "recent",
 
     var distance: String? = null
-) {
-
-//    fun toMap(): Map<String, @JvmSuppressWildcards Any> {
-//        return mutableMapOf<String, @JvmSuppressWildcards Any>().apply {
-//            this["limit"] = 40
-//            this["page"] = this@Filters.page
-//            this@Filters.type?.takeIf { it.isNotEmpty() }?.let {
-//                this["type"] = it
-//            }
-//            this@Filters.breed?.takeIf { it.isNotEmpty() }?.let {
-//                this["breed"] = it
-//            }
-//            this@Filters.size?.takeIf { it.isNotEmpty() }?.let {
-//                this["size"] = it
-//            }
-//            this@Filters.gender?.takeIf { it.isNotEmpty() }?.let {
-//                this["gender"] = it
-//            }
-//            this@Filters.coat?.takeIf { it.isNotEmpty() }?.let {
-//                this["coat"] = it
-//            }
-//            this@Filters.color?.takeIf { it.isNotEmpty() }?.let {
-//                this["color"] = it
-//            }
-//            this@Filters.status?.takeIf { it.isNotEmpty() }?.let {
-//                this["status"] = it
-//            }
-//            this@Filters.age?.takeIf { it.isNotEmpty() }?.let {
-//                this["age"] = it
-//            }
-//            this@Filters.location?.takeIf { it.isNotEmpty() }?.let {
-//                this["location"] = it
-//            }
-//        }
-//    }
-}
+)

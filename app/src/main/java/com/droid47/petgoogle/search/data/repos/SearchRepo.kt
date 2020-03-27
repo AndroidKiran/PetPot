@@ -12,7 +12,8 @@ import javax.inject.Inject
 
 class SearchRepo @Inject constructor(
     private val searchNetworkSource: SearchNetworkSource,
-    private val petTypeDao: PetTypeDao) : SearchRepository {
+    private val petTypeDao: PetTypeDao
+) : SearchRepository {
 
     override fun insertAnimalType(animalTypeEntities: List<PetTypeEntity>): Single<List<PetTypeEntity>> {
         return petTypeDao.insertPetTypeList(animalTypeEntities)

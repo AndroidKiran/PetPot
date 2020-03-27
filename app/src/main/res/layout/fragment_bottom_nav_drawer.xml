@@ -57,11 +57,11 @@
                     style="@style/Widget.PetGoogle.NavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipToPadding="false"
                     android:layout_marginTop="@dimen/grid_2"
-                    app:paddingTopSystemWindowInsets="@{true}"
+                    android:clipToPadding="false"
+                    app:menu="@menu/home_nav_menu"
                     app:paddingBottomSystemWindowInsets="@{true}"
-                    app:menu="@menu/home_nav_menu" />
+                    app:paddingTopSystemWindowInsets="@{true}" />
 
             </FrameLayout>
 

@@ -33,6 +33,7 @@ class BookmarkRepo @Inject constructor(private val petDao: PetDao) : BookmarkRep
 
     override fun getBookmarkStatus(id: Int): PetEntity? = petDao.getPetById(id)
 
-    override fun listenToUpdateFor(id: Int): Flowable<List<PetEntity>> = petDao.listenToUpdateFor(id)
+    override fun listenToUpdateFor(id: Int): Flowable<List<PetEntity>> =
+        petDao.listenToUpdateFor(id)
 
 }

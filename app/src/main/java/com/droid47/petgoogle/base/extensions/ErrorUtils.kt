@@ -15,12 +15,12 @@ fun Throwable.getErrorRequestMessage(context: Context): Pair<String, String> {
 
     when {
         this is HttpException -> {
-            val errorBody = this.response()?.errorBody()?.string()?:""
+            val errorBody = this.response()?.errorBody()?.string() ?: ""
             val errorEntity = Gson().fromJson(errorBody, ErrorEntity::class.java)
 
             try {
                 errorMessage = errorEntity.invalidParams?.get(0)?.message ?: ""
-                if(errorMessage.contains("location")) {
+                if (errorMessage.contains("location")) {
                     errorMessage = context.getString(R.string.non_serving_location)
                 }
             } catch (exception: Exception) {

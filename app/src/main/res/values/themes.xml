@@ -2,10 +2,10 @@
 
     <style name="Theme.Pet.DayNight" parent="Base.Pet" />
 
-<!--    <style name="ThemeOverlay.Pet.Details" parent="Theme.Pet">-->
-<!--        <item name="android:colorBackground">@color/colorPrimary</item>-->
-<!--        <item name="android:statusBarColor">@color/immersive_sys_ui</item>-->colorOppTheme
-<!--    </style>-->
+    <!--    <style name="ThemeOverlay.Pet.Details" parent="Theme.Pet">-->
+    <!--        <item name="android:colorBackground">@color/colorPrimary</item>-->
+    <!--        <item name="android:statusBarColor">@color/immersive_sys_ui</item>-->colorOppTheme
+    <!--    </style>-->
 
     <style name="Base.Pet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -32,7 +32,8 @@
         <item name="colorLoader">@color/pet_black_900</item>
         <!--Shape style-->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.pet.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.pet.MediumComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.pet.MediumComponent
+        </item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.pet.LargeComponent</item>
 
         <!--Typography-->

@@ -12,7 +12,7 @@ class RefreshSortMenuUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val filterRepository: FilterRepository
-) : CompletableUseCase<FilterItemEntity>(threadExecutor, postExecutionThread)  {
+) : CompletableUseCase<FilterItemEntity>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseCompletable(params: FilterItemEntity?): Completable =
         when (params) {

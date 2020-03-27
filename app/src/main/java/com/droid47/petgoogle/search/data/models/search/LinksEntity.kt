@@ -8,11 +8,11 @@ import kotlinx.android.parcel.Parcelize
 class LinksEntity(
 
     @field:SerializedName("organization")
-	val organizationEntity: OrganizationEntity? = null,
+    val organizationEntity: OrganizationEntity? = null,
 
     @field:SerializedName("self")
-	val selfEntity: SelfEntity? = null,
+    val selfEntity: SelfEntity? = null,
 
     @field:SerializedName("type")
-	val typeEntity: TypeEntity? = null
-):Parcelable
+    val typeEntity: TypeEntity? = null
+) : Parcelable

@@ -1,4 +1,3 @@
-
 package com.droid47.petgoogle.base.extensions
 
 import android.graphics.drawable.Drawable

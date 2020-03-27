@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.petDetails.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -17,12 +18,12 @@ import com.droid47.petgoogle.base.widgets.components.GravitySnapHelper
 import com.droid47.petgoogle.base.widgets.snappy.SnapType
 import com.droid47.petgoogle.base.widgets.snappy.SnappyLinearLayoutManager
 import com.droid47.petgoogle.databinding.FragmentSimilarPetsBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.petDetails.presentation.viewmodels.PetDetailsViewModel
 import com.droid47.petgoogle.search.data.models.search.PetEntity
 import com.droid47.petgoogle.search.presentation.widgets.PetAdapter
 import com.droid47.petgoogle.search.presentation.widgets.PetAdapter.Companion.SIMILAR
-import com.google.android.material.bottomappbar.BottomAppBar
 import javax.inject.Inject
 
 class SimilarPetsFragment :
@@ -51,6 +52,11 @@ class SimilarPetsFragment :
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpSimilarRvAdapter()
@@ -72,7 +78,11 @@ class SimilarPetsFragment :
         if (getPetAdapter() == null) {
             with(getViewDataBinding().rvAlsoLikeList) {
                 GravitySnapHelper(Gravity.START).attachToRecyclerView(this)
-                layoutManager = SnappyLinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false).apply {
+                layoutManager = SnappyLinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.HORIZONTAL,
+                    false
+                ).apply {
                     setSnapType(SnapType.START)
                     setSnapInterpolator(DecelerateInterpolator())
                     setSeekDuration(300)

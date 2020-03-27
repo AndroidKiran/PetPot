@@ -1,6 +1,8 @@
 package com.droid47.petgoogle.base.widgets.bindingadapters
 
-import androidx.databinding.*
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.droid47.petgoogle.base.widgets.components.CheckableImageButton
 
 object CheckableBindingAdapter {
@@ -26,7 +28,8 @@ object CheckableBindingAdapter {
         if (attrChange == null) {
             checkableImageButton.setOnCheckedChangeListener(listener)
         } else {
-            checkableImageButton.setOnCheckedChangeListener(object : CheckableImageButton.OnCheckedChangeListener {
+            checkableImageButton.setOnCheckedChangeListener(object :
+                CheckableImageButton.OnCheckedChangeListener {
                 override fun onCheckedChanged(button: CheckableImageButton?, isChecked: Boolean) {
                     listener?.onCheckedChanged(button, isChecked)
                     attrChange.onChange()

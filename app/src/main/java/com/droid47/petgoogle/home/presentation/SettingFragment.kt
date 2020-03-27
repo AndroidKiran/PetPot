@@ -3,24 +3,25 @@ package com.droid47.petgoogle.home.presentation
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.droid47.petgoogle.R
+import com.droid47.petgoogle.base.extensions.activityViewModelProvider
 import com.droid47.petgoogle.base.extensions.applyTheme
+import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.google.android.material.bottomappbar.BottomAppBar
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 
-
-class SettingFragment : PreferenceFragmentCompat(), HasAndroidInjector,
+class SettingFragment : PreferenceFragmentCompat(),
     Preference.OnPreferenceChangeListener {
 
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    private val homeViewModel: HomeViewModel by lazy {
+        activityViewModelProvider<HomeViewModel>(requireActivity())
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey)
@@ -31,19 +32,12 @@ class SettingFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(view.findViewById<BottomAppBar>(R.id.bottom_app_bar)) {
-            setNavigationIcon(R.drawable.vc_close)
+            setNavigationIcon(R.drawable.vc_nav_menu)
             setNavigationOnClickListener {
-                onBackPressed()
+                homeViewModel.eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }
         }
     }
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this@SettingFragment)
-        super.onAttach(context)
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean =
         when (preference?.key ?: false) {
@@ -70,9 +64,5 @@ class SettingFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         when (key) {
             else -> false
         }
-
-    private fun onBackPressed() {
-        findNavController().navigateUp()
-    }
 
 }

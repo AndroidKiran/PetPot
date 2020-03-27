@@ -7,7 +7,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.perf.FirebasePerformance
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 
 class FirebaseAnalytics @Inject constructor(

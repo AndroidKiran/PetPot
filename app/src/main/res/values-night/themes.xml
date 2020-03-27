@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--Final, top-level theme-->
-    <style name="Theme.Pet.DayNight" parent="Base.Pet.Dark"/>
+    <style name="Theme.Pet.DayNight" parent="Base.Pet.Dark" />
 
     <style name="Base.Pet.Dark" parent="Base.Pet">
         <!--Color-->

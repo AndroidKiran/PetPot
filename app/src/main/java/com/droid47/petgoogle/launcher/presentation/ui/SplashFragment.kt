@@ -1,14 +1,19 @@
 package com.droid47.petgoogle.launcher.presentation.ui
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.droid47.petgoogle.R
-import com.droid47.petgoogle.base.extensions.*
-import com.droid47.petgoogle.base.widgets.*
+import com.droid47.petgoogle.base.extensions.activityViewModelProvider
+import com.droid47.petgoogle.base.extensions.pauseLottie
+import com.droid47.petgoogle.base.extensions.playLottie
+import com.droid47.petgoogle.base.extensions.viewModelProvider
+import com.droid47.petgoogle.base.widgets.BaseBindingFragment
+import com.droid47.petgoogle.base.widgets.BaseStateModel
+import com.droid47.petgoogle.base.widgets.Failure
 import com.droid47.petgoogle.databinding.FragmentSplashBinding
 import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.launcher.domain.interactors.RefreshAuthTokenAndPetTypeUseCase
@@ -19,10 +24,8 @@ import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel
 import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_HOME
 import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_INTRO
 import com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_TNC
-import com.droid47.petgoogle.search.data.models.search.PetEntity
 import com.droid47.petgoogle.search.data.models.type.PetTypeEntity
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.material.bottomappbar.BottomAppBar
 import javax.inject.Inject
 
 private const val PLAY_SERVICES_RESOLUTION_REQUEST = 2404
@@ -57,6 +60,11 @@ class SplashFragment :
             binding.lifecycleOwner = viewLifecycleOwner
             binding.splashViewModel = getViewModel()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as LauncherActivity).launcherComponent.inject(this)
     }
 
     override fun onStart() {

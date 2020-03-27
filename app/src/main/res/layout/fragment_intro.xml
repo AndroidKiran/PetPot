@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="homeBoardViewModel"
             type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
@@ -22,26 +23,26 @@
             android:id="@+id/iv_bak_drop"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/grid_2"
             android:contentDescription="TODO"
             android:minHeight="300dp"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="@dimen/grid_2"
             app:layout_constraintBottom_toTopOf="@+id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_margin="@dimen/grid_2"
+            android:gravity="center_vertical"
+            android:text="@{homeBoardViewModel.titleLiveData}"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.pet.Headline3"
             app:layout_constraintBottom_toTopOf="@id/guideline2"
-            android:textAlignment="center"
-            android:text="@{homeBoardViewModel.titleLiveData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,13 +53,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_3"
-            android:layout_marginEnd="@dimen/grid_3"
             android:layout_marginTop="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_3"
             android:gravity="center_vertical"
+            android:text="@{homeBoardViewModel.descLiveData}"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{homeBoardViewModel.descLiveData}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:text="@string/loperum_sum_2" />

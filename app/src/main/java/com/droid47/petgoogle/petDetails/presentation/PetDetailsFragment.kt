@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.petDetails.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.droid47.petgoogle.base.widgets.anim.MaterialContainerTransition
 import com.droid47.petgoogle.base.widgets.components.AppBarStateChangeListener
 import com.droid47.petgoogle.base.widgets.components.ZoomInPageTransformer
 import com.droid47.petgoogle.databinding.FragmentPetDetailsBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.petDetails.presentation.adapter.PetPhotoViewerAdapter
 import com.droid47.petgoogle.petDetails.presentation.viewmodels.PetDetailsViewModel
@@ -73,11 +75,15 @@ class PetDetailsFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_pet_details
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         screenHeight = getScreenHeight(requireContext())
         backDropHeight = screenHeight - resources.getDimensionPixelOffset(R.dimen.grid_14)
-
     }
 
     override fun onCreateView(

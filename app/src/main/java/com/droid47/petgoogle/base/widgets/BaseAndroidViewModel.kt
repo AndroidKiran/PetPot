@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposable
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BaseAndroidViewModel(application: Application): AndroidViewModel(application) {
+abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
     private val requestHandler = RequestHandler<Int>()
 

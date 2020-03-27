@@ -79,7 +79,7 @@ class SortPopupMenu @JvmOverloads constructor(
     }
 
     private val applySortStateObserver = Observer<Int> {
-        if(it == EVENT_APPLY_SORT_FILTER) {
+        if (it == EVENT_APPLY_SORT_FILTER) {
             dismissPopup()
         }
     }

@@ -6,12 +6,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class EnvironmentEntity(
-	@field:SerializedName("cats")
-	val cats: Boolean? = null,
+    @field:SerializedName("cats")
+    val cats: Boolean? = null,
 
-	@field:SerializedName("children")
-	val children: Boolean? = null,
+    @field:SerializedName("children")
+    val children: Boolean? = null,
 
-	@field:SerializedName("dogs")
-	val dogs: Boolean? = null
-): Parcelable
+    @field:SerializedName("dogs")
+    val dogs: Boolean? = null
+) : Parcelable

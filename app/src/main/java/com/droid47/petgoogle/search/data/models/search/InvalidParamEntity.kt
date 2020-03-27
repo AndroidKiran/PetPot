@@ -13,4 +13,4 @@ data class InvalidParamEntity(
     var message: String? = null,
     @SerializedName("path")
     var path: String? = null
-): Parcelable
+) : Parcelable

@@ -11,12 +11,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.droid47.petgoogle.R
+import com.droid47.petgoogle.app.PetApplication
 import com.droid47.petgoogle.base.extensions.viewModelProvider
 import com.droid47.petgoogle.base.widgets.*
 import com.droid47.petgoogle.base.widgets.inAppUpdate.InAppUpdateManager
 import com.droid47.petgoogle.base.widgets.inAppUpdate.InAppUpdateManager.Companion.IN_APP_UPDATE_REQUEST_CODE
 import com.droid47.petgoogle.databinding.ActivityHomeBinding
 import com.droid47.petgoogle.home.data.UpgradeInfoEntity
+import com.droid47.petgoogle.home.presentation.di.HomeSubComponent
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_NAVIGATE_BACK
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
@@ -30,6 +32,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+    lateinit var homeComponent: HomeSubComponent
 
     private var currentNavId: Int = NAV_ID_NONE
     private lateinit var navController: NavController
@@ -55,6 +58,8 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        homeComponent = (application as PetApplication).appComponent.homeComponent().create()
+        homeComponent.inject(this@HomeActivity)
         super.onCreate(savedInstanceState)
         initViews()
         subscribeToLiveData()
@@ -74,7 +79,8 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
-        arguments: Bundle?) {
+        arguments: Bundle?
+    ) {
         currentNavId = destination.id
     }
 
@@ -121,7 +127,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     private val eventObserver = Observer<Int> {
-        when(it?:return@Observer) {
+        when (it ?: return@Observer) {
             EVENT_TOGGLE_NAVIGATION -> bottomNavDrawer.toggle()
             EVENT_NAVIGATE_BACK -> navController.navigateUp()
         }

@@ -14,14 +14,14 @@ class ActionBottomSheetDialog constructor(
     private val primaryAction: String,
     private val secondaryAction: String,
     private val onActionClicked: (Boolean) -> Unit
-): BottomSheetDialogFragment() {
+) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogFragmentActionBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         (super.onCreateDialog(savedInstanceState) as BottomSheetDialog).apply {
             setOnShowListener {
-               window?.setDimAmount(3f)
+                window?.setDimAmount(3f)
             }
         }
 

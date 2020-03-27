@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.launcher.presentation.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -52,6 +53,11 @@ class HomeBoardFragment :
     override fun getViewModel(): HomeBoardViewModel = homeBoardViewModel
 
     override fun getParentViewModel(): LauncherViewModel = launchViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as LauncherActivity).launcherComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +126,7 @@ class HomeBoardFragment :
     }
 
     private fun navigateToTnC() {
-        if(findNavController().currentDestination?.id != R.id.navigation_tnc) {
+        if (findNavController().currentDestination?.id != R.id.navigation_tnc) {
             getViewModel().localPreferencesRepository.saveOnBoardingState()
             findNavController().navigate(toTnc())
         }

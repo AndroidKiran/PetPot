@@ -107,9 +107,16 @@ abstract class BaseRecyclerViewAdapter<T, VH : BaseViewHolder> : RecyclerView.Ad
         this.items.addAll(newItems)
     }
 
-    protected fun inflateWithBinding(@LayoutRes layout: Int, @Nullable parent: ViewGroup, attachToRoot: Boolean): ViewDataBinding =
+    protected fun inflateWithBinding(
+        @LayoutRes layout: Int,
+        @Nullable parent: ViewGroup,
+        attachToRoot: Boolean
+    ): ViewDataBinding =
         DataBindingUtil.inflate(LayoutInflater.from(parent.context), layout, parent, attachToRoot)
 
-    protected fun inflateWithBinding(@LayoutRes layout: Int, @Nullable parent: ViewGroup): ViewDataBinding =
+    protected fun inflateWithBinding(
+        @LayoutRes layout: Int,
+        @Nullable parent: ViewGroup
+    ): ViewDataBinding =
         DataBindingUtil.inflate(LayoutInflater.from(parent.context), layout, parent, false)
 }

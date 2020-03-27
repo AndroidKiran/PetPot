@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">PetGoogle</string>
     <string name="menu_home_board">Home</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_about_us">About Us</string>
-    <string name="menu_favourite">Favourite</string>
+    <string name="search">Search</string>
+    <string name="about_us">About Us</string>
+    <string name="favourite">Favourite</string>
 
     <string name="hint_search">City/State/latitude longitude/postal code</string>
 

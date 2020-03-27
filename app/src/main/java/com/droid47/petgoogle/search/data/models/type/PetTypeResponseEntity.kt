@@ -8,4 +8,4 @@ import kotlinx.android.parcel.Parcelize
 class PetTypeResponseEntity(
     @field:SerializedName("types")
     val typeEntities: List<PetTypeEntity>? = null
-): Parcelable
+) : Parcelable

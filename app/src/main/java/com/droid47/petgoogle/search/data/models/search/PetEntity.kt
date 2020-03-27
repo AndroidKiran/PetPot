@@ -32,7 +32,6 @@ import com.droid47.petgoogle.search.data.models.search.PetEntity.TableInfo.COL_T
 import com.droid47.petgoogle.search.data.models.search.PetEntity.TableInfo.COL_URL
 import com.droid47.petgoogle.search.data.models.search.PetEntity.TableInfo.TABLE_NAME
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = TABLE_NAME)

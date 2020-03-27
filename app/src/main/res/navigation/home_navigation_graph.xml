@@ -7,20 +7,20 @@
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.droid47.petgoogle.search.presentation.SearchFragment"
-        android:label="@string/menu_search"
+        android:label="@string/search"
         tools:layout="@layout/fragment_search">
 
         <action
             android:id="@+id/to_pet_details"
             app:destination="@id/navigation_pet_details" />
 
-        <action
-            android:id="@+id/to_settings"
-            app:destination="@id/navigation_settings"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+<!--        <action-->
+<!--            android:id="@+id/to_settings"-->
+<!--            app:destination="@id/navigation_settings"-->
+<!--            app:enterAnim="@anim/nav_default_enter_anim"-->
+<!--            app:exitAnim="@anim/nav_default_exit_anim"-->
+<!--            app:popEnterAnim="@anim/nav_default_pop_enter_anim"-->
+<!--            app:popExitAnim="@anim/nav_default_pop_exit_anim" />-->
 
     </fragment>
 
@@ -44,26 +44,26 @@
     <fragment
         android:id="@+id/navigation_about_us"
         android:name="com.droid47.petgoogle.aboutUs.presentation.AboutUsFragment"
-        android:label="@string/menu_about_us"
+        android:label="@string/about_us"
         tools:layout="@layout/fragment_about_us" />
 
     <fragment
         android:id="@+id/navigation_bookmark_pet"
         android:name="com.droid47.petgoogle.bookmark.presentation.BookmarkFragment"
-        android:label="@string/menu_favourite"
+        android:label="@string/favourite"
         tools:layout="@layout/fragment_book_mark">
 
         <action
             android:id="@+id/to_pet_details"
-            app:destination="@id/navigation_pet_details"/>
+            app:destination="@id/navigation_pet_details" />
 
-        <action
-            android:id="@+id/to_settings"
-            app:destination="@id/navigation_settings"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim"/>
+<!--        <action-->
+<!--            android:id="@+id/to_settings"-->
+<!--            app:destination="@id/navigation_settings"-->
+<!--            app:enterAnim="@anim/nav_default_enter_anim"-->
+<!--            app:exitAnim="@anim/nav_default_exit_anim"-->
+<!--            app:popEnterAnim="@anim/nav_default_enter_anim"-->
+<!--            app:popExitAnim="@anim/nav_default_exit_anim" />-->
 
     </fragment>
 

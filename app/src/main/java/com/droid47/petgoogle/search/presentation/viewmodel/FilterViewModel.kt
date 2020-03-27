@@ -1,7 +1,6 @@
 package com.droid47.petgoogle.search.presentation.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petgoogle.base.extensions.switchMap
@@ -42,7 +41,8 @@ class FilterViewModel @Inject constructor(
     private val refreshSortMenuUseCase: RefreshSortMenuUseCase
 ) : BaseAndroidViewModel(application), FilterAdapter.OnItemCheckListener {
 
-    private val _lastAppliedFilterItemList = MutableLiveData<BaseStateModel<List<FilterItemEntity>>>()
+    private val _lastAppliedFilterItemList =
+        MutableLiveData<BaseStateModel<List<FilterItemEntity>>>()
 
     val categoryLiveData = MutableLiveData<String>()
 

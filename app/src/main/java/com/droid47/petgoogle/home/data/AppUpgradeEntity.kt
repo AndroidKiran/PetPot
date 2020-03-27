@@ -11,7 +11,7 @@ data class AppUpgradeEntity(
     var currentPlayStoreVersionCode: Int = 0,
     @SerializedName("upgrade_info_list")
     var upgradeInfoList: List<UpgradeInfoEntity>? = null
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class UpgradeInfoEntity(
@@ -19,4 +19,4 @@ data class UpgradeInfoEntity(
     var updateType: Int = AppUpdateType.FLEXIBLE,
     @SerializedName("app_version_code")
     var appVersionCode: Int = 0
-): Parcelable
+) : Parcelable

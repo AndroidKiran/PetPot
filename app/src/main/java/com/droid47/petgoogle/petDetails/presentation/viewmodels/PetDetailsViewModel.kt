@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.droid47.petgoogle.R

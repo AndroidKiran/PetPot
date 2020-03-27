@@ -9,7 +9,8 @@ object AppUtils {
     @JvmStatic
     fun isNetworkAvailable(context: Context): Boolean {
         try {
-            val connectivityManager = context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager =
+                context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetworkInfo = connectivityManager.activeNetworkInfo
             return activeNetworkInfo != null && activeNetworkInfo.isConnected
         } catch (e: Exception) {

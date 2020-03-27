@@ -8,11 +8,11 @@ import kotlinx.android.parcel.Parcelize
 class ContactEntity(
 
     @field:SerializedName("address")
-	val addressEntity: AddressEntity? = null,
+    val addressEntity: AddressEntity? = null,
 
     @field:SerializedName("phone")
-	val phone: String? = null,
+    val phone: String? = null,
 
     @field:SerializedName("email")
-	val email: String? = null
-): Parcelable
+    val email: String? = null
+) : Parcelable

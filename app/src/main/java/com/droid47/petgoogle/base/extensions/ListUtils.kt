@@ -6,4 +6,5 @@ infix fun <T> Collection<T>.sameContentWith(collection: Collection<T>?) =
 fun <T> Collection<T>.toStringWithoutBrackates() =
     this.toString().replace("[", "").replace("]", "")
 
-fun <E> List<E>.random(random: java.util.Random): E? = if (size > 0) get(random.nextInt(size)) else null
+fun <E> List<E>.random(random: java.util.Random): E? =
+    if (size > 0) get(random.nextInt(size)) else null

@@ -1,9 +1,9 @@
 package com.droid47.petgoogle.base.firebase
 
+import com.droid47.petgoogle.app.PetApplication
 import com.droid47.petgoogle.app.domain.repositories.LocalPreferencesRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 class PetFirebaseMessagingService : FirebaseMessagingService() {
@@ -12,7 +12,9 @@ class PetFirebaseMessagingService : FirebaseMessagingService() {
     lateinit var preferencesRepository: LocalPreferencesRepository
 
     override fun onCreate() {
-        AndroidInjection.inject(this)
+        val appServiceComponent =
+            (application as PetApplication).appComponent.appServiceComponent().create()
+        appServiceComponent.inject(this)
         super.onCreate()
     }
 

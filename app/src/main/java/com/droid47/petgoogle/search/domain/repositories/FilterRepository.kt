@@ -29,12 +29,9 @@ interface FilterRepository {
 
     fun updateSortFilter(filterItemEntity: FilterItemEntity): Completable
 
-    fun fetchPageFilterOnUpdate(type: String): Flowable<FilterItemEntity>
+    fun fetchPageFilterOnUpdate(): Flowable<FilterItemEntity>
 
     fun updateLastAppliedFilter(checked: Boolean, filterNameList: List<String>): Completable
 
     fun refreshFilter(list: List<FilterItemEntity>): Completable
-
-    fun getSearchLimit(): Int
-
 }

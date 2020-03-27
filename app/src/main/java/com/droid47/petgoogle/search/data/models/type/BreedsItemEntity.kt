@@ -6,6 +6,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class BreedsItemEntity(
-	@field:SerializedName("name")
-	val name: String? = null
-): Parcelable
+    @field:SerializedName("name")
+    val name: String? = null
+) : Parcelable

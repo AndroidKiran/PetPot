@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.bookmark.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +21,9 @@ import com.droid47.petgoogle.base.extensions.viewModelProvider
 import com.droid47.petgoogle.base.widgets.*
 import com.droid47.petgoogle.base.widgets.components.ActionBottomSheetDialog
 import com.droid47.petgoogle.bookmark.presentation.BookmarkFragmentDirections.Companion.toPetDetails
-import com.droid47.petgoogle.bookmark.presentation.BookmarkFragmentDirections.Companion.toSettings
 import com.droid47.petgoogle.bookmark.presentation.viewmodel.BookmarkViewModel
 import com.droid47.petgoogle.databinding.FragmentBookMarkBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petgoogle.search.data.models.search.PetEntity
 import com.droid47.petgoogle.search.presentation.widgets.PetAdapter
@@ -65,7 +66,12 @@ class BookmarkFragment :
             it.errorStateConfig = errorState
         }
     }
-    
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this@BookmarkFragment)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -100,7 +106,7 @@ class BookmarkFragment :
         getViewDataBinding().bottomAppBar.apply {
             setNavigationIcon(R.drawable.vc_nav_menu)
             replaceMenu(R.menu.search_menu)
-            setOnMenuItemClickListener(onMenuClickListener)
+//            setOnMenuItemClickListener(onMenuClickListener)
             menu.findItem(R.id.menu_order).isVisible = false
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
@@ -153,6 +159,7 @@ class BookmarkFragment :
             }
 
             is Empty -> {
+                getPetAdapter()?.submitList(baseStateModel.data)
                 hideFab(null)
                 updateEmptyState()
             }
@@ -268,22 +275,22 @@ class BookmarkFragment :
         getViewDataBinding().bottomAppBar.performHide()
     }
 
-    private val onMenuClickListener = Toolbar.OnMenuItemClickListener {
-        val menuItem = it ?: return@OnMenuItemClickListener false
-        when (menuItem.itemId) {
-            R.id.menu_setting -> {
-                navigateToSettings()
-                true
-            }
-
-            else -> false
-        }
-    }
-
-    private fun navigateToSettings() {
-        if (findNavController().currentDestination?.id != R.id.navigation_settings) {
-            hideFab(null)
-            findNavController().navigate(toSettings())
-        }
-    }
+//    private val onMenuClickListener = Toolbar.OnMenuItemClickListener {
+//        val menuItem = it ?: return@OnMenuItemClickListener false
+//        when (menuItem.itemId) {
+//            R.id.menu_setting -> {
+//                navigateToSettings()
+//                true
+//            }
+//
+//            else -> false
+//        }
+//    }
+//
+//    private fun navigateToSettings() {
+//        if (findNavController().currentDestination?.id != R.id.navigation_settings) {
+//            hideFab(null)
+//            findNavController().navigate(toSettings())
+//        }
+//    }
 }

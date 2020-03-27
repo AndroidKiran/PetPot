@@ -2,11 +2,7 @@ package com.droid47.petgoogle.base.widgets.anim
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapShader
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.Shader.TileMode.CLAMP
 import androidx.annotation.StyleRes
 import androidx.core.graphics.applyCanvas
@@ -33,10 +29,10 @@ class ShapeAppearanceTransformation(
         outHeight: Int
     ): Resource<Bitmap> {
         val model = shapeAppearanceModel ?: ShapeAppearanceModel.builder(
-            context,
-            shapeAppearanceId,
-            0
-        ).build()
+                context,
+                shapeAppearanceId,
+                0
+            ).build()
             .also { shapeAppearanceModel = it }
         val bitmap = createBitmap(outWidth, outHeight)
         bitmap.applyCanvas {

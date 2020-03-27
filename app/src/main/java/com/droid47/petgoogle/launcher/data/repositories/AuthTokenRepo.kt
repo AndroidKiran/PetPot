@@ -9,12 +9,14 @@ import com.google.gson.Gson
 import io.reactivex.Single
 import javax.inject.Inject
 
-class AuthTokenRepo @Inject constructor(private val networkSource: TokenNetworkSource,
-                                        private val localSharedPreferencesRepository: LocalPreferencesRepository,
-                                        private val gson: Gson): AuthTokenRepository {
+class AuthTokenRepo @Inject constructor(
+    private val networkSource: TokenNetworkSource,
+    private val localSharedPreferencesRepository: LocalPreferencesRepository,
+    private val gson: Gson
+) : AuthTokenRepository {
 
     override fun getAuthToken(credentialModel: ClientCredentialModel): Single<TokenModel> =
-            networkSource.getAuthToken(credentialModel)
+        networkSource.getAuthToken(credentialModel)
 
     override fun cacheToken(tokenModel: TokenModel) {
         val tokenModelStr = gson.toJson(tokenModel)

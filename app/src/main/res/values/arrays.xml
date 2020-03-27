@@ -16,8 +16,8 @@
 
     <string-array name="introTitleArray">
         <item>@string/app_name</item>
-        <item>@string/menu_search</item>
-        <item>@string/menu_favourite</item>
+        <item>@string/search</item>
+        <item>@string/favourite</item>
     </string-array>
 
     <string-array name="introDescriptionArray">

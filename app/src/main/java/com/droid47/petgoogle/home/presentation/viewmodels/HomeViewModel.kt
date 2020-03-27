@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 private const val REQUEST_APP_UPGRADE_STATUS = 2330
+
 class HomeViewModel @Inject constructor(
     application: Application,
     private val fetchAppUpgradeUseCase: FetchAppUpgradeUseCase
@@ -29,21 +30,23 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun findImmediateAppUpgradeRequired() {
-        fetchAppUpgradeUseCase.execute(Unit, object : SingleObserver<BaseStateModel<UpgradeInfoEntity>> {
-            override fun onSuccess(stateModel: BaseStateModel<UpgradeInfoEntity>) {
-                upgradeStatusLiveData.postValue(stateModel)
-            }
+        fetchAppUpgradeUseCase.execute(
+            Unit,
+            object : SingleObserver<BaseStateModel<UpgradeInfoEntity>> {
+                override fun onSuccess(stateModel: BaseStateModel<UpgradeInfoEntity>) {
+                    upgradeStatusLiveData.postValue(stateModel)
+                }
 
-            override fun onSubscribe(d: Disposable) {
-                registerRequest(REQUEST_APP_UPGRADE_STATUS, d)
-            }
+                override fun onSubscribe(d: Disposable) {
+                    registerRequest(REQUEST_APP_UPGRADE_STATUS, d)
+                }
 
-            override fun onError(e: Throwable) {
-                CrashlyticsExt.handleException(e)
-                upgradeStatusLiveData.postValue(Failure(e))
-            }
+                override fun onError(e: Throwable) {
+                    CrashlyticsExt.handleException(e)
+                    upgradeStatusLiveData.postValue(Failure(e))
+                }
 
-        })
+            })
     }
 
     companion object {

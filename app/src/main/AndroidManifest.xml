@@ -54,8 +54,8 @@
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"
-            android:exported="false"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

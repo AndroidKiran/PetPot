@@ -27,7 +27,7 @@
         <item name="preferenceFragmentCompatStyle">@style/AppPreferenceFragmentCompatStyle</item>
     </style>
 
-   <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
+    <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
         <item name="android:layout">@layout/layout_setting</item>
     </style>
 

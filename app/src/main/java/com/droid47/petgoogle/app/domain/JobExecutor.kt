@@ -1,12 +1,12 @@
 package com.droid47.petgoogle.app.domain
 
-import com.droid47.petgoogle.app.di.scopes.ApplicationScope
 import com.droid47.petgoogle.base.usecase.executor.ThreadExecutor
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ApplicationScope
+@Singleton
 class JobExecutor @Inject constructor() : ThreadExecutor {
 
     companion object {

@@ -10,5 +10,6 @@ class PetDetailsRepo @Inject constructor(
     private val searchNetworkSource: SearchNetworkSource
 ) : PetDetailsRepository {
 
-    override fun getPetDetails(id: Int): Single<PetResponseEntity> = searchNetworkSource.getPetDetails(id)
+    override fun getPetDetails(id: Int): Single<PetResponseEntity> =
+        searchNetworkSource.getPetDetails(id)
 }

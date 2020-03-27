@@ -1,5 +1,6 @@
 package com.droid47.petgoogle.search.presentation
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ import com.droid47.petgoogle.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petgoogle.base.extensions.*
 import com.droid47.petgoogle.base.widgets.*
 import com.droid47.petgoogle.databinding.FragmentFilterBinding
+import com.droid47.petgoogle.home.presentation.HomeActivity
 import com.droid47.petgoogle.search.data.models.FilterItemEntity
 import com.droid47.petgoogle.search.presentation.viewmodel.FilterViewModel
 import com.droid47.petgoogle.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
@@ -97,6 +99,11 @@ class FilterFragment :
 
     override fun getParentViewModel(): SearchViewModel = searchViewModel
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as HomeActivity).homeComponent.inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this, closeOnBackPressed)
@@ -117,6 +124,7 @@ class FilterFragment :
         getViewModel().onFilterActive()
         showBottomBar()
         showFab()
+        updateCategory()
     }
 
     fun onFilterCollapsed() {
@@ -172,8 +180,6 @@ class FilterFragment :
         getViewDataBinding().navigationMenuView.menu.children
             .map { menuItem -> menuItem.title.toString().toLowerCase(Locale.US) }
             .toList().let { getViewModel().menuItemListLiveData.postValue(it) }
-
-        updateCategory()
     }
 
     private val navigationItemListener =
