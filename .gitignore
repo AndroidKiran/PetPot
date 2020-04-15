@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 /gradle.properties
+/google-services.json
+/schemas
+/src/debug
