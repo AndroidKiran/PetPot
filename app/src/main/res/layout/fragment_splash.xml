@@ -5,17 +5,17 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.widgets.Loading" />
+        <import type="com.droid47.petfriend.base.widgets.Loading" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Success" />
+        <import type="com.droid47.petfriend.base.widgets.Success" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Failure" />
+        <import type="com.droid47.petfriend.base.widgets.Failure" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Empty" />
+        <import type="com.droid47.petfriend.base.widgets.Empty" />
 
         <variable
             name="splashViewModel"
-            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.SplashViewModel" />
+            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel" />
 
     </data>
 

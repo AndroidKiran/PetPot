@@ -6,25 +6,25 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.widgets.Loading" />
+        <import type="com.droid47.petfriend.base.widgets.Loading" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Success" />
+        <import type="com.droid47.petfriend.base.widgets.Success" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Empty" />
+        <import type="com.droid47.petfriend.base.widgets.Empty" />
 
-        <import type="com.droid47.petgoogle.base.widgets.Failure" />
+        <import type="com.droid47.petfriend.base.widgets.Failure" />
 
         <variable
             name="bookmarkViewModel"
-            type="com.droid47.petgoogle.bookmark.presentation.viewmodel.BookmarkViewModel" />
+            type="com.droid47.petfriend.bookmark.presentation.viewmodel.BookmarkViewModel" />
 
         <variable
             name="errorStateConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
             name="emptyStateConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

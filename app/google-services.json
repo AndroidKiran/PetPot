@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:255154027926:android:6b99bddc41f92bbd5471b7",
         "android_client_info": {
-          "package_name": "com.droid47.petgoogle"
+          "package_name": "com.droid47.petfriend"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "255154027926-4699chmk719jdcmkcn46t9g18menuh4t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.droid47.petgoogle",
+            "package_name": "com.droid47.petfriend",
             "certificate_hash": "90ddab14271c97e7ac950a7f06f149675034c57d"
           }
         },

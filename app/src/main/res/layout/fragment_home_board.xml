@@ -7,7 +7,7 @@
 
         <variable
             name="homeBoardViewModel"
-            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
+            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -40,7 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.droid47.petgoogle.base.widgets.components.IndefinitePagerIndicator
+            <com.droid47.petfriend.base.widgets.components.IndefinitePagerIndicator
                 android:id="@+id/indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

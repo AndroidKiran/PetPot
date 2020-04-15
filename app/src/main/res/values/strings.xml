@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PetGoogle</string>
+    <string name="app_name">Pet-A-Friend</string>
     <string name="menu_home_board">Home</string>
     <string name="search">Search</string>
     <string name="about_us">About Us</string>
@@ -106,5 +106,11 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="version_key">upgrade_version_%s</string>
     <string name="update_downloaded">An update has just been downloaded.</string>
     <string name="restart">Restart</string>
+    <string name="try_other_location">Please try other location</string>
+    <string name="to_map">To Map</string>
+    <string name="city">City:</string>
+    <string name="state">State:</string>
+    <string name="post_code">Post code:</string>
+    <string name="country">Country:</string>
 
 </resources>

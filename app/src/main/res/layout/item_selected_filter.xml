@@ -8,7 +8,7 @@
 
         <variable
             name="filterItem"
-            type="com.droid47.petgoogle.search.data.models.FilterItemEntity" />
+            type="com.droid47.petfriend.search.data.models.FilterItemEntity" />
     </data>
 
     <com.google.android.material.chip.Chip

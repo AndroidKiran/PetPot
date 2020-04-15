@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
 
         <variable
             name="emptyViewConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
 
         <variable
             name="isVisible"

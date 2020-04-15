@@ -7,7 +7,7 @@
 
         <variable
             name="launcherViewModel"
-            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.LauncherViewModel" />
+            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

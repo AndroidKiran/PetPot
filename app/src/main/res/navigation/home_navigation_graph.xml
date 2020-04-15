@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.droid47.petgoogle.search.presentation.SearchFragment"
+        android:name="com.droid47.petfriend.search.presentation.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search">
 
@@ -26,30 +26,30 @@
 
     <fragment
         android:id="@+id/navigation_pet_details"
-        android:name="com.droid47.petgoogle.petDetails.presentation.PetDetailsFragment"
+        android:name="com.droid47.petfriend.petDetails.presentation.PetDetailsFragment"
         android:label="@string/nav_animal_details_label"
         tools:layout="@layout/fragment_pet_details">
 
         <argument
             android:name="petEntity"
-            app:argType="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+            app:argType="com.droid47.petfriend.search.data.models.search.PetEntity" />
 
     </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.droid47.petgoogle.home.presentation.SettingFragment"
+        android:name="com.droid47.petfriend.home.presentation.SettingFragment"
         android:label="@string/settings" />
 
     <fragment
         android:id="@+id/navigation_about_us"
-        android:name="com.droid47.petgoogle.aboutUs.presentation.AboutUsFragment"
+        android:name="com.droid47.petfriend.aboutUs.presentation.AboutUsFragment"
         android:label="@string/about_us"
         tools:layout="@layout/fragment_about_us" />
 
     <fragment
         android:id="@+id/navigation_bookmark_pet"
-        android:name="com.droid47.petgoogle.bookmark.presentation.BookmarkFragment"
+        android:name="com.droid47.petfriend.bookmark.presentation.BookmarkFragment"
         android:label="@string/favourite"
         tools:layout="@layout/fragment_book_mark">
 

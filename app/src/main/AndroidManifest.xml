@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.droid47.petgoogle">
+    package="com.droid47.petfriend">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,7 +21,7 @@
         android:value="@string/default_notification_channel_id" />
 
     <application
-        android:name=".app.PetApplication"
+        android:name="com.droid47.petfriend.app.PetApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -29,7 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pet.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".launcher.presentation.ui.LauncherActivity">
+        <activity android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,12 +39,12 @@
         </activity>
 
         <activity
-            android:name=".home.presentation.HomeActivity"
+            android:name="com.droid47.petfriend.home.presentation.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <service
-            android:name=".base.firebase.PetFirebaseMessagingService"
+            android:name="com.droid47.petfriend.base.firebase.PetFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
 
         <variable
             name="pet"
-            type="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+            type="com.droid47.petfriend.search.data.models.search.PetEntity" />
 
     </data>
 
@@ -45,7 +45,7 @@
                 android:id="@+id/iv_pet"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="?attr/colorPrimarySurface"
+                android:background="?attr/colorSurface"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
                 app:placeholder="@{@drawable/vc_paw}"
                 app:srcUrl="@{pet.getPetPhoto()}" />
 
-            <com.droid47.petgoogle.base.widgets.components.CheckableImageButton
+            <com.droid47.petfriend.base.widgets.components.CheckableImageButton
                 android:id="@+id/cib_star"
                 android:layout_width="@dimen/grid_5"
                 android:layout_height="@dimen/grid_5"
@@ -64,6 +64,7 @@
                 android:padding="@dimen/grid_1"
                 android:scaleType="centerCrop"
                 android:src="@drawable/selector_checked_star"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,7 +80,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="?attr/colorSurface"
-                app:cardElevation="@dimen/plane_08"
+                app:cardElevation="@dimen/plane_12"
                 app:cardPreventCornerOverlap="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

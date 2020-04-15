@@ -6,35 +6,35 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.search.presentation.models.LoadingState" />
+        <import type="com.droid47.petfriend.search.presentation.models.LoadingState" />
 
-        <import type="com.droid47.petgoogle.search.presentation.models.DefaultState" />
+        <import type="com.droid47.petfriend.search.presentation.models.DefaultState" />
 
-        <import type="com.droid47.petgoogle.search.presentation.models.ErrorState" />
+        <import type="com.droid47.petfriend.search.presentation.models.ErrorState" />
 
-        <import type="com.droid47.petgoogle.search.presentation.models.EmptyState" />
+        <import type="com.droid47.petfriend.search.presentation.models.EmptyState" />
 
-        <import type="com.droid47.petgoogle.search.presentation.models.PaginatingState" />
+        <import type="com.droid47.petfriend.search.presentation.models.PaginatingState" />
 
         <variable
             name="searchViewModel"
-            type="com.droid47.petgoogle.search.presentation.viewmodel.SearchViewModel" />
+            type="com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel" />
 
         <variable
             name="petSpinnerViewModelAndLocation"
-            type="com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
+            type="com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
 
         <variable
             name="loadingStateConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.ContentLoadingConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.ContentLoadingConfiguration" />
 
         <variable
             name="errorStateConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
             name="emptyStateConfig"
-            type="com.droid47.petgoogle.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
 
     </data>
 
@@ -42,7 +42,6 @@
         android:id="@+id/cdl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -93,7 +92,7 @@
                 android:id="@+id/layout_error"
                 layout="@layout/layout_error_screen"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
                 app:errorViewConfig="@{errorStateConfig}"
@@ -104,7 +103,7 @@
                 android:id="@+id/layout_empty"
                 layout="@layout/layout_empty_screen"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
                 app:emptyViewConfig="@{emptyStateConfig}"
@@ -132,7 +131,6 @@
             android:visibility="invisible"
             app:layout_behavior="@string/fab_transformation_scrim_behavior" />
 
-
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/circular_progress"
             style="?android:attr/progressBarStyleLarge"
@@ -157,8 +155,7 @@
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
             app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/search_menu">
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
                 android:id="@+id/bottom_app_bar_content_container"
@@ -197,7 +194,7 @@
 
             <fragment
                 android:id="@+id/fragment_filter"
-                android:name="com.droid47.petgoogle.search.presentation.FilterFragment"
+                android:name="com.droid47.petfriend.search.presentation.FilterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

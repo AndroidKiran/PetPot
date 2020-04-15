@@ -31,11 +31,11 @@
         <item name="android:layout">@layout/layout_setting</item>
     </style>
 
-    <style name="Widget.PetGoogle.SheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/Widget.PetGoogle.SheetModel</item>
-    </style>
+<!--    <style name="Widget.PetGoogle.SheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">-->
+<!--        <item name="bottomSheetStyle">@style/Widget.PetGoogle.SheetModel</item>-->
+<!--    </style>-->
 
-    <style name="Widget.PetGoogle.SheetModel" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:colorBackground">?attr/scrimBackground</item>
-    </style>
+<!--    <style name="Widget.PetGoogle.SheetModel" parent="Widget.Design.BottomSheet.Modal">-->
+<!--        <item name="android:colorBackground">?attr/scrimBackground</item>-->
+<!--    </style>-->
 </resources>

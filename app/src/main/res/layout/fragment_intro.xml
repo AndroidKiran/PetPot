@@ -8,7 +8,7 @@
 
         <variable
             name="homeBoardViewModel"
-            type="com.droid47.petgoogle.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
+            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

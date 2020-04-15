@@ -7,7 +7,7 @@
 
         <variable
             name="aboutUsViewModel"
-            type="com.droid47.petgoogle.aboutUs.presentation.viewmodel.AboutUsViewModel" />
+            type="com.droid47.petfriend.aboutUs.presentation.viewmodel.AboutUsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,11 +32,31 @@
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_celebration"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="400dp"
                     app:layout_collapseMode="parallax"
                     app:lottie_autoPlay="true"
                     app:lottie_fileName="celebration.json"
                     app:lottie_loop="true" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    app:cardElevation="@dimen/plane_12"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="50dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:padding="@dimen/grid_2"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/vc_paw"
+                        app:tint="?attr/colorOnSurface" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:id="@+id/title"

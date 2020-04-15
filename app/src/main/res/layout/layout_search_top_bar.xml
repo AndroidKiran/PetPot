@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
 
         <variable
             name="petSpinnerViewModelAndLocation"
-            type="com.droid47.petgoogle.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
+            type="com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
 
     </data>
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_size">
 
-                <com.droid47.petgoogle.search.presentation.widgets.PetSpinner
+                <com.droid47.petfriend.search.presentation.widgets.PetSpinner
                     android:id="@+id/spinnerAnimal"
                     style="@style/Widget.PetGoogle.Spinner"
                     android:layout_width="0dp"
@@ -98,7 +98,7 @@
                     android:id="@+id/clear_text_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> petSpinnerViewModelAndLocation.onFabClick()}"
+                    android:onClick="@{() -> petSpinnerViewModelAndLocation.onClearLocation()}"
                     android:src="@{StringUtilsKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
                     app:elevation="@dimen/plane_08"
                     app:fabCustomSize="@dimen/grid_4"

@@ -8,11 +8,11 @@
 
         <variable
             name="navigationViewModel"
-            type="com.droid47.petgoogle.home.presentation.viewmodels.NavigationViewModel" />
+            type="com.droid47.petfriend.home.presentation.viewmodels.NavigationViewModel" />
 
         <variable
             name="homeViewModel"
-            type="com.droid47.petgoogle.home.presentation.viewmodels.HomeViewModel" />
+            type="com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -42,6 +42,7 @@
                 android:layout_height="@dimen/navigation_drawer_profile_image_size"
                 android:layout_gravity="center|top"
                 android:contentDescription="@string/bottom_nav_drawer_image_content_desc"
+                android:tint="@color/pet_white_50"
                 android:padding="@dimen/grid_1"
                 android:src="@drawable/vc_paw" />
 

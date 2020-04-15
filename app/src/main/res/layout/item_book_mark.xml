@@ -8,7 +8,7 @@
 
         <variable
             name="pet"
-            type="com.droid47.petgoogle.search.data.models.search.PetEntity" />
+            type="com.droid47.petfriend.search.data.models.search.PetEntity" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -20,6 +20,7 @@
         android:layout_marginEnd="@dimen/grid_2"
         android:layout_marginBottom="@dimen/grid_1"
         android:stateListAnimator="@animator/selector_lift_on_touch"
+        android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardElevation="@dimen/plane_12"
         app:cardPreventCornerOverlap="true"
@@ -31,7 +32,6 @@
             android:layout_height="@dimen/book_mark_image_height"
             android:background="?attr/colorPrimarySurface"
             android:scaleType="centerCrop"
-            android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -101,7 +101,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_pet_name"
                     tools:text="Young . Labrodor" />
 
-                <com.droid47.petgoogle.base.widgets.components.CheckableImageButton
+                <com.droid47.petfriend.base.widgets.components.CheckableImageButton
                     android:id="@+id/cib_star"
                     android:layout_width="@dimen/grid_4"
                     android:layout_height="@dimen/grid_4"

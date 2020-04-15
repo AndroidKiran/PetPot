@@ -6,14 +6,25 @@
 
     <data>
 
-        <import type="com.droid47.petgoogle.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
 
         <variable
             name="petDetailsViewModel"
-            type="com.droid47.petgoogle.petDetails.presentation.viewmodels.PetDetailsViewModel" />
+            type="com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewModel" />
     </data>
 
     <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+        <View
+            android:id="@+id/dragger"
+            android:layout_width="@dimen/grid_6"
+            android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:background="@drawable/bg_curved_line"
+            app:layout_constraintBottom_toTopOf="@id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -31,7 +42,7 @@
             app:layout_constraintBottom_toTopOf="@id/tv_breed_heading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dragger"
             tools:text="Tommy" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -207,11 +218,26 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toTopOf="@id/divider_one"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_show_on_map"
             app:layout_constraintStart_toStartOf="@id/tv_address_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_address_heading"
             app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.addressLiveData)}"
             tools:text="New York, NY" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_show_on_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:backgroundTint="?attr/colorSecondary"
+            android:text="@string/to_map"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorOnSecondary"
+            app:icon="@drawable/vc_place"
+            app:iconGravity="textStart"
+            app:layout_constraintBottom_toBottomOf="@id/tv_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_address" />
 
         <View
             android:id="@+id/divider_one"
@@ -435,7 +461,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_good"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}" />
+            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_meet"
@@ -454,7 +480,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_two"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
             tools:text="AMYYU" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -462,15 +488,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
+            android:autoLink="web"
             android:gravity="center_vertical|start"
-            android:text="@{petDetailsViewModel.descLiveData}"
+            android:linksClickable="true"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
+            android:text="@{petDetailsViewModel.descLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_meet"
             app:layout_constraintTop_toBottomOf="@id/tv_meet"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
             tools:text="Vaccinations up to date, spayed / neutered." />
 
     </merge>
