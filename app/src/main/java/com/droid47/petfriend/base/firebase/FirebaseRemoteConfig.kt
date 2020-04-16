@@ -12,7 +12,7 @@ class FirebaseRemoteConfig @Inject constructor() : RemoteConfig {
     val config = Firebase.remoteConfig.apply {
         setConfigSettingsAsync(
             FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(
-                if (BuildConfig.DEBUG) 0 else (60 * 8)
+                if (BuildConfig.DEBUG) 0 else ((60 * 8).toLong())
             ).build()
         )
         setDefaultsAsync(R.xml.remote_config_defaults)

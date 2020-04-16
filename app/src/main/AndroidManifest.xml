@@ -29,7 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pet.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity">
+        <activity android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

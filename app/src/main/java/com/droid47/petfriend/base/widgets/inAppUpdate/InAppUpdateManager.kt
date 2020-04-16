@@ -20,7 +20,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 
-
 class InAppUpdateManager private constructor(
     var appCompatActivity: AppCompatActivity,
     var updateType: Int = AppUpdateType.FLEXIBLE,
