@@ -27,6 +27,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
 
     val selectedPetNameLiveData = MutableLiveData<String>()
     val locationLiveData = LiveEvent<String>()
+    val eventLiveData = LiveEvent<Int>()
 
     init {
         fetchPetNames()
@@ -59,8 +60,17 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
         }
     }
 
+    fun onMiniFabClick() {
+        if(locationLiveData.value.isNullOrEmpty()) {
+            eventLiveData.postValue(EVENT_CURRENT_LOCATION)
+        } else {
+            onClearLocation()
+        }
+    }
+
     companion object {
         private const val REQUEST_FETCH_NAMES = 111
         const val REQUEST_REFRESH_SELECTED_PET = 112
+        const val EVENT_CURRENT_LOCATION = 113
     }
 }

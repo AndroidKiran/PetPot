@@ -151,7 +151,7 @@
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
             app:layout_behavior=".base.widgets.anim.ScrollAwareFABBehavior"
-            app:srcCompat="@drawable/vc_send" />
+            app:srcCompat="@drawable/vc_mail" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_apply_filter"
-        android:title="@string/apply_filter"
+        android:id="@+id/menu_refresh_filter"
+        android:title="@string/reset"
+        android:icon="@drawable/vc_refresh"
         app:showAsAction="always" />
 
 </menu>

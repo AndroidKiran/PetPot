@@ -40,22 +40,14 @@
             android:layout_marginTop="@dimen/grid_0_5"
             android:layout_marginBottom="@dimen/grid_6">
 
-            <com.google.android.material.button.MaterialButton
+            <Space
                 android:id="@+id/btn_reset"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/grid_6"
                 android:layout_marginTop="@dimen/grid_5"
-                android:backgroundTint="?attr/colorSecondary"
-                android:onClick="@{() -> newFilterViewModel.resetFilter(newFilterViewModel.menuItemListLiveData)}"
-                android:text="@string/reset"
-                android:textAppearance="?attr/textAppearanceButton"
-                android:textColor="?attr/colorOnSecondary"
-                app:invisible="@{newFilterViewModel.allSelectedFilterListLiveData instanceof Success}"
                 app:layout_constraintBottom_toTopOf="@id/navigation_menu_view"
                 app:layout_constraintEnd_toStartOf="@id/crl_filter"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.pet.MediumComponent.LeftCorners" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/navigation_menu_view"
@@ -186,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:elevation="@dimen/plane_08"
-            app:fabAlignmentMode="center"
+            app:fabAlignmentMode="end"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
@@ -210,12 +202,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/plane_08"
-            android:onClick="@{() -> newFilterViewModel.closeFilter()}"
+            android:onClick="@{() -> newFilterViewModel.applyFilter()}"
             app:ensureMinTouchTargetSize="true"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_filter_bar"
-            app:srcCompat="@drawable/vc_close" />
-
-
+            app:srcCompat="@drawable/vc_send" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

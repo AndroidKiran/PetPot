@@ -33,18 +33,18 @@ class RefreshAuthTokenAndPetTypeUseCase @Inject constructor(
 
     override fun buildUseCaseSingle(params: Unit?): Single<BaseStateModel<List<PetTypeEntity>>> =
         when (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(application)) {
-            ConnectionResult.SUCCESS -> performAuthenticationWithPullData()
+            ConnectionResult.SUCCESS -> lookForDbDataThenFetchFromNetwork()
             else -> Single.just(Failure(IllegalStateException(PLAY_SERVICE_ERROR)))
         }
 
-    private fun performAuthenticationWithPullData() =
-        authTokenRepository.getAuthToken(ClientCredentialModel())
-            .flatMap { tokenModel ->
-                authTokenRepository.cacheToken(tokenModel)
-                return@flatMap lookForDbDataThenFetchFromNetwork()
-            }.onErrorReturn {
-                Failure(it)
-            }
+//    private fun performAuthenticationWithPullData() =
+//        authTokenRepository.getAuthToken(ClientCredentialModel())
+//            .flatMap { tokenModel ->
+//                authTokenRepository.cacheToken(tokenModel)
+//                return@flatMap lookForDbDataThenFetchFromNetwork()
+//            }.onErrorReturn {
+//                Failure(it)
+//            }
 
     private fun lookForDbDataThenFetchFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
         return getPetTypeListFromDb()

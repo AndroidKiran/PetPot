@@ -78,7 +78,7 @@ class AboutUsFragment :
         getViewDataBinding().fab.apply {
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
-            setImageResource(R.drawable.vc_send)
+            setImageResource(R.drawable.vc_mail)
             setOnClickListener(this@AboutUsFragment)
         }
 

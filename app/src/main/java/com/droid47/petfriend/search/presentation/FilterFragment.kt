@@ -3,6 +3,7 @@ package com.droid47.petfriend.search.presentation
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
@@ -35,11 +36,13 @@ import javax.inject.Inject
 class FilterFragment :
     BaseBindingFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
 
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var sortPopMenu: SortPopupMenu? = null
     private val emptyState = EmptyScreenConfiguration()
     private val errorState = ErrorViewConfiguration()
+    private var menuRefreshItem: MenuItem? = null
 
     private val filterViewModel: FilterViewModel by lazy(LazyThreadSafetyMode.NONE) {
         viewModelProvider<FilterViewModel>(factory)
@@ -169,7 +172,13 @@ class FilterFragment :
         }
 
         with(getViewDataBinding().bottomFilterBar) {
+            setNavigationIcon(R.drawable.vc_close)
+            setNavigationOnClickListener {
+                getViewModel().closeFilter()
+            }
+            replaceMenu(R.menu.filter_menu)
             setOnMenuItemClickListener(menuClickListener)
+            menuRefreshItem = menu.findItem(R.id.menu_refresh_filter)
         }
 
         with(getViewDataBinding().filterFab) {
@@ -273,6 +282,7 @@ class FilterFragment :
 
     private val selectedFilterListObserver = Observer<BaseStateModel<List<FilterItemEntity>>> {
         val stateModel = it ?: return@Observer
+        menuRefreshItem?.isVisible = stateModel is Success
         when (stateModel) {
             is Success -> {
                 updateSelectedFilterData(stateModel.data)
@@ -320,7 +330,12 @@ class FilterFragment :
 
     private val menuClickListener = Toolbar.OnMenuItemClickListener {
         when (it?.itemId ?: return@OnMenuItemClickListener false) {
-            R.id.menu_apply_filter -> getViewModel().applyFilter()
+            R.id.menu_refresh_filter -> {
+                getViewModel().menuItemListLiveData.value
+                    ?.takeIf { list -> list.isNotEmpty() }?.apply {
+                        getViewModel().resetFilter(this)
+                    }
+            }
         }
         true
     }

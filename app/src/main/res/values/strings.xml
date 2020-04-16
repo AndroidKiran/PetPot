@@ -5,7 +5,7 @@
     <string name="about_us">About Us</string>
     <string name="favourite">Favourite</string>
 
-    <string name="hint_search">City/State/latitude longitude/postal code</string>
+    <string name="hint_search">City/State/postal code</string>
 
     <!--Nav target label-->
     <string name="nav_animal_details_label">Details</string>
@@ -112,5 +112,6 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="state">State:</string>
     <string name="post_code">Post code:</string>
     <string name="country">Country:</string>
+    <string name="to_settings">To Settings</string>
 
 </resources>

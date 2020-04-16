@@ -1,8 +1,12 @@
 package com.droid47.petfriend.search.presentation
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -26,6 +30,7 @@ import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
+import com.droid47.petfriend.base.widgets.currentLocation.*
 import com.droid47.petfriend.base.widgets.snappy.SnapType
 import com.droid47.petfriend.base.widgets.snappy.SnappyGridLayoutManager
 import com.droid47.petfriend.databinding.FragmentSearchBinding
@@ -38,6 +43,7 @@ import com.droid47.petfriend.search.presentation.models.*
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
+import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CURRENT_LOCATION
 import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SEARCH
@@ -48,7 +54,6 @@ import kotlin.random.Random
 class SearchFragment :
     BaseBindingFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
     View.OnClickListener {
-
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
@@ -134,6 +139,18 @@ class SearchFragment :
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_ID && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            getCurrentLocation()
+        }
+    }
+
     private fun setUpView() {
         with(getViewDataBinding().fab) {
             setShowMotionSpecResource(R.animator.fab_show)
@@ -160,6 +177,11 @@ class SearchFragment :
 
         with(getViewDataBinding().scrim) {
             setOnClickListener(this@SearchFragment)
+        }
+
+        with(getViewDataBinding().fab) {
+            setShowMotionSpecResource(R.animator.fab_show)
+            setHideMotionSpecResource(R.animator.fab_hide)
         }
     }
 
@@ -203,6 +225,11 @@ class SearchFragment :
             removeObserver(homeEventObserver)
             observe(viewLifecycleOwner, homeEventObserver)
         }
+
+        petSpinnerAndLocationViewModel.eventLiveData.run {
+            removeObserver(petSpinnerEventObserver)
+            observe(viewLifecycleOwner, petSpinnerEventObserver)
+        }
     }
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
@@ -218,6 +245,7 @@ class SearchFragment :
 
     private fun fetchRandomPetList() {
         val petList = getViewModel().searchStateLiveData.value?.data ?: emptyList()
+        if (petList.isEmpty()) return
         val totalItems = petList.size - 1
         val itemList = mutableListOf<PetEntity>()
         for (index in totalItems downTo 0) {
@@ -330,6 +358,14 @@ class SearchFragment :
         }
     }
 
+    private val petSpinnerEventObserver = Observer<Int> {
+        when (it ?: return@Observer) {
+            EVENT_CURRENT_LOCATION -> {
+                getCurrentLocation()
+            }
+        }
+    }
+
     private fun clearPaginationUI() {
         isLoading = false
         getViewDataBinding().circularProgress.gone()
@@ -366,7 +402,7 @@ class SearchFragment :
                     getViewModel().filterItemLiveData.value ?: return@OnClickListener
                 when (baseStateModel) {
                     is Success -> {
-                        if(getString(R.string.clear) == errorTriple.third) {
+                        if (getString(R.string.clear) == errorTriple.third) {
                             petSpinnerAndLocationViewModel.onClearLocation()
                         } else {
                             getViewModel().onFilterModified(baseStateModel.data)
@@ -448,6 +484,50 @@ class SearchFragment :
 
             else -> false
         }
+    }
+
+    private fun getCurrentLocation() {
+        FetchCurrentLocationLiveData(
+            requireContext()
+        ).run {
+            removeObserver(locationUpdateObserver)
+            observe(viewLifecycleOwner, locationUpdateObserver)
+        }
+    }
+
+    private val locationUpdateObserver =
+        Observer<CurrentLocationState> {
+            val currentLocationState = it ?: return@Observer
+            when (currentLocationState) {
+                is EnableLocationState -> {
+                    Snackbar.make(
+                        getViewDataBinding().cdlMain,
+                        "Turn on location",
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAnchorView(getSnackBarAnchorId())
+                        .setAction(getString(R.string.to_settings)) {
+                            requireActivity().startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                        }.show()
+                }
+
+                is RequestLocationPermissionState -> {
+                    requestPermissions()
+                }
+
+                is UpdatedLocationState -> {
+                    val location = currentLocationState.location ?: return@Observer
+                }
+            }
+        }
+
+    private fun requestPermissions() {
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ), PERMISSION_ID
+        )
     }
 
     companion object {

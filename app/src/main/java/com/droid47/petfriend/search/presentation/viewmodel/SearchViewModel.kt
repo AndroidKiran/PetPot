@@ -124,7 +124,7 @@ class SearchViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun attachSearchEvent() {
-        searchSubject.debounce(600, TimeUnit.MILLISECONDS)
+        searchSubject.debounce(60, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerRequest(REQUEST_SEARCH, it) }
             .switchMapSingle { filters ->
                 getSearchList(filters)

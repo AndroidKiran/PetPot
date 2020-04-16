@@ -98,7 +98,7 @@
                     android:id="@+id/clear_text_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> petSpinnerViewModelAndLocation.onClearLocation()}"
+                    android:onClick="@{() -> petSpinnerViewModelAndLocation.onMiniFabClick()}"
                     android:src="@{StringUtilsKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
                     app:elevation="@dimen/plane_08"
                     app:fabCustomSize="@dimen/grid_4"

@@ -15,3 +15,7 @@
 /app/google-services.json
 /app/schemas
 /app/src/debug
+app/.externalNativeBuild/
+app/.cxx/
+*log
+*.apk
