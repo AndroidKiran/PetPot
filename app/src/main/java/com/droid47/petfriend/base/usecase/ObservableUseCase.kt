@@ -12,13 +12,13 @@ abstract class ObservableUseCase<Results, in Params>(
 
     abstract fun buildUseCaseObservable(params: Params? = null): Observable<Results>
 
-    fun execute(observer: DisposableObserver<Results>, params: Params? = null) {
-        val observable = buildUseCaseObservableWithSchedulers(params)
-    }
+//    fun execute(observer: DisposableObserver<Results>, params: Params? = null) {
+//        val observable = buildUseCaseObservableWithSchedulers(params)
+//    }
 
-    private fun buildUseCaseObservableWithSchedulers(params: Params?): Observable<Results> {
-        return buildUseCaseObservable(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
-    }
+//    private fun buildUseCaseObservableWithSchedulers(params: Params?): Observable<Results> {
+//        return buildUseCaseObservable(params)
+//            .subscribeOn(threadExecutorScheduler)
+//            .observeOn(postExecutionThreadScheduler)
+//    }
 }

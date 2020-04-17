@@ -36,6 +36,8 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
 
     override fun getParentViewModel(): LauncherViewModel = launchViewModel
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().tncFab
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner

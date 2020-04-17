@@ -89,6 +89,8 @@ class FilterFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_filter
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().filterFab
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner

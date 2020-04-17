@@ -53,7 +53,7 @@ internal class GravityDelegate(
     }
 
     private val isRtl: Boolean
-        private get() = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == 1
+        get() = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == 1
 
     fun calculateDistanceToFinalSnap(
         layoutManager: RecyclerView.LayoutManager,

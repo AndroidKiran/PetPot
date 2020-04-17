@@ -2,6 +2,7 @@ package com.droid47.petfriend.base.widgets
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
@@ -9,6 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
     private val requestHandler = RequestHandler<Int>()
+    val networkConnectionLiveData = NetworkConnectionLiveData(application)
 
     override fun onCleared() {
         requestHandler.dispose()

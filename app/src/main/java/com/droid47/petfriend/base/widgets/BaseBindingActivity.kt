@@ -11,7 +11,6 @@ abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidV
 
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V
-
     abstract fun getViewModel(): V
 
     @LayoutRes

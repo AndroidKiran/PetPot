@@ -36,6 +36,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
     abstract fun executePendingVariablesBinding()
     abstract fun getViewModel(): V
     abstract fun getParentViewModel(): PV
+    abstract fun getSnackBarAnchorView(): View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

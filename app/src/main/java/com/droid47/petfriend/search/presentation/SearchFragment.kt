@@ -25,6 +25,7 @@ import com.droid47.petfriend.base.bindingConfig.ContentLoadingConfiguration
 import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
+import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.paginatedRecyclerView.PaginationScrollListener
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
@@ -85,6 +86,8 @@ class SearchFragment :
     override fun getViewModel(): SearchViewModel = searchViewModel
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
+
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().fab
 
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
@@ -419,7 +422,7 @@ class SearchFragment :
 
     private fun showErrorSnackBar(throwable: Throwable) {
         val errorTriple = throwable.getErrorRequestMessage(requireContext())
-        Snackbar.make(getViewDataBinding().cdlMain, errorTriple.first, Snackbar.LENGTH_LONG)
+        Snackbar.make(getViewDataBinding().fab, errorTriple.first, Snackbar.LENGTH_LONG)
             .setAnchorView(getSnackBarAnchorId()).show()
     }
 
@@ -501,7 +504,7 @@ class SearchFragment :
             when (currentLocationState) {
                 is EnableLocationState -> {
                     Snackbar.make(
-                        getViewDataBinding().cdlMain,
+                        getViewDataBinding().fab,
                         "Turn on location",
                         Snackbar.LENGTH_LONG
                     )
@@ -517,6 +520,8 @@ class SearchFragment :
 
                 is UpdatedLocationState -> {
                     val location = currentLocationState.location ?: return@Observer
+                    val address = requireContext().getLocationAddress(location) ?: return@Observer
+                    petSpinnerAndLocationViewModel.locationLiveData.postValue(address)
                 }
             }
         }

@@ -66,6 +66,12 @@ class BookmarkFragment :
         }
     }
 
+    override fun getSnackBarAnchorView(): View =
+        if (getViewDataBinding().fab.visibility == View.GONE)
+            getViewDataBinding().bottomAppBar
+        else
+            getViewDataBinding().fab
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as HomeActivity).homeComponent.inject(this@BookmarkFragment)
@@ -214,14 +220,14 @@ class BookmarkFragment :
 
     private fun showErrorSnackBar(throwable: Throwable) {
         val msg = throwable.getErrorRequestMessage(requireContext())
-        Snackbar.make(getViewDataBinding().cdlMain, msg.first, Snackbar.LENGTH_LONG)
+        Snackbar.make(getViewDataBinding().bottomAppBar, msg.first, Snackbar.LENGTH_LONG)
             .setAnchorView(getSnackBarAnchorId())
             .show()
     }
 
     private fun showBookmarkUndoSnackBar(petEntity: PetEntity) {
         val msg = getString(R.string.remove_bookmark)
-        Snackbar.make(getViewDataBinding().cdlMain, msg, Snackbar.LENGTH_LONG)
+        Snackbar.make(getViewDataBinding().bottomAppBar, msg, Snackbar.LENGTH_LONG)
             .setAnchorView(getSnackBarAnchorId())
             .setAction(getString(R.string.undo)) {
                 getViewModel().onBookMarkClick(petEntity.apply {

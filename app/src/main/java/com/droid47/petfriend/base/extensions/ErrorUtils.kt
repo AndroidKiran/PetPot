@@ -31,7 +31,7 @@ fun Throwable.getErrorRequestMessage(context: Context): Triple<String, String, S
             }
         }
 
-        this is ConnectException || !AppUtils.isNetworkAvailable(context) || this is UnknownHostException -> {
+        this is ConnectException || !context.isNetworkAvailable() || this is UnknownHostException -> {
             errorMessage = context.getString(R.string.no_internet)
             errorSubTitle = context.getString(R.string.no_internet_subtitle)
         }

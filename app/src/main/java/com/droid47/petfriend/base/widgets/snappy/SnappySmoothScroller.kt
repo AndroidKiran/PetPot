@@ -230,21 +230,20 @@ class SnappySmoothScroller(context: Context) : LinearSmoothScroller(context) {
     }
 
     override fun calculateDxToMakeVisible(view: View?, snapPreference: Int): Int {
-        var dx = super.calculateDxToMakeVisible(view, snapPreference)
+        val dx = super.calculateDxToMakeVisible(view, snapPreference)
         if (dx == 0) {
             return dx
         }
-        when (snapType) {
-            SnapType.START -> dx = adjustDxForLeft(dx)
-            SnapType.END -> dx = adjustDxForRight(dx)
-            SnapType.CENTER -> dx = if (dx > 0) {
+        return when (snapType) {
+            SnapType.START -> adjustDxForLeft(dx)
+            SnapType.END -> adjustDxForRight(dx)
+            SnapType.CENTER -> if (dx > 0) {
                 adjustDxForRight(dx)
             } else {
                 adjustDxForLeft(dx)
             }
             else -> dx
         }
-        return dx
     }
 
     override fun calculateDyToMakeVisible(view: View?, snapPreference: Int): Int {

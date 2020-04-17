@@ -37,6 +37,8 @@ class AboutUsFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_about_us
 
+    override fun getSnackBarAnchorView() = getViewDataBinding().fab
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner

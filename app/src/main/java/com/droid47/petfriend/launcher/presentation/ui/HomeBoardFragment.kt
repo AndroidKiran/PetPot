@@ -42,6 +42,8 @@ class HomeBoardFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_home_board
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().bottomIntro
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner

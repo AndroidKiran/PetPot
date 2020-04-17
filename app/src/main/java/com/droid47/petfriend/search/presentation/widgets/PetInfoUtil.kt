@@ -2,7 +2,7 @@ package com.droid47.petfriend.search.presentation.widgets
 
 import android.app.Application
 import com.droid47.petfriend.R
-import com.droid47.petfriend.base.extensions.AppUtils
+import com.droid47.petfriend.base.extensions.applyBracketFilter
 import com.droid47.petfriend.base.extensions.isNotEmpty
 import com.droid47.petfriend.base.extensions.stringSentenceCase
 import com.droid47.petfriend.search.data.models.search.AddressEntity
@@ -88,7 +88,7 @@ fun AddressEntity.getAddress(): String {
 
 fun List<String>.bindCharacteristics(): String {
     if (isNotEmpty()) {
-        return AppUtils.applyBracketFilter(toString())
+        return toString().applyBracketFilter()
     }
     return ""
 }

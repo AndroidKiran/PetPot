@@ -63,6 +63,8 @@ class PetDetailsFragment :
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().fab
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner

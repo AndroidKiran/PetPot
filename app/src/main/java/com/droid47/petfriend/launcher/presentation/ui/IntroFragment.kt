@@ -1,6 +1,7 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
@@ -28,6 +29,8 @@ class IntroFragment :
     override fun getLayoutId(): Int = R.layout.fragment_intro
 
     override fun getFragmentNavId(): Int = R.id.navigation_home_board
+
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().cslIntroScreen
 
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {

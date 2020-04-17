@@ -3,6 +3,7 @@ package com.droid47.petfriend.launcher.presentation.ui
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -54,6 +55,8 @@ class SplashFragment :
     override fun getLayoutId(): Int = R.layout.fragment_splash
 
     override fun getFragmentNavId(): Int = R.id.navigation_splash
+
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().btnRetry
 
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also { binding ->

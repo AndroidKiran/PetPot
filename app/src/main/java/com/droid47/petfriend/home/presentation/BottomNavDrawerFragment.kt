@@ -113,6 +113,8 @@ class BottomNavDrawerFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_bottom
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().backgroundContainer
+
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
             it.navigationViewModel = getViewModel()

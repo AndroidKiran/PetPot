@@ -77,15 +77,11 @@ class InAppUpdateManager private constructor(
 
     private fun setupSnackBar() {
         val rootView: View = appCompatActivity.window.decorView.findViewById(android.R.id.content)
-        snackBar = Snackbar.make(
-            rootView,
-            snackBarMessage ?: "",
-            Snackbar.LENGTH_INDEFINITE
-        ).apply {
-            setAction(snackBarAction ?: "") {
+        snackBar = Snackbar.make(rootView, snackBarMessage ?: "", Snackbar.LENGTH_LONG)
+            .setAction(snackBarAction ?: "") {
                 completeUpdate()
             }
-        }
+
     }
 
     private fun popupSnackBarForUserConfirmation() {

@@ -20,9 +20,9 @@ class FilterRepo @Inject constructor(
         Completable.create { emitter ->
             try {
                 filterItemDao.refreshLastAppliedFilter(checked, filterNameList)
-                Completable.complete()
+                emitter.onComplete()
             } catch (exception: Exception) {
-                Completable.error(exception)
+                emitter.onError(exception)
             }
         }
 
@@ -64,9 +64,9 @@ class FilterRepo @Inject constructor(
         Completable.create { emitter ->
             try {
                 filterItemDao.updateFilterForItem(filterItemEntity)
-                Completable.complete()
+                emitter.onComplete()
             } catch (exception: Exception) {
-                Completable.error(exception)
+                emitter.onError(exception)
             }
         }
 
@@ -74,9 +74,9 @@ class FilterRepo @Inject constructor(
         Completable.create { emitter ->
             try {
                 filterItemDao.updateSelection(checked, type)
-                Completable.complete()
+                emitter.onComplete()
             } catch (exception: Exception) {
-                Completable.error(exception)
+                emitter.onError(exception)
             }
         }
 

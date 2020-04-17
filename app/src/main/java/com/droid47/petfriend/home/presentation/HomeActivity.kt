@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.app.PetApplication
 import com.droid47.petfriend.base.extensions.viewModelProvider
+import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager.Companion.IN_APP_UPDATE_REQUEST_CODE
@@ -23,12 +25,14 @@ import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_NAVIGATE_BACK
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.model.AppUpdateType
 import java.util.*
 import javax.inject.Inject
 
 class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     NavController.OnDestinationChangedListener, NavigationHost {
+
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -37,6 +41,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     private var currentNavId: Int = NAV_ID_NONE
     private lateinit var navController: NavController
     private var inAppUpdateManager: InAppUpdateManager? = null
+    private var navHostFragment: NavHostFragment? = null
 
     private val bottomNavDrawer: BottomNavDrawerFragment by lazy(LazyThreadSafetyMode.NONE) {
         supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
@@ -61,7 +66,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         homeComponent = (application as PetApplication).appComponent.homeComponent().create()
         homeComponent.inject(this@HomeActivity)
         super.onCreate(savedInstanceState)
-        initViews()
+        setUpViews()
         subscribeToLiveData()
     }
 
@@ -85,7 +90,9 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
 
-    private fun initViews() {
+    private fun setUpViews() {
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = findNavController(R.id.nav_host_fragment).apply {
             addOnDestinationChangedListener(this@HomeActivity)
         }
@@ -107,6 +114,11 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         getViewModel().eventLiveData.run {
             removeObserver(eventObserver)
             observe(this@HomeActivity, eventObserver)
+        }
+
+        getViewModel().networkConnectionLiveData.run {
+            removeObserver(networkConnectionObserver)
+            observe(this@HomeActivity, networkConnectionObserver)
         }
 
         inAppUpdateManager?.appUpdateManagerLiveData.run {
@@ -133,6 +145,30 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         }
     }
 
+    private val networkConnectionObserver = Observer<NetworkConnectionLiveData.NetworkState> {
+        val netWorkState = it ?: return@Observer
+        val anchorView =
+            getCurrentFragment()?.getSnackBarAnchorView() ?: getViewDataBinding().cdlHome
+        when (netWorkState) {
+            is NetworkConnectionLiveData.NetworkState.Connected ->
+                Snackbar.make(
+                    getViewDataBinding().cdlHome,
+                    getString(R.string.active_connection),
+                    Snackbar.LENGTH_SHORT
+                ).setAnchorView(anchorView)
+                    .show()
+
+            is NetworkConnectionLiveData.NetworkState.ConnectionLost,
+            is NetworkConnectionLiveData.NetworkState.DisConnected ->
+                Snackbar.make(
+                    getViewDataBinding().cdlHome,
+                    getString(R.string.non_active_connection),
+                    Snackbar.LENGTH_SHORT
+                ).setAnchorView(anchorView)
+                    .show()
+        }
+    }
+
     private fun triggerInAppUpdateManager(upgradeEntity: UpgradeInfoEntity) {
         inAppUpdateManager = InAppUpdateManager.Builder(
             appCompatActivity = this@HomeActivity,
@@ -147,6 +183,12 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
         inAppUpdateManager?.checkForUpdate()
 
+    }
+
+    private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {
+        return navHostFragment
+            ?.childFragmentManager
+            ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
     }
 
     companion object {

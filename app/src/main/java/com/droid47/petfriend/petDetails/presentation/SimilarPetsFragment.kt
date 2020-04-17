@@ -52,6 +52,8 @@ class SimilarPetsFragment :
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
 
+    override fun getSnackBarAnchorView(): View = getViewDataBinding().clAlsoLike
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as HomeActivity).homeComponent.inject(this)

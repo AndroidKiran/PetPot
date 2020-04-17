@@ -230,12 +230,12 @@ fun LottieAnimationView.bindAnim(state: Boolean) {
 }
 
 @BindingAdapter("setWebViewClient")
-fun WebView.setWebViewClient(client: WebViewClient?) {
+fun WebView.setWebClient(client: WebViewClient?) {
     webViewClient = client
 }
 
 @BindingAdapter("loadUrl")
-fun WebView.loadUrl(url: String?) {
+fun WebView.loadWebUrl(url: String?) {
     setBackgroundColor(Color.parseColor("#eef0f2"))
     setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
     loadUrl(url)

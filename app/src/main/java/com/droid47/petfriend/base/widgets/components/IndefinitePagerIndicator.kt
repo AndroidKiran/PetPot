@@ -333,7 +333,7 @@ class IndefinitePagerIndicator @JvmOverloads constructor(
                 offsetPercent = view.left.toFloat() / view.measuredWidth
             }
 
-            with(recyclerView?.layoutManager as LinearLayoutManager) {
+            with(recyclerView.layoutManager as LinearLayoutManager) {
                 val visibleItemPosition =
                     if (dx >= 0) findLastVisibleItemPosition() else findFirstVisibleItemPosition()
 
