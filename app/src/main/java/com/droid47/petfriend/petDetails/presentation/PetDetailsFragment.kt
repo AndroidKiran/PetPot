@@ -83,7 +83,7 @@ class PetDetailsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        screenHeight = getScreenHeight(requireContext())
+        screenHeight = requireContext().getScreenHeight()
         backDropHeight = screenHeight - resources.getDimensionPixelOffset(R.dimen.grid_14)
     }
 

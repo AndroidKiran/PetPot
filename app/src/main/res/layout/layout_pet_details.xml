@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
 
         <variable
             name="petDetailsViewModel"
@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.breedLiveData)}" />
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.breedLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_breed"
@@ -76,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_breed_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_breed_heading"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.breedLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.breedLiveData)}"
             tools:text="Dachshund Mix" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +103,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_gender_heading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.ageLiveData)}" />
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.ageLiveData)}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_age"
@@ -119,7 +119,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_age_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_age_heading"
                 app:layout_constraintTop_toBottomOf="@id/tv_age_heading"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.ageLiveData)}"
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.ageLiveData)}"
                 tools:text="Young" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -136,7 +136,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_size_heading"
                 app:layout_constraintStart_toEndOf="@id/tv_age_heading"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.genderLiveData)}" />
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.genderLiveData)}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_gender"
@@ -150,7 +150,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_gender_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_gender_heading"
                 app:layout_constraintTop_toBottomOf="@id/tv_gender_heading"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.genderLiveData)}"
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.genderLiveData)}"
                 tools:text="Female" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -168,7 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_gender_heading"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}" />
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_size"
@@ -184,7 +184,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_size_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_size_heading"
                 app:layout_constraintTop_toBottomOf="@id/tv_size_heading"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}"
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.sizeLiveData)}"
                 tools:text="Medium" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -205,7 +205,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cls_age_gender_size"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.addressLiveData)}" />
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.addressLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_address"
@@ -221,7 +221,7 @@
             app:layout_constraintEnd_toStartOf="@id/btn_show_on_map"
             app:layout_constraintStart_toStartOf="@id/tv_address_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_address_heading"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.addressLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.addressLiveData)}"
             tools:text="New York, NY" />
 
         <com.google.android.material.button.MaterialButton
@@ -280,7 +280,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_about"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
             tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -297,7 +297,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_characteristics_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_characteristics_heading"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.characteristicsLiveData)}"
             tools:text="Cuddly, Calm, Sweet"
             tools:visibility="gone" />
 
@@ -325,7 +325,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_trained_heading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.coatLiveData)}" />
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.coatLiveData)}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_coat"
@@ -341,7 +341,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_coat_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_coat_heading"
                 app:layout_constraintTop_toBottomOf="@id/tv_coat_heading"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.coatLiveData)}"
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.coatLiveData)}"
                 tools:text="Long" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -360,7 +360,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_coat_heading"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}" />
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_trained"
@@ -376,7 +376,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_trained_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_trained_heading"
                 app:layout_constraintTop_toBottomOf="@id/tv_trained_heading"
-                app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}"
+                app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.homeTrainedLiveData)}"
                 tools:text="Yes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -397,7 +397,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/csl_coat_trained"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.healthLiveData)}" />
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.healthLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_health"
@@ -414,7 +414,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_health_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_health_heading"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.healthLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.healthLiveData)}"
             tools:text="New York, NY" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -433,7 +433,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_health"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.goodLiveData)}" />
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.goodLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_good"
@@ -449,7 +449,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_good_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_good_heading"
-            app:visible="@{StringUtilsKt.isNotEmpty(petDetailsViewModel.goodLiveData)}"
+            app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.goodLiveData)}"
             tools:text="Other dogs." />
 
         <View
@@ -461,7 +461,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_good"
-            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}" />
+            app:visible="@{StringExtKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringExtKt.isNotEmpty(petDetailsViewModel.descLiveData)}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_meet"
@@ -480,7 +480,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_two"
-            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            app:visible="@{StringExtKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringExtKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
             tools:text="AMYYU" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -498,7 +498,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_meet"
             app:layout_constraintTop_toBottomOf="@id/tv_meet"
-            app:visible="@{StringUtilsKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringUtilsKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
+            app:visible="@{StringExtKt.notHasNullStr(petDetailsViewModel.descLiveData) &amp;&amp; StringExtKt.isNotEmpty(petDetailsViewModel.descLiveData)}"
             tools:text="Vaccinations up to date, spayed / neutered." />
 
     </merge>

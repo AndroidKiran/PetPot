@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <meta-data
         android:name="com.google.firebase.messaging.default_notification_icon"
@@ -31,9 +31,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pet.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"  >
+
+        <activity
+            android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +47,8 @@
 
         <activity
             android:name="com.droid47.petfriend.home.presentation.HomeActivity"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <service

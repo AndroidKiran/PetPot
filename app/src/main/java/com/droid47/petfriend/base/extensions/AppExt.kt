@@ -8,7 +8,6 @@ import android.net.ConnectivityManager
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import java.util.*
 
-
 fun Context.isNetworkAvailable(): Boolean =
     try {
         (applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
@@ -17,7 +16,6 @@ fun Context.isNetworkAvailable(): Boolean =
         CrashlyticsExt.logHandledException(e)
         false
     }
-
 
 fun String.applyBracketFilter(): String =
     substring(1, length - 1).replace(", $", "")

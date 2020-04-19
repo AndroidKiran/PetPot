@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
 
         <variable
             name="pet"
@@ -100,7 +100,7 @@
                         android:gravity="center"
                         android:lines="1"
                         android:padding="@dimen/grid_0_5"
-                        android:text="@{StringUtilsKt.wordCapitalize(pet.name)}"
+                        android:text="@{StringExtKt.wordCapitalize(pet.name)}"
                         android:textAppearance="?attr/textAppearanceHeadline5"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
@@ -136,7 +136,7 @@
                         android:lines="1"
                         android:paddingStart="@dimen/grid_0_5"
                         android:paddingEnd="@dimen/grid_0_5"
-                        android:text="@{StringUtilsKt.wordCapitalize(pet.status)}"
+                        android:text="@{StringExtKt.wordCapitalize(pet.status)}"
                         android:textAppearance="?attr/textAppearanceSubtitle2"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"

@@ -8,8 +8,8 @@ const val LIGHT_MODE = "light"
 const val DARK_MODE = "dark"
 const val DEFAULT_MODE = "default"
 
-fun applyTheme(themePref: String) {
-    when (themePref) {
+fun String.applyTheme() {
+    when (this) {
         LIGHT_MODE -> {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }

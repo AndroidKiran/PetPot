@@ -10,7 +10,7 @@ class LauncherViewModel @Inject constructor(
     private val analytics: Analytics
 ) : BaseAndroidViewModel(application) {
 
-    fun updateCollectionStatus() {
+    fun updateFirebaseCollectionStatus() {
         analytics.setCollectionEnabledOnTncStatus()
     }
 }

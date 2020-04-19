@@ -25,7 +25,6 @@ import com.droid47.petfriend.base.bindingConfig.ContentLoadingConfiguration
 import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
-import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.paginatedRecyclerView.PaginationScrollListener
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
@@ -249,16 +248,16 @@ class SearchFragment :
     private fun fetchRandomPetList() {
         val petList = getViewModel().searchStateLiveData.value?.data ?: emptyList()
         if (petList.isEmpty()) return
-        val totalItems = petList.size - 1
         val itemList = mutableListOf<PetEntity>()
-        for (index in totalItems downTo 0) {
-            if (itemList.size >= 10) {
-                break
-            } else {
-                val petEntity = petList[Random.nextInt(0, totalItems)]
-                if (!petEntity.bookmarkStatus && petEntity.getPetPhoto().isNotEmpty()) {
-                    itemList.add(petEntity)
-                }
+        val size = if (petList.size <= 10) {
+            petList.size
+        } else {
+            10
+        }
+        while (itemList.size <= size) {
+            val petEntity = petList[Random.nextInt(0, petList.size)]
+            if (!itemList.contains(petEntity)) {
+                itemList.add(petEntity)
             }
         }
         getParentViewModel().similarPetList.postValue(itemList.distinctBy { petEntity -> petEntity.id }

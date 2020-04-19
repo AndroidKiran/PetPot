@@ -22,5 +22,6 @@
     <dimen name="small_card_height">70dp</dimen>
     <dimen name="btn_min_size">90dp</dimen>
     <dimen name="back_drop_image_height">100dp</dimen>
+    <dimen name="notification_pic_height">200dp</dimen>
 
 </resources>

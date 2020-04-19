@@ -3,6 +3,7 @@ package com.droid47.petfriend.search.data.datasource
 import androidx.room.*
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface PetDao {
@@ -18,6 +19,9 @@ interface PetDao {
 
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
     fun getBookmarkPetList(): Flowable<List<PetEntity>>
+
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
+    fun getBookmarkPetListSingle(): Single<List<PetEntity>>
 
     @Delete
     fun deletePet(petEntity: PetEntity)

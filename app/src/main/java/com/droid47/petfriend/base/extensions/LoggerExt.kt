@@ -4,14 +4,12 @@ import android.util.Log
 import com.droid47.petfriend.BuildConfig
 import org.jetbrains.annotations.NonNls
 
-object LoggerExt {
+// Override this for testing.
+private const val DEVELOPER_MODE = false
 
-    // Override this for testing.
-    private const val DEVELOPER_MODE = false
-
-    fun isDeveloperMode(): Boolean {
-        return DEVELOPER_MODE || BuildConfig.DEBUG
-    }
+fun isDeveloperMode(): Boolean {
+    return DEVELOPER_MODE || BuildConfig.DEBUG
+}
 
 //    private fun isDebugApp(): Boolean {
 //        return try {
@@ -25,33 +23,32 @@ object LoggerExt {
 //        }
 //    }
 
-    fun e(tag: String, msg: String, tr: Throwable) {
-        if (isDeveloperMode()) {
-            Log.e(tag, msg, tr)
-        }
+fun e(tag: String, msg: String, tr: Throwable) {
+    if (isDeveloperMode()) {
+        Log.e(tag, msg, tr)
     }
+}
 
-    fun e(@NonNls tag: String, @NonNls msg: String) {
-        if (isDeveloperMode()) {
-            Log.e(tag, msg)
-        }
+fun e(@NonNls tag: String, @NonNls msg: String) {
+    if (isDeveloperMode()) {
+        Log.e(tag, msg)
     }
+}
 
-    fun w(tag: String, msg: String) {
-        if (isDeveloperMode()) {
-            Log.w(tag, msg)
-        }
+fun w(tag: String, msg: String) {
+    if (isDeveloperMode()) {
+        Log.w(tag, msg)
     }
+}
 
-    fun d(@NonNls tag: String, @NonNls message: String) {
-        if (isDeveloperMode()) {
-            Log.d(tag, message)
-        }
+fun d(@NonNls tag: String, @NonNls message: String) {
+    if (isDeveloperMode()) {
+        Log.d(tag, message)
     }
+}
 
-    fun d(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
-        if (isDeveloperMode()) {
-            Log.d(tag, msg, tr)
-        }
+fun d(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
+    if (isDeveloperMode()) {
+        Log.d(tag, msg, tr)
     }
 }

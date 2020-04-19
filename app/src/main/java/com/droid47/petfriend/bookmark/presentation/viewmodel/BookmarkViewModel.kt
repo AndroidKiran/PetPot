@@ -5,6 +5,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petfriend.base.extensions.applyIOSchedulers
+import com.droid47.petfriend.base.extensions.clearDisposable
+import com.droid47.petfriend.base.extensions.disposeDisposable
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
@@ -44,6 +46,11 @@ class BookmarkViewModel @Inject constructor(
 
     init {
         listenToBookmarkItems()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.disposeDisposable()
     }
 
     private fun listenToBookmarkItems() {

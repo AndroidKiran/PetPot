@@ -6,8 +6,10 @@ import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.launcher.domain.interactors.RefreshAuthTokenAndPetTypeUseCase
+import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
 import com.droid47.petfriend.search.data.models.type.PetTypeEntity
+import com.droid47.petfriend.workmanagers.SyncPetTypeWorker
+import com.droid47.petfriend.workmanagers.TriggerLocalNotificationWorker
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -16,7 +18,7 @@ private const val ONE_TIME_AUTH_TOKEN_REQUEST = 101
 
 class SplashViewModel @Inject constructor(
     application: Application,
-    private val refreshAuthTokenAndPetTypeUseCase: RefreshAuthTokenAndPetTypeUseCase,
+    private val syncPetTypeUseCase: SyncPetTypeUseCase,
     val localPreferencesRepository: LocalPreferencesRepository
 ) : BaseAndroidViewModel(application) {
 
@@ -28,12 +30,13 @@ class SplashViewModel @Inject constructor(
 
     init {
         startOneTimeAuthRequest()
-//        SyncAnimalTypesJob(WorkManager.getInstance(application)).enqueueRequest()
+//        SyncPetTypeWorker.enqueuePeriodicRequest(application)
+        TriggerLocalNotificationWorker.enqueuePeriodicRequest(application)
     }
 
     @SuppressLint("CheckResult")
     fun startOneTimeAuthRequest() {
-        refreshAuthTokenAndPetTypeUseCase.execute(observer = object :
+        syncPetTypeUseCase.execute(true, observer = object :
             SingleObserver<BaseStateModel<List<PetTypeEntity>>> {
             override fun onSuccess(baseStateModel: BaseStateModel<List<PetTypeEntity>>) {
                 _resultEvent.postValue(baseStateModel)

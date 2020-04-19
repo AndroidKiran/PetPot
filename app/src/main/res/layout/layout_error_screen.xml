@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
 
         <variable
             name="errorViewConfig"
@@ -53,7 +53,7 @@
             android:text="@{errorViewConfig.errorScreenText}"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
-            app:visible="@{StringUtilsKt.isNotEmpty(errorViewConfig.errorScreenText)}"
+            app:visible="@{StringExtKt.isNotEmpty(errorViewConfig.errorScreenText)}"
             tools:text="Curating the best Yoga plan for you" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:text="@{errorViewConfig.errorScreenTextSubTitle}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="?attr/colorOnSurface"
-            app:visible="@{StringUtilsKt.isNotEmpty(errorViewConfig.errorScreenTextSubTitle)}"
+            app:visible="@{StringExtKt.isNotEmpty(errorViewConfig.errorScreenTextSubTitle)}"
             tools:text="Check this space in a while." />
 
         <com.google.android.material.button.MaterialButton
@@ -85,7 +85,7 @@
             android:onClick="@{errorViewConfig.errorRetryClickListener}"
             android:text="@{errorViewConfig.errorBtnText}"
             android:textColor="?attr/colorOnSecondary"
-            app:visible="@{StringUtilsKt.isNotEmpty(errorViewConfig.errorBtnText)}"
+            app:visible="@{StringExtKt.isNotEmpty(errorViewConfig.errorBtnText)}"
             tools:text="Post QUestion" />
 
     </com.google.android.material.circularreveal.CircularRevealLinearLayout>

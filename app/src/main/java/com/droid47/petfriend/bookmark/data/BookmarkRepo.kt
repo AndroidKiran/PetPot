@@ -5,6 +5,7 @@ import com.droid47.petfriend.search.data.datasource.PetDao
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class BookmarkRepo @Inject constructor(private val petDao: PetDao) : BookmarkRepository {
@@ -35,5 +36,8 @@ class BookmarkRepo @Inject constructor(private val petDao: PetDao) : BookmarkRep
 
     override fun listenToUpdateFor(id: Int): Flowable<List<PetEntity>> =
         petDao.listenToUpdateFor(id)
+
+    override fun fetchBookmarkListSingle(): Single<List<PetEntity>> =
+        petDao.getBookmarkPetListSingle()
 
 }

@@ -1,6 +1,6 @@
 package com.droid47.petfriend.base.firebase
 
-import com.droid47.petfriend.base.extensions.LoggerExt
+import com.droid47.petfriend.base.extensions.isDeveloperMode
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 object CrashlyticsExt {
@@ -8,7 +8,7 @@ object CrashlyticsExt {
     private fun getCrashlytics() = FirebaseCrashlytics.getInstance()
 
     fun logHandledException(e: Throwable) {
-        if (!LoggerExt.isDeveloperMode()) {
+        if (!isDeveloperMode()) {
             try {
                 getCrashlytics()
                     .recordException(e)
@@ -20,7 +20,7 @@ object CrashlyticsExt {
     }
 
     fun handleException(e: Throwable) {
-        if (LoggerExt.isDeveloperMode()) {
+        if (isDeveloperMode()) {
             e.printStackTrace()
         } else {
             logHandledException(

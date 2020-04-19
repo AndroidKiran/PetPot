@@ -24,6 +24,7 @@ import com.droid47.petfriend.home.presentation.di.HomeSubComponent
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_NAVIGATE_BACK
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
+import com.droid47.petfriend.workmanagers.HelloWorldWorker
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.model.AppUpdateType
@@ -32,7 +33,6 @@ import javax.inject.Inject
 
 class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     NavController.OnDestinationChangedListener, NavigationHost {
-
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -68,6 +68,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         super.onCreate(savedInstanceState)
         setUpViews()
         subscribeToLiveData()
+        HelloWorldWorker.start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

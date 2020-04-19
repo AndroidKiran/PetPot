@@ -5,7 +5,7 @@ import com.droid47.petfriend.launcher.presentation.ui.*
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = [AbstractLauncherModule::class, AbstractSplashModule::class, AbstractBoardingModule::class, AbstractTncModule::class])
+@Subcomponent(modules = [ViewModelBindingModule::class])
 interface LauncherSubComponent {
 
     @Subcomponent.Factory

@@ -17,7 +17,7 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.databinding.FragmentSplashBinding
 import com.droid47.petfriend.home.presentation.HomeActivity
-import com.droid47.petfriend.launcher.domain.interactors.RefreshAuthTokenAndPetTypeUseCase
+import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toIntro
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toTnc
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
@@ -106,7 +106,7 @@ class SplashFragment :
     }
 
     private val resultObserver = Observer<BaseStateModel<List<PetTypeEntity>>> {
-        if (it is Failure && RefreshAuthTokenAndPetTypeUseCase.PLAY_SERVICE_ERROR == it.error.message) {
+        if (it is Failure && SyncPetTypeUseCase.PLAY_SERVICE_ERROR == it.error.message) {
             showPlayServiceErrorDialog()
         }
     }

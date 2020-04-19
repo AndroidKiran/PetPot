@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringUtilsKt" />
+        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
 
         <variable
             name="petSpinnerViewModelAndLocation"
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> petSpinnerViewModelAndLocation.onMiniFabClick()}"
-                    android:src="@{StringUtilsKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
+                    android:src="@{StringExtKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
                     app:elevation="@dimen/plane_08"
                     app:fabCustomSize="@dimen/grid_4"
                     app:fabSize="mini"

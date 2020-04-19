@@ -48,7 +48,7 @@ class SettingFragment : PreferenceFragmentCompat(),
         findPreference<Preference>(getString(R.string.key_current_theme))?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
                 val themeOption = newValue as String
-                applyTheme(themeOption)
+                themeOption.applyTheme()
                 true
             }
     }

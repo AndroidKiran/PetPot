@@ -27,7 +27,7 @@ class PetAdapter @Inject constructor(
     private val type: String = SEARCH,
     private val onItemClickListener: OnItemClickListener
 ) : ListAdapter<PetEntity, BaseViewHolder>(SearchDiff) {
-    private val screenWidth = getScreenWidth(context)
+    private val screenWidth = context.getScreenWidth()
     private val diffWidth = context.resources.getDimensionPixelSize(R.dimen.grid_12)
     private val imgWidth = context.resources.getDimensionPixelSize(R.dimen.small_card_height)
 

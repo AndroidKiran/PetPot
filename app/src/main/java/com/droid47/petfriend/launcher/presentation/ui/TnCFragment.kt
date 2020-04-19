@@ -82,7 +82,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
 
     private fun navigateToHome() {
         getViewModel().updateTnCStatus()
-        getParentViewModel().updateCollectionStatus()
+        getParentViewModel().updateFirebaseCollectionStatus()
         HomeActivity.startActivity(requireActivity())
         requireActivity().finish()
     }

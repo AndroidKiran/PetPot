@@ -115,5 +115,8 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="to_settings">To Settings</string>
     <string name="non_active_connection">Offline, No active internet connection</string>
     <string name="active_connection">Online, Has active internet connection</string>
-
+    <string name="notification_favourite_content_title">Hi, Its %1$s here</string>
+    <string name="notification_favourite_content_text">Please make me your friend</string>
+    <string name="notification_content_title">Planning to adopt a Pet?</string>
+    <string name="notification_content_text">Search and find right friend for you</string>
 </resources>

@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherViewModel>() {
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var launcherComponent: LauncherSubComponent
@@ -49,7 +48,7 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
 
     override fun onStart() {
         super.onStart()
-        getViewModel().updateCollectionStatus()
+        getViewModel().updateFirebaseCollectionStatus()
     }
 
     private fun setUpViews() {
