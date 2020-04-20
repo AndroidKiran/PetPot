@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+
 @Module
 object StorageModule {
 
@@ -20,7 +21,6 @@ object StorageModule {
         Room.databaseBuilder(application, PetDb::class.java, "petDB.db")
             .fallbackToDestructiveMigration()
             .build()
-
 
     @Provides
     @JvmStatic

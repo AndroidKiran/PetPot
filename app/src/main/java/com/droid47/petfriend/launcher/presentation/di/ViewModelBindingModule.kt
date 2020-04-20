@@ -31,5 +31,5 @@ interface ViewModelBindingModule {
     @Binds
     @IntoMap
     @ViewModelKey(TnCViewModel::class)
-    abstract fun bindTnCViewModel(tnCViewModel: TnCViewModel): ViewModel
+    fun bindTnCViewModel(tnCViewModel: TnCViewModel): ViewModel
 }

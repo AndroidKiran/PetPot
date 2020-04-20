@@ -2,6 +2,7 @@ package com.droid47.petfriend.home.presentation.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.droid47.petfriend.base.firebase.Analytics
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel

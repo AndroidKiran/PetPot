@@ -22,5 +22,6 @@ interface AbstractLauncherModule {
     fun bindPetTypeRepository(petTypeRepo: PetTypeRepo): PetTypeRepository
 
     @Binds
+    @Reusable
     fun bindBookmarkRepository(bookmarkRepo: BookmarkRepo): BookmarkRepository
 }
