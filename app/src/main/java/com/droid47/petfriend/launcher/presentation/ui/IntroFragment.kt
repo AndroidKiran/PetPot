@@ -44,8 +44,7 @@ class IntroFragment :
 
     override fun getParentViewModel(): LauncherViewModel = launcherViewModel
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as LauncherActivity).launcherComponent.inject(this)
     }
 

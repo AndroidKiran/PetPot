@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.droid47.petfriend.R
@@ -18,13 +19,15 @@ import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager.Companion.IN_APP_UPDATE_REQUEST_CODE
+import com.droid47.petfriend.bookmark.presentation.BookmarkFragmentDirections
 import com.droid47.petfriend.databinding.ActivityHomeBinding
-import com.droid47.petfriend.home.data.UpgradeInfoEntity
+import com.droid47.petfriend.home.data.AppUpgradeEntity
 import com.droid47.petfriend.home.presentation.di.HomeSubComponent
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_NAVIGATE_BACK
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
-import com.droid47.petfriend.workmanagers.HelloWorldWorker
+import com.droid47.petfriend.search.data.models.search.PetEntity
+import com.droid47.petfriend.workmanagers.notification.NotificationModel
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.install.model.AppUpdateType
@@ -42,6 +45,8 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     private lateinit var navController: NavController
     private var inAppUpdateManager: InAppUpdateManager? = null
     private var navHostFragment: NavHostFragment? = null
+    private val arg by navArgs<HomeActivityArgs>()
+    private val deepLinkBundle: Bundle by lazy(LazyThreadSafetyMode.NONE) { arg.deepLinkBundle }
 
     private val bottomNavDrawer: BottomNavDrawerFragment by lazy(LazyThreadSafetyMode.NONE) {
         supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
@@ -62,13 +67,17 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         }
     }
 
+    override fun injectComponent() {
+        homeComponent = (application as PetApplication).appComponent.homeComponent().create().also {
+            it.inject(this@HomeActivity)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        homeComponent = (application as PetApplication).appComponent.homeComponent().create()
-        homeComponent.inject(this@HomeActivity)
         super.onCreate(savedInstanceState)
         setUpViews()
         subscribeToLiveData()
-        HelloWorldWorker.start()
+        navigateTo(deepLinkBundle)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,7 +98,6 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     ) {
         currentNavId = destination.id
     }
-
 
     private fun setUpViews() {
         navHostFragment =
@@ -127,7 +135,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         }
     }
 
-    private val appUpgradeObserver = Observer<BaseStateModel<UpgradeInfoEntity>> {
+    private val appUpgradeObserver = Observer<BaseStateModel<AppUpgradeEntity>> {
         val statusModel = it ?: return@Observer
         when (statusModel) {
             is Success -> {
@@ -170,7 +178,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         }
     }
 
-    private fun triggerInAppUpdateManager(upgradeEntity: UpgradeInfoEntity) {
+    private fun triggerInAppUpdateManager(upgradeEntity: AppUpgradeEntity) {
         inAppUpdateManager = InAppUpdateManager.Builder(
             appCompatActivity = this@HomeActivity,
             resumeUpdates = true,
@@ -181,7 +189,6 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
                     .setSnackBarAction(getString(R.string.restart).toUpperCase(Locale.US))
             }
         }.build()
-
         inAppUpdateManager?.checkForUpdate()
 
     }
@@ -192,8 +199,39 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
             ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
     }
 
+    private fun navigateTo(bundle: Bundle) {
+        when (bundle.getInt(
+            NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID,
+            R.id.navigation_search
+        )) {
+            R.id.navigation_search -> {
+                if (navController.currentDestination?.id != R.id.navigation_search) {
+                    navController.navigate(R.id.navigation_search)
+                }
+            }
+            R.id.navigation_pet_details -> {
+                val petEntity: PetEntity =
+                    bundle.getParcelable(NotificationModel.EXTRA_PET_ENTITY) ?: return
+
+                if (navController.currentDestination?.id != R.id.navigation_favorite) {
+                    navController.navigate(R.id.navigation_favorite)
+                    navigateToPetDetails(petEntity)
+                } else {
+                    navigateToPetDetails(petEntity)
+                }
+            }
+        }
+    }
+
+    private fun navigateToPetDetails(petEntity: PetEntity) {
+        if (navController.currentDestination?.id != R.id.navigation_pet_details) {
+            navController.navigate(BookmarkFragmentDirections.toPetDetails(petEntity))
+        }
+    }
+
     companion object {
         private const val NAV_ID_NONE = -1
+        val TAG = HomeActivity::class.java.simpleName
 
         @JvmStatic
         fun getIntent(activity: Activity) = Intent(activity, HomeActivity::class.java)

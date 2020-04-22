@@ -28,6 +28,7 @@ class PetNotificationManager constructor(private val context: Context) {
         if (notificationChannel != null && BuildVersionUtil.isOreoOrHigher) {
             notificationManager.createNotificationChannel(notificationChannel)
         }
+        notificationManager.cancelAll()
         notificationManager.notify(
             Random.nextInt(1, 100),
             buildNotification(notificationModel)

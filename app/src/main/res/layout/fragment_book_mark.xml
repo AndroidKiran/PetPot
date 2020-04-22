@@ -144,7 +144,6 @@
             android:elevation="@dimen/plane_06"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
-            app:layout_behavior=".base.widgets.anim.ScrollAwareFABBehavior"
             app:srcCompat="@drawable/vc_delete_sweep"
             tools:visibility="visible" />
 

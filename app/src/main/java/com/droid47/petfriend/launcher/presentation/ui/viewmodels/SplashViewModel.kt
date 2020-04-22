@@ -30,8 +30,6 @@ class SplashViewModel @Inject constructor(
 
     init {
         startOneTimeAuthRequest()
-//        SyncPetTypeWorker.enqueuePeriodicRequest(application)
-        TriggerLocalNotificationWorker.enqueuePeriodicRequest(application)
     }
 
     @SuppressLint("CheckResult")
@@ -57,6 +55,8 @@ class SplashViewModel @Inject constructor(
 
         })
     }
+
+    fun getTncStatus() = localPreferencesRepository.getTnCState()
 
     private fun executeNavigationFlow(): String = when {
         !localPreferencesRepository.getOnBoardingState() -> TO_INTRO

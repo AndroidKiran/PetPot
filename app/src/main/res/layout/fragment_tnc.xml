@@ -5,15 +5,21 @@
 
     <data>
 
+        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Success" />
+
+        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Loading" />
+
+        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Failure" />
+
         <variable
             name="tncViewModel"
             type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <WebView
             android:id="@+id/web_view"
@@ -33,7 +39,7 @@
             android:elevation="24dp"
             android:theme="@style/Widget.PetGoogle.ContentProgress"
             android:visibility="visible"
-            app:visible="@{tncViewModel.webViewModel.showProgress}" />
+            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/tnc_fab"
@@ -46,7 +52,8 @@
             app:icon="@drawable/vc_edit"
             app:layout_anchor="@id/web_view"
             app:layout_anchorGravity="center|bottom"
-            app:marginBottomSystemWindowInsets="@{true}" />
+            app:marginBottomSystemWindowInsets="@{true}"
+            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Success}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

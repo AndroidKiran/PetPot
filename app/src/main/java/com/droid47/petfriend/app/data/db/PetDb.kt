@@ -1,4 +1,4 @@
-package com.droid47.petfriend.app.db
+package com.droid47.petfriend.app.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

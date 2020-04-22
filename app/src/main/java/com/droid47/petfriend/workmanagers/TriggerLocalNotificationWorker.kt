@@ -77,7 +77,10 @@ class TriggerLocalNotificationWorker @Inject constructor(
             channelId = CHANNEL_ID,
             contentTitle = application.getString(R.string.notification_content_title),
             contentText = application.getString(R.string.notification_content_text),
-            notificationStyle = BigTextStyle
+            notificationStyle = BigTextStyle,
+            navigationArgs = Bundle().apply {
+                putInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
+            }
         )
 
     private fun toNotificationModel(petEntity: PetEntity): NotificationModel =
@@ -87,11 +90,11 @@ class TriggerLocalNotificationWorker @Inject constructor(
                 application.getString(R.string.notification_favourite_content_title),
                 petEntity.name ?: ""
             ),
-            contentText= application.getString(R.string.notification_favourite_content_text),
+            contentText = application.getString(R.string.notification_favourite_content_text),
             contentUrl = petEntity.getPetPhoto(),
-            navigationFragmentId = R.id.navigation_pet_details,
             navigationArgs = Bundle().apply {
-                putParcelable("petEntity", petEntity)
+                putInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_pet_details)
+                putParcelable(NotificationModel.EXTRA_PET_ENTITY, petEntity)
             }
         )
 
@@ -127,5 +130,4 @@ class TriggerLocalNotificationWorker @Inject constructor(
             )
         }
     }
-
 }

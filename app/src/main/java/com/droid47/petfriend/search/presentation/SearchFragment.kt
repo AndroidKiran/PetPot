@@ -1,7 +1,6 @@
 package com.droid47.petfriend.search.presentation
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -48,6 +47,7 @@ import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SEARCH
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -101,8 +101,7 @@ class SearchFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_search
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as HomeActivity).homeComponent.inject(this)
     }
 
@@ -122,9 +121,6 @@ class SearchFragment :
         }
         setUpView()
         setupSearchRvAdapter()
-//        toggleMenuVisibility(
-//            getViewDataBinding().topSearchBar.tvLocation.text.toString().isNotEmpty()
-//        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -347,7 +343,7 @@ class SearchFragment :
     private val locationObserver = Observer<String> { locationStr ->
         val location = locationStr ?: return@Observer
         val appliedLocation = getViewModel().filterItemLiveData.value?.data?.location ?: ""
-        if (location != appliedLocation) {
+        if (location.toLowerCase(Locale.US) != appliedLocation.toLowerCase(Locale.US)) {
             getViewModel().updateLocation(location)
         }
     }

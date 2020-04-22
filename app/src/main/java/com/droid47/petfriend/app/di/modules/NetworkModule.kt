@@ -2,10 +2,11 @@ package com.droid47.petfriend.app.di.modules
 
 import android.app.Application
 import com.droid47.petfriend.BuildConfig
-import com.droid47.petfriend.app.NetworkHeadersInterceptor
-import com.droid47.petfriend.app.TokenAuthenticator
+import com.droid47.petfriend.app.data.network.NetworkHeadersInterceptor
+import com.droid47.petfriend.app.data.network.TokenAuthenticator
 import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
-import com.droid47.petfriend.launcher.data.datasources.TokenNetworkSource
+import com.droid47.petfriend.app.data.network.TokenNetworkSource
+import com.droid47.petfriend.search.data.datasource.SearchNetworkSource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Lazy
@@ -23,7 +24,7 @@ import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module(includes = [NetworkApiModule::class])
+@Module
 object NetworkModule {
 
     @Provides
@@ -52,7 +53,10 @@ object NetworkModule {
         localPreferencesRepository: LocalPreferencesRepository,
         gson: Gson
     ): NetworkHeadersInterceptor =
-        NetworkHeadersInterceptor(localPreferencesRepository, gson)
+        NetworkHeadersInterceptor(
+            localPreferencesRepository,
+            gson
+        )
 
     @Provides
     @JvmStatic
@@ -62,7 +66,11 @@ object NetworkModule {
         gson: Gson,
         tokenNetworkSource: Lazy<TokenNetworkSource>
     ): TokenAuthenticator =
-        TokenAuthenticator(localPreferencesRepository, gson, tokenNetworkSource)
+        TokenAuthenticator(
+            localPreferencesRepository,
+            gson,
+            tokenNetworkSource
+        )
 
     @Provides
     @JvmStatic
@@ -115,4 +123,16 @@ object NetworkModule {
         .addCallAdapterFactory(callAdapterFactor)
         .client(okHttpClient)
         .build()
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideAuthTokenApi(retrofit: Retrofit): TokenNetworkSource =
+        retrofit.create(TokenNetworkSource::class.java)
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideAnimalTypeApi(retrofit: Retrofit): SearchNetworkSource =
+        retrofit.create(SearchNetworkSource::class.java)
 }

@@ -13,10 +13,6 @@ import javax.inject.Singleton
 @Module(includes = [NetworkModule::class, StorageModule::class])
 interface AppModule {
 
-//    @Binds
-//    @Singleton
-//    fun bindApplication(bind: PetApplication): Application
-
     @Binds
     @Singleton
     fun bindThreadExecutor(jobExecutor: JobExecutor): ThreadExecutor

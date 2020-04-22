@@ -9,12 +9,18 @@
         android:id="@+id/navigation_splash"
         android:name="com.droid47.petfriend.launcher.presentation.ui.SplashFragment"
         tools:layout="@layout/fragment_splash">
+
         <action
             android:id="@+id/to_intro"
             app:destination="@id/navigation_home_board" />
+
         <action
             android:id="@+id/to_tnc"
             app:destination="@id/navigation_tnc" />
+
+        <action
+            android:id="@+id/to_home"
+            app:destination="@id/navigation_home" />
 
     </fragment>
 
@@ -31,6 +37,23 @@
     <fragment
         android:id="@+id/navigation_tnc"
         android:name="com.droid47.petfriend.launcher.presentation.ui.TnCFragment"
-        tools:layout="@layout/fragment_tnc" />
+        tools:layout="@layout/fragment_tnc" >
+
+        <action
+            android:id="@+id/to_home"
+            app:destination="@id/navigation_home" />
+
+    </fragment>
+
+    <activity
+        android:id="@+id/navigation_home"
+        android:name="com.droid47.petfriend.home.presentation.HomeActivity"
+        tools:layout="@layout/activity_home">
+
+        <argument
+            android:name="deepLinkBundle"
+            app:argType="android.os.Bundle" />
+
+    </activity>
 
 </navigation>

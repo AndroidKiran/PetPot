@@ -1,6 +1,5 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -56,8 +55,7 @@ class HomeBoardFragment :
 
     override fun getParentViewModel(): LauncherViewModel = launchViewModel
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as LauncherActivity).launcherComponent.inject(this)
     }
 

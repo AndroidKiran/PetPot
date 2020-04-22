@@ -1,7 +1,7 @@
-package com.droid47.petfriend.app
+package com.droid47.petfriend.app.data.network
 
 import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
-import com.droid47.petfriend.launcher.data.datasources.TokenNetworkSource
+import com.droid47.petfriend.app.data.network.TokenNetworkSource
 import com.droid47.petfriend.launcher.data.entities.ClientCredentialModel
 import com.droid47.petfriend.launcher.data.entities.TokenModel
 import com.google.gson.Gson

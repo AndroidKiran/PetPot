@@ -2,11 +2,6 @@
 
     <style name="Theme.Pet.DayNight" parent="Base.Pet" />
 
-    <!--    <style name="ThemeOverlay.Pet.Details" parent="Theme.Pet">-->
-    <!--        <item name="android:colorBackground">@color/colorPrimary</item>-->
-    <!--        <item name="android:statusBarColor">@color/immersive_sys_ui</item>-->colorOppTheme
-    <!--    </style>-->
-
     <style name="Base.Pet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!--Color-->
@@ -70,6 +65,7 @@
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
 
         <item name="preferenceTheme">@style/AppPreferenceTheme</item>
+<!--        <item name="android:windowContentTransitions">true</item>-->
     </style>
 
 </resources>

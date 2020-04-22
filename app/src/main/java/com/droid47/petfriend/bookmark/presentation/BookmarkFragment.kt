@@ -55,7 +55,11 @@ class BookmarkFragment :
 
     override fun getParentViewModel(): HomeViewModel = homeViewModel
 
-    override fun getFragmentNavId(): Int = R.id.navigation_bookmark_pet
+    override fun getFragmentNavId(): Int = R.id.navigation_favorite
+
+    override fun injectSubComponent() {
+        (activity as HomeActivity).homeComponent.inject(this@BookmarkFragment)
+    }
 
     override fun executePendingVariablesBinding() {
         getViewDataBinding().also {
@@ -72,18 +76,13 @@ class BookmarkFragment :
         else
             getViewDataBinding().fab
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as HomeActivity).homeComponent.inject(this@BookmarkFragment)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         postponeEnterTransition()
-        return super.onCreateView(inflater, container, savedInstanceState)
+         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,8 +1,10 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.os.Bundle
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.NavHostFragment
 import com.droid47.petfriend.R
 import com.droid47.petfriend.app.PetApplication
@@ -38,10 +40,14 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun injectComponent() {
         launcherComponent =
-            (application as PetApplication).appComponent.launcherComponent().create()
-        launcherComponent.inject(this)
+            (application as PetApplication).appComponent.launcherComponent().create().also {
+                it.inject(this@LauncherActivity)
+            }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpViews()
     }
@@ -49,6 +55,11 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     override fun onStart() {
         super.onStart()
         getViewModel().updateFirebaseCollectionStatus()
+    }
+
+    override fun finish() {
+        super.finish()
+        ActivityNavigator.applyPopAnimationsToPendingTransition(this)
     }
 
     private fun setUpViews() {

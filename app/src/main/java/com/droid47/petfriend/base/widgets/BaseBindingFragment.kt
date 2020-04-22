@@ -30,13 +30,12 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     @LayoutRes
     abstract fun getLayoutId(): Int
-
     abstract fun getFragmentNavId(): Int
-
     abstract fun executePendingVariablesBinding()
     abstract fun getViewModel(): V
     abstract fun getParentViewModel(): PV
     abstract fun getSnackBarAnchorView(): View
+    abstract fun injectSubComponent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +47,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        injectSubComponent()
         navigationHost = context as? NavigationHost?
     }
 

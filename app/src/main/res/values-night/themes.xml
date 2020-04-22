@@ -32,6 +32,7 @@
         <!--System/Platform attributes-->
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <item name="preferenceTheme">@style/AppPreferenceTheme</item>
+<!--        <item name="android:windowContentTransitions">true</item>-->
     </style>
 
 </resources>

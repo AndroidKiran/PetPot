@@ -9,7 +9,7 @@
             android:title="@string/search" />
 
         <item
-            android:id="@+id/navigation_bookmark_pet"
+            android:id="@+id/navigation_favorite"
             android:icon="@drawable/vc_favorite"
             android:title="@string/favourite" />
 

@@ -1,4 +1,4 @@
-package com.droid47.petfriend.app
+package com.droid47.petfriend.app.data.network
 
 import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petfriend.base.firebase.CrashlyticsExt

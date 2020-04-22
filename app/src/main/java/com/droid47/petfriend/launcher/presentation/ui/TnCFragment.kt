@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentTncBinding
-import com.droid47.petfriend.home.presentation.HomeActivity
+import com.droid47.petfriend.launcher.presentation.ui.TnCFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel
 import javax.inject.Inject
@@ -46,8 +47,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as LauncherActivity).launcherComponent.inject(this)
     }
 
@@ -83,7 +83,9 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
     private fun navigateToHome() {
         getViewModel().updateTnCStatus()
         getParentViewModel().updateFirebaseCollectionStatus()
-        HomeActivity.startActivity(requireActivity())
+        findNavController().navigate(toHome(Bundle().apply {
+            putInt("navigationFragmentId", R.id.navigation_search)
+        }))
         requireActivity().finish()
     }
 

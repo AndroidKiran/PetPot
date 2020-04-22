@@ -1,7 +1,10 @@
 package com.droid47.petfriend.workmanagers.di
 
 import android.content.Context
-import androidx.work.*
+import androidx.work.ListenableWorker
+import androidx.work.RxWorker
+import androidx.work.WorkerFactory
+import androidx.work.WorkerParameters
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -36,7 +39,6 @@ class DaggerWorkerFactory @Inject constructor(private val workManagerSubComponen
         if (provider == null) {
             throw IllegalArgumentException("Missing binding for $workerClassName")
         }
-
         provider.get()
     } catch (e: Exception) {
         throw RuntimeException(e)

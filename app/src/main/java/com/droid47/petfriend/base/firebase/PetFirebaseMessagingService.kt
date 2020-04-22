@@ -12,9 +12,7 @@ class PetFirebaseMessagingService : FirebaseMessagingService() {
     lateinit var preferencesRepository: LocalPreferencesRepository
 
     override fun onCreate() {
-        val appServiceComponent =
-            (application as PetApplication).appComponent.appServiceComponent().create()
-        appServiceComponent.inject(this)
+        injectComponent()
         super.onCreate()
     }
 
@@ -25,5 +23,11 @@ class PetFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         preferencesRepository.saveFcmToken(token)
+    }
+
+    private fun injectComponent() {
+        val appServiceComponent =
+            (application as PetApplication).appComponent.appServiceComponent().create()
+        appServiceComponent.inject(this)
     }
 }

@@ -35,7 +35,7 @@
         <activity
             android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
         <activity
             android:name="com.droid47.petfriend.home.presentation.HomeActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <service

@@ -1,5 +1,6 @@
 package com.droid47.petfriend.base.widgets.bindingadapters
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -35,13 +36,14 @@ object SpinnerBindingAdapter {
     ) {
         appCompatSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
+                parent: AdapterView<*>?,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
-                val selectedItem = parent.selectedItem as String
-                if (!newSelectedValue.equals(selectedItem, true)) {
+                val selectedItem = parent?.selectedItem as? String ?: return
+                if (!TextUtils.isEmpty(selectedItem)
+                    && !newSelectedValue.equals(selectedItem, true)) {
                     newTextAttrChanged.onChange()
                     appCompatSpinner.onPetSelected(selectedItem)
                 }

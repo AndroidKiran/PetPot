@@ -1,4 +1,4 @@
-package com.droid47.petfriend.app.di
+package com.droid47.petfriend.app.domain
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -30,7 +30,6 @@ import com.droid47.petfriend.search.data.models.search.PhotosItemEntity
 import com.google.android.material.appbar.AppBarLayout
 import javax.inject.Inject
 
-
 class PetDetailsFragment :
     BaseBindingFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
 
@@ -76,8 +75,7 @@ class PetDetailsFragment :
 
     override fun getFragmentNavId(): Int = R.id.navigation_pet_details
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as HomeActivity).homeComponent.inject(this)
     }
 

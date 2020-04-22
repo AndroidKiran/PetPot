@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
@@ -16,8 +17,9 @@ import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.databinding.FragmentSplashBinding
-import com.droid47.petfriend.home.presentation.HomeActivity
+import com.droid47.petfriend.home.presentation.viewmodels.NavigationViewModel
 import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
+import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toIntro
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toTnc
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
@@ -26,6 +28,7 @@ import com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_INTRO
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_TNC
 import com.droid47.petfriend.search.data.models.type.PetTypeEntity
+import com.droid47.petfriend.workmanagers.notification.NotificationModel
 import com.google.android.gms.common.GoogleApiAvailability
 import javax.inject.Inject
 
@@ -65,8 +68,7 @@ class SplashFragment :
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as LauncherActivity).launcherComponent.inject(this)
     }
 
@@ -140,7 +142,14 @@ class SplashFragment :
     }
 
     private fun navigateToHome() {
-        HomeActivity.startActivity(requireActivity())
-        requireActivity().finish()
+        val tncStatus = getViewModel().getTncStatus()
+        if (tncStatus) {
+            findNavController().navigate(toHome(arguments ?: Bundle().apply {
+                putInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
+            }))
+            requireActivity().finish()
+        } else {
+            navigateToTnc()
+        }
     }
 }

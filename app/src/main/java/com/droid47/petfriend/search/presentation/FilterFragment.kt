@@ -1,6 +1,5 @@
 package com.droid47.petfriend.search.presentation
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.MenuItem
@@ -35,7 +34,6 @@ import javax.inject.Inject
 
 class FilterFragment :
     BaseBindingFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
-
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -104,8 +102,7 @@ class FilterFragment :
 
     override fun getParentViewModel(): SearchViewModel = searchViewModel
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectSubComponent() {
         (activity as HomeActivity).homeComponent.inject(this)
     }
 

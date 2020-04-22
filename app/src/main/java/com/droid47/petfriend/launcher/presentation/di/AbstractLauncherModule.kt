@@ -1,5 +1,7 @@
 package com.droid47.petfriend.launcher.presentation.di
 
+import com.droid47.petfriend.app.domain.FirebaseManager
+import com.droid47.petfriend.base.firebase.IFirebaseManager
 import com.droid47.petfriend.bookmark.data.BookmarkRepo
 import com.droid47.petfriend.bookmark.domain.repositories.BookmarkRepository
 import com.droid47.petfriend.search.data.repos.PetTypeRepo
@@ -24,4 +26,8 @@ interface AbstractLauncherModule {
     @Binds
     @Reusable
     fun bindBookmarkRepository(bookmarkRepo: BookmarkRepo): BookmarkRepository
+
+    @Binds
+    @Reusable
+    fun bindFirebaseAnalytics(firebaseAnalytics: FirebaseManager): IFirebaseManager
 }

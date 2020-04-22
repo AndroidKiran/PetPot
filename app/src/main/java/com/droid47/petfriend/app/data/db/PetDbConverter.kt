@@ -1,4 +1,4 @@
-package com.droid47.petfriend.app.db
+package com.droid47.petfriend.app.data.db
 
 import androidx.room.TypeConverter
 import com.droid47.petfriend.search.data.models.search.*
