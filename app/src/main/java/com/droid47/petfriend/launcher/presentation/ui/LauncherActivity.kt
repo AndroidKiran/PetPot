@@ -1,7 +1,6 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.os.Bundle
-import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ActivityNavigator
@@ -11,7 +10,7 @@ import com.droid47.petfriend.app.PetApplication
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.BaseBindingActivity
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.databinding.ActivityLauncherBinding
 import com.droid47.petfriend.launcher.presentation.di.LauncherSubComponent
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
@@ -67,10 +66,10 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
 
-    private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {
+    private fun getCurrentFragment(): BaseBindingBottomSheetDialogFragment<*, *, *>? {
         return navHostFragment
             ?.childFragmentManager
-            ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
+            ?.primaryNavigationFragment as? BaseBindingBottomSheetDialogFragment<*, *, *>
     }
 
     private fun subscribeToLiveData() {

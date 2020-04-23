@@ -1,7 +1,6 @@
 package com.droid47.petfriend.home.presentation
 
 import android.animation.ValueAnimator
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -10,7 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.*
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.databinding.FragmentBottomNavDrawerBinding
 import com.droid47.petfriend.home.presentation.components.*
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
@@ -21,7 +20,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class BottomNavDrawerFragment :
-    BaseBindingFragment<FragmentBottomNavDrawerBinding, NavigationViewModel, HomeViewModel>() {
+    BaseBindingBottomSheetDialogFragment<FragmentBottomNavDrawerBinding, NavigationViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -31,7 +30,7 @@ class BottomNavDrawerFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     private lateinit var behavior: BottomSheetBehavior<FrameLayout>

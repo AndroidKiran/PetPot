@@ -122,14 +122,6 @@
 
         </FrameLayout>
 
-        <View
-            android:id="@+id/scrim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/scrimBackground"
-            android:contentDescription="@string/fab_search_filter_content_description"
-            android:visibility="invisible"
-            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/circular_progress"
@@ -180,14 +172,24 @@
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar" />
 
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/scrimBackground"
+            android:contentDescription="@string/fab_search_filter_content_description"
+            android:visibility="invisible"
+            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+
         <com.google.android.material.transformation.TransformationChildCard
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:visibility="invisible"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="@dimen/zero"
+            app:cardBackgroundColor="?attr/colorPrimarySurfaceVariant"
+            app:cardCornerRadius="@dimen/grid_3"
+            app:cardElevation="@dimen/zero"
             app:cardPreventCornerOverlap="true"
             app:layout_behavior="@string/fab_transformation_sheet_behavior"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">

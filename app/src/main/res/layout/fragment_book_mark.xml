@@ -30,7 +30,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -82,11 +83,11 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/grid_12"
                 app:hasFixedSize="@{true}"
-                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_anchor="@+id/fl_container"
                 app:layout_anchorGravity="center"
                 app:spanCount="1"
+                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
                 tools:listitem="@layout/item_book_mark"
                 tools:visibility="visible" />
 
@@ -146,6 +147,37 @@
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/vc_delete_sweep"
             tools:visibility="visible" />
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/grid_6"
+            android:background="?attr/scrimBackground"
+            android:contentDescription="@string/fab_search_filter_content_description"
+            android:visibility="invisible"
+            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+
+        <com.google.android.material.transformation.TransformationChildCard
+            android:id="@+id/layout_transition"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/grid_6"
+            android:visibility="invisible"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="@dimen/grid_2"
+            app:cardElevation="@dimen/zero"
+            app:cardPreventCornerOverlap="true"
+            app:layout_behavior="@string/fab_transformation_sheet_behavior"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
+
+            <include
+                android:id="@+id/layout_delete_pet"
+                layout="@layout/dialog_fragment_delete_pets" />
+
+        </com.google.android.material.transformation.TransformationChildCard>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

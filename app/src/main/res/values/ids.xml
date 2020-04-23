@@ -12,6 +12,7 @@
     <item name="navigation_intro" type="id" />
     <item name="navigation_tnc" type="id" />
     <item name="navigation_home" type="id"/>
+    <item name="navigation_dialog_delete_favorite" type="id"/>
 
     <item name="similar_pets" type="id" />
 

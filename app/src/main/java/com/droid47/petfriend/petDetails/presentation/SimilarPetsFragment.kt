@@ -1,6 +1,5 @@
 package com.droid47.petfriend.petDetails.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -13,7 +12,7 @@ import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.gone
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.extensions.visible
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.base.widgets.components.GravitySnapHelper
 import com.droid47.petfriend.base.widgets.snappy.SnapType
 import com.droid47.petfriend.base.widgets.snappy.SnappyLinearLayoutManager
@@ -27,7 +26,7 @@ import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SI
 import javax.inject.Inject
 
 class SimilarPetsFragment :
-    BaseBindingFragment<FragmentSimilarPetsBinding, PetDetailsViewModel, HomeViewModel>() {
+    BaseBindingBottomSheetDialogFragment<FragmentSimilarPetsBinding, PetDetailsViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -37,7 +36,7 @@ class SimilarPetsFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_similar_pets

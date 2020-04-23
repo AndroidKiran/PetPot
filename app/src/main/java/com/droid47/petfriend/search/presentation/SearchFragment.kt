@@ -25,7 +25,7 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.paginatedRecyclerView.PaginationScrollListener
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
@@ -52,7 +52,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 class SearchFragment :
-    BaseBindingFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
+    BaseBindingBottomSheetDialogFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
     View.OnClickListener {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -73,7 +73,7 @@ class SearchFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     private val filterFragment: FilterFragment by lazy(LazyThreadSafetyMode.NONE) {
@@ -132,7 +132,7 @@ class SearchFragment :
         when (view?.id ?: return) {
             R.id.scrim,
             R.id.fab -> {
-                updateFabStatus()
+                toggleFilterView()
             }
         }
     }
@@ -173,9 +173,7 @@ class SearchFragment :
             }
         }
 
-        with(getViewDataBinding().scrim) {
-            setOnClickListener(this@SearchFragment)
-        }
+        getViewDataBinding().scrim.setOnClickListener(this@SearchFragment)
 
         with(getViewDataBinding().fab) {
             setShowMotionSpecResource(R.animator.fab_show)
@@ -351,7 +349,7 @@ class SearchFragment :
     private val homeEventObserver = Observer<Int> {
         when (it ?: return@Observer) {
             EVENT_APPLY_FILTER,
-            EVENT_CLOSE_FILTER -> updateFabStatus()
+            EVENT_CLOSE_FILTER -> toggleFilterView()
             else -> throw IllegalStateException("Invalid event")
         }
     }
@@ -449,7 +447,7 @@ class SearchFragment :
         getViewDataBinding().bottomAppBar.performShow()
     }
 
-    private fun updateFabStatus() {
+    private fun toggleFilterView() {
         activity?.hideKeyboard()
         if (isLoading) return
         getViewDataBinding().fab.isExpanded = !getViewDataBinding().fab.isExpanded

@@ -15,7 +15,7 @@ class SettingFragment : PreferenceFragmentCompat(),
     Preference.OnPreferenceChangeListener {
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     override fun onAttach(context: Context) {

@@ -16,11 +16,11 @@ inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
     provider: ViewModelProvider.Factory
 ): VM = ViewModelProvider(this, provider).get(VM::class.java)
 
-inline fun <reified VM : ViewModel> activityViewModelProvider(activity: FragmentActivity) =
-    ViewModelProvider(activity).get(VM::class.java)
+inline fun <reified VM : ViewModel> FragmentActivity.activityViewModelProvider() =
+    ViewModelProvider(this).get(VM::class.java)
 
-inline fun <reified VM : ViewModel> parentFragmentViewModelProvider(parentFragment: Fragment) =
-    ViewModelProvider(parentFragment).get(VM::class.java)
+inline fun <reified VM : ViewModel> Fragment.parentFragmentViewModelProvider() =
+    ViewModelProvider(this).get(VM::class.java)
 
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T?) -> Unit) =
     observe(owner, Observer<T> { v -> observer.invoke(v) })

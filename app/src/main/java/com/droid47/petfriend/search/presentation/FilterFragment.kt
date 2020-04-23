@@ -33,7 +33,7 @@ import java.util.*
 import javax.inject.Inject
 
 class FilterFragment :
-    BaseBindingFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
+    BaseBindingBottomSheetDialogFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -47,7 +47,7 @@ class FilterFragment :
     }
 
     private val searchViewModel: SearchViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        parentFragmentViewModelProvider<SearchViewModel>(requireParentFragment())
+        requireParentFragment().parentFragmentViewModelProvider<SearchViewModel>()
     }
 
     private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
@@ -330,10 +330,7 @@ class FilterFragment :
     private val menuClickListener = Toolbar.OnMenuItemClickListener {
         when (it?.itemId ?: return@OnMenuItemClickListener false) {
             R.id.menu_refresh_filter -> {
-                getViewModel().menuItemListLiveData.value
-                    ?.takeIf { list -> list.isNotEmpty() }?.apply {
-                        getViewModel().resetFilter(this)
-                    }
+                getViewModel().resetFilter()
             }
         }
         true

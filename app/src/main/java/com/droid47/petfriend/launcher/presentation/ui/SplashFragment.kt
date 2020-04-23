@@ -1,23 +1,20 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.pauseLottie
 import com.droid47.petfriend.base.extensions.playLottie
 import com.droid47.petfriend.base.extensions.viewModelProvider
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.databinding.FragmentSplashBinding
-import com.droid47.petfriend.home.presentation.viewmodels.NavigationViewModel
 import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toIntro
@@ -36,7 +33,7 @@ private const val PLAY_SERVICES_RESOLUTION_REQUEST = 2404
 private const val PLAY_SERVICES_RESOLUTION_RESULT = 2403
 
 class SplashFragment :
-    BaseBindingFragment<FragmentSplashBinding, SplashViewModel, LauncherViewModel>() {
+    BaseBindingBottomSheetDialogFragment<FragmentSplashBinding, SplashViewModel, LauncherViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -48,7 +45,7 @@ class SplashFragment :
     }
 
     private val launcherViewModel: LauncherViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        activityViewModelProvider<LauncherViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<LauncherViewModel>()
     }
 
     override fun getViewModel(): SplashViewModel = splashViewModel

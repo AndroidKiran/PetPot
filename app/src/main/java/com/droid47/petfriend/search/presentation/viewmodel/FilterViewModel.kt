@@ -99,7 +99,8 @@ class FilterViewModel @Inject constructor(
         })
     }
 
-    fun resetFilter(menuList: List<String>) {
+    fun resetFilter() {
+        val menuList = menuItemListLiveData.value?: emptyList()
         resetFilterUseCase.execute(menuList, object : CompletableObserver {
             override fun onComplete() {
 
@@ -136,7 +137,16 @@ class FilterViewModel @Inject constructor(
             })
     }
 
-    fun onFilterActive() =
+    fun onFilterActive() {
+//        val selectedFilters = _lastAppliedFilterItemList.value?.data?: emptyList<List<FilterItemEntity>>()
+//        when(selectedFilters.isEmpty()) {
+//            true -> resetFilter()
+//            else -> applyPreviousFilter()
+//        }
+//        applyPreviousFilter()
+    }
+
+    private fun applyPreviousFilter() {
         updateLastAppliedFilterUseCase.execute(_lastAppliedFilterItemList.value?.data
             ?: emptyList(),
             object : CompletableObserver {
@@ -152,6 +162,8 @@ class FilterViewModel @Inject constructor(
                     CrashlyticsExt.handleException(e)
                 }
             })
+    }
+
 
     fun fetchSortMenuState() =
         fetchSortMenuStateUseCase.execute(observer = object :

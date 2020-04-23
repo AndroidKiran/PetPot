@@ -11,14 +11,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.droid47.petfriend.R
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-interface NavigationHost {
-    /** Called by BaseBindingFragment to setup it's toolbar with the navigation controller. */
-    fun registerBottomAppbarWithNavigation(bottomAppBar: BottomAppBar)
-}
-
-abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidViewModel, out PV : BaseAndroidViewModel> :
-    Fragment() {
+abstract class BaseBindingBottomSheetDialogFragment<out B : ViewDataBinding, out V : BaseAndroidViewModel, out PV : BaseAndroidViewModel> :
+    BottomSheetDialogFragment() {
 
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V
@@ -26,7 +22,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
     private lateinit var parentViewModel: PV
 
     private var navFragmentId: Int = 0
-    private var navigationHost: NavigationHost? = null
 
     @LayoutRes
     abstract fun getLayoutId(): Int
@@ -39,7 +34,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
         baseViewModel = getViewModel()
         parentViewModel = getParentViewModel()
         navFragmentId = getFragmentNavId()
@@ -48,7 +42,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
     override fun onAttach(context: Context) {
         super.onAttach(context)
         injectSubComponent()
-        navigationHost = context as? NavigationHost?
     }
 
     override fun onCreateView(
@@ -65,20 +58,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
         super.onViewCreated(view, savedInstanceState)
         executePendingVariablesBinding()
         baseViewDataBinding.executePendingBindings()
-        registerBottomBar()
-    }
-
-    override fun onDetach() {
-        navigationHost = null
-        super.onDetach()
     }
 
     fun getViewDataBinding(): B = baseViewDataBinding
-
-    private fun registerBottomBar() {
-        val bottomAppBar =
-            getViewDataBinding().root.findViewById<BottomAppBar>(R.id.bottom_app_bar) ?: return
-        navigationHost?.registerBottomAppbarWithNavigation(bottomAppBar)
-
-    }
 }

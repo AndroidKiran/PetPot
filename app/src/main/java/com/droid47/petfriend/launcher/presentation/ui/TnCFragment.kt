@@ -1,6 +1,5 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -9,14 +8,14 @@ import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.viewModelProvider
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.databinding.FragmentTncBinding
 import com.droid47.petfriend.launcher.presentation.ui.TnCFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel
 import javax.inject.Inject
 
-class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
+class TnCFragment : BaseBindingBottomSheetDialogFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -26,7 +25,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
     }
 
     private val launchViewModel: LauncherViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        activityViewModelProvider<LauncherViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<LauncherViewModel>()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_tnc
@@ -43,7 +42,6 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         getViewDataBinding().also {
             it.lifecycleOwner = viewLifecycleOwner
             it.tncViewModel = getViewModel()
-            it.executePendingBindings()
         }
     }
 

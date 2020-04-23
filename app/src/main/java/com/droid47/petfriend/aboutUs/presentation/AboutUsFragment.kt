@@ -1,6 +1,5 @@
 package com.droid47.petfriend.aboutUs.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -8,14 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.aboutUs.presentation.viewmodel.AboutUsViewModel
 import com.droid47.petfriend.base.extensions.*
-import com.droid47.petfriend.base.widgets.BaseBindingFragment
+import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
 import com.droid47.petfriend.databinding.FragmentAboutUsBinding
 import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class AboutUsFragment :
-    BaseBindingFragment<FragmentAboutUsBinding, AboutUsViewModel, HomeViewModel>(),
+    BaseBindingBottomSheetDialogFragment<FragmentAboutUsBinding, AboutUsViewModel, HomeViewModel>(),
     View.OnClickListener {
 
     @Inject
@@ -26,7 +25,7 @@ class AboutUsFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_about_us

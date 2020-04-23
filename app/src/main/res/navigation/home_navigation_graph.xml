@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.droid47.petfriend.bookmark.presentation.BookmarkFragment"
+        android:name="com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragment"
         android:label="@string/favourite"
         tools:layout="@layout/fragment_book_mark">
 

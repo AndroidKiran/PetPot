@@ -1,6 +1,5 @@
-package com.droid47.petfriend.bookmark.presentation
+package com.droid47.petfriend.bookmark.presentation.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +15,10 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.getErrorRequestMessage
+import com.droid47.petfriend.base.extensions.hideKeyboard
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.*
-import com.droid47.petfriend.base.widgets.components.ActionBottomSheetDialog
-import com.droid47.petfriend.bookmark.presentation.BookmarkFragmentDirections.Companion.toPetDetails
+import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragmentDirections.Companion.toPetDetails
 import com.droid47.petfriend.bookmark.presentation.viewmodel.BookmarkViewModel
 import com.droid47.petfriend.databinding.FragmentBookMarkBinding
 import com.droid47.petfriend.home.presentation.HomeActivity
@@ -32,7 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class BookmarkFragment :
-    BaseBindingFragment<FragmentBookMarkBinding, BookmarkViewModel, HomeViewModel>(),
+    BaseBindingBottomSheetDialogFragment<FragmentBookMarkBinding, BookmarkViewModel, HomeViewModel>(),
     View.OnClickListener {
 
     @Inject
@@ -46,7 +45,7 @@ class BookmarkFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_book_mark
@@ -82,7 +81,7 @@ class BookmarkFragment :
         savedInstanceState: Bundle?
     ): View? {
         postponeEnterTransition()
-         return super.onCreateView(inflater, container, savedInstanceState)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,6 +114,9 @@ class BookmarkFragment :
                 getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }
         }
+        getViewDataBinding().scrim.setOnClickListener(this@BookmarkFragment)
+        getViewDataBinding().layoutDeletePet.btnSecondaryAction.setOnClickListener(this@BookmarkFragment)
+        getViewDataBinding().layoutDeletePet.btnPrimaryAction.setOnClickListener(this@BookmarkFragment)
     }
 
     private fun setUpBookmarkRvAdapter() {
@@ -148,25 +150,25 @@ class BookmarkFragment :
         when (baseStateModel) {
             is Loading -> {
                 hideBottomBar()
-                hideFab(null)
+                hideFab()
             }
 
             is Success -> {
                 if (getPetAdapter()?.currentList?.size == baseStateModel.data.size) return@Observer
                 getPetAdapter()?.submitList(baseStateModel.data) {
                     showBottomBar()
-                    showFab(null)
+                    showFab()
                 }
             }
 
             is Empty -> {
                 getPetAdapter()?.submitList(baseStateModel.data)
-                hideFab(null)
+                hideFab()
                 updateEmptyState()
             }
 
             is Failure -> {
-                hideFab(null)
+                hideFab()
                 updateErrorState(baseStateModel.error)
             }
         }
@@ -243,30 +245,24 @@ class BookmarkFragment :
 
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
+            R.id.btn_secondary_action,
+            R.id.scrim,
             R.id.fab -> {
-                ActionBottomSheetDialog.newInstanceShow(
-                    getString(R.string.clear_pets),
-                    getString(R.string.yes),
-                    getString(R.string.no)
-                ) {
-                    onActionClick(it)
-                }.show(childFragmentManager, ActionBottomSheetDialog.TAG)
+                toggleDeletePetView()
+            }
+            R.id.btn_primary_action -> {
+                getViewModel().deleteAllBookmark()
+                toggleDeletePetView()
             }
         }
     }
 
-    private fun onActionClick(action: Boolean) {
-        if (action) {
-            getViewModel().deleteAllBookmark()
-        }
+    private fun hideFab() {
+        getViewDataBinding().fab.hide()
     }
 
-    private fun hideFab(visibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener?) {
-        getViewDataBinding().fab.hide(visibilityChangedListener)
-    }
-
-    private fun showFab(visibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener?) {
-        getViewDataBinding().fab.show(visibilityChangedListener)
+    private fun showFab() {
+        getViewDataBinding().fab.show()
     }
 
     private fun showBottomBar() {
@@ -275,5 +271,16 @@ class BookmarkFragment :
 
     private fun hideBottomBar() {
         getViewDataBinding().bottomAppBar.performHide()
+    }
+
+    private fun toggleDeletePetView() {
+        getViewDataBinding().fab.isExpanded = !getViewDataBinding().fab.isExpanded
+        if (getViewDataBinding().fab.isExpanded) {
+            hideFab()
+            hideBottomBar()
+        } else {
+            showBottomBar()
+            showFab()
+        }
     }
 }

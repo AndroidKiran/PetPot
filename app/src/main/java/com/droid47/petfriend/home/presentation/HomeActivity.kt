@@ -19,7 +19,7 @@ import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager
 import com.droid47.petfriend.base.widgets.inAppUpdate.InAppUpdateManager.Companion.IN_APP_UPDATE_REQUEST_CODE
-import com.droid47.petfriend.bookmark.presentation.BookmarkFragmentDirections
+import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragmentDirections
 import com.droid47.petfriend.databinding.ActivityHomeBinding
 import com.droid47.petfriend.home.data.AppUpgradeEntity
 import com.droid47.petfriend.home.presentation.di.HomeSubComponent
@@ -193,10 +193,10 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
     }
 
-    private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {
+    private fun getCurrentFragment(): BaseBindingBottomSheetDialogFragment<*, *, *>? {
         return navHostFragment
             ?.childFragmentManager
-            ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
+            ?.primaryNavigationFragment as? BaseBindingBottomSheetDialogFragment<*, *, *>
     }
 
     private fun navigateTo(bundle: Bundle) {

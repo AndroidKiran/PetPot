@@ -1,6 +1,5 @@
 package com.droid47.petfriend.petDetails.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +30,7 @@ import com.google.android.material.appbar.AppBarLayout
 import javax.inject.Inject
 
 class PetDetailsFragment :
-    BaseBindingFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
+    BaseBindingBottomSheetDialogFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -53,7 +52,7 @@ class PetDetailsFragment :
     }
 
     private val homeViewModel: HomeViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        activityViewModelProvider<HomeViewModel>(requireActivity())
+        requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_pet_details
