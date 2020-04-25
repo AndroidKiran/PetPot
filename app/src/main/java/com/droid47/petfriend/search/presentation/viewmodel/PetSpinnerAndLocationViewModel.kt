@@ -68,7 +68,6 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
         }
     }
 
-
     companion object {
         private const val REQUEST_FETCH_NAMES = 111
         const val REQUEST_REFRESH_SELECTED_PET = 112

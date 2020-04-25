@@ -4,9 +4,7 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.droid47.petfriend.base.extensions.applyIOSchedulers
-import com.droid47.petfriend.base.extensions.clearDisposable
-import com.droid47.petfriend.base.extensions.disposeDisposable
+import androidx.paging.PagedList
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
@@ -31,9 +29,9 @@ class BookmarkViewModel @Inject constructor(
     private val deleteAllBookmarkUseCase: DeleteAllBookmarkUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
-    private val compositeDisposable = CompositeDisposable();
-    private val _bookmarkListLiveData = MutableLiveData<BaseStateModel<List<PetEntity>>>()
-    val bookmarkListLiveData: LiveData<BaseStateModel<List<PetEntity>>>
+    private val compositeDisposable = CompositeDisposable()
+    private val _bookmarkListLiveData = MutableLiveData<BaseStateModel<out PagedList<PetEntity>>>()
+    val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>>
         get() = _bookmarkListLiveData
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -49,40 +47,8 @@ class BookmarkViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        compositeDisposable.clear()
         super.onCleared()
-        compositeDisposable.disposeDisposable()
-    }
-
-    private fun listenToBookmarkItems() {
-        compositeDisposable.add(
-            fetchBookmarkListUseCase.buildUseCaseObservable()
-                .doOnSubscribe {
-                    _bookmarkListLiveData.postValue(Loading())
-                }
-                .applyIOSchedulers()
-                .subscribeWith(
-                    object : DisposableSubscriber<BaseStateModel<List<PetEntity>>>() {
-
-                        override fun onComplete() {
-
-                        }
-
-                        override fun onNext(stateModel: BaseStateModel<List<PetEntity>>?) {
-                            _bookmarkListLiveData.postValue(
-                                stateModel ?: Failure(IllegalStateException("Bookmark list error"))
-                            )
-                        }
-
-                        override fun onError(throwable: Throwable?) {
-                            _bookmarkListLiveData.postValue(
-                                Failure(
-                                    throwable ?: IllegalStateException("Bookmark list error")
-                                )
-                            )
-                        }
-                    }
-                )
-        )
     }
 
     override fun onBookMarkClick(petEntity: PetEntity) {
@@ -107,6 +73,37 @@ class BookmarkViewModel @Inject constructor(
 
     override fun onItemClick(petEntity: PetEntity, view: View) {
         _navigateToAnimalDetailsAction.postValue(Pair(petEntity, view))
+    }
+
+    private fun listenToBookmarkItems() {
+        compositeDisposable.add(
+            fetchBookmarkListUseCase.buildUseCaseObservable()
+                .doOnSubscribe {
+                    _bookmarkListLiveData.postValue(Loading())
+                }
+                .subscribeWith(
+                    object : DisposableSubscriber<BaseStateModel<out PagedList<PetEntity>>>() {
+
+                        override fun onComplete() {
+
+                        }
+
+                        override fun onNext(stateModel: BaseStateModel<out PagedList<PetEntity>>?) {
+                            _bookmarkListLiveData.postValue(
+                                stateModel ?: Failure(IllegalStateException("Bookmark list error"))
+                            )
+                        }
+
+                        override fun onError(throwable: Throwable?) {
+                            _bookmarkListLiveData.postValue(
+                                Failure(
+                                    throwable ?: IllegalStateException("Bookmark list error")
+                                )
+                            )
+                        }
+                    }
+                )
+        )
     }
 
     fun deleteAllBookmark() {

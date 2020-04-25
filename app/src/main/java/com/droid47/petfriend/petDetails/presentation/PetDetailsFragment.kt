@@ -30,7 +30,7 @@ import com.google.android.material.appbar.AppBarLayout
 import javax.inject.Inject
 
 class PetDetailsFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
+    BaseBindingFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

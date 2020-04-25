@@ -10,7 +10,7 @@ import com.droid47.petfriend.app.PetApplication
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.BaseBindingActivity
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.ActivityLauncherBinding
 import com.droid47.petfriend.launcher.presentation.di.LauncherSubComponent
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
@@ -66,10 +66,10 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
 
-    private fun getCurrentFragment(): BaseBindingBottomSheetDialogFragment<*, *, *>? {
+    private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {
         return navHostFragment
             ?.childFragmentManager
-            ?.primaryNavigationFragment as? BaseBindingBottomSheetDialogFragment<*, *, *>
+            ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
     }
 
     private fun subscribeToLiveData() {

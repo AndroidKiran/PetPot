@@ -1,5 +1,6 @@
 package com.droid47.petfriend.bookmark.data
 
+import androidx.paging.DataSource
 import com.droid47.petfriend.bookmark.domain.repositories.BookmarkRepository
 import com.droid47.petfriend.search.data.datasource.PetDao
 import com.droid47.petfriend.search.data.models.search.PetEntity
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class BookmarkRepo @Inject constructor(private val petDao: PetDao) : BookmarkRepository {
 
-    override fun fetchBookmarkList(): Flowable<List<PetEntity>> = petDao.getBookmarkPetList()
+    override fun fetchBookmarkList(): DataSource.Factory<Int, PetEntity> = petDao.getBookmarkPetList()
 
     override fun insertOrDeleteBookmark(petEntity: PetEntity) =
         Completable.create { emitter ->

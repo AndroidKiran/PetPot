@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.aboutUs.presentation.viewmodel.AboutUsViewModel
 import com.droid47.petfriend.base.extensions.*
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentAboutUsBinding
 import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 class AboutUsFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentAboutUsBinding, AboutUsViewModel, HomeViewModel>(),
+    BaseBindingFragment<FragmentAboutUsBinding, AboutUsViewModel, HomeViewModel>(),
     View.OnClickListener {
 
     @Inject

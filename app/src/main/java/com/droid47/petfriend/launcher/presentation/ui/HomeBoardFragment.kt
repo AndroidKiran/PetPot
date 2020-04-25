@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.viewModelProvider
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentHomeBoardBinding
 import com.droid47.petfriend.launcher.presentation.ui.HomeBoardFragmentDirections.Companion.toTnc
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 private const val ITEM_COUNT = 3
 
 class HomeBoardFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentHomeBoardBinding, HomeBoardViewModel, LauncherViewModel>(),
+    BaseBindingFragment<FragmentHomeBoardBinding, HomeBoardViewModel, LauncherViewModel>(),
     View.OnClickListener {
 
     @Inject

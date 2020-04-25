@@ -12,7 +12,7 @@ import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.gone
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.extensions.visible
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.components.GravitySnapHelper
 import com.droid47.petfriend.base.widgets.snappy.SnapType
 import com.droid47.petfriend.base.widgets.snappy.SnappyLinearLayoutManager
@@ -26,7 +26,7 @@ import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SI
 import javax.inject.Inject
 
 class SimilarPetsFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentSimilarPetsBinding, PetDetailsViewModel, HomeViewModel>() {
+    BaseBindingFragment<FragmentSimilarPetsBinding, PetDetailsViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

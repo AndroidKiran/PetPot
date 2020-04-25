@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
@@ -24,6 +25,7 @@ import com.droid47.petfriend.databinding.FragmentBookMarkBinding
 import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.search.data.models.search.PetEntity
+import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.BOOK_MARK
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class BookmarkFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentBookMarkBinding, BookmarkViewModel, HomeViewModel>(),
+    BaseBindingFragment<FragmentBookMarkBinding, BookmarkViewModel, HomeViewModel>(),
     View.OnClickListener {
 
     @Inject
@@ -122,11 +124,11 @@ class BookmarkFragment :
     private fun setUpBookmarkRvAdapter() {
         if (getPetAdapter() == null) {
             getViewDataBinding().rvPets.adapter =
-                PetAdapter(requireContext(), BOOK_MARK, getViewModel())
+                PagedListPetAdapter(requireContext(), BOOK_MARK, getViewModel())
         }
     }
 
-    private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PetAdapter
+    private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PagedListPetAdapter
 
     private fun subscribeToLiveData() {
         getViewModel().bookmarkListLiveData.run {
@@ -145,16 +147,15 @@ class BookmarkFragment :
         }
     }
 
-    private val bookmarkDataObserver = Observer<BaseStateModel<List<PetEntity>>> {
+    private val bookmarkDataObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
         val baseStateModel = it ?: return@Observer
         when (baseStateModel) {
-            is Loading -> {
+            is Loading  -> {
                 hideBottomBar()
                 hideFab()
             }
 
             is Success -> {
-                if (getPetAdapter()?.currentList?.size == baseStateModel.data.size) return@Observer
                 getPetAdapter()?.submitList(baseStateModel.data) {
                     showBottomBar()
                     showFab()
@@ -173,6 +174,7 @@ class BookmarkFragment :
             }
         }
     }
+
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val petViewPair = it ?: return@Observer

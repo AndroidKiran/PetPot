@@ -39,12 +39,12 @@ class PetDetailsViewModel @Inject constructor(
 
     val petLiveData = MutableLiveData<BaseStateModel<PetEntity>>()
 
-    private val petId = Transformations.map(petLiveData) {
+    private val petId: LiveData<Int> = Transformations.map(petLiveData) {
         it?.data?.id ?: 0
     }
 
-    val transitionName = Transformations.map(petLiveData) {
-        it?.data?.transitionName ?: it?.data?.id ?: 0
+    val transitionName: LiveData<String> = Transformations.map(petLiveData) {
+        it?.data?.transitionName ?: (it?.data?.id ?: 0).toString()
     }
 
     val bookMarkStatusLiveData = petId.switchMap { id ->
@@ -163,6 +163,7 @@ class PetDetailsViewModel @Inject constructor(
             .doOnSubscribe { registerRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
                 addOrRemoveBookmarkUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
+                    bookmarkStatus = true
                     bookmarkedAt = System.currentTimeMillis()
                 })
             }.applyIOSchedulers()

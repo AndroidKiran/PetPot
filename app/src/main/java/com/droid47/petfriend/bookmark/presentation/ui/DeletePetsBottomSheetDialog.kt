@@ -6,6 +6,7 @@ import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.parentFragmentViewModelProvider
 import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.bookmark.presentation.viewmodel.BookmarkViewModel
 import com.droid47.petfriend.databinding.DialogFragmentDeletePetsBinding
 import com.droid47.petfriend.home.presentation.HomeActivity

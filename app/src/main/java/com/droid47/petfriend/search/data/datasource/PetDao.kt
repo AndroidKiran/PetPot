@@ -1,5 +1,6 @@
 package com.droid47.petfriend.search.data.datasource
 
+import androidx.paging.DataSource
 import androidx.room.*
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import io.reactivex.Flowable
@@ -18,10 +19,10 @@ interface PetDao {
     fun listenToUpdateFor(id: Int): Flowable<List<PetEntity>>
 
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
-    fun getBookmarkPetList(): Flowable<List<PetEntity>>
-
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
     fun getBookmarkPetListSingle(): Single<List<PetEntity>>
+
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=1 ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
+    fun getBookmarkPetList(): DataSource.Factory<Int, PetEntity>
 
     @Delete
     fun deletePet(petEntity: PetEntity)

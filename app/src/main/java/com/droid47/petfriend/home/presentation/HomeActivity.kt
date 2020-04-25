@@ -193,10 +193,10 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
     }
 
-    private fun getCurrentFragment(): BaseBindingBottomSheetDialogFragment<*, *, *>? {
+    private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {
         return navHostFragment
             ?.childFragmentManager
-            ?.primaryNavigationFragment as? BaseBindingBottomSheetDialogFragment<*, *, *>
+            ?.primaryNavigationFragment as? BaseBindingFragment<*, *, *>
     }
 
     private fun navigateTo(bundle: Bundle) {

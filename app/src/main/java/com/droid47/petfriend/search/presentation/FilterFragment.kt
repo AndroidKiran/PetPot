@@ -33,7 +33,7 @@ import java.util.*
 import javax.inject.Inject
 
 class FilterFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
+    BaseBindingFragment<FragmentFilterBinding, FilterViewModel, SearchViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

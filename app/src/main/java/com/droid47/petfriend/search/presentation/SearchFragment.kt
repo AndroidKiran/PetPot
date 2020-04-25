@@ -25,7 +25,7 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.paginatedRecyclerView.PaginationScrollListener
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
@@ -52,7 +52,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 class SearchFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
+    BaseBindingFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
     View.OnClickListener {
     @Inject
     lateinit var factory: ViewModelProvider.Factory

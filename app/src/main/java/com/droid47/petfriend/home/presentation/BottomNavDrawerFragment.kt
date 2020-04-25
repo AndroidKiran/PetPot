@@ -9,7 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.*
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentBottomNavDrawerBinding
 import com.droid47.petfriend.home.presentation.components.*
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class BottomNavDrawerFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentBottomNavDrawerBinding, NavigationViewModel, HomeViewModel>() {
+    BaseBindingFragment<FragmentBottomNavDrawerBinding, NavigationViewModel, HomeViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

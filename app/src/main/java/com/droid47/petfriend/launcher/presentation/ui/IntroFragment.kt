@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.parentFragmentViewModelProvider
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentIntroBinding
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import javax.inject.Inject
 
 class IntroFragment :
-    BaseBindingBottomSheetDialogFragment<FragmentIntroBinding, HomeBoardViewModel, LauncherViewModel>() {
+    BaseBindingFragment<FragmentIntroBinding, HomeBoardViewModel, LauncherViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory

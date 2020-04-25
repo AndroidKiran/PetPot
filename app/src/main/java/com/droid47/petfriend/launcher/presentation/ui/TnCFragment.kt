@@ -8,14 +8,14 @@ import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.viewModelProvider
-import com.droid47.petfriend.base.widgets.BaseBindingBottomSheetDialogFragment
+import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentTncBinding
 import com.droid47.petfriend.launcher.presentation.ui.TnCFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel
 import javax.inject.Inject
 
-class TnCFragment : BaseBindingBottomSheetDialogFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
+class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
