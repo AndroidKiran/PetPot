@@ -138,12 +138,11 @@ class FilterViewModel @Inject constructor(
     }
 
     fun onFilterActive() {
-//        val selectedFilters = _lastAppliedFilterItemList.value?.data?: emptyList<List<FilterItemEntity>>()
-//        when(selectedFilters.isEmpty()) {
-//            true -> resetFilter()
-//            else -> applyPreviousFilter()
-//        }
-//        applyPreviousFilter()
+        val selectedFilters = _lastAppliedFilterItemList.value?.data?: emptyList<List<FilterItemEntity>>()
+        when(selectedFilters.isEmpty()) {
+            true -> resetFilter()
+            else -> applyPreviousFilter()
+        }
     }
 
     private fun applyPreviousFilter() {

@@ -102,6 +102,12 @@ interface FilterItemDao {
     }
 
     @Transaction
+    fun resetFilters(status: Boolean, categories: List<String>) {
+        updateSelection(status, PAGE_NUM)
+        updateSelectionForCategories(status, categories)
+    }
+
+    @Transaction
     fun updateSortFilter(filterItemEntity: FilterItemEntity) {
         insertOrUpdateFilterItem(filterItemEntity)
         insertOrUpdateFilterItem(FilterItemEntity(1.toString(), PAGE_NUM, true))

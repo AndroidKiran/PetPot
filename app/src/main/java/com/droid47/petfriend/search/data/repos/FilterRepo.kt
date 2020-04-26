@@ -113,7 +113,7 @@ class FilterRepo @Inject constructor(
     override fun resetFilter(categories: List<String>): Completable =
         Completable.create { emitter ->
             try {
-                filterItemDao.updateSelectionForCategories(false, categories)
+                filterItemDao.resetFilters(false, categories)
                 emitter.onComplete()
             } catch (exception: Exception) {
                 emitter.onError(exception)
