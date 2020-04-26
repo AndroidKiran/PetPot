@@ -10,12 +10,12 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Loading
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.bookmark.domain.interactors.AddOrRemoveBookmarkUseCase
-import com.droid47.petfriend.bookmark.domain.interactors.DeleteAllBookmarkUseCase
-import com.droid47.petfriend.bookmark.domain.interactors.FetchBookmarkListUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.DataSourceType
+import com.droid47.petfriend.bookmark.domain.interactors.RemoveAllPetsUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.SubscribeToPetsUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
-import io.reactivex.CompletableObserver
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -24,9 +24,9 @@ import javax.inject.Inject
 
 class BookmarkViewModel @Inject constructor(
     application: Application,
-    private val fetchBookmarkListUseCase: FetchBookmarkListUseCase,
-    private val addOrRemoveBookmarkUseCase: AddOrRemoveBookmarkUseCase,
-    private val deleteAllBookmarkUseCase: DeleteAllBookmarkUseCase
+    private val subscribeToPetsUseCase: SubscribeToPetsUseCase,
+    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
+    private val removeAllPetsUseCase: RemoveAllPetsUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
     private val compositeDisposable = CompositeDisposable()
@@ -52,7 +52,7 @@ class BookmarkViewModel @Inject constructor(
     }
 
     override fun onBookMarkClick(petEntity: PetEntity) {
-        addOrRemoveBookmarkUseCase.execute(
+        updateFavoritePetUseCase.execute(
             petEntity,
             object : SingleObserver<BaseStateModel<PetEntity>> {
 
@@ -77,7 +77,7 @@ class BookmarkViewModel @Inject constructor(
 
     private fun listenToBookmarkItems() {
         compositeDisposable.add(
-            fetchBookmarkListUseCase.buildUseCaseObservable()
+            subscribeToPetsUseCase.buildUseCaseObservable(DataSourceType.FavoriteType)
                 .doOnSubscribe {
                     _bookmarkListLiveData.postValue(Loading())
                 }
@@ -106,9 +106,10 @@ class BookmarkViewModel @Inject constructor(
         )
     }
 
-    fun deleteAllBookmark() {
-        deleteAllBookmarkUseCase.execute(observer = object : CompletableObserver {
-            override fun onComplete() {
+    fun deleteAllFavoritePets() {
+        removeAllPetsUseCase.execute(observer = object : SingleObserver<Int> {
+            override fun onSuccess(t: Int) {
+
             }
 
             override fun onSubscribe(d: Disposable) {

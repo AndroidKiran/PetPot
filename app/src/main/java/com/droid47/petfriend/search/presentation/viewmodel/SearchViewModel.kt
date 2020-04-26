@@ -12,7 +12,8 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.bookmark.domain.interactors.AddOrRemoveBookmarkUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.RemoveAllPetsUseCase
 import com.droid47.petfriend.search.data.models.FilterItemEntity
 import com.droid47.petfriend.search.data.models.LOCATION
 import com.droid47.petfriend.search.data.models.PAGE_NUM
@@ -25,7 +26,9 @@ import com.droid47.petfriend.search.domain.interactors.UpdateFilterUseCase
 import com.droid47.petfriend.search.presentation.models.*
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import io.reactivex.CompletableObserver
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subscribers.DisposableSubscriber
 import java.util.concurrent.TimeUnit
@@ -35,8 +38,9 @@ class SearchViewModel @Inject constructor(
     application: Application,
     private val searchPetUseCase: SearchPetUseCase,
     private val updateFilterUseCase: UpdateFilterUseCase,
-    private val addOrRemoveBookmarkUseCase: AddOrRemoveBookmarkUseCase,
-    private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase
+    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
+    private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
+    private val removeAllPetsUseCase: RemoveAllPetsUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -87,7 +91,6 @@ class SearchViewModel @Inject constructor(
                     CrashlyticsExt.handleException(e)
                 }
             })
-
     }
 
     private fun updateFilter(name: String, type: String) {
@@ -106,7 +109,6 @@ class SearchViewModel @Inject constructor(
                 }
             })
     }
-
 
     fun updatePage() {
         updateFilter((obtainPagination().currentPage.plus(1)).toString(), PAGE_NUM)
@@ -140,7 +142,7 @@ class SearchViewModel @Inject constructor(
         bookMarkSubject.debounce(300, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerRequest(REQUEST_BOOK_MARK_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
-                addOrRemoveBookmarkUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
+                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
                     bookmarkedAt = System.currentTimeMillis()
                 })
             }.applyIOSchedulers()
@@ -182,13 +184,31 @@ class SearchViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun getSearchList(filters: Filters) =
-        searchPetUseCase.buildUseCaseSingle(filters)
-            .applyIOSchedulers()
+        when (filters.page.toInt()) {
+            PAGE_ONE -> onFirstPageLoad(filters)
+            else -> onNextPageLoad(filters)
+        }.applyIOSchedulers()
+            .flatMap { searchResponseEntity ->
+                searchPetUseCase.addSearchDataSingle(searchResponseEntity.animals ?: emptyList())
+                    .map { searchResponseEntity }
+            }
             .map { processResponse(it) }
             .doOnSubscribe {
                 _searchStateLiveData.postValue(updateLoadingState(filters.page.toInt()))
             }
             .onErrorReturn { processError(it) }
+
+    private fun onFirstPageLoad(filters: Filters): Single<SearchResponseEntity> =
+        Single.zip(
+            searchPetUseCase.buildUseCaseSingle(filters),
+            removeAllPetsUseCase.buildUseCaseSingle(false),
+            BiFunction { searchResponseEntity: SearchResponseEntity, id: Int ->
+                searchResponseEntity
+            }
+        )
+
+    private fun onNextPageLoad(filters: Filters): Single<SearchResponseEntity> =
+        searchPetUseCase.buildUseCaseSingle(filters)
 
     private fun updateLoadingState(page: Int) =
         if (page == PAGE_ONE)
@@ -201,19 +221,12 @@ class SearchViewModel @Inject constructor(
             )
 
     private fun processResponse(searchResponseEntity: SearchResponseEntity): SearchState {
-        val animalList = searchResponseEntity.animals ?: emptyList()
         val pagination = searchResponseEntity.paginationEntity ?: PaginationEntity()
-        val animalItemList =
-            obtainCurrentData().toMutableList().apply {
-                addAll(animalList)
-            }.distinctBy { petEntity ->
-                petEntity.id
-            }
         val allItemsLoaded = pagination.currentPage == pagination.totalPages
-        return if (animalItemList.isEmpty()) {
-            EmptyState(pagination, allItemsLoaded, animalItemList)
+        return if (PAGE_ONE == pagination.currentPage && searchResponseEntity.animals.isNullOrEmpty()) {
+            EmptyState(pagination, allItemsLoaded, emptyList())
         } else {
-            DefaultState(pagination, allItemsLoaded, animalItemList)
+            DefaultState(pagination, allItemsLoaded, emptyList())
         }
     }
 
@@ -243,10 +256,10 @@ class SearchViewModel @Inject constructor(
 
     private fun obtainCurrentLoadedAllItems() = searchStateLiveData.value?.loadedAllItems ?: false
 
-companion object {
-    private const val REQUEST_SEARCH = 1001
-    private const val REQUEST_UPDATE_FILTER = 1003
-    private const val REQUEST_BOOK_MARK_PET = 1004
-    private const val PAGE_ONE = 1
-}
+    companion object {
+        private const val REQUEST_SEARCH = 1001
+        private const val REQUEST_UPDATE_FILTER = 1003
+        private const val REQUEST_BOOK_MARK_PET = 1004
+        private const val PAGE_ONE = 1
+    }
 }

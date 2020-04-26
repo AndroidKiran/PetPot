@@ -13,8 +13,8 @@ import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.bookmark.domain.interactors.AddOrRemoveBookmarkUseCase
-import com.droid47.petfriend.petDetails.domain.interactors.FetchBookmarkStateUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
+import com.droid47.petfriend.petDetails.domain.interactors.FetchFavoriteStateUseCase
 import com.droid47.petfriend.petDetails.domain.interactors.FetchDetailsUseCase
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.*
@@ -27,8 +27,8 @@ import javax.inject.Inject
 class PetDetailsViewModel @Inject constructor(
     application: Application,
     private val fetchDetailsUseCase: FetchDetailsUseCase,
-    private val fetchBookmarkStateUseCase: FetchBookmarkStateUseCase,
-    private val addOrRemoveBookmarkUseCase: AddOrRemoveBookmarkUseCase
+    private val fetchFavoriteStateUseCase: FetchFavoriteStateUseCase,
+    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -48,7 +48,7 @@ class PetDetailsViewModel @Inject constructor(
     }
 
     val bookMarkStatusLiveData = petId.switchMap { id ->
-        fetchBookmarkStateUseCase.buildUseCaseObservable(id)
+        fetchFavoriteStateUseCase.buildUseCaseObservable(id)
             .applyIOSchedulers()
             .toLiveData()
     }
@@ -162,7 +162,7 @@ class PetDetailsViewModel @Inject constructor(
         starSubject.debounce(200, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
-                addOrRemoveBookmarkUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
+                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
                     bookmarkStatus = true
                     bookmarkedAt = System.currentTimeMillis()
                 })

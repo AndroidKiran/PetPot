@@ -4,8 +4,9 @@ import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.usecase.SingleUseCase
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
+import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.data.models.search.SearchResponseEntity
-import com.droid47.petfriend.search.domain.repositories.SearchRepository
+import com.droid47.petfriend.search.domain.repositories.PetRepository
 import com.droid47.petfriend.search.presentation.models.Filters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -16,12 +17,19 @@ class SearchPetUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val gson: Gson,
-    private val searchRepository: SearchRepository
+    private val petRepository: PetRepository
 ) : SingleUseCase<SearchResponseEntity, Filters>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseSingle(params: Filters?): Single<SearchResponseEntity> {
-        return searchRepository.getSearchResponse(transformToMap(params))
+        return petRepository.fetchPetsFromNetWork(transformToMap(params))
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
     }
+
+    fun addSearchDataSingle(list: List<PetEntity>): Single<List<Long>> =
+        petRepository.addPets(list)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
     private fun transformToMap(filters: Filters?): Map<String, @JvmSuppressWildcards Any> =
         try {

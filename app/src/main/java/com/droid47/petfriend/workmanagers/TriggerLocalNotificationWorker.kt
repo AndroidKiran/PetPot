@@ -7,7 +7,7 @@ import androidx.work.*
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.d
 import com.droid47.petfriend.search.data.models.search.PetEntity
-import com.droid47.petfriend.workmanagers.domain.FetchBookmarkListUseCase
+import com.droid47.petfriend.workmanagers.domain.FetchFavoritePetsUseCase
 import com.droid47.petfriend.workmanagers.notification.BigTextStyle
 import com.droid47.petfriend.workmanagers.notification.NotificationModel
 import com.droid47.petfriend.workmanagers.notification.NotificationModel.NotificationChannel.Companion.CHANNEL_ID
@@ -23,7 +23,7 @@ private val REQUEST_TAG = TriggerLocalNotificationWorker::class.java.simpleName
 class TriggerLocalNotificationWorker @Inject constructor(
     private val application: Application,
     workerParameters: WorkerParameters,
-    private val fetchBookmarkListUseCase: FetchBookmarkListUseCase
+    private val fetchFavoritePetsUseCase: FetchFavoritePetsUseCase
 ) : RxWorker(application, workerParameters) {
 
     override fun createWork(): Single<Result> =
@@ -60,7 +60,7 @@ class TriggerLocalNotificationWorker @Inject constructor(
     }
 
     private fun getFavouritePet(): Single<NotificationModel> =
-        fetchBookmarkListUseCase.buildUseCaseSingle()
+        fetchFavoritePetsUseCase.buildUseCaseSingle()
             .map { baseStateModel ->
                 createNotificationModelFrom(baseStateModel.data ?: emptyList())
             }

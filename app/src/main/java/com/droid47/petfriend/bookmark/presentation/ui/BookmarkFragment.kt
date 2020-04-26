@@ -16,7 +16,6 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.getErrorRequestMessage
-import com.droid47.petfriend.base.extensions.hideKeyboard
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragmentDirections.Companion.toPetDetails
@@ -26,9 +25,7 @@ import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.BOOK_MARK
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -253,7 +250,7 @@ class BookmarkFragment :
                 toggleDeletePetView()
             }
             R.id.btn_primary_action -> {
-                getViewModel().deleteAllBookmark()
+                getViewModel().deleteAllFavoritePets()
                 toggleDeletePetView()
             }
         }

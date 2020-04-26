@@ -3,7 +3,6 @@ package com.droid47.petfriend.home.presentation.di
 import com.droid47.petfriend.aboutUs.presentation.AboutUsFragment
 import com.droid47.petfriend.app.di.scopes.ActivityScope
 import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragment
-import com.droid47.petfriend.bookmark.presentation.ui.DeletePetsBottomSheetDialog
 import com.droid47.petfriend.home.presentation.BottomNavDrawerFragment
 import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.SettingFragment
@@ -33,5 +32,4 @@ interface HomeSubComponent {
     fun inject(settingFragment: SettingFragment)
     fun inject(petDetailsFragment: PetDetailsFragment)
     fun inject(similarPetsFragment: SimilarPetsFragment)
-    fun inject(deletePetsBottomSheetDialog: DeletePetsBottomSheetDialog)
 }

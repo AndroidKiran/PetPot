@@ -119,7 +119,7 @@ data class PetEntity(
     @get:Bindable
     @ColumnInfo(name = COL_BOOK_MARK_STATUS)
     @field:SerializedName("bookmark_status")
-    var bookmarkStatus: Boolean = false
+    var bookmarkStatus: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.bookmarkStatus)

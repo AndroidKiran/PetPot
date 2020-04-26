@@ -10,7 +10,7 @@ import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.search.data.models.type.PetTypeEntity
 import com.droid47.petfriend.search.domain.repositories.PetTypeRepository
-import com.droid47.petfriend.search.domain.repositories.SearchRepository
+import com.droid47.petfriend.search.domain.repositories.PetRepository
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import io.reactivex.Observable
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class SyncPetTypeUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
-    private val searchRepository: SearchRepository,
+    private val petRepository: PetRepository,
     private val petTypeRepository: PetTypeRepository,
     private val application: Application
 ) : SingleUseCase<BaseStateModel<List<PetTypeEntity>>, Boolean>(
@@ -61,7 +61,7 @@ class SyncPetTypeUseCase @Inject constructor(
             }
 
     private fun getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
-        return searchRepository.getTypesFromNetwork()
+        return petRepository.fetchPetTypesFromNetwork()
             .flattenAsObservable { typeResponse -> typeResponse.typeEntities }
             .onErrorResumeNext(Function { Observable.empty() })
             .fetchBreeds()
@@ -71,7 +71,7 @@ class SyncPetTypeUseCase @Inject constructor(
 
     private fun Observable<PetTypeEntity>.fetchBreeds() =
         flatMapSingle { petType ->
-            searchRepository.getBreedsFromNetwork(petType.name)
+            petRepository.fetchBreedsFromNetwork(petType.name)
                 .map { breedResponse ->
                     petType.apply {
                         breeds = breedResponse.breeds
@@ -85,7 +85,7 @@ class SyncPetTypeUseCase @Inject constructor(
 
     private fun Single<List<PetTypeEntity>>.insertAnimalTypes() =
         flatMap { animalTypeList ->
-            searchRepository.insertAnimalType(animalTypeList)
+            petRepository.insertPetTypeToDB(animalTypeList)
                 .map { petTypeList ->
                     if (petTypeList.isEmpty()) {
                         Failure(IllegalStateException("Empty data"), petTypeList)
