@@ -42,7 +42,7 @@ data class PetEntity(
     var gender: String? = null,
 
     @field:SerializedName("type")
-    @ColumnInfo(name = COL_TYPE)
+    @ColumnInfo(name = COL_TYPE, index = true)
     var type: String? = null,
 
     @field:SerializedName("photos")
@@ -117,9 +117,9 @@ data class PetEntity(
 ) : BaseObservable(), Parcelable {
 
     @get:Bindable
-    @ColumnInfo(name = COL_BOOK_MARK_STATUS)
+    @ColumnInfo(name = COL_BOOK_MARK_STATUS, index = true)
     @field:SerializedName("bookmark_status")
-    var bookmarkStatus: Boolean = true
+    var bookmarkStatus: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.bookmarkStatus)
@@ -128,10 +128,6 @@ data class PetEntity(
     @ColumnInfo(name = COL_BOOK_MARK_AT, index = true)
     @field:SerializedName("bookmarked_at")
     var bookmarkedAt: Long = System.currentTimeMillis()
-
-    @Ignore
-    @field:SerializedName("transition_name")
-    var transitionName: String? = null
 
     fun getPetPhoto(): String {
         val photoList = photos ?: emptyList()
@@ -168,8 +164,6 @@ data class PetEntity(
         }
         return picUrl
     }
-
-    fun hasCompleteInfo(): Boolean = name != null
 
     object TableInfo {
         const val TABLE_NAME = "pets"

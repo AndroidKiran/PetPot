@@ -8,13 +8,11 @@ import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.components.LiveEvent
 import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
 import com.droid47.petfriend.search.data.models.type.PetTypeEntity
-import com.droid47.petfriend.workmanagers.SyncPetTypeWorker
-import com.droid47.petfriend.workmanagers.TriggerLocalNotificationWorker
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-private const val ONE_TIME_AUTH_TOKEN_REQUEST = 101
+private const val ONE_TIME_AUTH_TOKEN_REQUEST = 101L
 
 class SplashViewModel @Inject constructor(
     application: Application,
@@ -44,7 +42,7 @@ class SplashViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(ONE_TIME_AUTH_TOKEN_REQUEST, d)
+                registerDisposableRequest(ONE_TIME_AUTH_TOKEN_REQUEST, d)
                 _resultEvent.postValue(Loading())
             }
 

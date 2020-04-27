@@ -23,8 +23,8 @@
         tools:layout="@layout/fragment_pet_details">
 
         <argument
-            android:name="petEntity"
-            app:argType="com.droid47.petfriend.search.data.models.search.PetEntity" />
+            android:name="petId"
+            app:argType="integer" />
 
     </fragment>
 

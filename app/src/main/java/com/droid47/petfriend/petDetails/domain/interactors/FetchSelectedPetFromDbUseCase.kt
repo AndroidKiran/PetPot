@@ -11,26 +11,22 @@ import com.droid47.petfriend.search.domain.repositories.PetRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class FetchFavoriteStateUseCase @Inject constructor(
+class FetchSelectedPetFromDbUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository
 ) : FlowableUseCase<BaseStateModel<PetEntity>, Int>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: Int?): Flowable<BaseStateModel<PetEntity>> =
+    override fun buildUseCaseObservable(params: Int): Flowable<BaseStateModel<PetEntity>> =
         when {
-            params == null || params < 1 -> Flowable.just(
+            params < 1 -> Flowable.just(
                 Failure(
                     IllegalStateException("Params is null or negative")
                 )
             )
-            else -> petRepository.subscribeToUpdate(params)
-                .map { petList ->
-                    when {
-                        petList.isEmpty() ->
-                            Failure<PetEntity>(IllegalStateException("Params is null or negative"))
-                        else -> Success(petList[0])
-                    }
+            else -> petRepository.subscribeToSelectedPet(params)
+                .map { petEntity ->
+                    Success(petEntity) as BaseStateModel<PetEntity>
                 }.onErrorReturn {
                     Failure(it)
                 }

@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.bindingConfig.ContentLoadingConfiguration
@@ -44,6 +45,7 @@ import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Compa
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CURRENT_LOCATION
 import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
+import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter
 import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SEARCH
 import com.google.android.material.snackbar.Snackbar
@@ -182,21 +184,25 @@ class SearchFragment :
     }
 
     private fun setupSearchRvAdapter() {
-        if (getSearchAdapter() == null) {
-            getViewDataBinding().rvSearch.apply {
-                layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
-                    setSnapType(SnapType.START)
-                    setSnapInterpolator(DecelerateInterpolator())
-                    setSnapDuration(300)
-                    spanSizeLookup = gridSpanListener
-                }
-                adapter = PetAdapter(requireContext(), SEARCH, getViewModel())
-                addOnScrollListener(onScrollListener)
+        if (getPetAdapter() != null) return
+        getViewDataBinding().rvSearch.apply {
+            layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
+                setSnapType(SnapType.START)
+                setSnapInterpolator(DecelerateInterpolator())
+                setSnapDuration(300)
+                spanSizeLookup = gridSpanListener
             }
+            adapter = PagedListPetAdapter(requireContext(), SEARCH, getViewModel())
+            addOnScrollListener(onScrollListener)
         }
     }
 
     private fun subscribeToLiveData() {
+        getViewModel().petsLiveData.run {
+            removeObserver(petsObserver)
+            observe(viewLifecycleOwner, petsObserver)
+        }
+
         getViewModel().searchStateLiveData.run {
             removeObserver(searchObserver)
             observe(viewLifecycleOwner, searchObserver)
@@ -231,61 +237,33 @@ class SearchFragment :
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val petViewPair = it ?: return@Observer
         if (findNavController().currentDestination?.id != R.id.navigation_pet_details) {
-            fetchRandomPetList()
             val extras = FragmentNavigatorExtras(
                 petViewPair.second to petViewPair.second.transitionName
             )
-            findNavController().navigate(toPetDetails(petViewPair.first), extras)
+            findNavController().navigate(toPetDetails(petViewPair.first.id), extras)
         }
     }
 
-    private fun fetchRandomPetList() {
-        val petList = getViewModel().searchStateLiveData.value?.data ?: emptyList()
-        if (petList.isEmpty()) return
-        val itemList = mutableListOf<PetEntity>()
-        val size = if (petList.size <= 10) {
-            petList.size
-        } else {
-            10
+    private val petsObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
+        if (it is Success) {
+            getPetAdapter()?.submitList(it.data)
         }
-        while (itemList.size <= size) {
-            val petEntity = petList[Random.nextInt(0, petList.size)]
-            if (!itemList.contains(petEntity)) {
-                itemList.add(petEntity)
-            }
-        }
-        getParentViewModel().similarPetList.postValue(itemList.distinctBy { petEntity -> petEntity.id }
-            .toList())
     }
-
     private val searchObserver = Observer<SearchState> {
         val searchState = it ?: return@Observer
         isLastPage = searchState.paginationEntity.let { pagination ->
             pagination.currentPage == pagination.totalPages
         }
 
-        val isFirstPage = searchState.paginationEntity.currentPage == 1
-
-//        toggleMenuVisibility((searchState is DefaultState || searchState is PaginatingState)
-//                    && getViewDataBinding().topSearchBar.tvLocation.text.toString().isNotEmpty())
-
         when (searchState) {
             is DefaultState -> {
                 clearPaginationUI()
-                getSearchAdapter()?.submitList(searchState.data) {
-                    if (isFirstPage) {
-                        showBottomBar()
-                    }
-//                    showFab()
-                    hideKeyboard()
-                }
+                showBottomBar()
             }
 
             is LoadingState -> {
                 clearPaginationUI()
-//                hideBottomBar()
-//                hideFab()
-                getSearchAdapter()?.submitList(emptyList())
+                hideBottomBar()
             }
 
             is PaginatingState -> {
@@ -295,16 +273,12 @@ class SearchFragment :
 
             is EmptyState -> {
                 clearPaginationUI()
-//                showBottomBar()
-//                showFab()
                 updateEmptyState()
                 hideKeyboard()
             }
 
             is ErrorState -> {
                 clearPaginationUI()
-//                showBottomBar()
-//                showFab()
                 val error = searchState.error
                 showErrorState(error)
                 hideKeyboard()
@@ -346,7 +320,7 @@ class SearchFragment :
         }
     }
 
-    private val homeEventObserver = Observer<Int> {
+    private val homeEventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_APPLY_FILTER,
             EVENT_CLOSE_FILTER -> toggleFilterView()
@@ -354,7 +328,7 @@ class SearchFragment :
         }
     }
 
-    private val petSpinnerEventObserver = Observer<Int> {
+    private val petSpinnerEventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_CURRENT_LOCATION -> {
                 getCurrentLocation()
@@ -367,7 +341,7 @@ class SearchFragment :
         getViewDataBinding().circularProgress.gone()
     }
 
-    private fun getSearchAdapter() = getViewDataBinding().rvSearch.adapter as? PetAdapter
+    private fun getPetAdapter() = getViewDataBinding().rvSearch.adapter as? PagedListPetAdapter
 
     private fun showLoadMore() {
         getViewDataBinding().circularProgress.visible()
@@ -461,10 +435,6 @@ class SearchFragment :
             filterFragment.onFilterCollapsed()
         }
     }
-
-//    private fun toggleMenuVisibility(show: Boolean) {
-//        resultOrderMenuItem?.isVisible = show
-//    }
 
     private val gridSpanListener = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int =

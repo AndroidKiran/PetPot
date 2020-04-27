@@ -19,13 +19,13 @@ import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-private const val REFRESH_SELECTED_FILTER = 3000
-private const val CLEAR_SELECTED_FILTER_BY_CATEGORY = 3001
-private const val CLEAR_ALL_SELECTED_FILTER = 3002
-private const val APPLY_FILTER = 3003
-private const val APPLY_LAST_FILTER = 3004
-private const val FETCH_SORT_FILTER = 3005
-private const val APPLY_SORT_FILTER = 3006
+private const val REFRESH_SELECTED_FILTER = 3000L
+private const val CLEAR_SELECTED_FILTER_BY_CATEGORY = 3001L
+private const val CLEAR_ALL_SELECTED_FILTER = 3002L
+private const val APPLY_FILTER = 3003L
+private const val APPLY_LAST_FILTER = 3004L
+private const val FETCH_SORT_FILTER = 3005L
+private const val APPLY_SORT_FILTER = 3006L
 
 class FilterViewModel @Inject constructor(
     application: Application,
@@ -62,7 +62,7 @@ class FilterViewModel @Inject constructor(
         fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
     }
 
-    val eventLiveData = LiveEvent<Int>()
+    val eventLiveData = LiveEvent<Long>()
 
     private val _sortFilterLiveData = MutableLiveData<BaseStateModel<FilterItemEntity>>()
     val sortFilterLiveDataEntity: LiveData<BaseStateModel<FilterItemEntity>>
@@ -74,7 +74,7 @@ class FilterViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(REFRESH_SELECTED_FILTER, d)
+                registerDisposableRequest(REFRESH_SELECTED_FILTER, d)
             }
 
             override fun onError(e: Throwable) {
@@ -90,7 +90,7 @@ class FilterViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(CLEAR_SELECTED_FILTER_BY_CATEGORY, d)
+                registerDisposableRequest(CLEAR_SELECTED_FILTER_BY_CATEGORY, d)
             }
 
             override fun onError(e: Throwable) {
@@ -107,7 +107,7 @@ class FilterViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(CLEAR_ALL_SELECTED_FILTER, d)
+                registerDisposableRequest(CLEAR_ALL_SELECTED_FILTER, d)
             }
 
             override fun onError(e: Throwable) {
@@ -127,7 +127,7 @@ class FilterViewModel @Inject constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    registerRequest(APPLY_FILTER, d)
+                    registerDisposableRequest(APPLY_FILTER, d)
                 }
 
                 override fun onError(e: Throwable) {
@@ -154,7 +154,7 @@ class FilterViewModel @Inject constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    registerRequest(APPLY_LAST_FILTER, d)
+                    registerDisposableRequest(APPLY_LAST_FILTER, d)
                 }
 
                 override fun onError(e: Throwable) {
@@ -173,7 +173,7 @@ class FilterViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(FETCH_SORT_FILTER, d)
+                registerDisposableRequest(FETCH_SORT_FILTER, d)
             }
 
             override fun onError(e: Throwable) {
@@ -189,7 +189,7 @@ class FilterViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(APPLY_SORT_FILTER, d)
+                registerDisposableRequest(APPLY_SORT_FILTER, d)
             }
 
             override fun onError(e: Throwable) {
@@ -208,9 +208,9 @@ class FilterViewModel @Inject constructor(
     }
 
     companion object {
-        const val EVENT_APPLY_FILTER = 111
-        const val EVENT_APPLY_SORT_FILTER = 112
-        const val EVENT_CLOSE_FILTER = 113
+        const val EVENT_APPLY_FILTER = 111L
+        const val EVENT_APPLY_SORT_FILTER = 112L
+        const val EVENT_CLOSE_FILTER = 113L
     }
 
 }

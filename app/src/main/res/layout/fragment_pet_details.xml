@@ -30,7 +30,7 @@
         android:id="@+id/pet_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@{@string/pet_card_transition_name(petDetailsViewModel.transitionName)}">
+        android:transitionName="@{@string/pet_card_transition_name(petDetailsViewModel.transitionId)}">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:elevation="@dimen/plane_08"
             app:ensureMinTouchTargetSize="true"
-            app:fabIcon="@{petDetailsViewModel.bookMarkStatusLiveData instanceof Success}"
+            app:fabIcon="@{petDetailsViewModel.petLiveData.data.bookmarkStatus}"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar" />
 

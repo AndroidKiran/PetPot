@@ -32,24 +32,28 @@ class PetRepo @Inject constructor(
     override fun fetchFavoritePetsFromDB(status: Boolean): DataSource.Factory<Int, PetEntity> =
         petDao.getFavoritePetsDataSource(status)
 
-    override fun fetchRecentPetsFromDB(status: Boolean): DataSource.Factory<Int, PetEntity> =
-        petDao.getRecentPetsDataSource(status)
+    override fun fetchRecentPetsFromDB(petType: String): DataSource.Factory<Int, PetEntity> =
+        petDao.getRecentPetsDataSource(petType)
 
-    override fun fetchNearByPetsFromDb(status: Boolean): DataSource.Factory<Int, PetEntity> =
-        petDao.getNearByPetsDataSource(status)
+    override fun fetchNearByPetsFromDb(petType: String): DataSource.Factory<Int, PetEntity> =
+        petDao.getNearByPetsDataSource(petType)
 
-    override fun updateFavoriteStatus(petEntity: PetEntity): Completable = petDao.updatePet(petEntity)
+    override fun fetchAllPetsFromDb(): DataSource.Factory<Int, PetEntity> =
+        petDao.getAllPetsDataSource()
+
+    override fun updateFavoriteStatus(petEntity: PetEntity): Completable =
+        petDao.updatePet(petEntity)
 
     override fun fetchPetFor(id: Int): Single<PetEntity> = petDao.getPetById(id)
 
-    override fun subscribeToUpdate(id: Int): Flowable<List<PetEntity>> =
-        petDao.fetchPetsForFlowable(id)
+    override fun subscribeToSelectedPet(id: Int): Flowable<PetEntity> =
+        petDao.getSelectedPet(id)
 
     override fun fetchFavoritePets(status: Boolean): Single<List<PetEntity>> =
         petDao.getFavoritePetsSingle(status)
 
     override fun fetchPetsFromNetWork(options: Map<String, @JvmSuppressWildcards Any>): Single<SearchResponseEntity> =
-         searchNetworkSource.getPets(options)
+        searchNetworkSource.getPets(options)
 
     override fun fetchPetTypesFromNetwork(): Single<PetTypeResponseEntity> =
         searchNetworkSource.getPetTypes()

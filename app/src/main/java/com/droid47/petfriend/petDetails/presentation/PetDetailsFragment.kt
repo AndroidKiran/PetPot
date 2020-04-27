@@ -36,7 +36,7 @@ class PetDetailsFragment :
     lateinit var factory: ViewModelProvider.Factory
 
     private val args: PetDetailsFragmentArgs by navArgs()
-    private val petEntity: PetEntity by lazy(LazyThreadSafetyMode.NONE) { args.petEntity }
+    private val petId: Int by lazy(LazyThreadSafetyMode.NONE) { args.petId }
 
     private val loadingState = ContentLoadingConfiguration()
     private val errorState = ErrorViewConfiguration()
@@ -98,7 +98,7 @@ class PetDetailsFragment :
         similarPetsFragment.subscribeToSubListSelection(navigationObserver)
         setUpView()
         setPetPhotoAdapter()
-        setUpData(petEntity)
+        handleNavArgs(petId, petId)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -106,11 +106,10 @@ class PetDetailsFragment :
         subscribeToLiveData()
     }
 
-    private fun setUpData(petEntity: PetEntity) {
-        if (petEntity.hasCompleteInfo()) {
-            getViewModel().petLiveData.postValue(Success(petEntity))
-        } else {
-            getViewModel().fetchPetFromNetwork(petEntity.id)
+    private fun handleNavArgs(petId: Int, transitionId: Int) {
+        with(getViewModel()) {
+            this.petId.postValue(petId)
+            this.transitionId.postValue(transitionId)
         }
     }
 
@@ -124,12 +123,8 @@ class PetDetailsFragment :
             setImageResource(R.drawable.vc_favorite)
             setOnClickListener {
                 hide()
-                val petEntity = getViewModel().petLiveData.value?.data ?: return@setOnClickListener
-                val bookmarkStatus =
-                    getViewModel().bookMarkStatusLiveData.value ?: return@setOnClickListener
                 getViewModel().onBookMarkClick(
-                    petEntity,
-                    bookmarkStatus is Success<PetEntity>
+                    getViewModel().petLiveData.value?.data ?: return@setOnClickListener
                 )
             }
         }
@@ -186,15 +181,11 @@ class PetDetailsFragment :
             removeObserver(shareUrlObserver)
             observe(viewLifecycleOwner, shareUrlObserver)
         }
-
-        getViewModel().bookMarkStatusLiveData.run {
-            removeObserver(bookmarkStatusObserver)
-            observe(viewLifecycleOwner, bookmarkStatusObserver)
-        }
     }
 
     private val petDetailsObserver = Observer<BaseStateModel<PetEntity>> {
         val baseStateModel = it ?: return@Observer
+        showFab()
         when (baseStateModel) {
             is Failure -> {
                 updateErrorState(baseStateModel.error)
@@ -241,10 +232,6 @@ class PetDetailsFragment :
         val shareMenuItem =
             getViewDataBinding().bottomAppBar.menu?.findItem(R.id.menu_share) ?: return@Observer
         shareMenuItem.isVisible = url.isNotEmpty()
-    }
-
-    private val bookmarkStatusObserver = Observer<BaseStateModel<PetEntity>> {
-        showFab()
     }
 
     private val appBarOffsetChangedListener = object : AppBarStateChangeListener(State.EXPANDED) {
@@ -352,9 +339,7 @@ class PetDetailsFragment :
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val pair = it ?: return@Observer
-        setUpData(pair.first.apply {
-            transitionName = petEntity.id.toString()
-        })
+        handleNavArgs(pair.first.id, petId)
     }
 
 }

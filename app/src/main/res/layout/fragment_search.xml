@@ -16,6 +16,8 @@
 
         <import type="com.droid47.petfriend.search.presentation.models.PaginatingState" />
 
+        <import type="com.droid47.petfriend.search.presentation.models.PaginationErrorState" />
+
         <variable
             name="searchViewModel"
             type="com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel" />
@@ -86,6 +88,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:spanCount="@integer/featured_grid_columns"
+                app:visible="@{searchViewModel.searchStateLiveData instanceof DefaultState || searchViewModel.searchStateLiveData instanceof PaginatingState || searchViewModel.searchStateLiveData instanceof PaginationErrorState}"
                 tools:listitem="@layout/item_pet" />
 
             <include

@@ -20,7 +20,7 @@ interface PetDao {
     fun getPetById(id: Int): Single<PetEntity>
 
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_ID} =:id")
-    fun fetchPetsForFlowable(id: Int): Flowable<List<PetEntity>>
+    fun getSelectedPet(id: Int): Flowable<PetEntity>
 
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
     fun getFavoritePetsSingle(status: Boolean): Single<List<PetEntity>>
@@ -28,11 +28,14 @@ interface PetDao {
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
     fun getFavoritePetsDataSource(status: Boolean): DataSource.Factory<Int, PetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
-    fun getRecentPetsDataSource(status: Boolean): DataSource.Factory<Int, PetEntity>
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
+    fun getRecentPetsDataSource(petType: String): DataSource.Factory<Int, PetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
-    fun getNearByPetsDataSource(status: Boolean): DataSource.Factory<Int, PetEntity>
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
+    fun getNearByPetsDataSource(petType: String): DataSource.Factory<Int, PetEntity>
+
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
+    fun getAllPetsDataSource(): DataSource.Factory<Int, PetEntity>
 
     @Delete
     fun deletePet(petEntity: PetEntity): Completable

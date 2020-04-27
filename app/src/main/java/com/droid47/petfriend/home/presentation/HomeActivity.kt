@@ -147,7 +147,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         }
     }
 
-    private val eventObserver = Observer<Int> {
+    private val eventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_TOGGLE_NAVIGATION -> bottomNavDrawer.toggle()
             EVENT_NAVIGATE_BACK -> navController.navigateUp()
@@ -215,17 +215,17 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
                 if (navController.currentDestination?.id != R.id.navigation_favorite) {
                     navController.navigate(R.id.navigation_favorite)
-                    navigateToPetDetails(petEntity)
+                    navigateToPetDetails(petEntity.id)
                 } else {
-                    navigateToPetDetails(petEntity)
+                    navigateToPetDetails(petEntity.id)
                 }
             }
         }
     }
 
-    private fun navigateToPetDetails(petEntity: PetEntity) {
+    private fun navigateToPetDetails(petId: Int) {
         if (navController.currentDestination?.id != R.id.navigation_pet_details) {
-            navController.navigate(BookmarkFragmentDirections.toPetDetails(petEntity))
+            navController.navigate(BookmarkFragmentDirections.toPetDetails(petId))
         }
     }
 

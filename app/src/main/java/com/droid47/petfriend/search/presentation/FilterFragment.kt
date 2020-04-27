@@ -289,7 +289,7 @@ class FilterFragment :
         }
     }
 
-    private val eventObserver = Observer<Int> {
+    private val eventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_APPLY_FILTER,
             EVENT_CLOSE_FILTER -> getParentViewModel().eventLiveData.postValue(it)

@@ -4,6 +4,9 @@ import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.usecase.SingleUseCase
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
+import com.droid47.petfriend.base.widgets.BaseStateModel
+import com.droid47.petfriend.base.widgets.Failure
+import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.data.models.search.SearchResponseEntity
 import com.droid47.petfriend.search.domain.repositories.PetRepository
@@ -18,12 +21,14 @@ class SearchPetUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread,
     private val gson: Gson,
     private val petRepository: PetRepository
-) : SingleUseCase<SearchResponseEntity, Filters>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<BaseStateModel<SearchResponseEntity>, Filters>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseSingle(params: Filters?): Single<SearchResponseEntity> {
+    override fun buildUseCaseSingle(params: Filters?): Single<BaseStateModel<SearchResponseEntity>> {
         return petRepository.fetchPetsFromNetWork(transformToMap(params))
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)
+            .map { Success(it) as BaseStateModel<SearchResponseEntity> }
+            .onErrorReturn { Failure(it) }
     }
 
     fun addSearchDataSingle(list: List<PetEntity>): Single<List<Long>> =

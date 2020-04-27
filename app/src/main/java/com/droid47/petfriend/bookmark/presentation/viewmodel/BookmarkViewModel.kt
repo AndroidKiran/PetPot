@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.toLiveData
 import androidx.paging.PagedList
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
@@ -24,15 +25,13 @@ import javax.inject.Inject
 
 class BookmarkViewModel @Inject constructor(
     application: Application,
-    private val subscribeToPetsUseCase: SubscribeToPetsUseCase,
+    subscribeToPetsUseCase: SubscribeToPetsUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
-    private val compositeDisposable = CompositeDisposable()
-    private val _bookmarkListLiveData = MutableLiveData<BaseStateModel<out PagedList<PetEntity>>>()
-    val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>>
-        get() = _bookmarkListLiveData
+    val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
+        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, "")).toLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
     val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>
@@ -41,15 +40,6 @@ class BookmarkViewModel @Inject constructor(
     private val _undoBookmarkLiveData = LiveEvent<BaseStateModel<PetEntity>>()
     val undoBookmarkLiveData: LiveEvent<BaseStateModel<PetEntity>>
         get() = _undoBookmarkLiveData
-
-    init {
-        listenToBookmarkItems()
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
-    }
 
     override fun onBookMarkClick(petEntity: PetEntity) {
         updateFavoritePetUseCase.execute(
@@ -61,7 +51,7 @@ class BookmarkViewModel @Inject constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    registerRequest(REQUEST_BOOK_MARK, d)
+                    registerDisposableRequest(REQUEST_BOOK_MARK, d)
                 }
 
                 override fun onError(e: Throwable) {
@@ -75,37 +65,6 @@ class BookmarkViewModel @Inject constructor(
         _navigateToAnimalDetailsAction.postValue(Pair(petEntity, view))
     }
 
-    private fun listenToBookmarkItems() {
-        compositeDisposable.add(
-            subscribeToPetsUseCase.buildUseCaseObservable(DataSourceType.FavoriteType)
-                .doOnSubscribe {
-                    _bookmarkListLiveData.postValue(Loading())
-                }
-                .subscribeWith(
-                    object : DisposableSubscriber<BaseStateModel<out PagedList<PetEntity>>>() {
-
-                        override fun onComplete() {
-
-                        }
-
-                        override fun onNext(stateModel: BaseStateModel<out PagedList<PetEntity>>?) {
-                            _bookmarkListLiveData.postValue(
-                                stateModel ?: Failure(IllegalStateException("Bookmark list error"))
-                            )
-                        }
-
-                        override fun onError(throwable: Throwable?) {
-                            _bookmarkListLiveData.postValue(
-                                Failure(
-                                    throwable ?: IllegalStateException("Bookmark list error")
-                                )
-                            )
-                        }
-                    }
-                )
-        )
-    }
-
     fun deleteAllFavoritePets() {
         removeAllPetsUseCase.execute(observer = object : SingleObserver<Int> {
             override fun onSuccess(t: Int) {
@@ -113,7 +72,7 @@ class BookmarkViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(REQUEST_DELETE_ALL_BOOK_MARK, d)
+                registerDisposableRequest(REQUEST_DELETE_ALL_BOOK_MARK, d)
             }
 
             override fun onError(e: Throwable) {
@@ -123,8 +82,8 @@ class BookmarkViewModel @Inject constructor(
     }
 
     companion object {
-        private const val REQUEST_BOOK_MARK = 1290
-        private const val REQUEST_DELETE_ALL_BOOK_MARK = 1291
+        private const val REQUEST_BOOK_MARK = 1290L
+        private const val REQUEST_DELETE_ALL_BOOK_MARK = 1291L
     }
 
 }

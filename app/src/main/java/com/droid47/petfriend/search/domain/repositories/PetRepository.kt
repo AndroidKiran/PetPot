@@ -26,15 +26,17 @@ interface PetRepository {
 
     fun fetchFavoritePetsFromDB(status: Boolean): DataSource.Factory<Int, PetEntity>
 
-    fun fetchRecentPetsFromDB(status: Boolean): DataSource.Factory<Int, PetEntity>
+    fun fetchRecentPetsFromDB(petType: String): DataSource.Factory<Int, PetEntity>
 
-    fun fetchNearByPetsFromDb(status: Boolean): DataSource.Factory<Int, PetEntity>
+    fun fetchNearByPetsFromDb(petType: String): DataSource.Factory<Int, PetEntity>
+
+    fun fetchAllPetsFromDb(): DataSource.Factory<Int, PetEntity>
 
     fun updateFavoriteStatus(petEntity: PetEntity): Completable
 
     fun fetchPetFor(id: Int): Single<PetEntity>
 
-    fun subscribeToUpdate(id: Int): Flowable<List<PetEntity>>
+    fun subscribeToSelectedPet(id: Int): Flowable<PetEntity>
 
     fun fetchFavoritePets(status: Boolean): Single<List<PetEntity>>
 }

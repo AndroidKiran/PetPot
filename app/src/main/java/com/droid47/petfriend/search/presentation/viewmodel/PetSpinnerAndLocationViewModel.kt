@@ -27,7 +27,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
 
     val selectedPetNameLiveData = MutableLiveData<String>()
     val locationLiveData = LiveEvent<String>()
-    val eventLiveData = LiveEvent<Int>()
+    val eventLiveData = LiveEvent<Long>()
 
     init {
         fetchPetNames()
@@ -41,7 +41,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerRequest(REQUEST_FETCH_NAMES, d)
+                registerDisposableRequest(REQUEST_FETCH_NAMES, d)
             }
 
             override fun onError(e: Throwable) {
@@ -69,8 +69,8 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
     }
 
     companion object {
-        private const val REQUEST_FETCH_NAMES = 111
-        const val REQUEST_REFRESH_SELECTED_PET = 112
-        const val EVENT_CURRENT_LOCATION = 113
+        private const val REQUEST_FETCH_NAMES = 111L
+        const val REQUEST_REFRESH_SELECTED_PET = 112L
+        const val EVENT_CURRENT_LOCATION = 113L
     }
 }

@@ -15,16 +15,15 @@ import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-private const val REQUEST_APP_UPGRADE_STATUS = 2330
+private const val REQUEST_APP_UPGRADE_STATUS = 2330L
 
 class HomeViewModel @Inject constructor(
     application: Application,
     private val remoteConfigUseCase: RemoteConfigUseCase
 ) : BaseAndroidViewModel(application) {
 
-    val eventLiveData = LiveEvent<Int>()
+    val eventLiveData = LiveEvent<Long>()
     val upgradeStatusLiveData = LiveEvent<BaseStateModel<AppUpgradeEntity>>()
-    val similarPetList = MutableLiveData<List<PetEntity>>()
 
     init {
         findAppUpgradeRequired()
@@ -44,7 +43,7 @@ class HomeViewModel @Inject constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    registerRequest(REQUEST_APP_UPGRADE_STATUS, d)
+                    registerDisposableRequest(REQUEST_APP_UPGRADE_STATUS, d)
                 }
 
                 override fun onError(e: Throwable) {
@@ -56,7 +55,7 @@ class HomeViewModel @Inject constructor(
     }
 
     companion object {
-        const val EVENT_TOGGLE_NAVIGATION = 71
-        const val EVENT_NAVIGATE_BACK = 72
+        const val EVENT_TOGGLE_NAVIGATION = 71L
+        const val EVENT_NAVIGATE_BACK = 72L
     }
 }

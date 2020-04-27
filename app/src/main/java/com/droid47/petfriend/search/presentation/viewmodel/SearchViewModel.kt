@@ -5,15 +5,14 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.droid47.petfriend.base.extensions.applyIOSchedulers
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
-import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
-import com.droid47.petfriend.base.widgets.BaseStateModel
-import com.droid47.petfriend.base.widgets.Failure
-import com.droid47.petfriend.base.widgets.Success
+import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.DataSourceType
 import com.droid47.petfriend.bookmark.domain.interactors.RemoveAllPetsUseCase
+import com.droid47.petfriend.bookmark.domain.interactors.SubscribeToPetsUseCase
 import com.droid47.petfriend.search.data.models.FilterItemEntity
 import com.droid47.petfriend.search.data.models.LOCATION
 import com.droid47.petfriend.search.data.models.PAGE_NUM
@@ -38,9 +37,9 @@ class SearchViewModel @Inject constructor(
     application: Application,
     private val searchPetUseCase: SearchPetUseCase,
     private val updateFilterUseCase: UpdateFilterUseCase,
-    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
-    private val removeAllPetsUseCase: RemoveAllPetsUseCase
+    private val removeAllPetsUseCase: RemoveAllPetsUseCase,
+    private val subscribeToPetsUseCase: SubscribeToPetsUseCase
 ) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -58,11 +57,15 @@ class SearchViewModel @Inject constructor(
     val filterItemLiveData: LiveEvent<BaseStateModel<Filters>>
         get() = _filterItemLiveData
 
-    val eventLiveData = LiveEvent<Int>()
+    val eventLiveData = LiveEvent<Long>()
+
+    private val _petsLiveData: MutableLiveData<BaseStateModel<out PagedList<PetEntity>>> =
+        MutableLiveData(Loading())
+    val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>>
+        get() = _petsLiveData
 
     init {
         attachSearchEvent()
-        onPetStarred()
         listenToFilterUpdate()
     }
 
@@ -76,7 +79,7 @@ class SearchViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun listenToFilterUpdate() {
-        fetchAppliedFilterUseCase.buildUseCaseObservable()
+        fetchAppliedFilterUseCase.buildUseCaseObservable(Unit)
             .applyIOSchedulers()
             .subscribeWith(object : DisposableSubscriber<BaseStateModel<Filters>>() {
                 override fun onComplete() {
@@ -87,8 +90,8 @@ class SearchViewModel @Inject constructor(
                 }
 
                 override fun onError(e: Throwable) {
-                    _filterItemLiveData.postValue(Failure(e))
                     CrashlyticsExt.handleException(e)
+                    _filterItemLiveData.postValue(Failure(e))
                 }
             })
     }
@@ -101,7 +104,7 @@ class SearchViewModel @Inject constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    registerRequest(REQUEST_UPDATE_FILTER, d)
+                    registerDisposableRequest(REQUEST_UPDATE_FILTER, d)
                 }
 
                 override fun onError(e: Throwable) {
@@ -114,20 +117,19 @@ class SearchViewModel @Inject constructor(
         updateFilter((obtainPagination().currentPage.plus(1)).toString(), PAGE_NUM)
     }
 
-    fun resetToFirstPage() {
-        updateFilter(PAGE_ONE.toString(), PAGE_NUM)
-    }
-
     fun updateLocation(location: String) {
         updateFilter(location, LOCATION)
     }
 
-    fun onFilterModified(filters: Filters) = searchSubject.onNext(filters)
+    fun onFilterModified(filters: Filters) {
+        invalidateDataSource(filters)
+        searchSubject.onNext(filters)
+    }
 
     @SuppressLint("CheckResult")
     private fun attachSearchEvent() {
         searchSubject.debounce(60, TimeUnit.MILLISECONDS)
-            .doOnSubscribe { registerRequest(REQUEST_SEARCH, it) }
+            .doOnSubscribe { registerDisposableRequest(REQUEST_SEARCH, it) }
             .switchMapSingle { filters ->
                 getSearchList(filters)
             }.subscribe({
@@ -138,113 +140,71 @@ class SearchViewModel @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    private fun onPetStarred() {
-        bookMarkSubject.debounce(300, TimeUnit.MILLISECONDS)
-            .doOnSubscribe { registerRequest(REQUEST_BOOK_MARK_PET, it) }
-            .switchMapSingle { bookMarkStatusAndPetPair ->
-                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
-                    bookmarkedAt = System.currentTimeMillis()
-                })
-            }.applyIOSchedulers()
-            .subscribe(this::onBookmarkPetSuccess, this::onPetStarError)
-    }
-
-    private fun onBookmarkPetSuccess(baseStateModel: BaseStateModel<PetEntity>) {
-        when (baseStateModel) {
-            is Success -> {
-                val bookMarkResultList = obtainCurrentData().map { pet ->
-                    pet.apply {
-                        bookmarkStatus = if (pet == baseStateModel.data) {
-                            baseStateModel.data.bookmarkStatus
-                        } else {
-                            pet.bookmarkStatus
-                        }
-                    }
-                }
-                if (bookMarkResultList.isNotEmpty()) {
-                    _searchStateLiveData.postValue(
-                        DefaultState(
-                            obtainPagination(),
-                            obtainCurrentLoadedAllItems(),
-                            bookMarkResultList
-                        )
-                    )
-                }
-            }
-
-            is Failure -> {
-                onPetStarError(baseStateModel.error)
-            }
-        }
-    }
-
-    private fun onPetStarError(throwable: Throwable) {
-        val err = throwable
-    }
-
-    @SuppressLint("CheckResult")
     private fun getSearchList(filters: Filters) =
         when (filters.page.toInt()) {
             PAGE_ONE -> onFirstPageLoad(filters)
             else -> onNextPageLoad(filters)
+        }.doOnSubscribe {
+            _searchStateLiveData.postValue(updateLoadingState(filters.page.toInt()))
         }.applyIOSchedulers()
-            .flatMap { searchResponseEntity ->
-                searchPetUseCase.addSearchDataSingle(searchResponseEntity.animals ?: emptyList())
-                    .map { searchResponseEntity }
+            .flatMap { stateModel ->
+                when (stateModel) {
+                    is Success -> {
+                        searchPetUseCase.addSearchDataSingle(
+                            stateModel.data.animals ?: emptyList()
+                        ).map { stateModel.data }
+                    }
+                    is Failure -> Single.error(stateModel.error)
+                    else -> Single.error(IllegalStateException("Search eMpty state"))
+                }
             }
             .map { processResponse(it) }
-            .doOnSubscribe {
-                _searchStateLiveData.postValue(updateLoadingState(filters.page.toInt()))
-            }
             .onErrorReturn { processError(it) }
 
-    private fun onFirstPageLoad(filters: Filters): Single<SearchResponseEntity> =
+    private fun onFirstPageLoad(filters: Filters): Single<BaseStateModel<SearchResponseEntity>> =
         Single.zip(
             searchPetUseCase.buildUseCaseSingle(filters),
             removeAllPetsUseCase.buildUseCaseSingle(false),
-            BiFunction { searchResponseEntity: SearchResponseEntity, id: Int ->
-                searchResponseEntity
+            BiFunction { stateModel: BaseStateModel<SearchResponseEntity>, id: Int ->
+                stateModel
             }
         )
 
-    private fun onNextPageLoad(filters: Filters): Single<SearchResponseEntity> =
+    private fun onNextPageLoad(filters: Filters): Single<BaseStateModel<SearchResponseEntity>> =
         searchPetUseCase.buildUseCaseSingle(filters)
 
     private fun updateLoadingState(page: Int) =
         if (page == PAGE_ONE)
-            LoadingState(obtainPagination(), false, emptyList())
+            LoadingState(PaginationEntity(currentPage = PAGE_ONE), false)
         else
             PaginatingState(
                 obtainPagination(),
-                obtainCurrentLoadedAllItems(),
-                obtainCurrentData()
+                obtainCurrentLoadedAllItems()
             )
 
     private fun processResponse(searchResponseEntity: SearchResponseEntity): SearchState {
         val pagination = searchResponseEntity.paginationEntity ?: PaginationEntity()
         val allItemsLoaded = pagination.currentPage == pagination.totalPages
         return if (PAGE_ONE == pagination.currentPage && searchResponseEntity.animals.isNullOrEmpty()) {
-            EmptyState(pagination, allItemsLoaded, emptyList())
+            EmptyState(pagination, allItemsLoaded)
         } else {
-            DefaultState(pagination, allItemsLoaded, emptyList())
+            DefaultState(pagination, allItemsLoaded)
         }
     }
 
     private fun processError(throwable: Throwable): SearchState {
-        val isEmptyResult = obtainCurrentData().isEmpty()
-        return if (isEmptyResult) {
+        val isFirstPage = PAGE_ONE == obtainPagination().currentPage
+        return if (isFirstPage) {
             ErrorState(
                 throwable,
                 obtainPagination(),
-                obtainCurrentLoadedAllItems(),
-                obtainCurrentData()
+                obtainCurrentLoadedAllItems()
             )
         } else {
             PaginationErrorState(
                 throwable,
                 obtainPagination(),
-                obtainCurrentLoadedAllItems(),
-                obtainCurrentData()
+                obtainCurrentLoadedAllItems()
             )
         }
     }
@@ -252,14 +212,38 @@ class SearchViewModel @Inject constructor(
     private fun obtainPagination() =
         searchStateLiveData.value?.paginationEntity ?: PaginationEntity()
 
-    private fun obtainCurrentData() = searchStateLiveData.value?.data ?: emptyList()
-
     private fun obtainCurrentLoadedAllItems() = searchStateLiveData.value?.loadedAllItems ?: false
 
+    private fun invalidateDataSource(filters: Filters) {
+        val isFirstPage = filters.page.toIntOrNull() == PAGE_ONE
+        val dataSourceType =
+            if (filters.location.isNullOrEmpty()) DataSourceType.RecentType else DataSourceType.DistanceType
+        if (isFirstPage) {
+            subscribeToPetsUseCase.buildUseCaseObservable(Pair(dataSourceType, filters.type ?: ""))
+                .doOnSubscribe {
+                    registerSubscriptionRequest(REQUEST_DATA_SOURCE, it)
+                }
+                .subscribe(object :
+                    DisposableSubscriber<BaseStateModel<out PagedList<PetEntity>>>() {
+                    override fun onComplete() {
+                    }
+
+                    override fun onNext(baseStateModel: BaseStateModel<out PagedList<PetEntity>>?) {
+                        _petsLiveData.postValue(baseStateModel)
+                    }
+
+                    override fun onError(t: Throwable?) {
+                        CrashlyticsExt.logHandledException(t ?: return)
+                    }
+
+                })
+        }
+    }
+
     companion object {
-        private const val REQUEST_SEARCH = 1001
-        private const val REQUEST_UPDATE_FILTER = 1003
-        private const val REQUEST_BOOK_MARK_PET = 1004
+        private const val REQUEST_SEARCH = 1001L
+        private const val REQUEST_UPDATE_FILTER = 1003L
+        private const val REQUEST_DATA_SOURCE = 1005L
         private const val PAGE_ONE = 1
     }
 }

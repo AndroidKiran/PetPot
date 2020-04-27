@@ -4,33 +4,42 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import io.reactivex.disposables.Disposable
+import org.reactivestreams.Subscription
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val requestHandler = RequestHandler<Int>()
+    private val requestDisposableHandler = RequestDisposableHandler<Long>()
+    private val requestSubscriptionHandler = RequestSubscriptionHandler<Long>()
     val networkConnectionLiveData = NetworkConnectionLiveData(application)
 
     override fun onCleared() {
-        requestHandler.dispose()
+        cancelAllRequests()
         super.onCleared()
     }
 
     fun cancelAllRequests() {
-        requestHandler.deleteAll()
+        requestDisposableHandler.deleteAll()
+        requestSubscriptionHandler.deleteAll()
     }
 
-    fun cancelRequest(requestId: Int) {
-        requestHandler.delete(requestId)
+    fun cancelRequest(requestId: Long) {
+        requestDisposableHandler.delete(requestId)
+        requestSubscriptionHandler.delete(requestId)
     }
 
-    fun registerRequest(requestId: Int, disposable: Disposable) {
+    fun registerDisposableRequest(requestId: Long, disposable: Disposable) {
         cancelRequest(requestId)
-        requestHandler.add(requestId, disposable)
+        requestDisposableHandler.add(requestId, disposable)
     }
 
-    private inner class RequestHandler<T> : Disposable {
+    fun registerSubscriptionRequest(requestId: Long, subscription: Subscription) {
+        cancelRequest(requestId)
+        requestSubscriptionHandler.add(requestId, subscription)
+    }
+
+    private inner class RequestDisposableHandler<T> : Disposable {
         private val disposablePool = ConcurrentHashMap<T, Disposable>()
         private val disposed = AtomicBoolean()
 
@@ -70,4 +79,51 @@ abstract class BaseAndroidViewModel(application: Application) : AndroidViewModel
             }
         }
     }
+
+    private inner class RequestSubscriptionHandler<T> : Subscription {
+        private val disposablePool = ConcurrentHashMap<T, Subscription>()
+        private val disposed = AtomicBoolean()
+
+        fun add(id: T, disposable: Subscription) {
+            if (disposed.get()) {
+                disposable.cancel()
+            } else {
+                val prevDisposable = disposablePool.put(id, disposable)
+                prevDisposable?.cancel()
+            }
+        }
+
+        fun delete(id: T) {
+            val disposable = disposablePool.remove(id)
+            disposable?.cancel()
+        }
+
+        fun deleteAll() {
+            synchronized(disposablePool) {
+                for (disposable in disposablePool.values) {
+                    disposable.cancel()
+                }
+                disposablePool.clear()
+            }
+        }
+
+        override fun cancel() {
+            if (disposed.compareAndSet(false, true)) {
+                synchronized(disposablePool) {
+                    for (disposable in disposablePool.values) {
+                        disposable.cancel()
+                    }
+                    disposablePool.clear()
+                }
+            }
+        }
+
+        override fun request(id: Long) {
+            try {
+            } catch (exception: Exception) {
+
+            }
+        }
+    }
+
 }

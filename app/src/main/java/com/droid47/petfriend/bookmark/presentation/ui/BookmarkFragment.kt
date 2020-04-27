@@ -179,7 +179,7 @@ class BookmarkFragment :
             val extras = FragmentNavigatorExtras(
                 petViewPair.second to petViewPair.second.transitionName
             )
-            findNavController().navigate(toPetDetails(petViewPair.first), extras)
+            findNavController().navigate(toPetDetails(petViewPair.first.id), extras)
         }
     }
 

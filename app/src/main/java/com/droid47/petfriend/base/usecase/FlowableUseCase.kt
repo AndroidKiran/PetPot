@@ -10,13 +10,13 @@ abstract class FlowableUseCase<Results, in Params>(
     postExecutionThread: PostExecutionThread
 ) : BaseReactiveUseCase(threadExecutor, postExecutionThread) {
 
-    abstract fun buildUseCaseObservable(params: Params? = null): Flowable<Results>
+    abstract fun buildUseCaseObservable(params: Params): Flowable<Results>
 
-    fun execute(params: Params? = null, observer: DisposableSubscriber<Results>) {
+    fun execute(params: Params, observer: DisposableSubscriber<Results>) {
         buildUseCaseObservableWithSchedulers(params).subscribeWith(observer)
     }
 
-    private fun buildUseCaseObservableWithSchedulers(params: Params?): Flowable<Results> {
+    private fun buildUseCaseObservableWithSchedulers(params: Params): Flowable<Results> {
         return buildUseCaseObservable(params)
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)

@@ -21,19 +21,16 @@ class FetchFilterItemsForSelectedCategoryUseCase @Inject constructor(
     postExecutionThread
 ) {
 
-    override fun buildUseCaseObservable(params: String?): Flowable<BaseStateModel<List<FilterItemEntity>>> =
-        if (params == null) {
-            Flowable.just(Failure(IllegalStateException("Category is null"), emptyList()))
-        } else {
-            filterRepository.getFilterItemsForSelectedCategory(params)
-                .map { filterItems ->
-                    return@map if (filterItems.isEmpty()) {
-                        Empty(filterItems)
-                    } else {
-                        Success(filterItems)
-                    }
-                }.onErrorReturn { throwable ->
-                    Failure(throwable, emptyList())
+    override fun buildUseCaseObservable(params: String): Flowable<BaseStateModel<List<FilterItemEntity>>> =
+        filterRepository.getFilterItemsForSelectedCategory(params)
+            .map { filterItems ->
+                return@map if (filterItems.isEmpty()) {
+                    Empty(filterItems)
+                } else {
+                    Success(filterItems)
                 }
-        }
+            }.onErrorReturn { throwable ->
+                Failure(throwable, emptyList())
+            }
+
 }

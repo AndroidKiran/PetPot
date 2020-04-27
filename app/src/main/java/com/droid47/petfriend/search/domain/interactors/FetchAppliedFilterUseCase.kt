@@ -11,6 +11,7 @@ import com.droid47.petfriend.search.data.models.*
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
 import com.droid47.petfriend.search.presentation.models.Filters
 import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
@@ -20,16 +21,18 @@ class FetchAppliedFilterUseCase @Inject constructor(
     private val filterRepository: FilterRepository
 ) : FlowableUseCase<BaseStateModel<Filters>, Unit>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: Unit?): Flowable<BaseStateModel<Filters>> =
+    override fun buildUseCaseObservable(params: Unit): Flowable<BaseStateModel<Filters>> =
         filterRepository.fetchPageFilterOnUpdate()
             .filter { it.selected }
             .switchMapSingle {
                 fetchAppliedFilters()
-            }.onErrorReturn {
+            }.subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
+            .onErrorReturn {
                 Failure(it)
             }
 
-    private fun fetchAppliedFilters() =
+    private fun fetchAppliedFilters(): Single<BaseStateModel<Filters>> =
         filterRepository.getAppliedFilterItemForSearch()
             .map { filterItemList ->
                 if (filterItemList.size == 1 || filterItemList.isEmpty()) {

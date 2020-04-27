@@ -59,7 +59,7 @@ class PetSpinner @JvmOverloads constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    petSpinnerAndLocationViewModel?.registerRequest(REQUEST_REFRESH_SELECTED_PET, d)
+                    petSpinnerAndLocationViewModel?.registerDisposableRequest(REQUEST_REFRESH_SELECTED_PET, d)
                 }
 
                 override fun onError(e: Throwable) {

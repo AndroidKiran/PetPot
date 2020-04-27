@@ -21,15 +21,16 @@ class SubscribeToPetsUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository
-) : FlowableUseCase<BaseStateModel<out PagedList<PetEntity>>, DataSourceType>(
+) : FlowableUseCase<BaseStateModel<out PagedList<PetEntity>>, Pair<DataSourceType, String>>(
     threadExecutor,
     postExecutionThread
 ) {
-    override fun buildUseCaseObservable(params: DataSourceType?): Flowable<BaseStateModel<out PagedList<PetEntity>>> =
+    override fun buildUseCaseObservable(params: Pair<DataSourceType, String>): Flowable<BaseStateModel<out PagedList<PetEntity>>> =
         RxPagedListBuilder(
-            getDataSourceType(params ?: DataSourceType.RecentType), PagedList.Config.Builder()
+            getDataSourceType(params.first, params.second),
+            PagedList.Config.Builder()
                 .setPageSize(PAGE_SIZE)
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .build()
         )
             .setFetchScheduler(threadExecutorScheduler)
@@ -45,11 +46,13 @@ class SubscribeToPetsUseCase @Inject constructor(
                 Failure(it, null)
             }
 
-    private fun getDataSourceType(dataSourceType: DataSourceType) =
+    private fun getDataSourceType(dataSourceType: DataSourceType, query: String) =
         when (dataSourceType) {
-            is DataSourceType.DistanceType -> petRepository.fetchNearByPetsFromDb(false)
-            is DataSourceType.RecentType -> petRepository.fetchRecentPetsFromDB(false)
-            else -> petRepository.fetchFavoritePetsFromDB(true)
+            is DataSourceType.DistanceType -> petRepository.fetchNearByPetsFromDb(query)
+            is DataSourceType.RecentType -> petRepository.fetchRecentPetsFromDB(query)
+            is DataSourceType.FavoriteType -> petRepository.fetchFavoritePetsFromDB(true)
+            is DataSourceType.NonFavoriteType -> petRepository.fetchFavoritePetsFromDB(false)
+            else -> petRepository.fetchAllPetsFromDb()
         }
 }
 
@@ -57,4 +60,6 @@ sealed class DataSourceType {
     object DistanceType : DataSourceType()
     object RecentType : DataSourceType()
     object FavoriteType : DataSourceType()
+    object NonFavoriteType : DataSourceType()
+    object AllType: DataSourceType()
 }
