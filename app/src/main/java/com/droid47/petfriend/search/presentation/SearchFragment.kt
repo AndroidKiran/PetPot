@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -47,7 +48,9 @@ import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocation
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CURRENT_LOCATION
 import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
 import java.util.*
 import javax.inject.Inject
 
@@ -130,10 +133,15 @@ class SearchFragment :
 
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
-            R.id.scrim,
-            R.id.fab -> {
-                toggleFilterView()
-            }
+            R.id.scrim -> performMaterialTransitionFor(
+                getViewDataBinding().flFilter,
+                getViewDataBinding().fab
+            )
+
+            R.id.fab -> performMaterialTransitionFor(
+                    getViewDataBinding().fab,
+                    getViewDataBinding().flFilter
+                )
         }
     }
 
@@ -334,7 +342,10 @@ class SearchFragment :
     private val homeEventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_APPLY_FILTER,
-            EVENT_CLOSE_FILTER -> toggleFilterView()
+            EVENT_CLOSE_FILTER -> performMaterialTransitionFor(
+                getViewDataBinding().flFilter,
+                getViewDataBinding().fab
+            )
             else -> throw IllegalStateException("Invalid event")
         }
     }
@@ -507,6 +518,29 @@ class SearchFragment :
                 Manifest.permission.ACCESS_FINE_LOCATION
             ), PERMISSION_ID
         )
+    }
+
+    private fun performMaterialTransitionFor(startView: View, endView: View) {
+        activity?.hideKeyboard()
+        val transition: MaterialContainerTransform = MaterialContainerTransform().apply {
+            this.startView = startView
+            this.endView = endView
+        }
+        TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
+        if (startView is FloatingActionButton) {
+            startView.invisible()
+            endView.visible()
+            hideBottomBar()
+            getViewDataBinding().scrim.visible()
+            filterFragment.onFilterExpanded()
+        } else {
+            filterFragment.onFilterCollapsed()
+            getViewDataBinding().scrim.invisible()
+            showBottomBar()
+            startView.invisible()
+            endView.visible()
+        }
+
     }
 
     companion object {

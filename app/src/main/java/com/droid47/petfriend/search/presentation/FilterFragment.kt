@@ -147,7 +147,7 @@ class FilterFragment :
     }
 
     private fun setUpViews() {
-        getViewDataBinding().cdlFilter.background = backGroundPrimaryColorDrawable
+//        getViewDataBinding().cdlFilter.background = backGroundPrimaryColorDrawable
         getViewDataBinding().navigationMenuView.apply {
             itemBackground = navigationItemBackground(context)
             setCheckedItem(R.id.menu_filter_gender)

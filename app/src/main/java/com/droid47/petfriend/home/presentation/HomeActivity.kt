@@ -46,11 +46,12 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     lateinit var homeComponent: HomeSubComponent
+    private lateinit var navController: NavController
 
     private var currentNavId: Int = NAV_ID_NONE
-    private lateinit var navController: NavController
     private var inAppUpdateManager: InAppUpdateManager? = null
     private var navHostFragment: NavHostFragment? = null
+
     private val arg by navArgs<HomeActivityArgs>()
     private val deepLinkBundle: Bundle by lazy(LazyThreadSafetyMode.NONE) { arg.deepLinkBundle }
 

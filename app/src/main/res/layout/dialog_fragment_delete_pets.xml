@@ -12,14 +12,6 @@
         android:background="?attr/colorSurface"
         android:padding="@dimen/grid_1">
 
-        <!--        <View-->
-        <!--            android:id="@+id/scrim_view"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:alpha="0"-->
-        <!--            android:background="?attr/scrimBackground"-->
-        <!--            android:visibility="gone" />-->
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"

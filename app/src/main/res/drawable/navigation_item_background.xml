@@ -8,6 +8,6 @@
         </inset>
     </item>
     <item>
-        <color android:color="@android:color/transparent" />
+        <color android:color="?attr/colorOnSurface" />
     </item>
 </selector>

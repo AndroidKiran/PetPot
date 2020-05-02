@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:innerRadius="0dp"
                     android:shape="ring"
-                    app:cardElevation="@dimen/plane_12"
+                    app:cardElevation="@dimen/plane_02"
                     app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="50dp">
 
@@ -93,7 +93,7 @@
                 android:layout_margin="@dimen/grid_2"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="@dimen/grid_2"
-                app:cardElevation="@dimen/plane_08"
+                app:cardElevation="@dimen/plane_02"
                 app:cardPreventCornerOverlap="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

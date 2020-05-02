@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:cardElevation="@dimen/plane_08"
+                        app:cardElevation="@dimen/plane_02"
                         app:cardPreventCornerOverlap="true"
                         app:layout_constraintBottom_toTopOf="@id/similar_pets"
                         app:layout_constraintEnd_toEndOf="parent"

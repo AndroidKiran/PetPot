@@ -181,20 +181,18 @@
             android:layout_height="wrap_content"
             android:background="?attr/scrimBackground"
             android:contentDescription="@string/fab_search_filter_content_description"
-            android:visibility="invisible"
-            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+            android:visibility="invisible" />
 
-        <com.google.android.material.transformation.TransformationChildCard
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/fl_filter"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:visibility="invisible"
-            app:cardBackgroundColor="?attr/colorPrimarySurfaceVariant"
-            app:cardCornerRadius="@dimen/grid_3"
-            app:cardElevation="@dimen/zero"
             app:cardPreventCornerOverlap="true"
-            app:layout_behavior="@string/fab_transformation_sheet_behavior"
+            app:cardCornerRadius="@dimen/grid_3"
+            android:visibility="invisible"
+            app:cardUseCompatPadding="false"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
 
             <fragment
@@ -203,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.google.android.material.transformation.TransformationChildCard>
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -26,40 +26,32 @@
 
     </data>
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_filter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevationOverlay="@{@dimen/plane_08}">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/csl_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/grid_0_5"
-            android:layout_marginBottom="@dimen/grid_6">
-
-            <Space
-                android:id="@+id/btn_reset"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/grid_6"
-                android:layout_marginTop="@dimen/grid_5"
-                app:layout_constraintBottom_toTopOf="@id/navigation_menu_view"
-                app:layout_constraintEnd_toStartOf="@id/crl_filter"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="bottom">
 
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/navigation_menu_view"
                 style="@style/Widget.PetGoogle.NavigationView"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/grid_12"
+                android:background="?attr/colorPrimarySurface"
+                android:fitsSystemWindows="true"
+                android:paddingTop="@dimen/grid_4"
                 app:itemBackground="@drawable/navigation_item_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/crl_filter"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_reset"
+                app:layout_constraintTop_toTopOf="parent"
                 app:menu="@menu/category_menu"
                 app:paddingBottomSystemWindowInsets="@{true}" />
 
@@ -143,7 +135,7 @@
                         android:orientation="vertical"
                         android:paddingStart="@dimen/grid_1"
                         android:paddingEnd="@dimen/grid_1"
-                        android:paddingBottom="@dimen/grid_4"
+                        android:paddingBottom="@dimen/grid_12"
                         app:paddingBottomSystemWindowInsets="@{true}"
                         app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Success}"
                         tools:listitem="@layout/item_filter_chip" />
@@ -177,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:elevation="@dimen/plane_08"
+            app:elevation="@dimen/plane_12"
             app:fabAlignmentMode="end"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
@@ -188,7 +180,7 @@
             <LinearLayout
                 android:id="@+id/bottom_app_bar_content_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/grid_12"
                 android:gravity="center_vertical"
                 android:minHeight="@dimen/grid_12"
                 android:orientation="horizontal">
@@ -208,4 +200,6 @@
             app:layout_anchor="@id/bottom_filter_bar"
             app:srcCompat="@drawable/vc_send" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>

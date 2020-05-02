@@ -1,6 +1,7 @@
 package com.droid47.petfriend.bookmark.presentation.ui
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,7 @@ import androidx.paging.PagedList
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
-import com.droid47.petfriend.base.extensions.activityViewModelProvider
-import com.droid47.petfriend.base.extensions.getErrorRequestMessage
-import com.droid47.petfriend.base.extensions.viewModelProvider
+import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragmentDirections.Companion.toPetDetails
 import com.droid47.petfriend.bookmark.presentation.viewmodel.BookmarkViewModel
@@ -25,7 +24,9 @@ import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
 import javax.inject.Inject
 
 class BookmarkFragment :
@@ -120,7 +121,11 @@ class BookmarkFragment :
     private fun setUpBookmarkRvAdapter() {
         if (getPetAdapter() == null) {
             getViewDataBinding().rvPets.adapter =
-                PagedListPetAdapter(requireContext(), PagedListPetAdapter.AdapterType.Favorite, getViewModel())
+                PagedListPetAdapter(
+                    requireContext(),
+                    PagedListPetAdapter.AdapterType.Favorite,
+                    getViewModel()
+                )
         }
     }
 
@@ -146,7 +151,7 @@ class BookmarkFragment :
     private val bookmarkDataObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
         val baseStateModel = it ?: return@Observer
         when (baseStateModel) {
-            is Loading  -> {
+            is Loading -> {
                 hideBottomBar()
                 hideFab()
             }
@@ -243,14 +248,22 @@ class BookmarkFragment :
 
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
-            R.id.btn_secondary_action,
             R.id.scrim,
-            R.id.fab -> {
-                toggleDeletePetView()
-            }
+            R.id.btn_secondary_action -> performMaterialTransitionFor(
+                getViewDataBinding().layoutTransition,
+                getViewDataBinding().fab
+            )
+            R.id.fab -> performMaterialTransitionFor(
+                getViewDataBinding().fab,
+                getViewDataBinding().layoutTransition
+            )
+
             R.id.btn_primary_action -> {
                 getViewModel().deleteAllFavoritePets()
-                toggleDeletePetView()
+                performMaterialTransitionFor(
+                    getViewDataBinding().layoutTransition,
+                    getViewDataBinding().fab
+                )
             }
         }
     }
@@ -271,14 +284,23 @@ class BookmarkFragment :
         getViewDataBinding().bottomAppBar.performHide()
     }
 
-    private fun toggleDeletePetView() {
-        getViewDataBinding().fab.isExpanded = !getViewDataBinding().fab.isExpanded
-        if (getViewDataBinding().fab.isExpanded) {
-            hideFab()
-            hideBottomBar()
-        } else {
-            showBottomBar()
-            showFab()
+    private fun performMaterialTransitionFor(startView: View, endView: View) {
+        val transition: MaterialContainerTransform = MaterialContainerTransform().apply {
+            this.startView = startView
+            this.endView = endView
         }
+        TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
+        if (startView is FloatingActionButton) {
+            startView.invisible()
+            endView.visible()
+            hideBottomBar()
+            getViewDataBinding().scrim.visible()
+        } else {
+            getViewDataBinding().scrim.invisible()
+            showBottomBar()
+            startView.invisible()
+            endView.visible()
+        }
+
     }
 }

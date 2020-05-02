@@ -127,9 +127,9 @@
             <LinearLayout
                 android:id="@+id/bottom_app_bar_content_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/grid_12"
+                android:foreground="@drawable/bottom_app_bar_title_foreground"
                 android:gravity="center_vertical"
-                android:minHeight="@dimen/grid_12"
                 android:orientation="horizontal" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
@@ -142,8 +142,7 @@
             android:elevation="@dimen/plane_06"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
-            app:srcCompat="@drawable/vc_delete_sweep"
-            tools:visibility="visible" />
+            app:srcCompat="@drawable/vc_delete_sweep" />
 
         <View
             android:id="@+id/scrim"
@@ -152,10 +151,9 @@
             android:layout_marginBottom="@dimen/grid_6"
             android:background="?attr/scrimBackground"
             android:contentDescription="@string/fab_search_filter_content_description"
-            android:visibility="invisible"
-            app:layout_behavior="@string/fab_transformation_scrim_behavior" />
+            android:visibility="invisible" />
 
-        <com.google.android.material.transformation.TransformationChildCard
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/layout_transition"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
@@ -164,17 +162,16 @@
             android:layout_marginBottom="@dimen/grid_6"
             android:visibility="invisible"
             app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="@dimen/grid_2"
             app:cardElevation="@dimen/zero"
             app:cardPreventCornerOverlap="true"
-            app:layout_behavior="@string/fab_transformation_sheet_behavior"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
 
             <include
                 android:id="@+id/layout_delete_pet"
                 layout="@layout/dialog_fragment_delete_pets" />
 
-        </com.google.android.material.transformation.TransformationChildCard>
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
