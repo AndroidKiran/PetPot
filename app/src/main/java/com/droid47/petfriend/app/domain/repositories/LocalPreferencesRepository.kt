@@ -21,4 +21,8 @@ interface LocalPreferencesRepository {
     fun saveFcmToken(token: String)
 
     fun getFcmToken(): String?
+
+    fun saveSelectPetPosition(position: Int)
+
+    fun getSelectedPetPosition(): Int
 }

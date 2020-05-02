@@ -41,13 +41,13 @@ fun w(tag: String, msg: String) {
     }
 }
 
-fun d(@NonNls tag: String, @NonNls message: String) {
+fun log(@NonNls tag: String, @NonNls message: String) {
     if (isDeveloperMode()) {
         Log.d(tag, message)
     }
 }
 
-fun d(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
+fun log(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
     if (isDeveloperMode()) {
         Log.d(tag, msg, tr)
     }

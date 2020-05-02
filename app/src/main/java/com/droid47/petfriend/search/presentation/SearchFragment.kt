@@ -40,18 +40,16 @@ import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companio
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.SearchFragmentDirections.Companion.toPetDetails
 import com.droid47.petfriend.search.presentation.models.*
+import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CURRENT_LOCATION
 import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SEARCH
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 import javax.inject.Inject
-import kotlin.random.Random
 
 class SearchFragment :
     BaseBindingFragment<FragmentSearchBinding, SearchViewModel, HomeViewModel>(),
@@ -185,14 +183,18 @@ class SearchFragment :
 
     private fun setupSearchRvAdapter() {
         if (getPetAdapter() != null) return
-        getViewDataBinding().rvSearch.apply {
+        getViewDataBinding().rvPets.apply {
             layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
                 setSnapType(SnapType.START)
                 setSnapInterpolator(DecelerateInterpolator())
                 setSnapDuration(300)
                 spanSizeLookup = gridSpanListener
             }
-            adapter = PagedListPetAdapter(requireContext(), SEARCH, getViewModel())
+            adapter = PagedListPetAdapter(
+                requireContext(),
+                PagedListPetAdapter.AdapterType.Search,
+                getViewModel()
+            )
             addOnScrollListener(onScrollListener)
         }
     }
@@ -246,7 +248,14 @@ class SearchFragment :
 
     private val petsObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
         if (it is Success) {
-            getPetAdapter()?.submitList(it.data)
+            getPetAdapter()?.submitList(it.data) {
+                val paginationEntity =
+                    getViewModel().searchStateLiveData.value?.paginationEntity ?: return@submitList
+                if (PAGE_ONE == paginationEntity.currentPage) {
+                    getPetAdapter()?.scrollToTop()
+                    showBottomBar()
+                }
+            }
         }
     }
     private val searchObserver = Observer<SearchState> {
@@ -258,12 +267,12 @@ class SearchFragment :
         when (searchState) {
             is DefaultState -> {
                 clearPaginationUI()
-                showBottomBar()
             }
 
             is LoadingState -> {
                 clearPaginationUI()
                 hideBottomBar()
+                getViewDataBinding().appbar.setExpanded(true)
             }
 
             is PaginatingState -> {
@@ -275,6 +284,7 @@ class SearchFragment :
                 clearPaginationUI()
                 updateEmptyState()
                 hideKeyboard()
+                showBottomBar()
             }
 
             is ErrorState -> {
@@ -282,6 +292,7 @@ class SearchFragment :
                 val error = searchState.error
                 showErrorState(error)
                 hideKeyboard()
+                showBottomBar()
             }
 
             is PaginationErrorState -> {
@@ -341,7 +352,7 @@ class SearchFragment :
         getViewDataBinding().circularProgress.gone()
     }
 
-    private fun getPetAdapter() = getViewDataBinding().rvSearch.adapter as? PagedListPetAdapter
+    private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PagedListPetAdapter
 
     private fun showLoadMore() {
         getViewDataBinding().circularProgress.visible()

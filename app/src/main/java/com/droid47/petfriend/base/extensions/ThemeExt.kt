@@ -1,8 +1,8 @@
 package com.droid47.petfriend.base.extensions
 
+import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.BuildCompat
 
 const val LIGHT_MODE = "light"
 const val DARK_MODE = "dark"

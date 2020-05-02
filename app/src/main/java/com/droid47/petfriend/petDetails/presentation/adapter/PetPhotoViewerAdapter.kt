@@ -28,24 +28,22 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
         override fun areItemsTheSame(
             oldItemEntity: PhotosItemEntity,
             newItemEntity: PhotosItemEntity
-        ) =
-            oldItemEntity == newItemEntity
+        ): Boolean = oldItemEntity == newItemEntity
 
         override fun areContentsTheSame(
             oldItemEntity: PhotosItemEntity,
             newItemEntity: PhotosItemEntity
-        ) =
-            oldItemEntity == newItemEntity
+        ): Boolean = oldItemEntity == newItemEntity
     }
 
     inner class PetPhotoViewHolder(private val binding: ItemPetPhotoBinding) :
         BaseViewHolder(binding.root) {
 
         override fun onBind(position: Int) {
-            val photoItem = getItem(position)
+            val photoUrl = getItem(position)?.getPetFullPhoto() ?: ""
             binding.apply {
-                petPhotoUrl = photoItem.getPetFullPhoto()
-                imageLoadListener = loadListener {
+                petPhotoUrl = photoUrl
+                imageLoadListener = loadListener(this.circularProgress) {
                     petPhotoViewerListener.onImageLoaded()
                 }
             }.run {

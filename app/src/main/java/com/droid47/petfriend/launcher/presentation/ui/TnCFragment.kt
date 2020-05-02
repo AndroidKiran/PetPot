@@ -1,18 +1,24 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
+import com.droid47.petfriend.base.extensions.themeInterpolator
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentTncBinding
 import com.droid47.petfriend.launcher.presentation.ui.TnCFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel
+import com.droid47.petfriend.workmanagers.notification.NotificationModel.Companion.EXTRA_NAVIGATION_FRAGMENT_ID
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import javax.inject.Inject
 
 class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
@@ -55,8 +61,20 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         closeOnBackPressed.isEnabled = true
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        prepareTransitions()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
         setUpView()
     }
 
@@ -81,10 +99,10 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
     private fun navigateToHome() {
         getViewModel().updateTnCStatus()
         getParentViewModel().updateFirebaseCollectionStatus()
-        findNavController().navigate(toHome(Bundle().apply {
-            putInt("navigationFragmentId", R.id.navigation_search)
-        }))
-        requireActivity().finish()
+        val direction = toHome(Bundle().apply {
+            putInt(EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
+        })
+        getParentViewModel().homeNavigationLiveData.postValue(direction)
     }
 
     private val closeOnBackPressed = object : OnBackPressedCallback(false) {
@@ -94,6 +112,26 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
             } else {
                 activity?.finish()
             }
+        }
+    }
+
+    private fun prepareTransitions() {
+        postponeEnterTransition()
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+        }
+
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.iv_logo
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
     }
 }

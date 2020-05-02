@@ -3,6 +3,7 @@
 
     <!--2dp sub grid-->
     <dimen name="grid_0_5">4dp</dimen>
+    <dimen name="grid_0_25">6dp</dimen>
 
     <!--8dp grid-->
     <dimen name="grid_1">8dp</dimen>

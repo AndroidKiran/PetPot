@@ -230,14 +230,18 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:backgroundTint="?attr/colorSecondary"
+            android:insetLeft="@dimen/zero"
+            android:insetRight="@dimen/zero"
             android:text="@string/to_map"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
             app:icon="@drawable/vc_place"
             app:iconGravity="textStart"
-            app:layout_constraintBottom_toBottomOf="@id/tv_address"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_address" />
+            app:iconPadding="@dimen/grid_0_5"
+            app:iconTint="?attr/colorOnSecondary"
+            android:layout_marginBottom="@dimen/grid_1"
+            app:layout_constraintBottom_toTopOf="@id/divider_one"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <View
             android:id="@+id/divider_one"
@@ -394,7 +398,7 @@
             android:textAppearance="?attr/textAppearanceOverline"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toTopOf="@id/tv_health"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_play"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/csl_coat_trained"
             app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.healthLiveData)}" />
@@ -411,7 +415,7 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toTopOf="@id/tv_good_heading"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_play"
             app:layout_constraintStart_toStartOf="@id/tv_health_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_health_heading"
             app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.healthLiveData)}"
@@ -430,7 +434,7 @@
             android:textAppearance="?attr/textAppearanceOverline"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toTopOf="@id/tv_good"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_play"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_health"
             app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.goodLiveData)}" />
@@ -446,11 +450,32 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toTopOf="@id/divider_two"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_play"
             app:layout_constraintStart_toStartOf="@id/tv_good_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_good_heading"
             app:visible="@{StringExtKt.isNotEmpty(petDetailsViewModel.goodLiveData)}"
             tools:text="Other dogs." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_play"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:backgroundTint="?attr/colorSecondary"
+            android:insetLeft="@dimen/zero"
+            android:insetRight="@dimen/zero"
+            android:text="play"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorOnSecondary"
+            app:icon="@drawable/vc_place"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/grid_0_5"
+            android:visibility="gone"
+            app:iconTint="?attr/colorOnSecondary"
+            android:layout_marginBottom="@dimen/grid_1"
+            app:layout_constraintBottom_toTopOf="@id/divider_two"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <View
             android:id="@+id/divider_two"
@@ -491,9 +516,9 @@
             android:autoLink="web"
             android:gravity="center_vertical|start"
             android:linksClickable="true"
+            android:text="@{petDetailsViewModel.descLiveData}"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
-            android:text="@{petDetailsViewModel.descLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_meet"

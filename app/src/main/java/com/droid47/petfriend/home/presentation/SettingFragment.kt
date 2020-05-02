@@ -59,10 +59,4 @@ class SettingFragment : PreferenceFragmentCompat(),
                 true
             }
     }
-
-    private fun getDefaultValueFor(key: String, context: Context): Any =
-        when (key) {
-            else -> false
-        }
-
 }

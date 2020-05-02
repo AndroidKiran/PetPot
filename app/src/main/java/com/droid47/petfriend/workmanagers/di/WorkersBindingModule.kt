@@ -1,7 +1,6 @@
 package com.droid47.petfriend.workmanagers.di
 
 import androidx.work.RxWorker
-import com.droid47.petfriend.workmanagers.HelloWorldWorker
 import com.droid47.petfriend.workmanagers.SyncPetTypeWorker
 import com.droid47.petfriend.workmanagers.TriggerLocalNotificationWorker
 import dagger.Binds
@@ -10,11 +9,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 interface WorkersBindingModule {
-
-    @Binds
-    @IntoMap
-    @WorkerKey(HelloWorldWorker::class)
-    fun bindHelloWorldWorker(worker: HelloWorldWorker): RxWorker
 
     @Binds
     @IntoMap

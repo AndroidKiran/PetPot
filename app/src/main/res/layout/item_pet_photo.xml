@@ -15,13 +15,27 @@
 
     </data>
 
-    <ImageView
-        android:id="@+id/iv_pet_photo"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="center"
-        app:loadListener="@{imageLoadListener}"
-        app:placeholder="@{@drawable/vc_paw}"
-        app:srcUrl="@{petPhotoUrl}" />
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/iv_pet_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            app:loadListener="@{imageLoadListener}"
+            app:placeholder="@{@drawable/vc_paw}"
+            app:srcUrl="@{petPhotoUrl}" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/circular_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="@dimen/loading_circular_dimen"
+            android:layout_height="@dimen/loading_circular_dimen"
+            android:layout_gravity="center"
+            android:elevation="24dp"
+            android:theme="@style/Widget.PetGoogle.ContentProgress" />
+
+    </FrameLayout>
 </layout>

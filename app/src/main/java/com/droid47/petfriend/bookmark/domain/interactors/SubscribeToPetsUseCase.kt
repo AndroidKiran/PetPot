@@ -11,11 +11,10 @@ import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.domain.repositories.PetRepository
+import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_SIZE
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import javax.inject.Inject
-
-private const val PAGE_SIZE = 20
 
 class SubscribeToPetsUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,

@@ -17,5 +17,6 @@ interface LauncherSubComponent {
     fun inject(fragment: SplashFragment)
     fun inject(fragment: HomeBoardFragment)
     fun inject(fragment: TnCFragment)
-    fun inject(introFragment: IntroFragment)
+    fun inject(appIntroFragment: AppIntroFragment)
+
 }

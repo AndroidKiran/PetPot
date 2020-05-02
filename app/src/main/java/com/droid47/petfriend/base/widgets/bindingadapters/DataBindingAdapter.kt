@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -191,7 +192,7 @@ fun ImageView.bindSrcUrl(
 ) {
 
     val request = Glide.with(this).load(url ?: "")
-        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
     if (circleCrop) request.circleCrop()
     if (placeholder != null) request.placeholder(placeholder)
     if (loadListener != null) request.listener(loadListener)
@@ -244,4 +245,28 @@ fun WebView.loadWebUrl(url: String?) {
 @BindingAdapter("fromHtml")
 fun TextView.fromHtml(input: String?) {
     text = input?.fromHtml() ?: ""
+}
+
+@BindingAdapter("app:srcCompat")
+fun ImageView.setImageUri(imageUri: String?) {
+    if (imageUri == null) {
+        setImageURI(null)
+    } else {
+        setImageURI(Uri.parse(imageUri))
+    }
+}
+
+@BindingAdapter("app:srcCompat")
+fun ImageView.setImageUri(imageUri: Uri) {
+    setImageURI(imageUri)
+}
+
+@BindingAdapter("app:srcCompat")
+fun ImageView.setImageDrawable(drawable: Drawable) {
+    setImageDrawable(drawable)
+}
+
+@BindingAdapter("app:srcCompat")
+fun ImageView.setImageResource(resource: Int) {
+    setImageResource(resource)
 }

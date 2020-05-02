@@ -11,9 +11,9 @@ import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.home.data.AppUpgradeEntity
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import io.reactivex.Single
 import javax.inject.Inject
@@ -25,23 +25,26 @@ class RemoteConfigUseCase @Inject constructor(
 ) : SingleUseCase<BaseStateModel<String>, String>(threadExecutor, postExecutionThread) {
 
     private val config: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
-        setConfigSettingsAsync(
-            FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(
-                if (BuildConfig.DEBUG) 0 else ((60 * 8).toLong())
-            ).build()
-        )
         setDefaultsAsync(R.xml.remote_config_defaults)
+        setConfigSettingsAsync(
+            remoteConfigSettings {
+                minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 0 else ((60 * 8).toLong())
+            }
+        )
     }
 
     override fun buildUseCaseSingle(params: String?): Single<BaseStateModel<String>> =
         Single.create<BaseStateModel<String>> { emitter ->
             try {
-                config.fetchAndActivate()
-                    .addOnSuccessListener {
-                        emitter.onSuccess(Success(config[KEY_APP_UPGRADE].asString()))
-                    }.addOnFailureListener {
-                        emitter.onError(it)
+                config.fetchAndActivate().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        emitter.onSuccess(Success(config[params ?: ""].asString()))
+                    } else {
+                        emitter.onError(
+                            it.exception ?: IllegalStateException("Remote config fetch error")
+                        )
                     }
+                }
             } catch (exception: Exception) {
                 emitter.onError(exception)
             }

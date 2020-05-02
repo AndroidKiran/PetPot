@@ -6,6 +6,8 @@ import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import com.droid47.petfriend.search.data.models.*
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
 import com.droid47.petfriend.search.domain.repositories.PetTypeRepository
+import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
+import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_RECENT
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -28,8 +30,8 @@ class RefreshFilterUseCase @Inject constructor(
                     addAll(transformToFilterItemList(petType.age, AGE))
                     addAll(transformToFilterItemList(petType.status, STATUS))
                     add(FilterItemEntity(petType.name, PET_TYPE, true))
-                    add(FilterItemEntity(1.toString(), PAGE_NUM, true))
-                    add(FilterItemEntity("recent", SORT, true))
+                    add(FilterItemEntity(PAGE_ONE.toString(), PAGE_NUM, true))
+                    add(FilterItemEntity(SORT_BY_RECENT, SORT, true))
                     val locationStr = params ?: ""
                     if (locationStr.isNotEmpty()) {
                         add(FilterItemEntity(locationStr, LOCATION, true))

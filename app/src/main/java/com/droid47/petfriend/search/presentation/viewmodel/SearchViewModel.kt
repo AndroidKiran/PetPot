@@ -23,7 +23,9 @@ import com.droid47.petfriend.search.domain.interactors.FetchAppliedFilterUseCase
 import com.droid47.petfriend.search.domain.interactors.SearchPetUseCase
 import com.droid47.petfriend.search.domain.interactors.UpdateFilterUseCase
 import com.droid47.petfriend.search.presentation.models.*
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter
+import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
+import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_SIZE
+import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
 import io.reactivex.CompletableObserver
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -40,7 +42,7 @@ class SearchViewModel @Inject constructor(
     private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase,
     private val subscribeToPetsUseCase: SubscribeToPetsUseCase
-) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
+) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener {
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
     val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>
@@ -150,7 +152,7 @@ class SearchViewModel @Inject constructor(
             .flatMap { stateModel ->
                 when (stateModel) {
                     is Success -> {
-                        searchPetUseCase.addSearchDataSingle(
+                        searchPetUseCase.addPetsToDb(
                             stateModel.data.animals ?: emptyList()
                         ).map { stateModel.data }
                     }
@@ -175,44 +177,51 @@ class SearchViewModel @Inject constructor(
 
     private fun updateLoadingState(page: Int) =
         if (page == PAGE_ONE)
-            LoadingState(PaginationEntity(currentPage = PAGE_ONE), false)
+            LoadingState(PaginationEntity(currentPage = PAGE_ONE), false, 0)
         else
             PaginatingState(
                 obtainPagination(),
-                obtainCurrentLoadedAllItems()
+                obtainCurrentLoadedAllItems(),
+                obtainTotalCount()
             )
 
     private fun processResponse(searchResponseEntity: SearchResponseEntity): SearchState {
         val pagination = searchResponseEntity.paginationEntity ?: PaginationEntity()
         val allItemsLoaded = pagination.currentPage == pagination.totalPages
-        return if (PAGE_ONE == pagination.currentPage && searchResponseEntity.animals.isNullOrEmpty()) {
-            EmptyState(pagination, allItemsLoaded)
+        val totalCount = obtainTotalCount().plus(searchResponseEntity.animals?.size ?: 0)
+        return if (searchResponseEntity.animals.isNullOrEmpty() && totalCount <= PAGE_SIZE) {
+            EmptyState(pagination, allItemsLoaded, totalCount)
         } else {
-            DefaultState(pagination, allItemsLoaded)
+            DefaultState(pagination, allItemsLoaded, totalCount)
         }
     }
 
     private fun processError(throwable: Throwable): SearchState {
-        val isFirstPage = PAGE_ONE == obtainPagination().currentPage
+        val isFirstPage = obtainTotalCount() < PAGE_SIZE
         return if (isFirstPage) {
             ErrorState(
                 throwable,
                 obtainPagination(),
-                obtainCurrentLoadedAllItems()
+                obtainCurrentLoadedAllItems(),
+                obtainTotalCount()
             )
         } else {
             PaginationErrorState(
                 throwable,
                 obtainPagination(),
-                obtainCurrentLoadedAllItems()
+                obtainCurrentLoadedAllItems(),
+                obtainTotalCount()
             )
         }
     }
 
-    private fun obtainPagination() =
+    private fun obtainPagination(): PaginationEntity =
         searchStateLiveData.value?.paginationEntity ?: PaginationEntity()
 
-    private fun obtainCurrentLoadedAllItems() = searchStateLiveData.value?.loadedAllItems ?: false
+    private fun obtainCurrentLoadedAllItems(): Boolean =
+        searchStateLiveData.value?.loadedAllItems ?: false
+
+    private fun obtainTotalCount(): Int = searchStateLiveData.value?.totalCount ?: 0
 
     private fun invalidateDataSource(filters: Filters) {
         val isFirstPage = filters.page.toIntOrNull() == PAGE_ONE
@@ -244,6 +253,5 @@ class SearchViewModel @Inject constructor(
         private const val REQUEST_SEARCH = 1001L
         private const val REQUEST_UPDATE_FILTER = 1003L
         private const val REQUEST_DATA_SOURCE = 1005L
-        private const val PAGE_ONE = 1
     }
 }

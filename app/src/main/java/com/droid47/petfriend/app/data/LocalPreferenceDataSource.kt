@@ -58,10 +58,20 @@ class LocalPreferenceDataSource @Inject constructor(private val application: App
     override fun getFcmToken(): String? =
         sharedPreferences.getString(KEY_FCM_TOKEN, null)
 
+    override fun saveSelectPetPosition(position: Int) {
+        sharedPreferences.edit {
+            putInt(KEY_SELECTED_PET_POSITION, position)
+        }
+    }
+
+    override fun getSelectedPetPosition(): Int =
+        sharedPreferences.getInt(KEY_SELECTED_PET_POSITION, 0)
+
     companion object {
         const val KEY_TOKEN = "token"
         const val KEY_ON_BOARDING_STATE = "on_boarding_state"
         const val KEY_TNC_STATE = "tnc_state"
         const val KEY_FCM_TOKEN = "fcm_token"
+        const val KEY_SELECTED_PET_POSITION = "selected_pet_position"
     }
 }

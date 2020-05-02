@@ -15,28 +15,28 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class PetTypeEntity : BaseObservable(), Parcelable {
 
-    @field:SerializedName("name")
     @get:Bindable
     @PrimaryKey
     @ColumnInfo(name = COL_NAME, index = true)
+    @field:SerializedName("name")
     var name: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.name)
         }
 
-    @field:SerializedName("coats")
     @get:Bindable
     @ColumnInfo(name = COL_COATS)
+    @field:SerializedName("coats")
     var coats: List<String>? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.coats)
         }
 
-    @field:SerializedName("genders")
     @get:Bindable
     @ColumnInfo(name = COL_GENDERS)
+    @field:SerializedName("genders")
     var genders: List<String>? = null
         set(value) {
             field = value

@@ -2,9 +2,13 @@ package com.droid47.petfriend.launcher.presentation.ui
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
@@ -69,6 +73,22 @@ class SplashFragment :
         (activity as LauncherActivity).launcherComponent.inject(this)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        postponeEnterTransition()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         getViewDataBinding().ivLogo.playLottie()
@@ -128,23 +148,29 @@ class SplashFragment :
 
     private fun navigateToIntro() {
         if (findNavController().currentDestination?.id != R.id.navigation_home_board) {
-            findNavController().navigate(toIntro())
+            val extras = FragmentNavigatorExtras(
+                getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
+            )
+            findNavController().navigate(toIntro(), extras)
         }
     }
 
     private fun navigateToTnc() {
         if (findNavController().currentDestination?.id != R.id.navigation_tnc) {
-            findNavController().navigate(toTnc())
+            val extras = FragmentNavigatorExtras(
+                getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
+            )
+            findNavController().navigate(toTnc(), extras)
         }
     }
 
     private fun navigateToHome() {
         val tncStatus = getViewModel().getTncStatus()
         if (tncStatus) {
-            findNavController().navigate(toHome(arguments ?: Bundle().apply {
+            val direction = toHome(arguments ?: Bundle().apply {
                 putInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
-            }))
-            requireActivity().finish()
+            })
+            getParentViewModel().homeNavigationLiveData.postValue(direction)
         } else {
             navigateToTnc()
         }

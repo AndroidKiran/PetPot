@@ -16,7 +16,6 @@ import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.*
-import com.droid47.petfriend.base.widgets.anim.MaterialContainerTransition
 import com.droid47.petfriend.base.widgets.components.AppBarStateChangeListener
 import com.droid47.petfriend.base.widgets.components.ZoomInPageTransformer
 import com.droid47.petfriend.databinding.FragmentPetDetailsBinding
@@ -27,6 +26,8 @@ import com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewMo
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.data.models.search.PhotosItemEntity
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import javax.inject.Inject
 
 class PetDetailsFragment :
@@ -123,9 +124,13 @@ class PetDetailsFragment :
             setImageResource(R.drawable.vc_favorite)
             setOnClickListener {
                 hide()
-                getViewModel().onBookMarkClick(
-                    getViewModel().petLiveData.value?.data ?: return@setOnClickListener
-                )
+                getViewModel().run {
+                    openingAnimationRequired = false
+                    onBookMarkClick(
+                        getViewModel().petLiveData.value?.data ?: return@setOnClickListener
+                    )
+                }
+
             }
         }
 
@@ -143,9 +148,6 @@ class PetDetailsFragment :
                 getViewModel().getAddress() ?: return@setOnClickListener
             )
         }
-
-        hideFab()
-        hideBottomBar()
     }
 
     private fun setPetPhotoAdapter() {
@@ -185,7 +187,6 @@ class PetDetailsFragment :
 
     private val petDetailsObserver = Observer<BaseStateModel<PetEntity>> {
         val baseStateModel = it ?: return@Observer
-        showFab()
         when (baseStateModel) {
             is Failure -> {
                 updateErrorState(baseStateModel.error)
@@ -194,22 +195,21 @@ class PetDetailsFragment :
             }
 
             is Loading -> {
-                hideBottomBar()
                 hideFab()
             }
 
             is Success -> {
+                showFab()
                 val photoList = if (baseStateModel.data.photos.isNullOrEmpty()) {
                     listOf(PhotosItemEntity(full = ""))
                 } else {
                     baseStateModel.data.photos
                 }
                 getPetPhotoAdapter()?.submitList(photoList) {
+                    if (!getViewModel().openingAnimationRequired) return@submitList
                     startPostponedEnterTransition()
                     getViewDataBinding().appbar.postDelayed({
                         getViewDataBinding().appbar.setExpanded(true, true)
-                        showBottomBar()
-                        showFab()
                     }, 400L)
                 }
             }
@@ -258,17 +258,20 @@ class PetDetailsFragment :
 
     private fun prepareTransitions() {
         postponeEnterTransition()
-        sharedElementEnterTransition = MaterialContainerTransition(
-            correctForZOrdering = true
-        ).apply {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
             duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
             interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
-        sharedElementReturnTransition = MaterialContainerTransition(
-            correctForZOrdering = true
-        ).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.rv_pets
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
     }
 
@@ -300,32 +303,12 @@ class PetDetailsFragment :
         true
     }
 
-    private fun applyOverlayTop() {
-        getViewDataBinding().flDetails.postDelayed({
-            val params =
-                getViewDataBinding().flDetails.layoutParams as CoordinatorLayout.LayoutParams
-            val behavior = params.behavior as AppBarLayout.ScrollingViewBehavior
-            behavior.overlayTop =
-                resources.getDimensionPixelOffset(R.dimen.pet_larger_component_corner_radius)
-        }, 200)
-    }
-
     private fun hideFab() {
         getViewDataBinding().fab.hide()
-
     }
 
     private fun showFab() {
         getViewDataBinding().fab.show()
-
-    }
-
-    private fun showBottomBar() {
-        getViewDataBinding().bottomAppBar.performShow()
-    }
-
-    private fun hideBottomBar() {
-        getViewDataBinding().bottomAppBar.performHide()
     }
 
     private val petPhotoViewerListener = object : PetPhotoViewerAdapter.PetPhotoViewerListener {
@@ -339,6 +322,7 @@ class PetDetailsFragment :
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val pair = it ?: return@Observer
+        getViewModel().openingAnimationRequired = true
         handleNavArgs(pair.first.id, petId)
     }
 

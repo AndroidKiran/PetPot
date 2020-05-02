@@ -31,7 +31,7 @@ class SearchPetUseCase @Inject constructor(
             .onErrorReturn { Failure(it) }
     }
 
-    fun addSearchDataSingle(list: List<PetEntity>): Single<List<Long>> =
+    fun addPetsToDb(list: List<PetEntity>): Single<List<Long>> =
         petRepository.addPets(list)
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)

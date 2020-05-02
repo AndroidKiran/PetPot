@@ -107,7 +107,7 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="update_downloaded">An update has just been downloaded.</string>
     <string name="restart">Restart</string>
     <string name="try_other_location">Please try other location</string>
-    <string name="to_map">To Map</string>
+    <string name="to_map">Map</string>
     <string name="city">City:</string>
     <string name="state">State:</string>
     <string name="post_code">Post code:</string>
@@ -119,4 +119,6 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="notification_favourite_content_text">Please make me your friend</string>
     <string name="notification_content_title">Planning to adopt a Pet?</string>
     <string name="notification_content_text">Search and find right friend for you</string>
+    <string name="launcher_transition">launcher_transition</string>
+    <string name="activity_transition">activity_transition</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.droid47.petfriend.search.data.models.search
 
 import android.os.Parcelable
-import com.droid47.petfriend.base.extensions.isNotEmpty
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -22,10 +21,9 @@ data class PhotosItemEntity(
 
     fun getPetFullPhoto(): String =
         when {
-            full?.isNotEmpty() == true -> full
-            large?.isNotEmpty() == true -> large
-            medium?.isNotEmpty() == true -> medium
-            small?.isNotEmpty() == true -> small
+            !large.isNullOrEmpty() -> large
+            !medium.isNullOrEmpty() -> medium
+            !small.isNullOrEmpty() -> small
             else -> ""
         }
 

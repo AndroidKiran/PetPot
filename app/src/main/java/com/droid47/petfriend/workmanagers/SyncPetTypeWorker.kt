@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.work.*
 import com.droid47.petfriend.base.extensions.applyIOSchedulers
-import com.droid47.petfriend.base.extensions.d
+import com.droid47.petfriend.base.extensions.log
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
 import io.reactivex.Single
@@ -23,13 +23,13 @@ class SyncPetTypeWorker @Inject constructor(
         syncPetTypeUseCase.buildUseCaseSingle(false)
             .applyIOSchedulers()
             .map {
-                d("SyncPetType=====", "SUCCESS")
+                log("SyncPetType=====", "SUCCESS")
                 when (it) {
                     is Failure -> Result.failure()
                     else -> Result.success()
                 }
             }.onErrorReturn {
-                d("SyncPetType=====", "FAILURE")
+                log("SyncPetType=====", "FAILURE")
                 Result.failure()
             }
 

@@ -29,9 +29,10 @@ class PetDetailsViewModel @Inject constructor(
     subscribeToPetsUseCase: SubscribeToPetsUseCase,
     private val fetchSelectedPetFromDbUseCase: FetchSelectedPetFromDbUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase
-) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
+) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener {
 
     private val starSubject = PublishSubject.create<PetEntity>().toSerialized()
+    var openingAnimationRequired = true
     val transitionId: MutableLiveData<Int> = MutableLiveData()
     val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
         subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.NonFavoriteType, "")).toLiveData()

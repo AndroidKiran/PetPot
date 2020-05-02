@@ -1,8 +1,10 @@
 package com.droid47.petfriend.search.presentation.viewmodel
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.components.LiveEvent
@@ -18,7 +20,8 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
     application: Application,
     private val refreshFilterUseCase: RefreshFilterUseCase,
     private val refreshSelectedPetUseCase: RefreshSelectedPetUseCase,
-    private val fetchPetNamesUseCase: FetchPetNamesUseCase
+    private val fetchPetNamesUseCase: FetchPetNamesUseCase,
+    val localPreferenceDataSource: LocalPreferencesRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _petNamesLiveData = MutableLiveData<List<String>>()

@@ -23,7 +23,6 @@ class PetSpinner @JvmOverloads constructor(
     private var petSpinnerAndLocationViewModel: PetSpinnerAndLocationViewModel? = null
     private var location: String? = null
 
-    //    private val baseSharedPreference = BaseSharedPreference(context)
     private val subject = PublishSubject.create<String>().toSerialized()
     private val compositeDisposable = CompositeDisposable()
 
@@ -34,6 +33,19 @@ class PetSpinner @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         compositeDisposable.clearDisposable()
         super.onDetachedFromWindow()
+    }
+
+    override fun setSelection(position: Int) {
+        val localPreferencesRepository = petSpinnerAndLocationViewModel?.localPreferenceDataSource
+        if (localPreferencesRepository?.getSelectedPetPosition() != position) {
+            localPreferencesRepository?.saveSelectPetPosition(position)
+            super.setSelection(position)
+        }
+    }
+
+    override fun getSelectedItemPosition(): Int {
+        val localPreferencesRepository = petSpinnerAndLocationViewModel?.localPreferenceDataSource
+        return localPreferencesRepository?.getSelectedPetPosition() ?: 0
     }
 
     fun setPetSpinnerViewModelAndLocation(petSpinnerAndLocationViewModel: PetSpinnerAndLocationViewModel) {
@@ -59,7 +71,10 @@ class PetSpinner @JvmOverloads constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    petSpinnerAndLocationViewModel?.registerDisposableRequest(REQUEST_REFRESH_SELECTED_PET, d)
+                    petSpinnerAndLocationViewModel?.registerDisposableRequest(
+                        REQUEST_REFRESH_SELECTED_PET,
+                        d
+                    )
                 }
 
                 override fun onError(e: Throwable) {

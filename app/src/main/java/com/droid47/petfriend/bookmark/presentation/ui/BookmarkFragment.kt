@@ -25,7 +25,6 @@ import com.droid47.petfriend.home.presentation.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.BOOK_MARK
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -121,7 +120,7 @@ class BookmarkFragment :
     private fun setUpBookmarkRvAdapter() {
         if (getPetAdapter() == null) {
             getViewDataBinding().rvPets.adapter =
-                PagedListPetAdapter(requireContext(), BOOK_MARK, getViewModel())
+                PagedListPetAdapter(requireContext(), PagedListPetAdapter.AdapterType.Favorite, getViewModel())
         }
     }
 

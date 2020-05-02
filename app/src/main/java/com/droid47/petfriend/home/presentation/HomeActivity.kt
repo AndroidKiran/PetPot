@@ -3,6 +3,8 @@ package com.droid47.petfriend.home.presentation
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.Window
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -14,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.app.PetApplication
+import com.droid47.petfriend.base.extensions.themeInterpolator
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.livedata.NetworkConnectionLiveData
 import com.droid47.petfriend.base.widgets.*
@@ -30,6 +33,9 @@ import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.workmanagers.notification.NotificationModel
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
 import com.google.android.play.core.install.model.AppUpdateType
 import java.util.*
 import javax.inject.Inject
@@ -74,6 +80,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initTransitions()
         super.onCreate(savedInstanceState)
         setUpViews()
         subscribeToLiveData()
@@ -112,6 +119,26 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     override fun registerBottomAppbarWithNavigation(bottomAppBar: BottomAppBar) {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         bottomAppBar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun initTransitions() {
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        findViewById<View>(android.R.id.content).transitionName = "activity_transition"
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            interpolator = themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            interpolator = themeInterpolator(R.attr.motionInterpolatorPersistent)
+            pathMotion = MaterialArcMotion()
+            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+        }
     }
 
     private fun subscribeToLiveData() {
@@ -179,18 +206,23 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     private fun triggerInAppUpdateManager(upgradeEntity: AppUpgradeEntity) {
-        inAppUpdateManager = InAppUpdateManager.Builder(
+        InAppUpdateManager.Builder(
             appCompatActivity = this@HomeActivity,
             resumeUpdates = true,
-            updateType = upgradeEntity.updateType
-        ).also {
-            if (AppUpdateType.FLEXIBLE == upgradeEntity.updateType) {
-                it.setSnackbarMsg(getString(R.string.update_downloaded))
-                    .setSnackBarAction(getString(R.string.restart).toUpperCase(Locale.US))
+            updateType = upgradeEntity.updateType,
+            snackBarMessage = if (AppUpdateType.FLEXIBLE == upgradeEntity.updateType) {
+                getString(R.string.update_downloaded)
+            } else {
+                ""
+            },
+            snackBarAction = if (AppUpdateType.FLEXIBLE == upgradeEntity.updateType) {
+                getString(R.string.restart).toUpperCase(Locale.US)
+            } else {
+                ""
             }
-        }.build()
-        inAppUpdateManager?.checkForUpdate()
-
+        ).build().run {
+            checkForUpdate()
+        }
     }
 
     private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {

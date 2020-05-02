@@ -18,7 +18,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/scrimBackground"
+            android:background="@android:color/transparent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout

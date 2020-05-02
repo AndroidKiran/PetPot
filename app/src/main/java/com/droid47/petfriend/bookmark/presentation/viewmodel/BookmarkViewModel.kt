@@ -3,24 +3,20 @@ package com.droid47.petfriend.bookmark.presentation.viewmodel
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.toLiveData
 import androidx.paging.PagedList
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
-import com.droid47.petfriend.base.widgets.Loading
 import com.droid47.petfriend.base.widgets.components.LiveEvent
 import com.droid47.petfriend.bookmark.domain.interactors.DataSourceType
 import com.droid47.petfriend.bookmark.domain.interactors.RemoveAllPetsUseCase
 import com.droid47.petfriend.bookmark.domain.interactors.SubscribeToPetsUseCase
 import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
 import com.droid47.petfriend.search.data.models.search.PetEntity
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter
+import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
 import io.reactivex.SingleObserver
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
 class BookmarkViewModel @Inject constructor(
@@ -28,10 +24,11 @@ class BookmarkViewModel @Inject constructor(
     subscribeToPetsUseCase: SubscribeToPetsUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase
-) : BaseAndroidViewModel(application), PetAdapter.OnItemClickListener {
+) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener {
 
     val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
-        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, "")).toLiveData()
+        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, ""))
+            .toLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
     val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>

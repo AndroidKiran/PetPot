@@ -110,4 +110,20 @@ object PetDbConverter {
         return Gson().fromJson(inputValue, AttributesEntity::class.java)
     }
 
+    @TypeConverter
+    @JvmStatic
+    fun fromVideoList(value: List<VideoItemEntity>?): String? {
+        val inputValue = value ?: return null
+        val type = object : TypeToken<List<VideoItemEntity>>() {}.type
+        return Gson().toJson(inputValue, type)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun toVideoList(value: String?): List<VideoItemEntity> {
+        val inputValue = value ?: return emptyList()
+        val type = object : TypeToken<List<VideoItemEntity>>() {}.type
+        return Gson().fromJson(inputValue, type)
+    }
+
 }

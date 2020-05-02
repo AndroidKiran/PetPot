@@ -25,8 +25,6 @@ import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewModel
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.widgets.PagedListPetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter
-import com.droid47.petfriend.search.presentation.widgets.PetAdapter.Companion.SIMILAR
 import javax.inject.Inject
 
 class SimilarPetsFragment :
@@ -91,7 +89,7 @@ class SimilarPetsFragment :
                 setSnapInterpolator(DecelerateInterpolator())
                 setSeekDuration(300)
             }
-            adapter = PagedListPetAdapter(requireContext(), SIMILAR, getViewModel())
+            adapter = PagedListPetAdapter(requireContext(), PagedListPetAdapter.AdapterType.Similar, getViewModel())
         }
 
     }
@@ -113,7 +111,6 @@ class SimilarPetsFragment :
         } else {
             getPetAdapter()?.submitList(stateModel.data)
             getViewDataBinding().clAlsoLike.visible()
-            getViewDataBinding().rvAlsoLikeList.smoothScrollToPosition(0)
         }
     }
 }

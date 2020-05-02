@@ -18,6 +18,7 @@ import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_C
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_COLORS
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_CONTACT
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_DESCRIPTION
+import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_DISTANCE
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_ENV
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_GENDER
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_ID
@@ -30,6 +31,7 @@ import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_S
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_TAGS
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_TYPE
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_URL
+import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_VIDEOS
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -113,7 +115,15 @@ data class PetEntity(
 
     @field:SerializedName("url")
     @ColumnInfo(name = COL_URL)
-    var url: String? = null
+    var url: String? = null,
+
+    @field:SerializedName("distance")
+    @ColumnInfo(name = COL_DISTANCE)
+    var distance: Double = 0.0,
+
+    @field:SerializedName("videos")
+    @ColumnInfo(name = COL_VIDEOS)
+    var videos: List<VideoItemEntity>? = null
 ) : BaseObservable(), Parcelable {
 
     @get:Bindable
@@ -188,5 +198,7 @@ data class PetEntity(
         const val COL_BOOK_MARK_AT = "bookmark_at"
         const val COL_BOOK_MARK_STATUS = "bookmark_status"
         const val COL_URL = "url"
+        const val COL_DISTANCE = "distance"
+        const val COL_VIDEOS = "videos"
     }
 }

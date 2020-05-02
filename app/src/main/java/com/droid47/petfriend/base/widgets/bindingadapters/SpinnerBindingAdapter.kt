@@ -24,7 +24,8 @@ object SpinnerBindingAdapter {
         ).apply {
             setDropDownViewResource(R.layout.spinner_dropdown_item)
         }
-//        appCompatSpinner.setSelection(appCompatSpinner.selectedItemPosition)
+        appCompatSpinner.setSelection(appCompatSpinner.selectedItemPosition)
+        (appCompatSpinner.adapter as? ArrayAdapter<String>)?.notifyDataSetChanged()
     }
 
     @JvmStatic
@@ -43,8 +44,10 @@ object SpinnerBindingAdapter {
             ) {
                 val selectedItem = parent?.selectedItem as? String ?: return
                 if (!TextUtils.isEmpty(selectedItem)
-                    && !newSelectedValue.equals(selectedItem, true)) {
+                    && !selectedItem.equals(newSelectedValue, true)
+                ) {
                     newTextAttrChanged.onChange()
+                    appCompatSpinner.setSelection(position)
                     appCompatSpinner.onPetSelected(selectedItem)
                 }
             }
@@ -52,11 +55,10 @@ object SpinnerBindingAdapter {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        if (newSelectedValue != null) {
-            val pos =
-                (appCompatSpinner.adapter as ArrayAdapter<String>).getPosition(newSelectedValue)
-            appCompatSpinner.setSelection(pos)
-        }
+//        if (newSelectedValue != null) {
+//            val pos =
+//                (appCompatSpinner.adapter as ArrayAdapter<String>).getPosition(newSelectedValue)
+//        }
     }
 
     @JvmStatic

@@ -11,8 +11,10 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cdl_home_board"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:transitionName="@string/launcher_transition">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -45,6 +47,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:dotColor="?attr/colorOnPrimarySurface"
+                app:selectedDotRadius="@dimen/grid_1"
+                app:dotRadius="@dimen/grid_0_5"
+                app:dotSeparation="@dimen/grid_2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_next"
                 app:layout_constraintStart_toEndOf="@id/btn_prev"

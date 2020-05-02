@@ -8,8 +8,7 @@
         android:id="@+id/cl_also_like"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimarySurface"
-        android:paddingBottom="@dimen/grid_12"
+        android:paddingBottom="@dimen/grid_14"
         android:visibility="gone">
 
         <TextView
@@ -23,7 +22,7 @@
             android:paddingBottom="@dimen/grid_3"
             android:text="@string/you_ll_also_like"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textColor="?attr/colorOnPrimarySurface"
+            android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

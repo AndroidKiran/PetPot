@@ -1,10 +1,14 @@
 package com.droid47.petfriend.launcher.presentation.ui
 
 import android.os.Bundle
+import android.view.Window
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ActivityNavigator
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.app.PetApplication
 import com.droid47.petfriend.base.extensions.viewModelProvider
@@ -15,6 +19,7 @@ import com.droid47.petfriend.databinding.ActivityLauncherBinding
 import com.droid47.petfriend.launcher.presentation.di.LauncherSubComponent
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
 import javax.inject.Inject
 
 class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherViewModel>() {
@@ -47,8 +52,10 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initTransitions()
         super.onCreate(savedInstanceState)
         setUpViews()
+        subscribeToLiveData()
     }
 
     override fun onStart() {
@@ -59,6 +66,12 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     override fun finish() {
         super.finish()
         ActivityNavigator.applyPopAnimationsToPendingTransition(this)
+    }
+
+    private fun initTransitions() {
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        window.sharedElementsUseOverlay = false
     }
 
     private fun setUpViews() {
@@ -73,9 +86,9 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     }
 
     private fun subscribeToLiveData() {
-        getViewModel().networkConnectionLiveData.run {
-            removeObserver(networkConnectionObserver)
-            observe(this@LauncherActivity, networkConnectionObserver)
+        getViewModel().homeNavigationLiveData.run {
+            removeObserver(homeNavigationObserver)
+            observe(this@LauncherActivity, homeNavigationObserver)
         }
     }
 
@@ -101,5 +114,14 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
                 ).setAnchorView(anchorView)
                     .show()
         }
+    }
+
+    private val homeNavigationObserver = Observer<NavDirections> {
+        val directions = it ?: return@Observer
+        val extras = FragmentNavigatorExtras(
+            getViewDataBinding().cdlLauncher to getViewDataBinding().cdlLauncher.transitionName
+        )
+        navHostFragment?.findNavController()?.navigate(directions, extras)
+        finishAfterTransition()
     }
 }

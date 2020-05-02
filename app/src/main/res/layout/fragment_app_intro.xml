@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="homeBoardViewModel"
+            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subTitle"
+            type="String" />
+
+        <variable
+            name="imageRes"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <com.google.android.material.circularreveal.CircularRevealLinearLayout
+        android:id="@+id/csl_intro_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:circularReveal="@{homeBoardViewModel.positionLiveData &gt;= 0 &amp;&amp; homeBoardViewModel.positionLiveData &lt;= 2}">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_bak_drop"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:minHeight="300dp"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/launcher_transition"
+            app:srcCompat="@{imageRes}" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/grid_2"
+            android:gravity="center"
+            android:text="@{title}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.pet.Headline3"
+            tools:text="Search" />
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/grid_3"
+            android:layout_marginTop="@dimen/grid_2"
+            android:layout_marginEnd="@dimen/grid_3"
+            android:gravity="center"
+            android:text="@{subTitle}"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            tools:text="@string/loperum_sum_2" />
+
+
+    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
+
+</layout>

@@ -26,6 +26,7 @@ data class FilterItemEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_ID, index = true)
+    @field:SerializedName(COL_ID)
     var id: Long = 0
 
     companion object {

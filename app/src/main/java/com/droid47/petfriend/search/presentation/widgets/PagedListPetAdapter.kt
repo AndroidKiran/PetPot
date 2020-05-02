@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.droid47.petfriend.BR
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.getScreenWidth
@@ -14,6 +15,7 @@ import com.droid47.petfriend.base.extensions.themeColor
 import com.droid47.petfriend.base.extensions.updateWidth
 import com.droid47.petfriend.base.widgets.BaseViewHolder
 import com.droid47.petfriend.base.widgets.components.CheckableImageButton
+import com.droid47.petfriend.base.widgets.snappy.SnappyGridLayoutManager
 import com.droid47.petfriend.databinding.ItemBookMarkBinding
 import com.droid47.petfriend.databinding.ItemPetBinding
 import com.droid47.petfriend.databinding.ItemSimilarPetBinding
@@ -24,12 +26,18 @@ import javax.inject.Inject
 
 class PagedListPetAdapter @Inject constructor(
     private val context: Context,
-    private val type: String = SEARCH,
-    private val onItemClickListener: PetAdapter.OnItemClickListener
+    private val type: AdapterType = AdapterType.Search,
+    private val onItemClickListener: OnItemClickListener
 ) : PagedListAdapter<PetEntity, BaseViewHolder>(SearchDiff) {
+
+    private var recyclerView: RecyclerView? = null
     private val screenWidth = context.getScreenWidth()
     private val diffWidth = context.resources.getDimensionPixelSize(R.dimen.grid_12)
     private val imgWidth = context.resources.getDimensionPixelSize(R.dimen.small_card_height)
+
+    init {
+        setHasStableIds(true)
+    }
 
     private val bookMarkShapeDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
         MaterialShapeDrawable(
@@ -82,9 +90,19 @@ class PagedListPetAdapter @Inject constructor(
         }
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         when (type) {
-            BOOK_MARK -> BookmarkViewHolder(
+            AdapterType.Favorite -> BookmarkViewHolder(
                 ItemBookMarkBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -92,7 +110,7 @@ class PagedListPetAdapter @Inject constructor(
                 )
             )
 
-            SIMILAR -> SimilarViewHolder(
+            AdapterType.Similar -> SimilarViewHolder(
                 ItemSimilarPetBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
@@ -109,6 +127,9 @@ class PagedListPetAdapter @Inject constructor(
             )
         }
 
+    override fun getItemCount(): Int = currentList?.size ?: 0
+
+    override fun getItemId(position: Int): Long = getItem(position)?.id?.toLong() ?: -1L
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -120,6 +141,15 @@ class PagedListPetAdapter @Inject constructor(
 
         override fun areContentsTheSame(oldItem: PetEntity, newItem: PetEntity): Boolean {
             return oldItem == newItem
+        }
+    }
+
+    fun scrollToTop() {
+        recyclerView?.let {
+            it.post {
+                val layoutManager = it.layoutManager as? SnappyGridLayoutManager
+                layoutManager?.scrollToPositionWithOffset(0, 0)
+            }
         }
     }
 
@@ -179,7 +209,6 @@ class PagedListPetAdapter @Inject constructor(
         BaseViewHolder(itemBinding.root) {
 
         override fun onBind(position: Int) {
-
             itemBinding.ivPetPic.updateWidth(imgWidth)
             itemBinding.cvPetInfo.updateWidth(screenWidth.minus(diffWidth))
 
@@ -192,23 +221,17 @@ class PagedListPetAdapter @Inject constructor(
             itemBinding.root.setOnClickListener {
                 onItemClickListener.onItemClick(item, itemBinding.cslPetInfo)
             }
-
         }
     }
 
+    interface OnItemClickListener {
+        fun onBookMarkClick(petEntity: PetEntity)
+        fun onItemClick(petEntity: PetEntity, view: View)
+    }
 
-//    interface OnItemClickListener {
-//        fun onBookMarkClick(petEntity: PetEntity)
-//        fun onItemClick(petEntity: PetEntity, view: View)
-//    }
-
-    companion object {
-        const val SEARCH = "search"
-        const val PREVIEW = "preview"
-        const val BOOK_MARK = "bookmark"
-        const val SIMILAR = "similar"
-
-        const val ACTION_LIKE_BUTTON_CLICKED = "action_like_button_button"
-
+    sealed class AdapterType {
+        object Search : AdapterType()
+        object Favorite : AdapterType()
+        object Similar : AdapterType()
     }
 }

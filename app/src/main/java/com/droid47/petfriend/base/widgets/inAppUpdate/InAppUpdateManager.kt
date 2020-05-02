@@ -15,18 +15,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 
 class InAppUpdateManager private constructor(
-    var appCompatActivity: AppCompatActivity,
-    var updateType: Int = AppUpdateType.FLEXIBLE,
-    var resumeUpdates: Boolean = false,
-    var useCustomNotification: Boolean = false,
-    var snackBarMessage: String? = null,
-    var snackBarAction: String? = null,
+    private var appCompatActivity: AppCompatActivity,
+    private var updateType: Int = AppUpdateType.FLEXIBLE,
+    private var resumeUpdates: Boolean = false,
+    private var useCustomNotification: Boolean = false,
+    private var snackBarMessage: String? = null,
+    private var snackBarAction: String? = null,
     var snackBarActionColor: Int = R.color.design_default_color_on_primary
 ) : LifecycleObserver {
 
@@ -66,13 +65,24 @@ class InAppUpdateManager private constructor(
     }
 
     private fun registerListener() {
-        if (updateType == AppUpdateType.FLEXIBLE) {
-            appUpdateManager?.registerListener(installStateUpdateListener)
+        if (updateType == AppUpdateType.FLEXIBLE) return
+        appUpdateManager?.registerListener {
+            val installState = it ?: return@registerListener
+            inAppUpdateStatus.setInstallState(installState)
+            reportStatus()
+            when (installState.installStatus()) {
+                InstallStatus.DOWNLOADED -> popupSnackBarForUserConfirmation()
+                InstallStatus.INSTALLED -> unRegisterListener()
+                else -> {
+                }
+            }
         }
     }
 
     private fun unRegisterListener() {
-        appUpdateManager?.unregisterListener(installStateUpdateListener)
+        appUpdateManager?.unregisterListener {
+
+        }
     }
 
     private fun setupSnackBar() {
@@ -147,19 +157,6 @@ class InAppUpdateManager private constructor(
         }
     }
 
-    private val installStateUpdateListener = InstallStateUpdatedListener {
-        val installState = it ?: return@InstallStateUpdatedListener
-        inAppUpdateStatus.setInstallState(installState)
-        reportStatus()
-
-        // Show module progress, log state, or install the update.
-        if (installState.installStatus() == InstallStatus.DOWNLOADED) {
-            // After the update is downloaded, show a notification
-            // and request user confirmation to restart the app.
-            popupSnackBarForUserConfirmation()
-        }
-    }
-
     private fun initCheckForUpdate() {
         appUpdateManager?.appUpdateInfo?.addOnSuccessListener {
             val appUpdateInfo = it ?: return@addOnSuccessListener
@@ -174,6 +171,8 @@ class InAppUpdateManager private constructor(
                 updateType == AppUpdateType.IMMEDIATE -> startAppUpdateImmediate(appUpdateInfo)
             }
             reportStatus()
+        }?.addOnFailureListener {
+
         }
     }
 

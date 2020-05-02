@@ -4,6 +4,8 @@ import androidx.room.*
 import com.droid47.petfriend.search.data.models.FilterItemEntity
 import com.droid47.petfriend.search.data.models.PAGE_NUM
 import com.droid47.petfriend.search.data.models.SORT
+import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_DISTANCE
+import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_RECENT
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -78,7 +80,7 @@ interface FilterItemDao {
         insertOrUpdateFilterItem(filterItemEntity)
         insertOrUpdateFilterItem(
             FilterItemEntity(
-                if (filterItemEntity.name.isNotEmpty()) "distance" else "recent",
+                if (filterItemEntity.name.isNotEmpty()) SORT_BY_DISTANCE else SORT_BY_RECENT,
                 SORT,
                 true
             )

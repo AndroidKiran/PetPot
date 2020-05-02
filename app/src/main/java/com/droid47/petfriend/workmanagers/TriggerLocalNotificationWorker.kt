@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.work.*
 import com.droid47.petfriend.R
-import com.droid47.petfriend.base.extensions.d
+import com.droid47.petfriend.base.extensions.log
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.workmanagers.domain.FetchFavoritePetsUseCase
 import com.droid47.petfriend.workmanagers.notification.BigTextStyle
@@ -30,21 +30,21 @@ class TriggerLocalNotificationWorker @Inject constructor(
         Single.fromCallable {
             isEvenDay()
         }.flatMap { isEvenDay ->
-            d("Favourite===", "flatMap")
+            log("Favourite===", "flatMap")
             if (!isEvenDay) {
                 getFavouritePet()
             } else {
                 Single.just(toNotificationModel())
             }
         }.doOnSuccess {
-            d("Favourite===", "doOnSuccess")
+            log("Favourite===", "doOnSuccess")
             val notificationModel = it ?: return@doOnSuccess
             showNotification(notificationModel)
         }.map {
-            d("Favourite===", "success")
+            log("Favourite===", "success")
             Result.success()
         }.onErrorReturn {
-            d("Favourite===", "${it.printStackTrace()}   ==== Failure")
+            log("Favourite===", "${it.printStackTrace()}   ==== Failure")
             Result.failure()
         }
 

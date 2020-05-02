@@ -6,7 +6,6 @@ import android.view.animation.Interpolator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
 class SnappyGridLayoutManager : GridLayoutManager, SnappyLayoutManager {
 
     private lateinit var builder: SnappySmoothScroller.Builder

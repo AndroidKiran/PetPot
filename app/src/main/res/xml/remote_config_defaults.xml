@@ -3,7 +3,7 @@
     <entry>
         <key>app_upgrade</key>
         <value>
-            {"update_type":"immediate","play_store_version_code":1}
+            {"update_type":0,"play_store_version_code":1}
         </value>
     </entry>
 </defaultsMap>

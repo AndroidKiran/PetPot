@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.BuildVersionUtil
-import com.droid47.petfriend.base.extensions.d
+import com.droid47.petfriend.base.extensions.log
 import com.droid47.petfriend.base.extensions.getDimen
 import com.droid47.petfriend.base.extensions.getScreenWidth
 import kotlin.random.Random
@@ -33,7 +33,7 @@ class PetNotificationManager constructor(private val context: Context) {
             Random.nextInt(1, 100),
             buildNotification(notificationModel)
         )
-        d("Favourite===", "showNotification")
+        log("Favourite===", "showNotification")
     }
 
     private fun buildNotification(notificationModel: NotificationModel): Notification =

@@ -25,4 +25,10 @@
         <item>@string/loperum_sum_2</item>
         <item>@string/loperum_sum_2</item>
     </string-array>
+
+    <integer-array name="introImageArray">
+        <item>@drawable/vc_paw</item>
+        <item>@drawable/vc_send</item>
+        <item>@drawable/vc_star</item>
+    </integer-array>
 </resources>
