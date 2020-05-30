@@ -1,8 +1,10 @@
 package com.droid47.petfriend.base.extensions
 
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import com.google.android.material.animation.ArgbEvaluatorCompat
+import kotlinx.android.synthetic.main.onboarding_page_item.view.*
 import kotlin.math.roundToInt
 
 fun lerp(
@@ -149,4 +151,21 @@ fun Float.normalize(
 
     return outputMin * (1 - (this - inputMin) / (inputMax - inputMin)) +
             outputMax * ((this - inputMin) / (inputMax - inputMin))
+}
+
+fun View.setParallaxTransformation(position: Float) {
+    apply {
+        val parallaxView = this.img
+        when {
+            position < -1 -> // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                alpha = 1f
+            position <= 1 -> { // [-1,1]
+                parallaxView.translationX = -position * (width / 2) //Half the normal speed
+            }
+            else -> // (1,+Infinity]
+                // This page is way off-screen to the right.
+                alpha = 1f
+        }
+    }
 }

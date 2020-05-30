@@ -9,7 +9,8 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.droid47.petfriend.R
-import com.droid47.petfriend.search.presentation.widgets.PetSpinner
+import com.droid47.petfriend.base.extensions.log
+import com.droid47.petfriend.search.presentation.ui.widgets.PetSpinner
 
 object SpinnerBindingAdapter {
 

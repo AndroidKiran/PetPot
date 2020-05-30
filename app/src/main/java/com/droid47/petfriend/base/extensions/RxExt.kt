@@ -1,6 +1,8 @@
 package com.droid47.petfriend.base.extensions
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import com.droid47.petfriend.base.widgets.components.RxStreamLiveEvent
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -39,5 +41,6 @@ fun Disposable?.disposeDisposable() {
     this?.let { if (!this.isDisposed) this.dispose() }
 }
 
-fun <T> Publisher<T>.toLiveData() =
-    LiveDataReactiveStreams.fromPublisher(this)
+fun <T> Publisher<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
+
+fun <T> Publisher<T>.toSingleLiveData(): RxStreamLiveEvent<T> = RxStreamLiveEvent(this)

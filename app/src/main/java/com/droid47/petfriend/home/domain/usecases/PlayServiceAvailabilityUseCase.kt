@@ -9,6 +9,6 @@ class PlayServiceAvailabilityUseCase @Inject constructor(
     private val application: Application
 ) : SynchronousUseCase<Int, Unit> {
 
-    override fun execute(params: Unit?): Int =
+    override fun execute(params: Unit): Int =
         GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(application)
 }

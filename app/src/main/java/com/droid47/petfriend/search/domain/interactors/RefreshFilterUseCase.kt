@@ -18,7 +18,7 @@ class RefreshFilterUseCase @Inject constructor(
     private val filterRepository: FilterRepository
 ) : CompletableUseCase<String>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: String?): Completable =
+    override fun buildUseCaseCompletable(params: String): Completable =
         petTypeRepository.getSelectedPetType()
             .flatMapCompletable { petType ->
                 filterRepository.refreshFilter(mutableListOf<FilterItemEntity>().apply {
@@ -29,15 +29,27 @@ class RefreshFilterUseCase @Inject constructor(
                     addAll(transformToFilterItemList(petType.size, SIZE))
                     addAll(transformToFilterItemList(petType.age, AGE))
                     addAll(transformToFilterItemList(petType.status, STATUS))
-                    add(FilterItemEntity(petType.name, PET_TYPE, true))
-                    add(FilterItemEntity(PAGE_ONE.toString(), PAGE_NUM, true))
-                    add(FilterItemEntity(SORT_BY_RECENT, SORT, true))
-                    val locationStr = params ?: ""
-                    if (locationStr.isNotEmpty()) {
-                        add(FilterItemEntity(locationStr, LOCATION, true))
+                    add(FilterItemEntity(petType.name, PET_TYPE,
+                        selected = true,
+                        filterApplied = true
+                    ))
+                    add(FilterItemEntity(PAGE_ONE.toString(), PAGE_NUM,
+                        selected = true,
+                        filterApplied = true
+                    ))
+                    add(FilterItemEntity(SORT_BY_RECENT, SORT,
+                        selected = true,
+                        filterApplied = true
+                    ))
+                    if (params.isNotEmpty()) {
+                        add(FilterItemEntity(params, LOCATION,
+                            selected = true,
+                            filterApplied = true
+                        ))
                     }
                 })
-            }
+            }.subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
     private fun transformToFilterItemList(
         strList: List<String>,
@@ -48,7 +60,8 @@ class RefreshFilterUseCase @Inject constructor(
             val filterItem = FilterItemEntity(
                 name = filterName,
                 type = type,
-                selected = false
+                selected = false,
+                filterApplied = false
             )
             filterItemList.add(filterItem)
         }

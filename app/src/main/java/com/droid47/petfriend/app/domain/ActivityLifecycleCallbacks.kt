@@ -3,7 +3,7 @@ package com.droid47.petfriend.app.domain
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.droid47.petfriend.home.presentation.HomeActivity
+import com.droid47.petfriend.home.presentation.ui.HomeActivity
 import com.droid47.petfriend.workmanagers.SyncPetTypeWorker
 import com.droid47.petfriend.workmanagers.TriggerLocalNotificationWorker
 import javax.inject.Inject

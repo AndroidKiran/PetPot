@@ -37,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            app:expanded="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -59,8 +58,9 @@
                     android:id="@+id/indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|top"
+                    android:layout_gravity="center|bottom"
                     android:layout_marginTop="@dimen/grid_11"
+                    android:layout_marginBottom="@dimen/grid_8"
                     app:dotColor="?attr/colorOnPrimarySurface"
                     app:dotSeparation="@dimen/grid_1"
                     app:layout_collapseMode="parallax"
@@ -70,9 +70,10 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_3"
+                    android:layout_gravity="top"
                     android:background="?attr/scrimBackground"
                     android:paddingStart="@dimen/grid_2"
+                    android:paddingTop="@dimen/grid_6"
                     android:paddingEnd="@dimen/zero"
                     android:text="@string/nav_animal_details_label"
                     android:textAppearance="?attr/textAppearanceHeadline3"
@@ -135,7 +136,7 @@
 
                     <fragment
                         android:id="@+id/similar_pets"
-                        android:name="com.droid47.petfriend.petDetails.presentation.SimilarPetsFragment"
+                        android:name="com.droid47.petfriend.petDetails.presentation.ui.SimilarPetsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -174,25 +175,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:minHeight="@dimen/grid_6"
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:menu="@menu/search_menu">
-
-            <LinearLayout
-                android:id="@+id/bottom_app_bar_content_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="@dimen/grid_12"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
+            app:fullScreenBottomPadding="@{true}"
+            app:menu="@menu/search_menu" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

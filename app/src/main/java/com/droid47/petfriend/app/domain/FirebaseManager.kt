@@ -3,7 +3,7 @@ package com.droid47.petfriend.app.domain
 import android.app.Application
 import com.droid47.petfriend.BuildConfig
 import com.droid47.petfriend.R
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.base.firebase.IFirebaseManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics

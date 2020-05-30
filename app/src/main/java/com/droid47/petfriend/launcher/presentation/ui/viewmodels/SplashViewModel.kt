@@ -2,7 +2,7 @@ package com.droid47.petfriend.launcher.presentation.ui.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.*
 import com.droid47.petfriend.base.widgets.components.LiveEvent

@@ -39,4 +39,18 @@
         <item name="cornerSizeTopLeft">@dimen/pet_small_component_corner_radius</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.pet.LargeComponent.Top.Right" parent="">
+        <item name="cornerSizeTopRight">@dimen/pet_small_component_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/zero</item>
+        <item name="cornerSizeBottomRight">@dimen/zero</item>
+        <item name="cornerSizeTopLeft">@dimen/zero</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.pet.LargeComponent.Top.Left" parent="">
+        <item name="cornerSizeTopRight">@dimen/zero</item>
+        <item name="cornerSizeBottomLeft">@dimen/zero</item>
+        <item name="cornerSizeBottomRight">@dimen/zero</item>
+        <item name="cornerSizeTopLeft">@dimen/pet_small_component_corner_radius</item>
+    </style>
+
 </resources>

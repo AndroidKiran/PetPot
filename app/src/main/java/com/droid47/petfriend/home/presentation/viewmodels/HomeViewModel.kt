@@ -1,7 +1,6 @@
 package com.droid47.petfriend.home.presentation.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.firebase.RemoteConfigUseCase
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
@@ -10,7 +9,7 @@ import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.base.widgets.components.LiveEvent
 import com.droid47.petfriend.home.data.AppUpgradeEntity
-import com.droid47.petfriend.search.data.models.search.PetEntity
+import com.droid47.petfriend.home.presentation.ui.HomeNavigator
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -19,6 +18,7 @@ private const val REQUEST_APP_UPGRADE_STATUS = 2330L
 
 class HomeViewModel @Inject constructor(
     application: Application,
+    val homeNavigator: HomeNavigator,
     private val remoteConfigUseCase: RemoteConfigUseCase
 ) : BaseAndroidViewModel(application) {
 

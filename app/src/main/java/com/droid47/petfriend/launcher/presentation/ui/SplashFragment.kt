@@ -9,7 +9,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.pauseLottie
@@ -20,9 +19,6 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.databinding.FragmentSplashBinding
 import com.droid47.petfriend.launcher.domain.interactors.SyncPetTypeUseCase
-import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toHome
-import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toIntro
-import com.droid47.petfriend.launcher.presentation.ui.SplashFragmentDirections.Companion.toTnc
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel.Companion.TO_HOME
@@ -147,30 +143,26 @@ class SplashFragment :
     }
 
     private fun navigateToIntro() {
-        if (findNavController().currentDestination?.id != R.id.navigation_home_board) {
-            val extras = FragmentNavigatorExtras(
-                getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
-            )
-            findNavController().navigate(toIntro(), extras)
-        }
+        val extras = FragmentNavigatorExtras(
+            getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
+        )
+        getParentViewModel().launcherNavigator.toIntroFromSplash(extras)
     }
 
     private fun navigateToTnc() {
-        if (findNavController().currentDestination?.id != R.id.navigation_tnc) {
-            val extras = FragmentNavigatorExtras(
-                getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
-            )
-            findNavController().navigate(toTnc(), extras)
-        }
+        val extras = FragmentNavigatorExtras(
+            getViewDataBinding().ivLogo to getViewDataBinding().ivLogo.transitionName
+        )
+        getParentViewModel().launcherNavigator.toTncFromSplash(extras)
     }
 
     private fun navigateToHome() {
         val tncStatus = getViewModel().getTncStatus()
         if (tncStatus) {
-            val direction = toHome(arguments ?: Bundle().apply {
+            val bundle = arguments ?: Bundle().apply {
                 putInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
-            })
-            getParentViewModel().homeNavigationLiveData.postValue(direction)
+            }
+            getParentViewModel().homeNavigationLiveData.postValue(bundle)
         } else {
             navigateToTnc()
         }

@@ -14,10 +14,7 @@ class RefreshSelectedFilterItemUseCase @Inject constructor(
     private val filterRepository: FilterRepository
 ) : CompletableUseCase<FilterItemEntity>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: FilterItemEntity?): Completable =
-        if (params != null) {
+    override fun buildUseCaseCompletable(params: FilterItemEntity): Completable =
             filterRepository.updateFilterItem(params)
-        } else {
-            Completable.error(IllegalStateException("Filter item is null"))
-        }
+
 }

@@ -11,17 +11,23 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_NAME)
 @Parcelize
 data class FilterItemEntity(
+
     @ColumnInfo(name = COL_NAME)
     @field:SerializedName(COL_NAME)
     val name: String,
 
-    @ColumnInfo(name = COL_TYPE)
+    @ColumnInfo(name = COL_TYPE, index = true)
     @field:SerializedName(COL_TYPE)
     val type: String,
 
-    @ColumnInfo(name = COL_SELECTED)
+    @ColumnInfo(name = COL_SELECTED, index = true)
     @field:SerializedName(COL_SELECTED)
-    var selected: Boolean
+    var selected: Boolean = false,
+
+    @ColumnInfo(name = COL_FILTER_APPLIED, index = true)
+    @field:SerializedName(COL_FILTER_APPLIED)
+    var filterApplied: Boolean = false
+
 ) : Parcelable {
 
     @PrimaryKey(autoGenerate = true)
@@ -35,5 +41,6 @@ data class FilterItemEntity(
         const val COL_ID = "_id"
         const val COL_TYPE = "type"
         const val COL_SELECTED = "selected"
+        const val COL_FILTER_APPLIED = "filter_applied"
     }
 }

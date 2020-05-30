@@ -10,13 +10,13 @@ abstract class SingleUseCase<Results, in Params>(
     postExecutionThread: PostExecutionThread
 ) : BaseReactiveUseCase(threadExecutor, postExecutionThread) {
 
-    abstract fun buildUseCaseSingle(params: Params? = null): Single<Results>
+    abstract fun buildUseCaseSingle(params: Params): Single<Results>
 
-    fun execute(params: Params? = null, observer: SingleObserver<Results>) {
+    fun execute(params: Params, observer: SingleObserver<Results>) {
         buildUseCaseSingleWithSchedulers(params).subscribe(observer)
     }
 
-    private fun buildUseCaseSingleWithSchedulers(params: Params?): Single<Results> {
+    private fun buildUseCaseSingleWithSchedulers(params: Params): Single<Results> {
         return buildUseCaseSingle(params)
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)

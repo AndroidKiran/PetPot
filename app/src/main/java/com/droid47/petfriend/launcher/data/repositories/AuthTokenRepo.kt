@@ -1,7 +1,7 @@
 package com.droid47.petfriend.launcher.data.repositories
 
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
-import com.droid47.petfriend.app.data.network.TokenNetworkSource
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
+import com.droid47.petfriend.base.network.TokenNetworkSource
 import com.droid47.petfriend.launcher.data.entities.ClientCredentialModel
 import com.droid47.petfriend.launcher.data.entities.TokenModel
 import com.droid47.petfriend.launcher.domain.repositories.AuthTokenRepository

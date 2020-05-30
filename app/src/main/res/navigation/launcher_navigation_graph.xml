@@ -47,7 +47,7 @@
 
     <activity
         android:id="@+id/navigation_home"
-        android:name="com.droid47.petfriend.home.presentation.HomeActivity"
+        android:name="com.droid47.petfriend.home.presentation.ui.HomeActivity"
         tools:layout="@layout/activity_home">
 
         <argument

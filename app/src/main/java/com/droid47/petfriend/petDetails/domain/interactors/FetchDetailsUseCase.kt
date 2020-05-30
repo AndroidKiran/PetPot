@@ -17,16 +17,13 @@ class FetchDetailsUseCase @Inject constructor(
     private val petDetailsRepository: PetDetailsRepository
 ) : SingleUseCase<BaseStateModel<PetEntity>, Int>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseSingle(params: Int?): Single<BaseStateModel<PetEntity>> =
-        when (params) {
-            null -> Single.error(IllegalStateException("Params is null"))
-            else -> petDetailsRepository.getPetDetails(params)
-                .map { response ->
-                    return@map when (response.petEntity) {
-                        null -> Failure<PetEntity>(IllegalStateException("Response is null"))
-                        else -> Success(response.petEntity)
-                    }
+    override fun buildUseCaseSingle(params: Int): Single<BaseStateModel<PetEntity>> =
+        petDetailsRepository.getPetDetails(params)
+            .map { response ->
+                return@map when (response.petEntity) {
+                    null -> Failure<PetEntity>(IllegalStateException("Response is null"))
+                    else -> Success(response.petEntity)
+                }
+            }.onErrorReturn { Failure(it) }
 
-                }.onErrorReturn { Failure(it) }
-        }
 }

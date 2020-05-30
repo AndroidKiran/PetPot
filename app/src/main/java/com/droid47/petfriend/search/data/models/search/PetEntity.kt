@@ -5,7 +5,6 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.droid47.petfriend.BR
 import com.droid47.petfriend.base.extensions.isNotEmpty
@@ -35,6 +34,7 @@ import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.COL_V
 import com.droid47.petfriend.search.data.models.search.PetEntity.TableInfo.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Entity(tableName = TABLE_NAME)
 @Parcelize
@@ -99,7 +99,7 @@ data class PetEntity(
 
     @field:SerializedName("published_at")
     @ColumnInfo(name = COL_PUBLISHED_AT, index = true)
-    var publishedAt: String? = null,
+    var publishedAt: Date? = null,
 
     @field:SerializedName("age")
     @ColumnInfo(name = COL_AGE)
@@ -143,31 +143,7 @@ data class PetEntity(
         val photoList = photos ?: emptyList()
         var picUrl = ""
         for (photo in photoList) {
-            picUrl = when {
-                photo.small?.isNotEmpty() == true -> photo.small
-                photo.medium?.isNotEmpty() == true -> photo.medium
-                photo.large?.isNotEmpty() == true -> photo.large
-                photo.full?.isNotEmpty() == true -> photo.full
-                else -> ""
-            }
-            if (picUrl.isNotEmpty()) {
-                break
-            }
-        }
-        return picUrl
-    }
-
-    fun getPetFullPhoto(): String {
-        val photoList = photos ?: emptyList()
-        var picUrl = ""
-        for (photo in photoList) {
-            picUrl = when {
-                photo.full?.isNotEmpty() == true -> photo.full
-                photo.large?.isNotEmpty() == true -> photo.large
-                photo.medium?.isNotEmpty() == true -> photo.medium
-                photo.small?.isNotEmpty() == true -> photo.small
-                else -> ""
-            }
+            picUrl = photo.getPetMediumPhoto()
             if (picUrl.isNotEmpty()) {
                 break
             }

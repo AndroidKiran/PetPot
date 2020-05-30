@@ -44,9 +44,9 @@
                     android:layout_gravity="center"
                     android:innerRadius="0dp"
                     android:shape="ring"
-                    app:cardElevation="@dimen/plane_02"
                     app:cardBackgroundColor="?attr/colorSurface"
-                    app:cardCornerRadius="50dp">
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="@dimen/plane_02">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="100dp"
@@ -62,13 +62,14 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_3"
                     android:paddingStart="@dimen/grid_2"
+                    android:paddingTop="@dimen/grid_6"
                     android:paddingEnd="@dimen/zero"
                     android:text="@string/about_us"
                     android:textAppearance="?attr/textAppearanceHeadline3"
                     android:textColor="?attr/colorOnSurface"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:paddingTopSystemWindowInsets="@{true}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -124,23 +125,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:minHeight="@dimen/grid_6"
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="end"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fullScreenBottomPadding="@{true}"
             app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <LinearLayout
-                android:id="@+id/bottom_app_bar_content_container"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/grid_12"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" />
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
+            app:layout_scrollFlags="scroll|enterAlways" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

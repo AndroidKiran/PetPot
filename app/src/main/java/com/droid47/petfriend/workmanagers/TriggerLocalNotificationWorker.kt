@@ -30,21 +30,17 @@ class TriggerLocalNotificationWorker @Inject constructor(
         Single.fromCallable {
             isEvenDay()
         }.flatMap { isEvenDay ->
-            log("Favourite===", "flatMap")
             if (!isEvenDay) {
                 getFavouritePet()
             } else {
                 Single.just(toNotificationModel())
             }
         }.doOnSuccess {
-            log("Favourite===", "doOnSuccess")
             val notificationModel = it ?: return@doOnSuccess
             showNotification(notificationModel)
         }.map {
-            log("Favourite===", "success")
             Result.success()
         }.onErrorReturn {
-            log("Favourite===", "${it.printStackTrace()}   ==== Failure")
             Result.failure()
         }
 
@@ -60,7 +56,7 @@ class TriggerLocalNotificationWorker @Inject constructor(
     }
 
     private fun getFavouritePet(): Single<NotificationModel> =
-        fetchFavoritePetsUseCase.buildUseCaseSingle()
+        fetchFavoritePetsUseCase.buildUseCaseSingle(true)
             .map { baseStateModel ->
                 createNotificationModelFrom(baseStateModel.data ?: emptyList())
             }

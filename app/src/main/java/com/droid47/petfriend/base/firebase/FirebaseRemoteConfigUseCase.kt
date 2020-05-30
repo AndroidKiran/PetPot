@@ -33,12 +33,12 @@ class RemoteConfigUseCase @Inject constructor(
         )
     }
 
-    override fun buildUseCaseSingle(params: String?): Single<BaseStateModel<String>> =
+    override fun buildUseCaseSingle(params: String): Single<BaseStateModel<String>> =
         Single.create<BaseStateModel<String>> { emitter ->
             try {
                 config.fetchAndActivate().addOnCompleteListener {
                     if (it.isSuccessful) {
-                        emitter.onSuccess(Success(config[params ?: ""].asString()))
+                        emitter.onSuccess(Success(config[params].asString()))
                     } else {
                         emitter.onError(
                             it.exception ?: IllegalStateException("Remote config fetch error")

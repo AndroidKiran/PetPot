@@ -9,7 +9,7 @@ import com.droid47.petfriend.aboutUs.presentation.viewmodel.AboutUsViewModel
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentAboutUsBinding
-import com.droid47.petfriend.home.presentation.HomeActivity
+import com.droid47.petfriend.home.presentation.ui.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import javax.inject.Inject
 
@@ -65,8 +65,9 @@ class AboutUsFragment :
     }
 
     override fun onClick(view: View?) {
+        val context = context ?: return
         when (view?.id ?: return) {
-            R.id.fab -> requireContext().sendEmail(
+            R.id.fab -> context.sendEmail(
                 arrayOf(
                     getString(R.string.my_email)
                 )
@@ -93,8 +94,9 @@ class AboutUsFragment :
     }
 
     private val menuClickListener = Toolbar.OnMenuItemClickListener {
+        val context = context ?: return@OnMenuItemClickListener false
         when (it?.itemId ?: return@OnMenuItemClickListener false) {
-            R.id.menu_rate_app -> requireContext().rateMyApp()
+            R.id.menu_rate_app -> context.rateMyApp()
             else -> throw IllegalStateException("No match menu id")
         }
         return@OnMenuItemClickListener false

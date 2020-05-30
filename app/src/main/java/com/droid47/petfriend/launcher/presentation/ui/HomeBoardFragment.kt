@@ -6,29 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.activityViewModelProvider
+import com.droid47.petfriend.base.extensions.setParallaxTransformation
 import com.droid47.petfriend.base.extensions.themeInterpolator
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentHomeBoardBinding
-import com.droid47.petfriend.launcher.presentation.ui.HomeBoardFragmentDirections.Companion.toTnc
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel.Companion.END_POSITION
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel.Companion.START_POSITION
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
+import com.droid47.petfriend.launcher.presentation.ui.widgets.OnBoardingPagerAdapter
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
-import kotlinx.android.synthetic.main.fragment_app_intro.view.*
 import javax.inject.Inject
-
-private const val ITEM_COUNT = 3
 
 class HomeBoardFragment :
     BaseBindingFragment<FragmentHomeBoardBinding, HomeBoardViewModel, LauncherViewModel>(),
@@ -123,29 +118,12 @@ class HomeBoardFragment :
         }
 
         with(getViewDataBinding().viewPager) {
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 1
-            adapter = IntroFragmentAdapter(this@HomeBoardFragment)
+            adapter = OnBoardingPagerAdapter()
+            getViewDataBinding().indicator.attachToViewPager(this)
             setPageTransformer { page, position ->
-
-                page.tv_title?.apply {
-                    translationY = 100 * position
-                    alpha = 1 - position
-                }
-
-                page.iv_bak_drop?.apply {
-                    translationY = 100 * position * 2f
-                    alpha = 1 - position
-                }
-
-                page.tv_sub_title?.apply {
-                    translationY = - 100 * position
-                    alpha = 1 - position
-                }
+                page.setParallaxTransformation(position)
             }
         }
-
-        getViewDataBinding().indicator.attachToViewPager(getViewDataBinding().viewPager)
     }
 
     private fun goToPrevious(): Boolean {
@@ -163,13 +141,11 @@ class HomeBoardFragment :
     }
 
     private fun navigateToTnC() {
-        if (findNavController().currentDestination?.id != R.id.navigation_tnc) {
-            getViewModel().localPreferencesRepository.saveOnBoardingState()
-            val extras = FragmentNavigatorExtras(
-                getViewDataBinding().cdlHomeBoard to getViewDataBinding().cdlHomeBoard.transitionName
-            )
-            findNavController().navigate(toTnc(), extras)
-        }
+        getViewModel().localPreferencesRepository.saveOnBoardingState()
+        val extras = FragmentNavigatorExtras(
+            getViewDataBinding().cdlHomeBoard to getViewDataBinding().cdlHomeBoard.transitionName
+        )
+        getParentViewModel().launcherNavigator.toTncFromIntro(extras)
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
@@ -187,11 +163,12 @@ class HomeBoardFragment :
     }
 
     private fun prepareTransitions() {
+        val context = context ?: return
         postponeEnterTransition()
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
+            drawingViewId = R.id.cdl_home_board
             duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
-            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
@@ -199,16 +176,9 @@ class HomeBoardFragment :
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.iv_logo
             duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
-    }
-
-    private inner class IntroFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-        override fun getItemCount(): Int = ITEM_COUNT
-
-        override fun createFragment(position: Int): Fragment = AppIntroFragment.instance(position)
     }
 }

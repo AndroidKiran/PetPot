@@ -18,6 +18,8 @@
 
         <import type="com.droid47.petfriend.search.presentation.models.PaginationErrorState" />
 
+        <import type="com.droid47.petfriend.base.widgets.Success" />
+
         <variable
             name="searchViewModel"
             type="com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel" />
@@ -56,13 +58,13 @@
                 android:id="@+id/tool_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:contentScrim="@android:color/transparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways"
                 app:titleEnabled="false">
 
                 <include
                     android:id="@+id/top_search_bar"
                     layout="@layout/layout_search_top_bar"
-                    app:layout_collapseMode="parallax"
                     app:petSpinnerViewModelAndLocation="@{petSpinnerViewModelAndLocation}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -84,11 +86,16 @@
                 android:paddingStart="@dimen/grid_1"
                 android:paddingEnd="@dimen/grid_1"
                 android:paddingBottom="@dimen/grid_12"
+                app:fastScrollEnabled="true"
+                app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
+                app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_line_drawable"
+                app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
+                app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_line_drawable"
                 app:hasFixedSize="@{true}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:spanCount="@integer/featured_grid_columns"
-                app:visible="@{searchViewModel.searchStateLiveData instanceof DefaultState || searchViewModel.searchStateLiveData instanceof PaginatingState || searchViewModel.searchStateLiveData instanceof PaginationErrorState}"
+                app:visible="@{searchViewModel.searchStateLiveData instanceof DefaultState || searchViewModel.searchStateLiveData instanceof PaginatingState || searchViewModel.searchStateLiveData instanceof PaginationErrorState || searchViewModel.petsLiveData instanceof Success}"
                 tools:listitem="@layout/item_pet" />
 
             <include
@@ -125,6 +132,31 @@
 
         </FrameLayout>
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:minHeight="@dimen/grid_6"
+            app:elevation="@dimen/plane_08"
+            app:fabAlignmentMode="center"
+            app:fabAnimationMode="scale"
+            app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
+            app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fullScreenBottomPadding="@{true}"
+            app:hideOnScroll="true"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/plane_08"
+            android:src="@drawable/vc_filter"
+            app:ensureMinTouchTargetSize="true"
+            app:fabSize="normal"
+            app:layout_anchor="@id/bottom_app_bar" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/circular_progress"
@@ -138,42 +170,19 @@
             app:layout_anchor="@id/fab"
             app:layout_anchorGravity="center" />
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:elevation="@dimen/plane_08"
-            app:fabAlignmentMode="center"
-            app:fabAnimationMode="scale"
-            app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <LinearLayout
-                android:id="@+id/bottom_app_bar_content_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="@dimen/grid_12"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/grid_7"
-            android:elevation="@dimen/plane_08"
-            android:src="@drawable/vc_filter"
-            app:ensureMinTouchTargetSize="true"
-            app:fabSize="normal"
-            app:layout_anchor="@id/bottom_app_bar" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_filter_count"
+            android:layout_width="@dimen/grid_3"
+            android:layout_height="@dimen/grid_3"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:text="@{String.valueOf(searchViewModel.appliedFilterItemsLiveEvent.size())}"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_anchor="@id/fab"
+            app:layout_anchorGravity="end"
+            app:visible="@{searchViewModel.appliedFilterItemsLiveEvent != null &amp;&amp; !searchViewModel.appliedFilterItemsLiveEvent.empty}" />
 
         <View
             android:id="@+id/scrim"
@@ -189,15 +198,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:cardPreventCornerOverlap="true"
-            app:cardCornerRadius="@dimen/grid_3"
+            app:cardBackgroundColor="?attr/colorPrimarySurface"
             android:visibility="invisible"
+            app:cardCornerRadius="@dimen/grid_3"
+            app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="false"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
 
             <fragment
                 android:id="@+id/fragment_filter"
-                android:name="com.droid47.petfriend.search.presentation.FilterFragment"
+                android:name="com.droid47.petfriend.search.presentation.ui.FilterFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

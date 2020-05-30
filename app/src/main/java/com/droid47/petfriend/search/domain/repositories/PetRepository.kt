@@ -20,7 +20,7 @@ interface PetRepository {
 
     fun insertPetTypeToDB(petTypes: List<PetTypeEntity>): Single<List<PetTypeEntity>>
 
-    fun clearPetsFromDb(status: Boolean): Single<Int>
+    fun clearPetsFromDb(status: Boolean): Completable
 
     fun addPets(list: List<PetEntity>): Single<List<Long>>
 
@@ -39,4 +39,6 @@ interface PetRepository {
     fun subscribeToSelectedPet(id: Int): Flowable<PetEntity>
 
     fun fetchFavoritePets(status: Boolean): Single<List<PetEntity>>
+
+    fun updateFavoritePetStatus(updateStatus: Boolean, currentStatus: Boolean): Completable
 }

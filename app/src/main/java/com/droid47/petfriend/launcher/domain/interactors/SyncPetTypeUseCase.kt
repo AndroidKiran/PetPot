@@ -30,9 +30,9 @@ class SyncPetTypeUseCase @Inject constructor(
     postExecutionThread
 ) {
 
-    override fun buildUseCaseSingle(params: Boolean?): Single<BaseStateModel<List<PetTypeEntity>>> =
+    override fun buildUseCaseSingle(params: Boolean): Single<BaseStateModel<List<PetTypeEntity>>> =
         when (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(application)) {
-            ConnectionResult.SUCCESS -> lookForDbDataThenFetchFromNetwork(params ?: false)
+            ConnectionResult.SUCCESS -> lookForDbDataThenFetchFromNetwork(params)
             else -> Single.just(Failure(IllegalStateException(PLAY_SERVICE_ERROR)))
         }
 
@@ -63,7 +63,7 @@ class SyncPetTypeUseCase @Inject constructor(
     private fun getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
         return petRepository.fetchPetTypesFromNetwork()
             .flattenAsObservable { typeResponse -> typeResponse.typeEntities }
-            .onErrorResumeNext(Function { Observable.empty() })
+            .onErrorResumeNext( Function { Observable.empty() })
             .fetchBreeds()
             .toList()
             .insertAnimalTypes()

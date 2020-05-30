@@ -8,65 +8,55 @@ import com.droid47.petfriend.base.extensions.toLiveData
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
-import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.components.LiveEvent
 import com.droid47.petfriend.search.data.models.FilterItemEntity
-import com.droid47.petfriend.search.data.models.PAGE_NUM
 import com.droid47.petfriend.search.domain.interactors.*
-import com.droid47.petfriend.search.presentation.widgets.FilterAdapter
+import com.droid47.petfriend.search.presentation.ui.widgets.FilterAdapter
 import io.reactivex.CompletableObserver
-import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 private const val REFRESH_SELECTED_FILTER = 3000L
-private const val CLEAR_SELECTED_FILTER_BY_CATEGORY = 3001L
 private const val CLEAR_ALL_SELECTED_FILTER = 3002L
 private const val APPLY_FILTER = 3003L
-private const val APPLY_LAST_FILTER = 3004L
-private const val FETCH_SORT_FILTER = 3005L
-private const val APPLY_SORT_FILTER = 3006L
 
 class FilterViewModel @Inject constructor(
     application: Application,
     private val fetchFilterItemsForSelectedCategoryUseCase: FetchFilterItemsForSelectedCategoryUseCase,
     private val refreshSelectedFilterItemUseCase: RefreshSelectedFilterItemUseCase,
-    private val fetchSelectedFiltersForCategoryUseCase: FetchSelectedFiltersForCategoryUseCase,
     private val fetchSelectedFiltersForCategoriesUseCase: FetchSelectedFiltersForCategoriesUseCase,
-    private val resetFilterForCategoryUseCase: ResetFilterForCategoryUseCase,
     private val resetFilterUseCase: ResetFilterUseCase,
-    private val applyFilterUseCase: ApplyFilterUseCase,
-    private val updateLastAppliedFilterUseCase: UpdateLastAppliedFilterUseCase,
-    private val fetchSortMenuStateUseCase: FetchSortMenuStateUseCase,
-    private val refreshSortMenuUseCase: RefreshSortMenuUseCase
+    private val fetchAppliedFiltersForCategoriesUseCase: FetchAppliedFiltersForCategoriesUseCase,
+    private val updateFilterOnAppliedUseCase: UpdateFilterOnAppliedUseCase,
+    private val removeAllPetsUseCase: RemoveAllPetsUseCase,
+    private val updateFilterOnCloseUseCase: UpdateFilterOnCloseUseCase
 ) : BaseAndroidViewModel(application), FilterAdapter.OnItemCheckListener {
 
-    private val _lastAppliedFilterItemList =
-        MutableLiveData<BaseStateModel<List<FilterItemEntity>>>()
-
     val categoryLiveData = MutableLiveData<String>()
+    val eventLiveData = LiveEvent<Long>()
 
     val filterListForSelectedCategoryLiveData = categoryLiveData.switchMap { category ->
         fetchFilterItemsForSelectedCategoryUseCase.buildUseCaseObservable(category).toLiveData()
     }
 
-    val isFilterAppliedForCategoryLiveData = categoryLiveData.switchMap { category ->
-        fetchSelectedFiltersForCategoryUseCase.buildUseCaseObservable(category).toLiveData()
-    }
-
     val searchFilterLiveData = MutableLiveData<String>()
-
     val menuItemListLiveData = MutableLiveData<List<String>>()
 
-    val allSelectedFilterListLiveData = menuItemListLiveData.switchMap { menuList ->
+    val selectedFilterListLiveData = menuItemListLiveData.switchMap { menuList ->
         fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
     }
 
-    val eventLiveData = LiveEvent<Long>()
+    val appliedFilterLiveData = menuItemListLiveData.switchMap { menuList ->
+        fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
+    }
 
     private val _sortFilterLiveData = MutableLiveData<BaseStateModel<FilterItemEntity>>()
     val sortFilterLiveDataEntity: LiveData<BaseStateModel<FilterItemEntity>>
         get() = _sortFilterLiveData
+
+    init {
+        closeFilter(false)
+    }
 
     override fun onItemCheck(filterItemEntity: FilterItemEntity) {
         refreshSelectedFilterItemUseCase.execute(filterItemEntity, object : CompletableObserver {
@@ -83,46 +73,31 @@ class FilterViewModel @Inject constructor(
         })
     }
 
-    fun resetFilterForCategory(category: String) {
-        resetFilterForCategoryUseCase.execute(category, object : CompletableObserver {
-
-            override fun onComplete() {
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                registerDisposableRequest(CLEAR_SELECTED_FILTER_BY_CATEGORY, d)
-            }
-
-            override fun onError(e: Throwable) {
-                CrashlyticsExt.handleException(e)
-            }
-        })
-    }
-
     fun resetFilter() {
-        val menuList = menuItemListLiveData.value?: emptyList()
-        resetFilterUseCase.execute(menuList, object : CompletableObserver {
-            override fun onComplete() {
+        val menuList = menuItemListLiveData.value ?: emptyList()
+        resetFilterUseCase.buildUseCaseCompletable(menuList)
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
 
-            }
+                }
 
-            override fun onSubscribe(d: Disposable) {
-                registerDisposableRequest(CLEAR_ALL_SELECTED_FILTER, d)
-            }
+                override fun onSubscribe(d: Disposable) {
+                    registerDisposableRequest(CLEAR_ALL_SELECTED_FILTER, d)
+                }
 
-            override fun onError(e: Throwable) {
-                CrashlyticsExt.handleException(e)
-            }
-        })
+                override fun onError(e: Throwable) {
+                    CrashlyticsExt.handleException(e)
+                }
+            })
     }
 
     fun applyFilter() {
-        applyFilterUseCase.execute(
-            FilterItemEntity(1.toString(), PAGE_NUM, true),
-            object : CompletableObserver {
-
+        val menuList = menuItemListLiveData.value ?: emptyList()
+        updateFilterOnAppliedUseCase.buildUseCaseCompletable(menuList)
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+            .subscribe(object : CompletableObserver {
                 override fun onComplete() {
-                    _lastAppliedFilterItemList.value = allSelectedFilterListLiveData.value
                     eventLiveData.postValue(EVENT_APPLY_FILTER)
                 }
 
@@ -137,70 +112,25 @@ class FilterViewModel @Inject constructor(
             })
     }
 
-    fun onFilterActive() {
-        val selectedFilters = _lastAppliedFilterItemList.value?.data?: emptyList<List<FilterItemEntity>>()
-        when(selectedFilters.isEmpty()) {
-            true -> resetFilter()
-            else -> applyPreviousFilter()
-        }
-    }
 
-    private fun applyPreviousFilter() {
-        updateLastAppliedFilterUseCase.execute(_lastAppliedFilterItemList.value?.data
-            ?: emptyList(),
-            object : CompletableObserver {
-                override fun onComplete() {
-
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    registerDisposableRequest(APPLY_LAST_FILTER, d)
-                }
-
-                override fun onError(e: Throwable) {
-                    CrashlyticsExt.handleException(e)
-                }
-            })
-    }
-
-
-    fun fetchSortMenuState() =
-        fetchSortMenuStateUseCase.execute(observer = object :
-            SingleObserver<BaseStateModel<FilterItemEntity>> {
-
-            override fun onSuccess(baseStateModel: BaseStateModel<FilterItemEntity>) {
-                _sortFilterLiveData.postValue(baseStateModel)
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                registerDisposableRequest(FETCH_SORT_FILTER, d)
-            }
-
-            override fun onError(e: Throwable) {
-                _sortFilterLiveData.postValue(Failure(e))
-            }
-        })
-
-    fun refreshSortFilter(filterItemEntity: FilterItemEntity) =
-        refreshSortMenuUseCase.execute(filterItemEntity, object : CompletableObserver {
-
+    fun closeFilter(notify: Boolean) {
+        val menuList = menuItemListLiveData.value ?: emptyList()
+        updateFilterOnCloseUseCase.execute(menuList, object : CompletableObserver {
             override fun onComplete() {
-                eventLiveData.postValue(EVENT_APPLY_SORT_FILTER)
+                if (!notify) return
+                eventLiveData.postValue(EVENT_CLOSE_FILTER)
             }
 
             override fun onSubscribe(d: Disposable) {
-                registerDisposableRequest(APPLY_SORT_FILTER, d)
+                registerDisposableRequest(EVENT_CLOSE_FILTER, d)
             }
 
             override fun onError(e: Throwable) {
-                eventLiveData.postValue(EVENT_APPLY_SORT_FILTER)
                 CrashlyticsExt.handleException(e)
+                if (!notify) return
+                eventLiveData.postValue(EVENT_CLOSE_FILTER)
             }
-
         })
-
-    fun closeFilter() {
-        eventLiveData.postValue(EVENT_CLOSE_FILTER)
     }
 
     fun clearSearch() {

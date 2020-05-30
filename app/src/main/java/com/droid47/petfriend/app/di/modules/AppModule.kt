@@ -3,7 +3,7 @@ package com.droid47.petfriend.app.di.modules
 import com.droid47.petfriend.app.data.LocalPreferenceDataSource
 import com.droid47.petfriend.app.domain.JobExecutor
 import com.droid47.petfriend.app.domain.UIThread
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import dagger.Binds

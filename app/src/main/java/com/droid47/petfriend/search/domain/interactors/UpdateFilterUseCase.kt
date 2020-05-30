@@ -15,10 +15,15 @@ class UpdateFilterUseCase @Inject constructor(
     private val filterRepository: FilterRepository
 ) : CompletableUseCase<FilterItemEntity>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: FilterItemEntity?): Completable =
-        when {
-            params == null -> Completable.error(IllegalStateException("No Params passed"))
-            params.type == LOCATION -> filterRepository.updateLocationFilter(params)
+    override fun buildUseCaseCompletable(params: FilterItemEntity): Completable =
+        when (params.type) {
+
+            LOCATION -> filterRepository.updateLocationFilter(params)
+                .subscribeOn(threadExecutorScheduler)
+                .observeOn(postExecutionThreadScheduler)
+
             else -> filterRepository.updateOrInsertTheFilter(params)
+                .subscribeOn(threadExecutorScheduler)
+                .observeOn(postExecutionThreadScheduler)
         }
 }

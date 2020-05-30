@@ -29,8 +29,8 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_3"
                     android:paddingStart="@dimen/grid_2"
+                    android:paddingTop="@dimen/grid_6"
                     android:paddingEnd="@dimen/zero"
                     android:text="@string/settings"
                     android:textAppearance="?attr/textAppearanceHeadline3"
@@ -53,26 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:elevation="@dimen/plane_08"
-            app:fabAlignmentMode="center"
-            app:fabAnimationMode="scale"
-            app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:hideOnScroll="true"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <LinearLayout
-                android:id="@+id/bottom_app_bar_content_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="@dimen/grid_12"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
+            android:minHeight="@dimen/grid_6"
+            app:elevation="@dimen/plane_08"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

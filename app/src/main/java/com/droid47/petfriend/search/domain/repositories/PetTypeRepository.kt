@@ -4,6 +4,7 @@ import com.droid47.petfriend.search.data.models.type.PetTypeEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
+
 interface PetTypeRepository {
     fun getPetNames(): Single<List<String>>
 

@@ -5,8 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import dagger.Component
-import dagger.Subcomponent
+import com.droid47.petfriend.base.navigator.INavigator
 
 abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidViewModel> :
     AppCompatActivity() {
@@ -14,6 +13,7 @@ abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidV
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V
     abstract fun getViewModel(): V
+
     @LayoutRes
     abstract fun getLayoutId(): Int
     abstract fun executePendingVariablesBinding()

@@ -2,10 +2,10 @@ package com.droid47.petfriend.app.di.modules
 
 import android.app.Application
 import com.droid47.petfriend.BuildConfig
-import com.droid47.petfriend.app.data.network.NetworkHeadersInterceptor
-import com.droid47.petfriend.app.data.network.TokenAuthenticator
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
-import com.droid47.petfriend.app.data.network.TokenNetworkSource
+import com.droid47.petfriend.base.network.NetworkHeadersInterceptor
+import com.droid47.petfriend.base.network.TokenAuthenticator
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
+import com.droid47.petfriend.base.network.TokenNetworkSource
 import com.droid47.petfriend.search.data.datasource.SearchNetworkSource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -44,6 +44,7 @@ object NetworkModule {
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
         .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .create()
 
     @Provides

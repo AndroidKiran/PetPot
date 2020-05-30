@@ -13,10 +13,8 @@ class ResetFilterUseCase @Inject constructor(
     private val filterRepository: FilterRepository
 ) : CompletableUseCase<List<String>>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: List<String>?): Completable = when {
-        params == null || params.isEmpty() ->
-            Completable.error(IllegalStateException("Params is null or empty"))
-        else -> filterRepository.resetFilter(params)
-    }
-
+    override fun buildUseCaseCompletable(params: List<String>): Completable =
+        filterRepository.resetFilter(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 }

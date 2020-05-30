@@ -1,12 +1,18 @@
 package com.droid47.petfriend.base.extensions
 
 import android.view.View
+import androidx.arch.core.util.Function
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.paging.PagedList
+import com.droid47.petfriend.base.widgets.BaseStateModel
+import com.droid47.petfriend.search.data.models.search.PetEntity
+import com.droid47.petfriend.search.presentation.models.Filters
+import org.reactivestreams.Publisher
 
 inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
     provider: ViewModelProvider.Factory
@@ -51,3 +57,4 @@ inline fun <T> dependantLiveData(
     }.apply { value = defaultValue }
 
 val <T> T.exhaustive get() = this
+

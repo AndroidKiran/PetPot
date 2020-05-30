@@ -3,7 +3,6 @@ package com.droid47.petfriend.base.usecase
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import io.reactivex.Observable
-import io.reactivex.observers.DisposableObserver
 
 abstract class ObservableUseCase<Results, in Params>(
     threadExecutor: ThreadExecutor,

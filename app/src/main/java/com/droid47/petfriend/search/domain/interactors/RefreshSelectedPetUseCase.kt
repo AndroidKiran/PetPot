@@ -12,6 +12,6 @@ class RefreshSelectedPetUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread,
     private val petTypeRepository: PetTypeRepository
 ) : CompletableUseCase<String>(threadExecutor, postExecutionThread) {
-    override fun buildUseCaseCompletable(params: String?): Completable =
-        petTypeRepository.updateSelectedPetTypeRow(params ?: "")
+    override fun buildUseCaseCompletable(params: String): Completable =
+        petTypeRepository.updateSelectedPetTypeRow(params)
 }

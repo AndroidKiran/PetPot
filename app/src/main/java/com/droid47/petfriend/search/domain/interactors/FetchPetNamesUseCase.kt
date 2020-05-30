@@ -13,6 +13,6 @@ class FetchPetNamesUseCase @Inject constructor(
     private val petTypeRepository: PetTypeRepository
 ) : SingleUseCase<List<String>, Unit>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseSingle(params: Unit?): Single<List<String>> =
+    override fun buildUseCaseSingle(params: Unit): Single<List<String>> =
         petTypeRepository.getPetNames()
 }

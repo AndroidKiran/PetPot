@@ -2,14 +2,14 @@ package com.droid47.petfriend.home.presentation.di
 
 import com.droid47.petfriend.aboutUs.presentation.AboutUsFragment
 import com.droid47.petfriend.app.di.scopes.ActivityScope
-import com.droid47.petfriend.bookmark.presentation.ui.BookmarkFragment
-import com.droid47.petfriend.home.presentation.BottomNavDrawerFragment
-import com.droid47.petfriend.home.presentation.HomeActivity
-import com.droid47.petfriend.home.presentation.SettingFragment
-import com.droid47.petfriend.petDetails.presentation.PetDetailsFragment
-import com.droid47.petfriend.petDetails.presentation.SimilarPetsFragment
-import com.droid47.petfriend.search.presentation.FilterFragment
-import com.droid47.petfriend.search.presentation.SearchFragment
+import com.droid47.petfriend.search.presentation.ui.BookmarkFragment
+import com.droid47.petfriend.home.presentation.ui.BottomNavDrawerFragment
+import com.droid47.petfriend.home.presentation.ui.HomeActivity
+import com.droid47.petfriend.home.presentation.ui.SettingFragment
+import com.droid47.petfriend.petDetails.presentation.ui.PetDetailsFragment
+import com.droid47.petfriend.petDetails.presentation.ui.SimilarPetsFragment
+import com.droid47.petfriend.search.presentation.ui.FilterFragment
+import com.droid47.petfriend.search.presentation.ui.SearchFragment
 import dagger.Subcomponent
 
 @ActivityScope

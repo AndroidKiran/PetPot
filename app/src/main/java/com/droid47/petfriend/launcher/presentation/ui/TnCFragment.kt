@@ -13,7 +13,6 @@ import com.droid47.petfriend.base.extensions.themeInterpolator
 import com.droid47.petfriend.base.extensions.viewModelProvider
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.databinding.FragmentTncBinding
-import com.droid47.petfriend.launcher.presentation.ui.TnCFragmentDirections.Companion.toHome
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel
 import com.droid47.petfriend.workmanagers.notification.NotificationModel.Companion.EXTRA_NAVIGATION_FRAGMENT_ID
@@ -99,10 +98,10 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
     private fun navigateToHome() {
         getViewModel().updateTnCStatus()
         getParentViewModel().updateFirebaseCollectionStatus()
-        val direction = toHome(Bundle().apply {
+        val bundle = Bundle().apply {
             putInt(EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
-        })
-        getParentViewModel().homeNavigationLiveData.postValue(direction)
+        }
+        getParentViewModel().homeNavigationLiveData.postValue(bundle)
     }
 
     private val closeOnBackPressed = object : OnBackPressedCallback(false) {
@@ -116,20 +115,20 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
     }
 
     private fun prepareTransitions() {
+        val context = context ?: return
         postponeEnterTransition()
-
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
+            drawingViewId = R.id.cdl_tnc
             duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
-            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }
 
         sharedElementReturnTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.iv_logo
+            drawingViewId = R.id.cdl_home_board
             duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-            interpolator = requireContext().themeInterpolator(R.attr.motionInterpolatorPersistent)
+            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
         }

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 
-
 class SnappySmoothScroller(context: Context) : LinearSmoothScroller(context) {
     private var snapType = SnapType.VISIBLE
     private var scrollVectorDetector: ScrollVectorDetector? = null

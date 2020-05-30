@@ -5,6 +5,7 @@ import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
+
 abstract class BaseReactiveUseCase(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread

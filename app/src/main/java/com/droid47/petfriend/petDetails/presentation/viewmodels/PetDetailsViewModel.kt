@@ -14,12 +14,12 @@ import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.bookmark.domain.interactors.DataSourceType
-import com.droid47.petfriend.bookmark.domain.interactors.SubscribeToPetsUseCase
-import com.droid47.petfriend.bookmark.domain.interactors.UpdateFavoritePetUseCase
 import com.droid47.petfriend.petDetails.domain.interactors.FetchSelectedPetFromDbUseCase
 import com.droid47.petfriend.search.data.models.search.PetEntity
-import com.droid47.petfriend.search.presentation.widgets.*
+import com.droid47.petfriend.search.domain.interactors.DataSourceType
+import com.droid47.petfriend.search.domain.interactors.SubscribeToPetsUseCase
+import com.droid47.petfriend.search.domain.interactors.UpdateFavoritePetUseCase
+import com.droid47.petfriend.search.presentation.ui.widgets.*
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -124,6 +124,7 @@ class PetDetailsViewModel @Inject constructor(
     override fun onBookMarkClick(petEntity: PetEntity) {
         starSubject.onNext(petEntity.apply {
             bookmarkStatus = !petEntity.bookmarkStatus
+            bookmarkedAt = System.currentTimeMillis()
         })
     }
 
@@ -138,9 +139,7 @@ class PetDetailsViewModel @Inject constructor(
         starSubject.debounce(200, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerDisposableRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
-                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair.apply {
-                    bookmarkedAt = System.currentTimeMillis()
-                })
+                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair)
             }.applyIOSchedulers()
             .subscribe(this::onPetStarSuccess, this::onPetStarError)
     }

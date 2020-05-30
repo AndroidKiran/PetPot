@@ -121,4 +121,14 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="notification_content_text">Search and find right friend for you</string>
     <string name="launcher_transition">launcher_transition</string>
     <string name="activity_transition">activity_transition</string>
+    <string name="onboarding_page_app_desc">Provide new home for homeless pet, adopt and
+        love them</string>
+    <string name="onboarding_page_search_desc">Search and read pet bios that best matches
+        your needs </string>
+    <string name="onboarding_page_fav_desc">Add matching pet to your favourite list</string>
+    <string name="onboarding_page_app_tite">App for pet lovers</string>
+    <string name="onboarding_page_search_tite">Find right pet</string>
+    <string name="onboarding_page_fav_tite">Save favorites</string>
+    <string name="add">Add Shelters</string>
+
 </resources>

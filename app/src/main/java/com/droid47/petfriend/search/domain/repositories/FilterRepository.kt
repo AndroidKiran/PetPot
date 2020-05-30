@@ -11,11 +11,7 @@ interface FilterRepository {
 
     fun getSelectedFilterItemsForCategories(categories: List<String>): Flowable<List<FilterItemEntity>>
 
-    fun getSelectedFilterItemsForCategory(type: String): Flowable<List<FilterItemEntity>>
-
     fun getFilterItemsForSelectedCategory(type: String): Flowable<List<FilterItemEntity>>
-
-    fun getFilterItemForCategory(type: String): Single<FilterItemEntity>
 
     fun updateFilterItem(filterItemEntity: FilterItemEntity): Completable
 
@@ -27,11 +23,15 @@ interface FilterRepository {
 
     fun updateLocationFilter(filterItemEntity: FilterItemEntity): Completable
 
-    fun updateSortFilter(filterItemEntity: FilterItemEntity): Completable
-
-    fun fetchPageFilterOnUpdate(): Flowable<FilterItemEntity>
-
-    fun updateLastAppliedFilter(checked: Boolean, filterNameList: List<String>): Completable
+    fun updateFilterOnApplied(categories: List<String>): Completable
 
     fun refreshFilter(list: List<FilterItemEntity>): Completable
+
+    fun getFilterForFirstPage(name: String, type: String, selected: Boolean): Flowable<List<FilterItemEntity>>
+
+    fun getFilterForTypes(types: List<String>, selected: Boolean): Flowable<List<FilterItemEntity>>
+
+    fun getAppliedFilterItemsForCategories(categories: List<String>): Flowable<List<FilterItemEntity>>
+
+    fun updateFilterOnClosed(categories: List<String>): Completable
 }

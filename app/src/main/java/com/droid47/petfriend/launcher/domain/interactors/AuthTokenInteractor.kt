@@ -1,7 +1,7 @@
 package com.droid47.petfriend.launcher.domain.interactors
 
 import androidx.work.ListenableWorker
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.base.extensions.applyIOSchedulers
 import com.droid47.petfriend.launcher.data.entities.ClientCredentialModel
 import com.droid47.petfriend.launcher.data.entities.TokenModel

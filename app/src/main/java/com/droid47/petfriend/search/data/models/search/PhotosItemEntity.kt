@@ -27,4 +27,12 @@ data class PhotosItemEntity(
             else -> ""
         }
 
+    fun getPetMediumPhoto(): String =
+        when {
+            !medium.isNullOrEmpty() -> medium
+            !small.isNullOrEmpty() -> small
+            !large.isNullOrEmpty() -> large
+            else -> ""
+        }
+
 }

@@ -10,13 +10,13 @@ abstract class CompletableUseCase<in Params>(
     postExecutionThread: PostExecutionThread
 ) : BaseReactiveUseCase(threadExecutor, postExecutionThread) {
 
-    abstract fun buildUseCaseCompletable(params: Params? = null): Completable
+    abstract fun buildUseCaseCompletable(params: Params): Completable
 
-    fun execute(params: Params? = null, observer: CompletableObserver) {
+    fun execute(params: Params, observer: CompletableObserver) {
         buildUseCaseCompletableWithSchedulers(params).subscribe(observer)
     }
 
-    private fun buildUseCaseCompletableWithSchedulers(params: Params?): Completable {
+    private fun buildUseCaseCompletableWithSchedulers(params: Params): Completable {
         return buildUseCaseCompletable(params)
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)

@@ -16,10 +16,10 @@ class FetchFavoritePetsUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository
-) : SingleUseCase<BaseStateModel<List<PetEntity>>, Unit>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<BaseStateModel<List<PetEntity>>, Boolean>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseSingle(params: Unit?): Single<BaseStateModel<List<PetEntity>>> =
-        petRepository.fetchFavoritePets(true)
+    override fun buildUseCaseSingle(params: Boolean): Single<BaseStateModel<List<PetEntity>>> =
+        petRepository.fetchFavoritePets(params)
             .map { petList ->
                 when {
                     petList.isEmpty() -> Empty(petList)

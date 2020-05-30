@@ -22,7 +22,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V
-    private lateinit var rootView: View
+//    private lateinit var rootView: View
     private lateinit var parentViewModel: PV
 
     private var navFragmentId: Int = 0
@@ -39,7 +39,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
         baseViewModel = getViewModel()
         parentViewModel = getParentViewModel()
         navFragmentId = getFragmentNavId()
@@ -47,6 +46,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        retainInstance = true
         injectSubComponent()
         navigationHost = context as? NavigationHost?
     }
@@ -58,7 +58,7 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
     ): View? =
         DataBindingUtil.inflate<B>(inflater, getLayoutId(), container, false).also {
             baseViewDataBinding = it
-            rootView = baseViewDataBinding.root
+//            rootView = baseViewDataBinding.root
         }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,11 +1,8 @@
 package com.droid47.petfriend.launcher.presentation.ui.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.droid47.petfriend.R
-import com.droid47.petfriend.app.domain.repositories.LocalPreferencesRepository
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
 import javax.inject.Inject
 

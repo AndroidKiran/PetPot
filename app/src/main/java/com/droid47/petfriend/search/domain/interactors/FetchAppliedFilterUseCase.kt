@@ -1,16 +1,12 @@
 package com.droid47.petfriend.search.domain.interactors
 
-import com.droid47.petfriend.base.usecase.FlowableUseCase
+import com.droid47.petfriend.base.usecase.SingleUseCase
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
-import com.droid47.petfriend.base.widgets.BaseStateModel
-import com.droid47.petfriend.base.widgets.Empty
-import com.droid47.petfriend.base.widgets.Failure
-import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.search.data.models.*
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
+import com.droid47.petfriend.search.presentation.models.FilterConstants
 import com.droid47.petfriend.search.presentation.models.Filters
-import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
@@ -19,32 +15,24 @@ class FetchAppliedFilterUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val filterRepository: FilterRepository
-) : FlowableUseCase<BaseStateModel<Filters>, Unit>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<Filters, Boolean>(
+    threadExecutor,
+    postExecutionThread
+) {
 
-    override fun buildUseCaseObservable(params: Unit): Flowable<BaseStateModel<Filters>> =
-        filterRepository.fetchPageFilterOnUpdate()
-            .filter { it.selected }
-            .switchMapSingle {
-                fetchAppliedFilters()
-            }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
-            .onErrorReturn {
-                Failure(it)
-            }
-
-    private fun fetchAppliedFilters(): Single<BaseStateModel<Filters>> =
+    override fun buildUseCaseSingle(params: Boolean): Single<Filters> =
         filterRepository.getAppliedFilterItemForSearch()
-            .map { filterItemList ->
-                if (filterItemList.size == 1 || filterItemList.isEmpty()) {
-                    return@map Empty<Filters>()
-                } else {
-                    return@map Success(composeFilter(filterItemList))
-                }
-            }.onErrorReturn {
-                Failure(it)
+            .map {
+                composeFilter(it, params)
             }
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
-    private fun composeFilter(selectedItemEntities: List<FilterItemEntity>): Filters =
+
+    private fun composeFilter(
+        selectedItemEntities: List<FilterItemEntity>,
+        isFirstPage: Boolean
+    ): Filters =
         Filters().apply {
             val ageStr = transformListToString(selectedItemEntities, AGE)
             if (ageStr.isNotEmpty()) {
@@ -87,9 +75,13 @@ class FetchAppliedFilterUseCase @Inject constructor(
                 type = typeStr
             }
 
-            val pageStr = transformListToString(selectedItemEntities, PAGE_NUM).split(",")[0]
-            if (pageStr.isNotEmpty()) {
-                page = pageStr
+            if (isFirstPage) {
+                page = FilterConstants.PAGE_ONE.toString()
+            } else {
+                val pageStr = transformListToString(selectedItemEntities, PAGE_NUM).split(",")[0]
+                if (pageStr.isNotEmpty()) {
+                    page = pageStr
+                }
             }
 
             val sortStr = transformListToString(selectedItemEntities, SORT).split(",")[0]
@@ -102,6 +94,7 @@ class FetchAppliedFilterUseCase @Inject constructor(
                 location = locationStr
             }
         }
+
 
     private fun transformListToString(
         filterItemEntityList: List<FilterItemEntity>,

@@ -25,7 +25,8 @@ class PetRepo @Inject constructor(
         petTypeDao.insertPetTypeList(petTypes)
             .map { petTypes }
 
-    override fun clearPetsFromDb(status: Boolean): Single<Int> = petDao.deletePetsFor(status)
+    override fun clearPetsFromDb(status: Boolean): Completable =
+        petDao.deletePetsFor(status)
 
     override fun addPets(list: List<PetEntity>): Single<List<Long>> = petDao.insertPets(list)
 
@@ -52,12 +53,14 @@ class PetRepo @Inject constructor(
     override fun fetchFavoritePets(status: Boolean): Single<List<PetEntity>> =
         petDao.getFavoritePetsSingle(status)
 
+    override fun updateFavoritePetStatus(updateStatus: Boolean, currentStatus: Boolean): Completable =
+        petDao.updatePetsTo(updateStatus, currentStatus)
+
     override fun fetchPetsFromNetWork(options: Map<String, @JvmSuppressWildcards Any>): Single<SearchResponseEntity> =
         searchNetworkSource.getPets(options)
 
     override fun fetchPetTypesFromNetwork(): Single<PetTypeResponseEntity> =
         searchNetworkSource.getPetTypes()
-
 
     override fun fetchBreedsFromNetwork(animalType: String): Single<BreedResponseEntity> =
         searchNetworkSource.getBreeds(animalType)

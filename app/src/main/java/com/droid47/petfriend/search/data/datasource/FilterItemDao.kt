@@ -2,10 +2,10 @@ package com.droid47.petfriend.search.data.datasource
 
 import androidx.room.*
 import com.droid47.petfriend.search.data.models.FilterItemEntity
-import com.droid47.petfriend.search.data.models.PAGE_NUM
 import com.droid47.petfriend.search.data.models.SORT
 import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_DISTANCE
 import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_RECENT
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -18,38 +18,47 @@ interface FilterItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(filterItemEntities: List<FilterItemEntity>)
 
-    @Query("DELETE FROM ${FilterItemEntity.TABLE_NAME}")
-    fun deleteAll()
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_SELECTED}=:isSelected AND ${FilterItemEntity.COL_TYPE} IN(:categories)")
+    fun getSelectedFilterItemsForCategories(categories: List<String>, isSelected: Boolean): Flowable<List<FilterItemEntity>>
 
-    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_SELECTED}=1 AND ${FilterItemEntity.COL_TYPE} IN(:categories)")
-    fun getSelectedFilterItemsForCategories(categories: List<String>): Flowable<List<FilterItemEntity>>
-
-    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_SELECTED}=1 AND ${FilterItemEntity.COL_TYPE} =:type")
-    fun getSelectedFilterItemsForCategory(type: String): Flowable<List<FilterItemEntity>>
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_FILTER_APPLIED}=:isSelected AND ${FilterItemEntity.COL_TYPE} IN(:categories)")
+    fun getAppliedFilterItemsForCategories(categories: List<String>, isSelected: Boolean): Flowable<List<FilterItemEntity>>
 
     @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} =:type ORDER BY ${FilterItemEntity.COL_SELECTED} DESC")
     fun getFilterItemsForSelectedCategory(type: String): Flowable<List<FilterItemEntity>>
 
-    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} =:type AND ${FilterItemEntity.COL_SELECTED}=:checked")
-    fun getFilterItemForCategory(type: String, checked: Boolean): FilterItemEntity?
-
     @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} =:type")
     fun getFilterItemFor(type: String): FilterItemEntity?
 
-    @Query("DELETE FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE}=:type")
-    fun deleteFilterByType(type: String)
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_FILTER_APPLIED}=:checked")
+    fun getAppliedFilterItemForSearch(checked: Boolean): Single<List<FilterItemEntity>>
+
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_NAME}=:name AND ${FilterItemEntity.COL_TYPE}=:type AND ${FilterItemEntity.COL_SELECTED}=:selected")
+    fun getFilterForFirstPage(name: String, type: String, selected: Boolean): Flowable<List<FilterItemEntity>>
+
+    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE} IN(:types) AND ${FilterItemEntity.COL_SELECTED}=:selected")
+    fun getFilterForTypes(types: List<String>, selected: Boolean): Flowable<List<FilterItemEntity>>
 
     @Update
-    fun updateFilterForItem(filterItemEntity: FilterItemEntity)
+    fun updateFilterForItem(filterItemEntity: FilterItemEntity): Completable
 
     @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_SELECTED}=:checked WHERE ${FilterItemEntity.COL_TYPE}=:type")
-    fun updateSelection(checked: Boolean, type: String)
+    fun updateSelection(checked: Boolean, type: String): Completable
 
-    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_SELECTED}=:checked WHERE ${FilterItemEntity.COL_TYPE} IN(:categories)")
-    fun updateSelectionForCategories(checked: Boolean, categories: List<String>)
+    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_SELECTED}=:checked, ${FilterItemEntity.COL_FILTER_APPLIED}=:checked WHERE ${FilterItemEntity.COL_TYPE} IN(:categories)")
+    fun resetFilters(checked: Boolean, categories: List<String>): Completable
 
-    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_NAME}=:name, ${FilterItemEntity.COL_SELECTED}=:selected WHERE ${FilterItemEntity.COL_TYPE} =:type")
-    fun updateFilterItemFor(name: String, type: String, selected: Boolean)
+    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_NAME}=:name , ${FilterItemEntity.COL_SELECTED}=:selected, ${FilterItemEntity.COL_FILTER_APPLIED}=:appliedFilter WHERE ${FilterItemEntity.COL_TYPE} =:type")
+    fun updateFilterItemFor(name: String, type: String, selected: Boolean, appliedFilter: Boolean)
+
+    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_SELECTED}=:currentAppliedStatus WHERE ${FilterItemEntity.COL_TYPE} IN(:categories) AND ${FilterItemEntity.COL_FILTER_APPLIED}=:currentAppliedStatus AND ${FilterItemEntity.COL_SELECTED}=:currentSelectedStatus")
+    fun updateFiltersOnClose(categories: List<String>, currentAppliedStatus: Boolean, currentSelectedStatus: Boolean)
+
+    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_FILTER_APPLIED}=:currentSelectedStatus WHERE ${FilterItemEntity.COL_TYPE} IN(:categories) AND ${FilterItemEntity.COL_SELECTED}=:currentSelectedStatus AND ${FilterItemEntity.COL_FILTER_APPLIED}=:currentAppliedStatus")
+    fun updateFiltersOnApply(categories: List<String>, currentSelectedStatus: Boolean, currentAppliedStatus: Boolean)
+
+    @Query("DELETE FROM ${FilterItemEntity.TABLE_NAME}")
+    fun deleteAll()
 
     @Transaction
     fun insertOrUpdateFilterItem(filterItemEntity: FilterItemEntity) {
@@ -61,7 +70,8 @@ interface FilterItemDao {
                 updateFilterItemFor(
                     filterItemEntity.name,
                     filterItemEntity.type,
-                    filterItemEntity.selected
+                    filterItemEntity.selected,
+                    filterItemEntity.filterApplied
                 )
             }
         } catch (exception: Exception) {
@@ -82,37 +92,21 @@ interface FilterItemDao {
             FilterItemEntity(
                 if (filterItemEntity.name.isNotEmpty()) SORT_BY_DISTANCE else SORT_BY_RECENT,
                 SORT,
-                true
+                selected = true,
+                filterApplied = true
             )
         )
-        insertOrUpdateFilterItem(FilterItemEntity(1.toString(), PAGE_NUM, true))
-    }
-
-    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_TYPE}=:type AND ${FilterItemEntity.COL_SELECTED}=1")
-    fun getPageFilterOnUpdate(type: String): Flowable<FilterItemEntity>
-
-    @Query("SELECT * FROM ${FilterItemEntity.TABLE_NAME} WHERE ${FilterItemEntity.COL_SELECTED}=1")
-    fun getAppliedFilterItemForSearch(): Single<List<FilterItemEntity>>
-
-    @Query("UPDATE ${FilterItemEntity.TABLE_NAME} SET ${FilterItemEntity.COL_SELECTED}=:checked WHERE ${FilterItemEntity.COL_NAME} IN(:filterNameList)")
-    fun updateLastAppliedFilter(checked: Boolean, filterNameList: List<String>)
-
-    @Transaction
-    fun refreshLastAppliedFilter(checked: Boolean, filterNameList: List<String>) {
-        updateSelection(false, PAGE_NUM)
-        updateLastAppliedFilter(checked, filterNameList)
     }
 
     @Transaction
-    fun resetFilters(status: Boolean, categories: List<String>) {
-        updateSelection(status, PAGE_NUM)
-        updateSelectionForCategories(status, categories)
+    fun updateFilterOnApplied(categories: List<String>) {
+        updateFiltersOnApply(categories, currentSelectedStatus = true, currentAppliedStatus = false)
+        updateFiltersOnApply(categories, currentSelectedStatus = false, currentAppliedStatus = true)
     }
 
     @Transaction
-    fun updateSortFilter(filterItemEntity: FilterItemEntity) {
-        insertOrUpdateFilterItem(filterItemEntity)
-        insertOrUpdateFilterItem(FilterItemEntity(1.toString(), PAGE_NUM, true))
+    fun updateFilterOnClosed(categories: List<String>) {
+        updateFiltersOnClose(categories, currentAppliedStatus = true, currentSelectedStatus = false)
+        updateFiltersOnClose(categories, currentAppliedStatus = false, currentSelectedStatus = true)
     }
-
 }

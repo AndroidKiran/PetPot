@@ -1,9 +1,15 @@
 package com.droid47.petfriend.base.extensions
 
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Point
-import android.view.View
-import android.view.WindowManager
+import android.os.Build
+import android.os.IBinder
+import android.view.*
+import java.lang.reflect.Method
+
 
 private var screenHeight = 0
 private var screenWidth = 0
@@ -107,5 +113,36 @@ fun isPointInsideView(
 
     //point is inside view bounds
     return x > viewX && x < viewX + view.width &&
-        y > viewY && y < viewY + view.height
+            y > viewY && y < viewY + view.height
+}
+
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+@SuppressLint("PrivateApi")
+fun hasNavigationBar(): Boolean {
+    return try {
+        val serviceManager =
+            Class.forName("android.os.ServiceManager")
+        val serviceBinder =
+            serviceManager.getMethod("getService", String::class.java)
+                .invoke(serviceManager, "window") as IBinder
+        val stub = Class.forName("android.view.IWindowManager\$Stub")
+        val windowManagerService =
+            stub.getMethod("asInterface", IBinder::class.java).invoke(stub, serviceBinder)
+        val hasNavigationBar: Method = windowManagerService.javaClass.getMethod("hasNavigationBar")
+        return hasNavigationBar.invoke(windowManagerService) as Boolean
+    } catch (e: Exception) {
+        false
+    }
+}
+
+fun hasNavBar(context: Context): Boolean {
+    val resources: Resources = context.resources
+    val id: Int = resources.getIdentifier("config_showNavigationBar", "bool", "android")
+    return if (id > 0) {
+        resources.getBoolean(id)
+    } else {
+        val hasMenuKey = ViewConfiguration.get(context).hasPermanentMenuKey()
+        val hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
+        !hasMenuKey && !hasBackKey
+    }
 }

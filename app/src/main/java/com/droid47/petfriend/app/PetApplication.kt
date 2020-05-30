@@ -48,7 +48,7 @@ class PetApplication : Application() {
     }
 
     private fun enableTheme() {
-        localSharedPreferences.fetchAppliedTheme().applyTheme()
+        applyTheme(localSharedPreferences.fetchAppliedTheme())
     }
 
     private fun registerActivityLifecycleCallbacks() {

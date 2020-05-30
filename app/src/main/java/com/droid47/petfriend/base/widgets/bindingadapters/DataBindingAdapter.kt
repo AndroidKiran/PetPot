@@ -270,3 +270,10 @@ fun ImageView.setImageDrawable(drawable: Drawable) {
 fun ImageView.setImageResource(resource: Int) {
     setImageResource(resource)
 }
+
+@BindingAdapter("fullScreenBottomPadding")
+fun View.setFullScreenBottomPadding(isRequired: Boolean) {
+    if (!isRequired || !hasNavigationBar()) return
+    val bottomPadding = context.getDimen(R.dimen.grid_6)
+    setPadding(0, 0, 0, bottomPadding)
+}
