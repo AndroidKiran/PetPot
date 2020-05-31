@@ -91,6 +91,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+<!--        <meta-data android:name="com.droid47.petfriend.app.di.modules.GlideConfiguration"-->
+<!--            android:value="GlideModule"/>-->
+
     </application>
 
 </manifest>

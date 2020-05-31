@@ -7,6 +7,7 @@ import android.os.StrictMode.VmPolicy
 import com.bumptech.glide.Glide
 import com.droid47.petfriend.app.di.components.AppComponent
 import com.droid47.petfriend.app.di.components.DaggerAppComponent
+import com.droid47.petfriend.app.di.modules.GlideApp
 import com.droid47.petfriend.base.extensions.applyTheme
 import com.droid47.petfriend.base.extensions.isDeveloperMode
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
@@ -39,12 +40,12 @@ class PetApplication : Application() {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        Glide.get(this).clearMemory()
+        GlideApp.get(this).clearMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        Glide.get(this).trimMemory(level)
+        GlideApp.get(this@PetApplication).trimMemory(level)
     }
 
     private fun enableTheme() {

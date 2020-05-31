@@ -28,7 +28,7 @@
     </style>
 
     <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
-        <item name="android:layout">@layout/layout_setting</item>
+        <item name="android:layout">@layout/fragment_setting</item>
     </style>
 
 <!--    <style name="Widget.PetGoogle.SheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">-->

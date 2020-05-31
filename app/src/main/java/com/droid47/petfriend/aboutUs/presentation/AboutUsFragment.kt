@@ -67,11 +67,7 @@ class AboutUsFragment :
     override fun onClick(view: View?) {
         val context = context ?: return
         when (view?.id ?: return) {
-            R.id.fab -> context.sendEmail(
-                arrayOf(
-                    getString(R.string.my_email)
-                )
-            )
+            R.id.fab -> context.rateMyApp()
         }
     }
 
@@ -79,24 +75,31 @@ class AboutUsFragment :
         getViewDataBinding().fab.apply {
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
-            setImageResource(R.drawable.vc_mail)
+            setImageResource(R.drawable.vc_star)
             setOnClickListener(this@AboutUsFragment)
         }
 
         getViewDataBinding().bottomAppBar.apply {
-            setNavigationIcon(R.drawable.vc_nav_menu)
             setOnMenuItemClickListener(menuClickListener)
             replaceMenu(R.menu.about_us_menu)
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }
         }
+
+        getViewDataBinding().btnNavSearch.setOnClickListener {
+            getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
+        }
     }
 
     private val menuClickListener = Toolbar.OnMenuItemClickListener {
         val context = context ?: return@OnMenuItemClickListener false
         when (it?.itemId ?: return@OnMenuItemClickListener false) {
-            R.id.menu_rate_app -> context.rateMyApp()
+            R.id.menu_email -> context.sendEmail(
+                arrayOf(
+                    getString(R.string.my_email)
+                )
+            )
             else -> throw IllegalStateException("No match menu id")
         }
         return@OnMenuItemClickListener false

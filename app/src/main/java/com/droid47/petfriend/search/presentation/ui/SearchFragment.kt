@@ -178,13 +178,15 @@ class SearchFragment :
         }
 
         with(getViewDataBinding().bottomAppBar) {
-            setNavigationIcon(R.drawable.vc_nav_menu)
-            setNavigationOnClickListener(this@SearchFragment)
             setOnMenuItemClickListener(onMenuClickListener)
             resultOrderMenuItem = menu.findItem(R.id.menu_order)
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
             }
+        }
+
+        getViewDataBinding().btnNavSearch.setOnClickListener {
+            getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
         }
 
         resultOrderMenuItem?.actionView?.let { view ->
@@ -480,18 +482,18 @@ class SearchFragment :
         }
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
         if (startView is FloatingActionButton) {
+            hideBottomBar()
             if (getViewModel().searchStateLiveData.value is PaginatingState) {
                 hidePaginationProgress()
             }
             startView.invisible()
             endView.visible()
-            hideBottomBar()
             getViewDataBinding().scrim.visible()
             filterFragment.onFilterExpanded()
         } else {
+            showBottomBar()
             filterFragment.onFilterCollapsed()
             getViewDataBinding().scrim.invisible()
-            showBottomBar()
             startView.invisible()
             endView.visible()
             if (getViewModel().searchStateLiveData.value is PaginatingState) {

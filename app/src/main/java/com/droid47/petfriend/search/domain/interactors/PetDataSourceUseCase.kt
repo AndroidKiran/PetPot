@@ -32,27 +32,6 @@ class PetDataSourceUseCase @Inject constructor(
     postExecutionThread
 ) {
 
-//    override fun buildUseCaseObservable(params: Triple<String, String, PetPaginationUseCase>): Flowable<BaseStateModel<PagedList<PetEntity>>>  =
-//        RxPagedListBuilder(
-//            getDataSourceType(params.first, params.second),
-//            PagedList.Config.Builder()
-//                .setPageSize(FilterConstants.PAGE_SIZE)
-//                .setPrefetchDistance(3)
-//                .setInitialLoadSizeHint(1)
-//                .build()
-//        ).setFetchScheduler(threadExecutorScheduler)
-//            .setNotifyScheduler(postExecutionThreadScheduler)
-//            .setBoundaryCallback(params.third)
-//            .buildFlowable(BackpressureStrategy.MISSING)
-//            .map {
-//                when {
-//                    it.isEmpty() -> Empty(it)
-//                    else -> Success(it)
-//                }
-//            }.onErrorReturn {
-//                Failure(it, null)
-//            }
-
     override fun buildUseCaseObservable(params: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<PetEntity>>> =
         filterRepository.getFilterForTypes(listOf(PET_TYPE, LOCATION), true)
             .distinctUntilChanged()
@@ -80,7 +59,6 @@ class PetDataSourceUseCase @Inject constructor(
                 getDataSourceType(pair.first, pair.second),
                 PagedList.Config.Builder()
                     .setPageSize(FilterConstants.PAGE_SIZE)
-                    .setEnablePlaceholders(true)
                     .setPrefetchDistance(5)
                     .setInitialLoadSizeHint(1)
                     .build()

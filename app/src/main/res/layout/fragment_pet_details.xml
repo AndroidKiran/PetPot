@@ -66,20 +66,6 @@
                     app:layout_collapseMode="parallax"
                     app:selectedDotColor="?attr/colorSecondary" />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:background="?attr/scrimBackground"
-                    android:paddingStart="@dimen/grid_2"
-                    android:paddingTop="@dimen/grid_6"
-                    android:paddingEnd="@dimen/zero"
-                    android:text="@string/nav_animal_details_label"
-                    android:textAppearance="?attr/textAppearanceHeadline3"
-                    android:textColor="?attr/colorOnSurface"
-                    app:layout_collapseMode="parallax" />
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -183,7 +169,28 @@
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
             app:fullScreenBottomPadding="@{true}"
-            app:menu="@menu/search_menu" />
+            app:menu="@menu/search_menu">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_bottom_bar_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_nav_search"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nav_animal_details_label"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    app:icon="@drawable/vc_close"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

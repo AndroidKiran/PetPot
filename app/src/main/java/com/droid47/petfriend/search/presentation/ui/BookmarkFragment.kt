@@ -114,12 +114,16 @@ class BookmarkFragment :
         }
 
         getViewDataBinding().bottomAppBar.apply {
-            setNavigationIcon(R.drawable.vc_nav_menu)
+//            setNavigationIcon(R.drawable.vc_nav_menu)
             replaceMenu(R.menu.search_menu)
             menu.findItem(R.id.menu_order).isVisible = false
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }
+        }
+
+        getViewDataBinding().btnNavSearch.setOnClickListener {
+            getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
         }
         getViewDataBinding().scrim.setOnClickListener(this@BookmarkFragment)
         getViewDataBinding().layoutDeletePet.btnSecondaryAction.setOnClickListener(this@BookmarkFragment)

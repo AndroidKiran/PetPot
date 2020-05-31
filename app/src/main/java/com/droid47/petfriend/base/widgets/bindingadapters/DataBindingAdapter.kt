@@ -16,9 +16,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.signature.ObjectKey
 import com.droid47.petfriend.R
+import com.droid47.petfriend.app.di.modules.GlideApp
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.anim.BlurTransformation
@@ -177,6 +177,7 @@ fun View.bindRevealVisibility(state: Boolean?) {
 
 @BindingAdapter(
     "srcUrl",
+    "modifiedAt",
     "circleCrop",
     "placeholder",
     "loadListener",
@@ -185,14 +186,20 @@ fun View.bindRevealVisibility(state: Boolean?) {
 )
 fun ImageView.bindSrcUrl(
     url: String?,
+    modifiedAt: Long = 0L,
     circleCrop: Boolean,
     placeholder: Drawable?,
     loadListener: GlideDrawableLoadListener?,
     transform: Boolean = false
 ) {
 
-    val request = Glide.with(this).load(url ?: "")
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+    val modifiedKey = when (modifiedAt) {
+        0L -> System.currentTimeMillis() / (24 * 60 * 60 * 1000)
+        else -> modifiedAt
+    }
+    val request = GlideApp.with(this).load(url ?: "")
+        .signature(ObjectKey(modifiedKey))
+
     if (circleCrop) request.circleCrop()
     if (placeholder != null) request.placeholder(placeholder)
     if (loadListener != null) request.listener(loadListener)

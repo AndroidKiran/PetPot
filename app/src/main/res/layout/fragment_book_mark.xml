@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:paddingTop="@dimen/grid_4"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -45,18 +46,6 @@
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways"
                 app:titleEnabled="false">
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/grid_2"
-                    android:paddingEnd="@dimen/zero"
-                    android:text="@string/favourite"
-                    android:paddingTop="@dimen/grid_6"
-                    android:textAppearance="?attr/textAppearanceHeadline3"
-                    android:textColor="?attr/colorOnSurface"
-                    app:layout_collapseMode="parallax" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -80,6 +69,12 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/grid_12"
+                android:scrollbars="none"
+                app:fastScrollEnabled="true"
+                app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
+                app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_line_drawable"
+                app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
+                app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_line_drawable"
                 app:hasFixedSize="@{true}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_anchor="@+id/fl_container"
@@ -123,7 +118,28 @@
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fullScreenBottomPadding="@{true}" />
+            app:fullScreenBottomPadding="@{true}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_bottom_bar_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_nav_search"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favourite"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    app:icon="@drawable/vc_nav_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

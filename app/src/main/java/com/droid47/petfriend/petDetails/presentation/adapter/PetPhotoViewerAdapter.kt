@@ -11,6 +11,7 @@ import com.droid47.petfriend.search.data.models.search.PhotosItemEntity
 
 class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerListener) :
     ListAdapter<PhotosItemEntity, BaseViewHolder>(UrlDiff) {
+    private var modifiedAt: Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         PetPhotoViewHolder(
@@ -36,6 +37,10 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
         ): Boolean = oldItemEntity == newItemEntity
     }
 
+    fun setModifiedAt(modifiedAt: Long) {
+        this.modifiedAt = modifiedAt
+    }
+
     inner class PetPhotoViewHolder(private val binding: ItemPetPhotoBinding) :
         BaseViewHolder(binding.root) {
 
@@ -43,6 +48,7 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
             val photoUrl = getItem(position)?.getPetFullPhoto() ?: ""
             binding.apply {
                 petPhotoUrl = photoUrl
+                this.modifiedAt = modifiedAt
                 imageLoadListener = loadListener(this.circularProgress) {
                     petPhotoViewerListener.onImageLoaded()
                 }

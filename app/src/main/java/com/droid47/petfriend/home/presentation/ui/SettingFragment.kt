@@ -11,7 +11,7 @@ import com.droid47.petfriend.base.extensions.activityViewModelProvider
 import com.droid47.petfriend.base.extensions.applyTheme
 import com.droid47.petfriend.base.widgets.bindingadapters.setFullScreenBottomPadding
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
-import kotlinx.android.synthetic.main.layout_setting.*
+import kotlinx.android.synthetic.main.fragment_setting.*
 import javax.inject.Inject
 
 class SettingFragment : PreferenceFragmentCompat(),
@@ -37,7 +37,7 @@ class SettingFragment : PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpViews(view)
+        setUpViews()
     }
 
     override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean =
@@ -45,13 +45,17 @@ class SettingFragment : PreferenceFragmentCompat(),
             else -> false
         }
 
-    private fun setUpViews(view: View) {
+    private fun setUpViews() {
         with(bottom_app_bar) {
             setFullScreenBottomPadding(true)
-            setNavigationIcon(R.drawable.vc_nav_menu)
+//            setNavigationIcon(R.drawable.vc_nav_menu)
             setNavigationOnClickListener {
                 homeViewModel.eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }
+        }
+
+        btn_nav_search.setOnClickListener {
+            homeViewModel.eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
         }
     }
 

@@ -1,10 +1,10 @@
 package com.droid47.petfriend.petDetails.presentation.ui
 
-import android.R.attr.duration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnticipateOvershootInterpolator
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -136,12 +136,15 @@ class PetDetailsFragment :
         }
 
         getViewDataBinding().bottomAppBar.apply {
-            setNavigationIcon(R.drawable.vc_close)
             setOnMenuItemClickListener(menuClickListener)
             replaceMenu(R.menu.pet_details_menu)
             setNavigationOnClickListener {
                 getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_NAVIGATE_BACK)
             }
+        }
+
+        getViewDataBinding().btnNavSearch.setOnClickListener {
+            getParentViewModel().eventLiveData.postValue(HomeViewModel.EVENT_NAVIGATE_BACK)
         }
 
         getViewDataBinding().includePetDetails.btnShowOnMap.setOnClickListener {
@@ -203,28 +206,33 @@ class PetDetailsFragment :
 
             is Success -> {
                 showFab()
-                val photoList = if (baseStateModel.data.photos.isNullOrEmpty()) {
+                val petEntity = baseStateModel.data
+                val photoList = if (petEntity.photos.isNullOrEmpty()) {
                     listOf(PhotosItemEntity(full = ""))
                 } else {
                     baseStateModel.data.photos
                 }
+                getPetPhotoAdapter()?.setModifiedAt(petEntity.getPublishedAtInLong())
                 getPetPhotoAdapter()?.submitList(photoList) {
                     getViewDataBinding().appbar.setExpanded(true, true)
                     if (!getViewModel().openingAnimationRequired) return@submitList
                     startPostponedEnterTransition()
-                    getViewDataBinding().appbar.postDelayed({
-                        val resizeAnimation = ResizeAnimation(
-                            getViewDataBinding().appbar,
-                            backDropHeight
-                        )
-                        resizeAnimation.duration = 600L
-                        getViewDataBinding().appbar.startAnimation(resizeAnimation)
-                    }, 800L)
-
-
+                    animateContentView()
                 }
             }
         }
+    }
+
+    private fun animateContentView() {
+        getViewDataBinding().appbar.postDelayed({
+            val resizeAnimation = ResizeAnimation(
+                getViewDataBinding().appbar,
+                backDropHeight
+            )
+            resizeAnimation.duration = 400L
+            resizeAnimation.interpolator = AnticipateOvershootInterpolator()
+            getViewDataBinding().appbar.startAnimation(resizeAnimation)
+        }, 800L)
     }
 
     private val phoneObserver = Observer<String> { phoneNum ->

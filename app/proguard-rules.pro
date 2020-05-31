@@ -33,3 +33,6 @@
   public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
   public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
+
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep class com.bumptech.glide.GeneratedAppGlideModuleImpl

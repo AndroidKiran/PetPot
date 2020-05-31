@@ -119,7 +119,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
     override fun registerBottomAppbarWithNavigation(bottomAppBar: BottomAppBar) {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        bottomAppBar.setupWithNavController(navController, appBarConfiguration)
+//        bottomAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 
     private fun initTransitions() {

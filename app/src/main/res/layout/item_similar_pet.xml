@@ -37,6 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:placeholder="@{@drawable/vc_paw}"
+                app:modifiedAt="@{pet.getPublishedAtInLong()}"
                 app:srcUrl="@{pet.getPetPhoto()}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

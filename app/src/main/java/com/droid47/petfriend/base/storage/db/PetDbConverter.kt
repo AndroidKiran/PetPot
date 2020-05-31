@@ -142,7 +142,7 @@ object PetDbConverter {
             val timeZone: TimeZone = TimeZone.getTimeZone("UTC")
             df.timeZone = timeZone
             df.parse(inputValue)
-        } catch (e: ParseException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }
