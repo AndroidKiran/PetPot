@@ -4,7 +4,7 @@
     <string name="search">Search</string>
     <string name="about_us">About Us</string>
     <string name="favourite">Favourite</string>
-
+    <string name="organisation">Organisations</string>
     <string name="hint_search">City/State/postal code</string>
 
     <!--Nav target label-->
@@ -47,6 +47,8 @@
     <string name="bottom_nav_drawer_image_content_desc">profile avatar image</string>
     <string name="fab_search_filter_content_description">Filter search</string>
     <string name="fab_delete_all_favorite">Reply to email</string>
+    <string name="fab_rate_us_description">Rate Us</string>
+    <string name="fab_organisation_filter">Organisation Filters</string>
     <string name="settings">Settings</string>
     <string name="clear">Clear</string>
     <string name="go_to_search">To search</string>
@@ -130,5 +132,9 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="onboarding_page_search_tite">Find right pet</string>
     <string name="onboarding_page_fav_tite">Save favorites</string>
     <string name="add">Add Shelters</string>
+    <string name="our_mission">Our Mission</string>
+    <string name="our_policy">Our Policy</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="transition_organization">transition_organization</string>
 
 </resources>

@@ -69,7 +69,7 @@ class BookmarkViewModel @Inject constructor(
             Pair(first = false, second = true),
             object : CompletableObserver {
                 override fun onComplete() {
-                    val test = ""
+//                    val test = ""
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -77,7 +77,7 @@ class BookmarkViewModel @Inject constructor(
                 }
 
                 override fun onError(e: Throwable) {
-                    CrashlyticsExt.logHandledException(e)
+                    CrashlyticsExt.handleException(e)
                 }
             })
     }

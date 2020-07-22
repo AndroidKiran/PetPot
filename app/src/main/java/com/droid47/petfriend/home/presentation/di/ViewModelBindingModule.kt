@@ -6,6 +6,7 @@ import com.droid47.petfriend.app.di.scopes.ViewModelKey
 import com.droid47.petfriend.search.presentation.viewmodel.BookmarkViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.NavigationViewModel
+import com.droid47.petfriend.organization.presentation.viewmodel.OrganizationViewModel
 import com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewModel
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel
 import com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
@@ -56,4 +57,9 @@ interface ViewModelBindingModule {
     @IntoMap
     @ViewModelKey(FilterViewModel::class)
     fun bindFilterViewModel(filterViewModel: FilterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OrganizationViewModel::class)
+    fun bindOrganisationViewModel(organizationViewModel: OrganizationViewModel): ViewModel
 }

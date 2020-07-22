@@ -7,20 +7,20 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.droid47.petfriend.BR
+import com.droid47.petfriend.base.widgets.BaseCheckableEntity
 import com.droid47.petfriend.base.widgets.BaseViewHolder
-import com.droid47.petfriend.databinding.ItemFilterChipBinding
-import com.droid47.petfriend.databinding.ItemSelectedFilterBinding
-import com.droid47.petfriend.search.data.models.FilterItemEntity
-import com.google.android.material.chip.Chip
+import com.droid47.petfriend.databinding.ItemPetFilterChipBinding
+import com.droid47.petfriend.databinding.ItemSelectedFilterChipBinding
+import com.droid47.petfriend.search.data.models.PetFilterCheckableEntity
+import java.util.*
 import javax.inject.Inject
 
 class FilterAdapter @Inject constructor(
     private val type: String,
-    private val onItemCheckListener: OnItemCheckListener
-) : ListAdapter<FilterItemEntity, BaseViewHolder>(FilterDiff), Filterable {
+    private val baseCheckableEntityListener: (BaseCheckableEntity) -> Unit
+) : ListAdapter<BaseCheckableEntity, BaseViewHolder<BaseCheckableEntity>>(FilterDiff), Filterable {
 
-    private var filterItems = emptyList<FilterItemEntity>()
+    private var filterItems = emptyList<BaseCheckableEntity>()
 
     private var recyclerView: RecyclerView? = null
 
@@ -34,18 +34,21 @@ class FilterAdapter @Inject constructor(
         this.recyclerView = null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<BaseCheckableEntity> =
         when (type) {
             CATEGORY_FILTER -> CategoryFilterViewHolder(
-                ItemFilterChipBinding.inflate(
+                ItemPetFilterChipBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
             )
 
-            ALL_FILTER -> SelectedFilterViewHolder(
-                ItemSelectedFilterBinding.inflate(
+            SELECTED_FILTER -> SelectedPetFilterViewHolder(
+                ItemSelectedFilterChipBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -53,58 +56,63 @@ class FilterAdapter @Inject constructor(
             )
 
             else -> throw IllegalStateException("Invalid type")
-        }
+        } as BaseViewHolder<BaseCheckableEntity>
 
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position)
+    override fun onBindViewHolder(holder: BaseViewHolder<BaseCheckableEntity>, position: Int) {
+        holder.onBind(getItem(position))
     }
 
     override fun getFilter(): Filter = filterListener
 
-    fun submitFilterList(list: List<FilterItemEntity>, modifyOriginal: Boolean) {
+    fun submitFilterList(list: List<BaseCheckableEntity>, modifyOriginal: Boolean) {
         if (modifyOriginal) {
             filterItems = list
         }
         super.submitList(list.toMutableList())
     }
 
-    override fun onCurrentListChanged(
-        previousList: MutableList<FilterItemEntity>,
-        currentList: MutableList<FilterItemEntity>
-    ) {
-        super.onCurrentListChanged(previousList, currentList)
-        if (type == ALL_FILTER) {
-            for (curFilterItem in currentList) {
-                if (!previousList.contains(curFilterItem)) {
-                    val index = filterItems.indexOf(curFilterItem)
-                    recyclerView?.scrollToPosition(index)
-                    return
-                }
-            }
-        }
-    }
+//    override fun onCurrentListChanged(
+//        previousList: MutableList<BaseEntity>,
+//        currentList: MutableList<BaseEntity>
+//    ) {
+//        super.onCurrentListChanged(previousList, currentList)
+//        if (type == ALL_FILTER) {
+//            for (curFilterItem in currentList) {
+//                if (!previousList.contains(curFilterItem)) {
+//                    val index = filterItems.indexOf(curFilterItem)
+//                    recyclerView?.scrollToPosition(index)
+//                    return
+//                }
+//            }
+//        }
+//    }
 
-    object FilterDiff : DiffUtil.ItemCallback<FilterItemEntity>() {
+    object FilterDiff : DiffUtil.ItemCallback<BaseCheckableEntity>() {
         override fun areItemsTheSame(
-            oldItemEntity: FilterItemEntity,
-            newItemEntity: FilterItemEntity
-        ): Boolean =
-            oldItemEntity.id == newItemEntity.id
+            oldCheckableEntityPet: BaseCheckableEntity,
+            newCheckableEntityPet: BaseCheckableEntity
+        ): Boolean = when {
+            oldCheckableEntityPet is PetFilterCheckableEntity && newCheckableEntityPet is PetFilterCheckableEntity -> oldCheckableEntityPet.id == newCheckableEntityPet.id
+            else -> oldCheckableEntityPet == newCheckableEntityPet
+        }
 
         override fun areContentsTheSame(
-            oldItemEntity: FilterItemEntity,
-            newItemEntity: FilterItemEntity
-        ): Boolean =
-            oldItemEntity == newItemEntity
+            oldCheckableEntityPet: BaseCheckableEntity,
+            newCheckableEntityPet: BaseCheckableEntity
+        ): Boolean = when {
+            oldCheckableEntityPet is PetFilterCheckableEntity && newCheckableEntityPet is PetFilterCheckableEntity ->
+                oldCheckableEntityPet.selected == newCheckableEntityPet.selected && oldCheckableEntityPet.filterApplied == newCheckableEntityPet.filterApplied
+            else -> oldCheckableEntityPet.selected == newCheckableEntityPet.selected && oldCheckableEntityPet.filterApplied == newCheckableEntityPet.filterApplied
+        }
     }
 
     private val filterListener = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val filterString = constraint.toString().trim().toLowerCase()
-            val filterList = mutableListOf<FilterItemEntity>()
+            val filterString = constraint.toString().trim().toLowerCase(Locale.US)
+            val filterList = mutableListOf<BaseCheckableEntity>()
             filterItems.forEach { filterItem ->
-                val name = filterItem.name.trim().toLowerCase()
+                val name = filterItem.name?.trim()?.toLowerCase(Locale.US) ?: ""
                 if (name.contains(filterString)) {
                     filterList.add(filterItem)
                 }
@@ -117,7 +125,7 @@ class FilterAdapter @Inject constructor(
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            val resultList = results?.values as? List<FilterItemEntity>
+            val resultList = results?.values as? List<BaseCheckableEntity>
             submitFilterList(
                 if (resultList == null || resultList.isEmpty()) {
                     emptyList()
@@ -129,54 +137,43 @@ class FilterAdapter @Inject constructor(
         }
     }
 
-    private inner class CategoryFilterViewHolder(private val itemBinding: ItemFilterChipBinding) :
-        BaseViewHolder(itemBinding.root) {
+    private inner class CategoryFilterViewHolder(private val itemBinding: ItemPetFilterChipBinding) :
+        BaseViewHolder<PetFilterCheckableEntity>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
-            val item = getItem(position)
-            itemBinding.also {
-                it.setVariable(BR.filterItem, item)
-                it.executePendingBindings()
+        override fun onBind(item: PetFilterCheckableEntity) {
+            itemBinding.apply {
+                filterItem = item
+                executePendingBindings()
             }
 
-            itemBinding.chip.setOnClickListener { view ->
-                val chipView = view as Chip
-                onItemCheckListener.onItemCheck(
-                    item.apply {
-                        this.selected = chipView.isChecked
-                    }
-                )
+            itemBinding.chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (!buttonView.isPressed) return@setOnCheckedChangeListener
+                baseCheckableEntityListener.invoke(item.apply {
+                    this.selected = isChecked
+                })
             }
         }
     }
 
-    private inner class SelectedFilterViewHolder(private val itemBinding: ItemSelectedFilterBinding) :
-        BaseViewHolder(itemBinding.root) {
+    private inner class SelectedPetFilterViewHolder(private val itemBinding: ItemSelectedFilterChipBinding) :
+        BaseViewHolder<BaseCheckableEntity>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
-            val item = getItem(position)
-            itemBinding.also {
-                it.setVariable(BR.filterItem, item)
-                it.executePendingBindings()
+        override fun onBind(item: BaseCheckableEntity) {
+            itemBinding.apply {
+                filterItem = item
+                executePendingBindings()
             }
 
             itemBinding.chip.setOnCloseIconClickListener { view ->
-                onItemCheckListener.onItemCheck(
-                    item.apply {
-                        this.selected = false
-                    }
-                )
+                baseCheckableEntityListener.invoke(item.apply {
+                    this.selected = false
+                })
             }
         }
-    }
-
-
-    interface OnItemCheckListener {
-        fun onItemCheck(filterItemEntity: FilterItemEntity)
     }
 
     companion object {
         const val CATEGORY_FILTER = "category_filter"
-        const val ALL_FILTER = "all_filter"
+        const val SELECTED_FILTER = "all_filter"
     }
 }

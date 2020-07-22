@@ -7,9 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class PaginationEntity(
 
-    @field:SerializedName("_links")
-    val linksEntity: LinksEntity? = null,
-
     @field:SerializedName("count_per_page")
     val countPerPage: Int = 0,
 

@@ -136,7 +136,7 @@ class PetDetailsViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun onPetStarred() {
-        starSubject.debounce(200, TimeUnit.MILLISECONDS)
+        starSubject.debounce(400, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerDisposableRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
                 updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair)

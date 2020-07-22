@@ -42,6 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:minHeight="@dimen/grid_6"
+            app:contentInsetEnd="@dimen/zero"
+            app:contentInsetStart="@dimen/zero"
             app:elevation="@dimen/plane_08">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,6 +59,7 @@
                     android:text="@string/settings"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
+                    app:iconTint="?attr/colorOnPrimarySurface"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

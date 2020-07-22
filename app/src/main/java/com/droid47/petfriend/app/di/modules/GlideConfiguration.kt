@@ -43,9 +43,9 @@ class GlideConfiguration : AppGlideModule() {
             }
             builder.setMemoryCache(LruResourceCache(diskSize.toLong()))
             builder.setDiskCache(InternalCacheDiskCacheFactory(context, diskSize.toLong()))
-            builder.setDefaultRequestOptions(requestOptions(context))
+            builder.setDefaultRequestOptions(requestOptions())
         } catch (e: Exception) {
-            CrashlyticsExt.logHandledException(e)
+            CrashlyticsExt.handleException(e)
         }
     }
 
@@ -64,7 +64,7 @@ class GlideConfiguration : AppGlideModule() {
     private fun getTotalBytesOfInternalStorageWithStatFsPreJBMR2(stat: StatFs): Long =
         stat.blockSizeLong * stat.blockSizeLong
 
-    private fun requestOptions(context: Context): RequestOptions =
+    private fun requestOptions(): RequestOptions =
         RequestOptions()
             .centerCrop()
             .encodeFormat(Bitmap.CompressFormat.PNG)

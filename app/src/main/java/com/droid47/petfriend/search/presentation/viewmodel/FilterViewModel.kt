@@ -7,9 +7,10 @@ import com.droid47.petfriend.base.extensions.switchMap
 import com.droid47.petfriend.base.extensions.toLiveData
 import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.widgets.BaseAndroidViewModel
+import com.droid47.petfriend.base.widgets.BaseCheckableEntity
 import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.components.LiveEvent
-import com.droid47.petfriend.search.data.models.FilterItemEntity
+import com.droid47.petfriend.search.data.models.PetFilterCheckableEntity
 import com.droid47.petfriend.search.domain.interactors.*
 import com.droid47.petfriend.search.presentation.ui.widgets.FilterAdapter
 import io.reactivex.CompletableObserver
@@ -30,7 +31,7 @@ class FilterViewModel @Inject constructor(
     private val updateFilterOnAppliedUseCase: UpdateFilterOnAppliedUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase,
     private val updateFilterOnCloseUseCase: UpdateFilterOnCloseUseCase
-) : BaseAndroidViewModel(application), FilterAdapter.OnItemCheckListener {
+) : BaseAndroidViewModel(application) {
 
     val categoryLiveData = MutableLiveData<String>()
     val eventLiveData = LiveEvent<Long>()
@@ -50,27 +51,31 @@ class FilterViewModel @Inject constructor(
         fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
     }
 
-    private val _sortFilterLiveData = MutableLiveData<BaseStateModel<FilterItemEntity>>()
-    val sortFilterLiveDataEntity: LiveData<BaseStateModel<FilterItemEntity>>
+    private val _sortFilterLiveData = MutableLiveData<BaseStateModel<PetFilterCheckableEntity>>()
+    val sortPetFilterLiveDataEntity: LiveData<BaseStateModel<PetFilterCheckableEntity>>
         get() = _sortFilterLiveData
 
     init {
         closeFilter(false)
     }
 
-    override fun onItemCheck(filterItemEntity: FilterItemEntity) {
-        refreshSelectedFilterItemUseCase.execute(filterItemEntity, object : CompletableObserver {
-            override fun onComplete() {
-            }
+    val onItemCheck = { baseCheckableEntity: BaseCheckableEntity ->
+        if (baseCheckableEntity is PetFilterCheckableEntity) {
+            refreshSelectedFilterItemUseCase.execute(
+                baseCheckableEntity,
+                object : CompletableObserver {
+                    override fun onComplete() {
+                    }
 
-            override fun onSubscribe(d: Disposable) {
-                registerDisposableRequest(REFRESH_SELECTED_FILTER, d)
-            }
+                    override fun onSubscribe(d: Disposable) {
+                        registerDisposableRequest(REFRESH_SELECTED_FILTER, d)
+                    }
 
-            override fun onError(e: Throwable) {
-                CrashlyticsExt.handleException(e)
-            }
-        })
+                    override fun onError(e: Throwable) {
+                        CrashlyticsExt.handleException(e)
+                    }
+                })
+        }
     }
 
     fun resetFilter() {

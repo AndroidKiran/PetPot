@@ -54,10 +54,9 @@
         <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <!--Styles-->
-        <item name="bottomAppBarStyle">
-            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
-        </item>
+        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.PetGoogle.BottomSheetDialog</item>
         <item name="navigationViewStyle">@style/Widget.PetGoogle.NavigationView</item>
         <item name="spinnerStyle">@style/Widget.AppCompat.Spinner.DropDown.ActionBar</item>
         <!--System/Platform attributes-->

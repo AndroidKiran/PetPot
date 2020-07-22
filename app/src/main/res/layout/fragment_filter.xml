@@ -30,7 +30,10 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_filter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/csl_filter"
@@ -42,7 +45,6 @@
                 style="@style/Widget.PetGoogle.NavigationView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimarySurface"
                 android:fitsSystemWindows="true"
                 android:paddingTop="@dimen/grid_4"
                 android:paddingBottom="@dimen/grid_12"
@@ -112,7 +114,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cv_search"
                     app:visible="@{newFilterViewModel.selectedFilterListLiveData instanceof Success}"
-                    tools:listitem="@layout/item_selected_filter" />
+                    tools:listitem="@layout/item_selected_filter_chip" />
 
                 <com.google.android.material.circularreveal.CircularRevealFrameLayout
                     android:id="@+id/fl_circular_reveal"
@@ -135,15 +137,15 @@
                         android:paddingBottom="@dimen/grid_12"
                         app:paddingBottomSystemWindowInsets="@{true}"
                         app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Success}"
-                        tools:listitem="@layout/item_filter_chip" />
+                        tools:listitem="@layout/item_pet_filter_chip" />
 
                     <include
                         android:id="@+id/layout_error"
                         layout="@layout/layout_error_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:animateVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
                         app:errorViewConfig="@{errorStateConfig}"
-                        app:isVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
                         tools:visibility="gone" />
 
                     <include
@@ -151,8 +153,8 @@
                         layout="@layout/layout_empty_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:animateVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
                         app:emptyViewConfig="@{emptyStateConfig}"
-                        app:isVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
                         tools:visibility="gone" />
 
                 </com.google.android.material.circularreveal.CircularRevealFrameLayout>
@@ -188,6 +190,5 @@
             app:layout_anchor="@id/bottom_filter_bar"
             app:srcCompat="@drawable/vc_send" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
 </layout>

@@ -32,6 +32,34 @@
         android:theme="@style/Theme.Pet.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="false" />
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBc9wrHtaRdo8dGFRE63VyF-ECXZ4bw41k"/>
+
         <activity
             android:name="com.droid47.petfriend.launcher.presentation.ui.LauncherActivity"
             android:launchMode="singleTask"
@@ -66,33 +94,6 @@
             android:authorities="${applicationId}.workmanager-init"
             android:enabled="false"
             android:exported="false" />
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <meta-data
-            android:name="firebase_performance_logcat_enabled"
-            android:value="false" />
-
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" />
-
-        <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="false" />
-
-        <meta-data
-            android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-<!--        <meta-data android:name="com.droid47.petfriend.app.di.modules.GlideConfiguration"-->
-<!--            android:value="GlideModule"/>-->
 
     </application>
 

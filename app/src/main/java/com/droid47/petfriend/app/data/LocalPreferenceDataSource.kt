@@ -6,11 +6,16 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.droid47.petfriend.R
 import com.droid47.petfriend.base.extensions.DEFAULT_MODE
+import com.droid47.petfriend.base.firebase.CrashlyticsExt
 import com.droid47.petfriend.base.storage.LocalPreferencesRepository
+import com.droid47.petfriend.organization.data.models.OrganizationFilter
+import com.google.gson.Gson
 import javax.inject.Inject
 
-class LocalPreferenceDataSource @Inject constructor(private val application: Application) :
-    LocalPreferencesRepository {
+class LocalPreferenceDataSource @Inject constructor(
+    private val application: Application,
+    private val gson: Gson
+) : LocalPreferencesRepository {
 
     private val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(application)
@@ -85,6 +90,29 @@ class LocalPreferenceDataSource @Inject constructor(private val application: App
     override fun getLocation(): String? =
         sharedPreferences.getString(KEY_LOCATION, "")
 
+    override fun saveOrganizationFilter(organizationFilter: OrganizationFilter) {
+        sharedPreferences.edit {
+            putString(
+                KEY_ORGANIZATION_FILTER, try {
+                    gson.toJson(organizationFilter)
+                } catch (exception: Exception) {
+                    CrashlyticsExt.handleException(exception)
+                    ""
+                }
+            )
+        }
+    }
+
+    override fun getOrganizationFilter(): OrganizationFilter {
+        return try {
+            val prefStr = sharedPreferences.getString(KEY_ORGANIZATION_FILTER, "")
+            gson.fromJson(prefStr, OrganizationFilter::class.java)
+        } catch (exception: Exception) {
+            CrashlyticsExt.handleException(exception)
+            OrganizationFilter()
+        }
+    }
+
     companion object {
         const val KEY_TOKEN = "token"
         const val KEY_ON_BOARDING_STATE = "on_boarding_state"
@@ -93,6 +121,6 @@ class LocalPreferenceDataSource @Inject constructor(private val application: App
         const val KEY_SELECTED_PET_POSITION = "selected_pet_position"
         const val KEY_SELECTED_PET = "selected_pet"
         const val KEY_LOCATION = "location"
-
+        const val KEY_ORGANIZATION_FILTER = "organization_filter"
     }
 }

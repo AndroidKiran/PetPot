@@ -9,10 +9,8 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.transition.TransitionManager
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -28,7 +26,10 @@ import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.BaseBindingFragment
 import com.droid47.petfriend.base.widgets.BaseStateModel
+import com.droid47.petfriend.base.widgets.anim.SpringAddItemAnimator
+import com.droid47.petfriend.base.widgets.components.GravitySnapHelper
 import com.droid47.petfriend.base.widgets.currentLocation.*
+import com.droid47.petfriend.base.widgets.snappy.SnapType
 import com.droid47.petfriend.base.widgets.snappy.SnappyGridLayoutManager
 import com.droid47.petfriend.databinding.FragmentSearchBinding
 import com.droid47.petfriend.home.presentation.ui.HomeActivity
@@ -36,7 +37,7 @@ import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.models.*
-import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants.PAGE_ONE
 import com.droid47.petfriend.search.presentation.ui.widgets.PagedListPetAdapter
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
@@ -134,10 +135,6 @@ class SearchFragment :
         setupSearchRvAdapter()
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//    }
-
     override fun onStop() {
         cancelPaginationRequest()
         super.onStop()
@@ -146,13 +143,13 @@ class SearchFragment :
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
             R.id.scrim -> performMaterialTransitionFor(
-                getViewDataBinding().flFilter,
+                filterFragment.getViewDataBinding().root,
                 getViewDataBinding().fab
             )
 
             R.id.fab -> performMaterialTransitionFor(
                 getViewDataBinding().fab,
-                getViewDataBinding().flFilter
+                filterFragment.getViewDataBinding().root
             )
         }
     }
@@ -201,13 +198,25 @@ class SearchFragment :
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
         }
+
+        getViewDataBinding().topSearchBar.btnEditOrg.setOnClickListener {
+            val view = it ?: return@setOnClickListener
+            val extras = FragmentNavigatorExtras(
+                view to view.transitionName
+            )
+            getParentViewModel().homeNavigator.toOrganizationFromSearch(extras)
+        }
     }
 
     private fun setupSearchRvAdapter() {
         if (getPetAdapter() != null) return
         getViewDataBinding().rvPets.apply {
+            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+            GravitySnapHelper(Gravity.TOP).attachToRecyclerView(this)
             layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
-                setSnapDuration(400)
+                setSnapType(SnapType.START)
+                setSnapInterpolator(DecelerateInterpolator())
+                setSeekDuration(300)
                 spanSizeLookup = gridSpanListener
             }
             adapter = pagedListPetAdapter
@@ -220,7 +229,7 @@ class SearchFragment :
             observe(requireActivity(), petsObserver)
         }
 
-        getViewModel().searchStateLiveData.run {
+        getViewModel().itemPaginationStateLiveData.run {
             removeObserver(searchObserver)
             observe(requireActivity(), searchObserver)
         }
@@ -258,14 +267,15 @@ class SearchFragment :
         val baseStateModel = it ?: return@Observer
         getPetAdapter()?.submitList(baseStateModel.data) {
             val paginationEntity =
-                getViewModel().searchStateLiveData.value?.paginationEntity ?: return@submitList
+                getViewModel().itemPaginationStateLiveData.value?.paginationEntity
+                    ?: return@submitList
             if (PAGE_ONE == paginationEntity.currentPage) {
                 showBottomBar()
             }
         }
     }
 
-    private val searchObserver = Observer<SearchState> {
+    private val searchObserver = Observer<ItemPaginationState> {
         val searchState = it ?: return@Observer
 
         when (searchState) {
@@ -326,7 +336,7 @@ class SearchFragment :
         when (it ?: return@Observer) {
             EVENT_APPLY_FILTER,
             EVENT_CLOSE_FILTER -> performMaterialTransitionFor(
-                getViewDataBinding().flFilter,
+                filterFragment.getViewDataBinding().root,
                 getViewDataBinding().fab
             )
             else -> throw IllegalStateException("Invalid event")
@@ -459,7 +469,7 @@ class SearchFragment :
 
                 is UpdatedLocationState -> {
                     val location = currentLocationState.location ?: return@Observer
-                    val address = context?.getLocationAddress(location) ?: return@Observer
+                    val address = context?.getAddressFromLocation(location) ?: return@Observer
                     petSpinnerAndLocationViewModel.locationLiveData.postValue(address)
                 }
             }
@@ -483,7 +493,7 @@ class SearchFragment :
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
         if (startView is FloatingActionButton) {
             hideBottomBar()
-            if (getViewModel().searchStateLiveData.value is PaginatingState) {
+            if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 hidePaginationProgress()
             }
             startView.invisible()
@@ -496,7 +506,7 @@ class SearchFragment :
             getViewDataBinding().scrim.invisible()
             startView.invisible()
             endView.visible()
-            if (getViewModel().searchStateLiveData.value is PaginatingState) {
+            if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 showPaginationProgress()
             }
         }

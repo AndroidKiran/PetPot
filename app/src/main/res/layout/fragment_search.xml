@@ -97,7 +97,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:spanCount="@integer/featured_grid_columns"
-                app:visible="@{searchViewModel.searchStateLiveData instanceof DefaultState || searchViewModel.searchStateLiveData instanceof PaginatingState || searchViewModel.searchStateLiveData instanceof PaginationErrorState || searchViewModel.petsLiveData instanceof Success}"
+                app:visible="@{searchViewModel.itemPaginationStateLiveData instanceof DefaultState || searchViewModel.itemPaginationStateLiveData instanceof PaginatingState || searchViewModel.itemPaginationStateLiveData instanceof PaginationErrorState || searchViewModel.petsLiveData instanceof Success}"
                 tools:listitem="@layout/item_pet" />
 
             <include
@@ -107,8 +107,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                app:animateVisible="@{searchViewModel.itemPaginationStateLiveData instanceof ErrorState}"
                 app:errorViewConfig="@{errorStateConfig}"
-                app:isVisible="@{searchViewModel.searchStateLiveData instanceof ErrorState}"
                 tools:visibility="gone" />
 
             <include
@@ -118,15 +118,15 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                app:animateVisible="@{searchViewModel.itemPaginationStateLiveData instanceof EmptyState}"
                 app:emptyViewConfig="@{emptyStateConfig}"
-                app:isVisible="@{searchViewModel.searchStateLiveData instanceof EmptyState}"
                 tools:visibility="gone" />
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:shimmer="@{searchViewModel.searchStateLiveData instanceof LoadingState}">
+                app:shimmer="@{searchViewModel.itemPaginationStateLiveData instanceof LoadingState}">
 
                 <include layout="@layout/layout_search_loader" />
 
@@ -140,6 +140,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:minHeight="@dimen/grid_6"
+            app:contentInsetEnd="@dimen/zero"
+            app:contentInsetStart="@dimen/zero"
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabAnimationMode="scale"
@@ -163,6 +165,7 @@
                     android:text="@string/search"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
+                    app:iconTint="?attr/colorOnPrimarySurface"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -215,26 +218,13 @@
             android:contentDescription="@string/fab_search_filter_content_description"
             android:visibility="invisible" />
 
-        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-            android:id="@+id/fl_filter"
-            style="@style/Widget.MaterialComponents.CardView"
+        <fragment
+            android:id="@+id/fragment_filter"
+            android:name="com.droid47.petfriend.search.presentation.ui.FilterFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:visibility="invisible"
-            app:cardBackgroundColor="?attr/colorPrimarySurface"
-            app:cardCornerRadius="@dimen/grid_3"
-            app:cardPreventCornerOverlap="true"
-            app:cardUseCompatPadding="false"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
-
-            <fragment
-                android:id="@+id/fragment_filter"
-                android:name="com.droid47.petfriend.search.presentation.ui.FilterFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+            android:background="?attr/colorPrimarySurfaceVariant" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

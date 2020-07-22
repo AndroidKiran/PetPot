@@ -22,7 +22,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
 
     private lateinit var baseViewDataBinding: B
     private lateinit var baseViewModel: V
-//    private lateinit var rootView: View
     private lateinit var parentViewModel: PV
 
     private var navFragmentId: Int = 0
@@ -58,7 +57,6 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
     ): View? =
         DataBindingUtil.inflate<B>(inflater, getLayoutId(), container, false).also {
             baseViewDataBinding = it
-//            rootView = baseViewDataBinding.root
         }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,6 +77,5 @@ abstract class BaseBindingFragment<out B : ViewDataBinding, out V : BaseAndroidV
         val bottomAppBar =
             getViewDataBinding().root.findViewById<BottomAppBar>(R.id.bottom_app_bar) ?: return
         navigationHost?.registerBottomAppbarWithNavigation(bottomAppBar)
-
     }
 }

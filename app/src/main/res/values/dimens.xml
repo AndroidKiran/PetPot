@@ -24,4 +24,6 @@
     <dimen name="back_drop_image_height">100dp</dimen>
     <dimen name="notification_pic_height">200dp</dimen>
 
+    <dimen name="org_bottom_margin">124dp</dimen>
+
 </resources>

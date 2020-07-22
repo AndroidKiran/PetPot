@@ -1,12 +1,11 @@
 package com.droid47.petfriend.app.di.components
 
 import android.app.Application
-import com.droid47.petfriend.app.domain.ActivityLifecycleCallbacks
-import com.droid47.petfriend.app.data.LocalPreferenceDataSource
 import com.droid47.petfriend.app.di.modules.AppInitializersBindingModule
 import com.droid47.petfriend.app.di.modules.AppModule
 import com.droid47.petfriend.app.di.modules.ViewModelModule
 import com.droid47.petfriend.app.domain.appInitializers.AppInitializers
+import com.droid47.petfriend.base.storage.LocalPreferencesRepository
 import com.droid47.petfriend.home.presentation.di.HomeSubComponent
 import com.droid47.petfriend.launcher.presentation.di.AbstractLauncherModule
 import com.droid47.petfriend.launcher.presentation.di.LauncherSubComponent
@@ -28,8 +27,8 @@ interface AppComponent {
     fun homeComponent(): HomeSubComponent.Factory
     fun appServiceComponent(): AppServiceComponent.Factory
 
-    fun sharedPreference(): LocalPreferenceDataSource
+    fun sharedPreference(): LocalPreferencesRepository
     fun appInitializers(): AppInitializers
-    fun activityLifecycleCallbacks(): ActivityLifecycleCallbacks
+    fun activityLifecycleCallbacks(): Application.ActivityLifecycleCallbacks
 
 }

@@ -54,7 +54,7 @@ fun Context.shareMyApp(subject: String?, message: String) {
         }
         startActivity(Intent.createChooser(shareAppIntent, "Share using"))
     } catch (e: Exception) {
-        CrashlyticsExt.logHandledException(e)
+        CrashlyticsExt.handleException(e)
     }
 }
 
@@ -78,7 +78,7 @@ fun Context.rateMyApp() {
         } else {
             Toast.makeText(this, "Playstore Unavailable", Toast.LENGTH_SHORT).show()
         }
-        CrashlyticsExt.logHandledException(e)
+        CrashlyticsExt.handleException(e)
     }
 }
 
@@ -102,7 +102,7 @@ fun Context.share(sharingMsg: String?, emailSubject: String?, title: String?) {
         }
         startActivity(Intent.createChooser(sharingIntent, title))
     } catch (exception: Exception) {
-        CrashlyticsExt.logHandledException(exception)
+        CrashlyticsExt.handleException(exception)
     }
 }
 

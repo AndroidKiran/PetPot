@@ -13,12 +13,28 @@
     <item name="navigation_tnc" type="id" />
     <item name="navigation_home" type="id"/>
     <item name="navigation_dialog_delete_favorite" type="id"/>
-
     <item name="similar_pets" type="id" />
+    <item name="navigation_organisation" type="id"/>
 
     <!--    <item name="filter_gender" type="id" />-->
 
     <item name="tag_system_window_inset_top" type="id" />
     <item name="tag_view_top_snapshot" type="id" />
+
+    <item name="translation_x" type="id"/>
+    <item name="translation_y" type="id"/>
+    <item name="translation_z" type="id"/>
+    <item name="scale_x" type="id"/>
+    <item name="scale_y" type="id"/>
+    <item name="rotation" type="id"/>
+    <item name="rotation_x" type="id"/>
+    <item name="rotation_y" type="id"/>
+    <item name="x" type="id"/>
+    <item name="y" type="id"/>
+    <item name="z" type="id"/>
+    <item name="alpha" type="id"/>
+    <item name="scroll_x" type="id"/>
+    <item name="scroll_y" type="id"/>
+    <item name="tag_pending_end_listener" type="id"/>
 
 </resources>

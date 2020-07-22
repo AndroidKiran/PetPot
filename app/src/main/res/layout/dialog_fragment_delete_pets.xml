@@ -4,13 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/csl_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="?attr/colorSurface"
-        android:padding="@dimen/grid_1">
+        android:paddingStart="@dimen/grid_2"
+        android:paddingTop="@dimen/grid_2"
+        android:paddingEnd="@dimen/grid_2"
+        android:paddingBottom="?attr/actionBarSize"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tv_title"

@@ -67,7 +67,7 @@
             android:text="@string/retry"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
-            app:visible="@{splashViewModel.resultEvent instanceof Failure}" />
+            app:animateVisible="@{splashViewModel.resultEvent instanceof Failure}" />
 
     </LinearLayout>
 </layout>

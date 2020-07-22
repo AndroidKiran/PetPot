@@ -13,7 +13,7 @@ class SubscribeToNameAndLocationChangeUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val filterRepository: FilterRepository
-): FlowableUseCase<Pair<String, String>, Unit>(threadExecutor, postExecutionThread) {
+) : FlowableUseCase<Pair<String, String>, Unit>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Unit): Flowable<Pair<String, String>> =
         filterRepository.getFilterForTypes(listOf(PET_TYPE, LOCATION), true)
@@ -23,10 +23,10 @@ class SubscribeToNameAndLocationChangeUseCase @Inject constructor(
                 var location = ""
                 it.forEach { filterItemEntity ->
                     if (filterItemEntity.type == PET_TYPE) {
-                        petName = filterItemEntity.name
+                        petName = filterItemEntity.name ?: ""
                     }
                     if (filterItemEntity.type == LOCATION) {
-                        location = filterItemEntity.name
+                        location = filterItemEntity.name ?: ""
                     }
                 }
                 Pair(location, petName)

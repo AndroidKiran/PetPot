@@ -3,7 +3,6 @@ package com.droid47.petfriend.search.domain.interactors
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
-import com.droid47.petfriend.base.extensions.log
 import com.droid47.petfriend.base.usecase.FlowableUseCase
 import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
@@ -11,13 +10,13 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Empty
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
-import com.droid47.petfriend.search.data.models.FilterItemEntity
+import com.droid47.petfriend.search.data.models.PetFilterCheckableEntity
 import com.droid47.petfriend.search.data.models.LOCATION
 import com.droid47.petfriend.search.data.models.PET_TYPE
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
 import com.droid47.petfriend.search.domain.repositories.PetRepository
-import com.droid47.petfriend.search.presentation.models.FilterConstants
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -38,16 +37,16 @@ class PetDataSourceUseCase @Inject constructor(
             .reduceToPair()
             .createPagedListBuilder(params)
 
-    private fun Flowable<List<FilterItemEntity>>.reduceToPair(): Flowable<Pair<String, String>> =
+    private fun Flowable<List<PetFilterCheckableEntity>>.reduceToPair(): Flowable<Pair<String, String>> =
         map {
             var petName = ""
             var location = ""
             it.forEach { filterItemEntity ->
                 if (filterItemEntity.type == PET_TYPE) {
-                    petName = filterItemEntity.name
+                    petName = filterItemEntity.name ?: ""
                 }
                 if (filterItemEntity.type == LOCATION) {
-                    location = filterItemEntity.name
+                    location = filterItemEntity.name ?: ""
                 }
             }
             Pair(location, petName)
@@ -58,7 +57,7 @@ class PetDataSourceUseCase @Inject constructor(
             RxPagedListBuilder(
                 getDataSourceType(pair.first, pair.second),
                 PagedList.Config.Builder()
-                    .setPageSize(FilterConstants.PAGE_SIZE)
+                    .setPageSize(PetFilterConstants.PAGE_SIZE)
                     .setPrefetchDistance(5)
                     .setInitialLoadSizeHint(1)
                     .build()

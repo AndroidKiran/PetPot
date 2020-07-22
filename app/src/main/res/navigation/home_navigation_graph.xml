@@ -14,6 +14,10 @@
             android:id="@+id/to_pet_details"
             app:destination="@id/navigation_pet_details" />
 
+        <action
+            android:id="@+id/to_organizations"
+            app:destination="@id/navigation_organisation"/>
+
     </fragment>
 
     <fragment
@@ -50,5 +54,12 @@
             app:destination="@id/navigation_pet_details" />
 
     </fragment>
+
+    <fragment
+        android:id="@id/navigation_organisation"
+        android:name="com.droid47.petfriend.organization.presentation.ui.OrganizationFragment"
+        android:label="@string/organisation"
+        tools:layout="@layout/fragment_organisation"/>
+
 
 </navigation>

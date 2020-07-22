@@ -138,7 +138,7 @@
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:visible="@{petDetailsViewModel.petLiveData instanceof Loading}">
+                app:shimmer="@{petDetailsViewModel.petLiveData instanceof Loading}">
 
                 <include layout="@layout/layout_pet_details_loader" />
             </com.facebook.shimmer.ShimmerFrameLayout>
@@ -150,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                app:animateVisible="@{petDetailsViewModel.petLiveData instanceof Failure}"
                 app:errorViewConfig="@{errorStateConfig}"
-                app:isVisible="@{petDetailsViewModel.petLiveData instanceof Failure}"
                 tools:visibility="gone" />
 
         </FrameLayout>
@@ -162,6 +162,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:minHeight="@dimen/grid_6"
+            app:contentInsetEnd="@dimen/zero"
+            app:contentInsetStart="@dimen/zero"
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabAnimationMode="scale"
@@ -184,6 +186,7 @@
                     android:text="@string/nav_animal_details_label"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_close"
+                    app:iconTint="?attr/colorOnPrimarySurface"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

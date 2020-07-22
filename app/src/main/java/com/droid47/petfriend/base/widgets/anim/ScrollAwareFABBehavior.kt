@@ -10,7 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton.OnV
 
 
 class ScrollAwareFABBehavior @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null
 ) : FloatingActionButton.Behavior() {
 

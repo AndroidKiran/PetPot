@@ -10,7 +10,7 @@ import com.droid47.petfriend.search.data.models.search.PaginationEntity
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.data.models.search.SearchResponseEntity
 import com.droid47.petfriend.search.presentation.models.*
-import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants.PAGE_ONE
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -27,10 +27,11 @@ class PetPaginationUseCase @Inject constructor(
 ) : PagedList.BoundaryCallback<PetEntity>() {
 
     private val searchSubject = PublishSubject.create<Boolean>().toSerialized()
-    private val _searchStateLiveData = MutableLiveData<SearchState>()
     private val compositeDisposable = CompositeDisposable()
-    val searchStateLiveData: LiveData<SearchState>
-        get() = _searchStateLiveData
+
+    private val _itemPaginationStateLiveData = MutableLiveData<ItemPaginationState>()
+    val itemPaginationStateLiveData: LiveData<ItemPaginationState>
+        get() = _itemPaginationStateLiveData
 
     init {
         subscribeToSearchSubject()
@@ -43,7 +44,7 @@ class PetPaginationUseCase @Inject constructor(
 
     override fun onItemAtEndLoaded(itemAtEnd: PetEntity) {
         super.onItemAtEndLoaded(itemAtEnd)
-        if (searchStateLiveData.value?.loadedAllItems == true) return
+        if (itemPaginationStateLiveData.value?.loadedAllItems == true) return
         searchSubject.onNext(false)
     }
 
@@ -68,28 +69,28 @@ class PetPaginationUseCase @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun subscribeToSearchSubject() {
-        searchSubject.debounce(60, TimeUnit.MILLISECONDS)
+        searchSubject.debounce(400, TimeUnit.MILLISECONDS)
             .performSearchTask()
-            .subscribe(object : DisposableObserver<SearchState>() {
+            .subscribe(object : DisposableObserver<ItemPaginationState>() {
                 override fun onComplete() {
                 }
 
-                override fun onNext(searchState: SearchState) {
-                    _searchStateLiveData.postValue(searchState)
+                override fun onNext(itemPaginationState: ItemPaginationState) {
+                    _itemPaginationStateLiveData.postValue(itemPaginationState)
                 }
 
                 override fun onError(e: Throwable) {
-                    _searchStateLiveData.postValue(processError(e))
+                    _itemPaginationStateLiveData.postValue(processError(e))
                 }
 
             })
     }
 
-    private fun Observable<Boolean>.performSearchTask(): Observable<SearchState> =
+    private fun Observable<Boolean>.performSearchTask(): Observable<ItemPaginationState> =
         switchMapSingle { isFirstPage ->
             fetchAppliedFilterUseCase.buildUseCaseSingle(isFirstPage)
                 .doOnSubscribe {
-                    _searchStateLiveData.postValue(updateLoadingState(isFirstPage))
+                    _itemPaginationStateLiveData.postValue(updateLoadingState(isFirstPage))
                     compositeDisposable.add(it)
                 }.flatMap { filters ->
                     fetchPetFromNetworkAndCacheDbUseCase.buildUseCaseSingle(filters)
@@ -99,19 +100,21 @@ class PetPaginationUseCase @Inject constructor(
                 }
         }
 
-    private fun Single<SearchResponseEntity>.processResponse(): Single<SearchState> =
+    private fun Single<SearchResponseEntity>.processResponse(): Single<ItemPaginationState> =
         map { searchResponseEntity ->
             val pagination = searchResponseEntity.paginationEntity ?: PaginationEntity()
             val allItemsLoaded = pagination.currentPage >= pagination.totalPages
             val totalCount = obtainTotalCount().plus(searchResponseEntity.animals?.size ?: 0)
-            return@map if (searchResponseEntity.animals.isNullOrEmpty() && pagination.currentPage == PAGE_ONE) {
+            return@map if (searchResponseEntity.animals.isNullOrEmpty()
+                && pagination.currentPage == PAGE_ONE
+            ) {
                 EmptyState(pagination, allItemsLoaded, totalCount)
             } else {
                 DefaultState(pagination, allItemsLoaded, totalCount)
             }
         }
 
-    private fun processError(throwable: Throwable): SearchState =
+    private fun processError(throwable: Throwable): ItemPaginationState =
         if (PAGE_ONE == obtainPagination().currentPage) {
             ErrorState(
                 throwable,
@@ -130,7 +133,7 @@ class PetPaginationUseCase @Inject constructor(
             )
         }
 
-    private fun updateLoadingState(isFirstPage: Boolean): SearchState =
+    private fun updateLoadingState(isFirstPage: Boolean): ItemPaginationState =
         if (isFirstPage)
             LoadingState(PaginationEntity(currentPage = PAGE_ONE), false, 0)
         else
@@ -144,14 +147,14 @@ class PetPaginationUseCase @Inject constructor(
 
 
     private fun obtainPagination(): PaginationEntity =
-        searchStateLiveData.value?.paginationEntity ?: PaginationEntity().apply {
+        itemPaginationStateLiveData.value?.paginationEntity ?: PaginationEntity().apply {
             currentPage = 1
         }
 
     private fun obtainCurrentLoadedAllItems(): Boolean =
-        searchStateLiveData.value?.loadedAllItems ?: false
+        itemPaginationStateLiveData.value?.loadedAllItems ?: false
 
-    private fun obtainTotalCount(): Int = searchStateLiveData.value?.totalCount ?: 0
+    private fun obtainTotalCount(): Int = itemPaginationStateLiveData.value?.totalCount ?: 0
 
 }
 

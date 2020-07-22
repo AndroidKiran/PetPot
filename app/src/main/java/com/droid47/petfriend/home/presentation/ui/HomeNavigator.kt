@@ -39,4 +39,12 @@ class HomeNavigator @Inject constructor() : INavigator {
             navController.navigate(BookmarkFragmentDirections.toPetDetails(petId), extras)
         }
     }
+
+    fun toOrganizationFromSearch(extras: Navigator.Extras? = null) {
+        if (extras == null) {
+            navController.navigate(SearchFragmentDirections.toOrganizations())
+        } else {
+            navController.navigate(SearchFragmentDirections.toOrganizations(), extras)
+        }
+    }
 }

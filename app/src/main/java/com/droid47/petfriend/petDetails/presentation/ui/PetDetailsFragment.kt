@@ -131,7 +131,6 @@ class PetDetailsFragment :
                         getViewModel().petLiveData.value?.data ?: return@setOnClickListener
                     )
                 }
-
             }
         }
 
@@ -305,7 +304,7 @@ class PetDetailsFragment :
                     getViewModel().phoneNumLiveData.value?.replace(", ", ",")
                         ?.split(",")?.last()
                 } catch (exception: Exception) {
-                    CrashlyticsExt.logHandledException(exception)
+                    CrashlyticsExt.handleException(exception)
                     null
                 } ?: return@OnMenuItemClickListener false
 

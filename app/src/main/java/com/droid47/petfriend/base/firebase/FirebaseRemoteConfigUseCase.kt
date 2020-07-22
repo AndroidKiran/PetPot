@@ -56,7 +56,7 @@ class RemoteConfigUseCase @Inject constructor(
         try {
             gson.fromJson(value, AppUpgradeEntity::class.java)
         } catch (exception: Exception) {
-            CrashlyticsExt.logHandledException(exception)
+            CrashlyticsExt.handleException(exception)
             null
         }
 

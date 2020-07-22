@@ -41,7 +41,7 @@
             android:elevation="24dp"
             android:theme="@style/Widget.PetGoogle.ContentProgress"
             android:visibility="visible"
-            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}" />
+            app:animateVisible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/tnc_fab"
@@ -55,7 +55,7 @@
             app:layout_anchor="@id/web_view"
             app:layout_anchorGravity="center|bottom"
             app:marginBottomSystemWindowInsets="@{true}"
-            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Success}" />
+            app:animateVisible="@{tncViewModel.webViewModel.viewStateModel instanceof Success}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.droid47.petfriend.search.data.datasource
 
+import com.droid47.petfriend.organization.data.models.OrganizationResponseEntity
 import com.droid47.petfriend.search.data.models.PetResponseEntity
 import com.droid47.petfriend.search.data.models.search.SearchResponseEntity
 import com.droid47.petfriend.search.data.models.type.BreedResponseEntity
@@ -22,4 +23,7 @@ interface SearchNetworkSource {
 
     @GET("/v2/animals/{id}")
     fun getPetDetails(@Path("id") petId: Int): Single<PetResponseEntity>
+
+    @GET("/v2/organizations")
+    fun getOrganizations(@QueryMap(encoded = true) options: Map<String, @JvmSuppressWildcards Any>): Single<OrganizationResponseEntity>
 }

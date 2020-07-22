@@ -85,7 +85,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun initInsertEvent() {
-        subject.debounce(100, TimeUnit.MILLISECONDS)
+        subject.debounce(400, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .switchMapCompletable { refreshSelectedPet(it) }
             .subscribeWith(object : CompletableObserver {

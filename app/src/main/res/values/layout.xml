@@ -2,6 +2,7 @@
 <resources>
 
     <!--2dp sub grid-->
+
     <dimen name="grid_0_5">4dp</dimen>
     <dimen name="grid_0_25">6dp</dimen>
 
@@ -20,6 +21,7 @@
     <dimen name="grid_11">88dp</dimen>
     <dimen name="grid_12">96dp</dimen>
     <dimen name="grid_14">112dp</dimen>
+    <dimen name="divider">1dp</dimen>
 
     <integer name="featured_grid_columns">3</integer>
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="filterItem"
+            type="com.droid47.petfriend.base.widgets.BaseCheckableEntity" />
+    </data>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip"
+        style="@style/Widget.MaterialComponents.Chip.Entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_0_5"
+        android:layout_marginEnd="@dimen/grid_0_5"
+        android:checkable="false"
+        android:clickable="false"
+        android:text="@{filterItem.name}"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="?attr/colorOnSurface"
+        app:chipMinHeight="@dimen/grid_3"
+        app:chipStrokeColor="?attr/colorControlHighlight"
+        app:chipStrokeWidth="1dp"
+        app:singleLine="true"
+        tools:text="Chip" />
+
+</layout>

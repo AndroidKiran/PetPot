@@ -3,7 +3,8 @@ package com.droid47.petfriend.app.di.modules
 import android.app.Application
 import androidx.room.Room
 import com.droid47.petfriend.base.storage.db.PetDb
-import com.droid47.petfriend.search.data.datasource.FilterItemDao
+import com.droid47.petfriend.organization.data.datasource.OrganizationDao
+import com.droid47.petfriend.search.data.datasource.PetFilterDao
 import com.droid47.petfriend.search.data.datasource.PetDao
 import com.droid47.petfriend.search.data.datasource.PetTypeDao
 import dagger.Module
@@ -30,11 +31,16 @@ object StorageModule {
     @Provides
     @JvmStatic
     @Singleton
-    fun provideStarPeteDao(petDb: PetDb): PetDao = petDb.getStarPetDao()
+    fun providePetDao(petDb: PetDb): PetDao = petDb.getPetDao()
 
     @Provides
     @JvmStatic
     @Singleton
-    fun provideFilterItemDao(petDb: PetDb): FilterItemDao = petDb.getFilterItemDao()
+    fun provideFilterItemDao(petDb: PetDb): PetFilterDao = petDb.getPetFilterDao()
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideOrganizationDao(petDb: PetDb): OrganizationDao = petDb.getOrganizationDao()
 
 }

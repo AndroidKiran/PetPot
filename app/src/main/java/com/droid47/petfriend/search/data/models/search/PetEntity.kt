@@ -85,7 +85,7 @@ data class PetEntity(
     var contactEntity: ContactEntity? = null,
 
     @field:SerializedName("name")
-    @ColumnInfo(name = COL_NAME)
+    @ColumnInfo(name = COL_NAME, index = true)
     var name: String? = null,
 
     @field:SerializedName("attributes")
@@ -123,7 +123,7 @@ data class PetEntity(
     var url: String? = null,
 
     @field:SerializedName("distance")
-    @ColumnInfo(name = COL_DISTANCE)
+    @ColumnInfo(name = COL_DISTANCE, index = true)
     var distance: Double = 0.0,
 
     @field:SerializedName("videos")

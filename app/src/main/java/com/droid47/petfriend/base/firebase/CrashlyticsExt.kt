@@ -7,15 +7,11 @@ object CrashlyticsExt {
 
     private fun getCrashlytics() = FirebaseCrashlytics.getInstance()
 
-    fun logHandledException(e: Throwable) {
-        if (!isDeveloperMode()) {
-            try {
-                getCrashlytics()
-                    .recordException(e)
-            } catch (e1: Exception) {
-            }
-        } else {
-            e.printStackTrace()
+    private fun logHandledException(e: Throwable) {
+        try {
+            getCrashlytics()
+                .recordException(e)
+        } catch (e1: Exception) {
         }
     }
 
@@ -23,9 +19,7 @@ object CrashlyticsExt {
         if (isDeveloperMode()) {
             e.printStackTrace()
         } else {
-            logHandledException(
-                e
-            )
+            logHandledException(e)
         }
     }
 

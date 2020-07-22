@@ -23,6 +23,12 @@
         <item name="android:elevation">@dimen/plane_16</item>
     </style>
 
+    <style name="Widget.PetGoogle.AccentContentProgress"
+        parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">?attr/colorSecondary</item>
+        <item name="android:elevation">@dimen/plane_16</item>
+    </style>
+
     <style name="AppPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
         <item name="preferenceFragmentCompatStyle">@style/AppPreferenceFragmentCompatStyle</item>
     </style>
@@ -31,11 +37,13 @@
         <item name="android:layout">@layout/fragment_setting</item>
     </style>
 
-<!--    <style name="Widget.PetGoogle.SheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">-->
-<!--        <item name="bottomSheetStyle">@style/Widget.PetGoogle.SheetModel</item>-->
-<!--    </style>-->
+    <style name="ThemeOverlay.PetGoogle.BottomSheetDialog"
+        parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.PetGoogle.BottomSheet</item>
+    </style>
 
-<!--    <style name="Widget.PetGoogle.SheetModel" parent="Widget.Design.BottomSheet.Modal">-->
-<!--        <item name="android:colorBackground">?attr/scrimBackground</item>-->
-<!--    </style>-->
+    <style name="Widget.PetGoogle.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:colorBackground">?attr/scrimBackground</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialComponents.LargeComponent</item>
+    </style>
 </resources>

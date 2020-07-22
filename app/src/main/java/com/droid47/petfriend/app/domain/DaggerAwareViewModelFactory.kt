@@ -19,7 +19,7 @@ class DaggerAwareViewModelFactory @Inject constructor(
             @Suppress("UNCHECKED_CAST")
             return creator.get() as T
         } catch (e: Exception) {
-            CrashlyticsExt.logHandledException(e)
+            CrashlyticsExt.handleException(e)
             throw RuntimeException(e)
         }
     }

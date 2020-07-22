@@ -1,6 +1,7 @@
 package com.droid47.petfriend.search.presentation.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.*
+import com.droid47.petfriend.base.widgets.anim.SpringAddItemAnimator
 import com.droid47.petfriend.databinding.FragmentBookMarkBinding
 import com.droid47.petfriend.home.presentation.ui.HomeActivity
 import com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel
@@ -25,6 +27,7 @@ import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.presentation.ui.widgets.PagedListPetAdapter
 import com.droid47.petfriend.search.presentation.viewmodel.BookmarkViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import javax.inject.Inject
@@ -53,6 +56,22 @@ class BookmarkFragment :
             PagedListPetAdapter.AdapterType.Favorite,
             getViewModel()
         )
+    }
+
+    private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
+        MaterialShapeDrawable(
+            requireContext(),
+            null,
+            R.attr.bottomSheetStyle,
+            0
+        ).apply {
+            fillColor = ColorStateList.valueOf(
+                requireContext().themeColor(R.attr.colorPrimarySurface)
+            )
+            elevation = requireContext().resources.getDimension(R.dimen.plane_16)
+            shadowCompatibilityMode = MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS
+            initializeElevationOverlay(requireContext())
+        }
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_book_mark
@@ -102,18 +121,18 @@ class BookmarkFragment :
             startPostponedEnterTransition()
         }
         setUpView()
-        setUpBookmarkRvAdapter()
     }
 
     private fun setUpView() {
-        getViewDataBinding().fab.apply {
+        getViewDataBinding().layoutDeletePet.root.background = backGroundPrimaryColorDrawable
+        with(getViewDataBinding().fab) {
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
             setImageResource(R.drawable.vc_delete_sweep)
             setOnClickListener(this@BookmarkFragment)
         }
 
-        getViewDataBinding().bottomAppBar.apply {
+        with(getViewDataBinding().bottomAppBar) {
 //            setNavigationIcon(R.drawable.vc_nav_menu)
             replaceMenu(R.menu.search_menu)
             menu.findItem(R.id.menu_order).isVisible = false
@@ -128,11 +147,12 @@ class BookmarkFragment :
         getViewDataBinding().scrim.setOnClickListener(this@BookmarkFragment)
         getViewDataBinding().layoutDeletePet.btnSecondaryAction.setOnClickListener(this@BookmarkFragment)
         getViewDataBinding().layoutDeletePet.btnPrimaryAction.setOnClickListener(this@BookmarkFragment)
-    }
 
-    private fun setUpBookmarkRvAdapter() {
-        if (getPetAdapter() != null) return
-        getViewDataBinding().rvPets.adapter = pagedListPetAdapter
+        with(getViewDataBinding().rvPets) {
+            if (getPetAdapter() != null) return@with
+            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+            getViewDataBinding().rvPets.adapter = pagedListPetAdapter
+        }
     }
 
     private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PagedListPetAdapter
@@ -257,18 +277,18 @@ class BookmarkFragment :
         when (view?.id ?: return) {
             R.id.scrim,
             R.id.btn_secondary_action -> performMaterialTransitionFor(
-                getViewDataBinding().layoutTransition,
+                getViewDataBinding().layoutDeletePet.root,
                 getViewDataBinding().fab
             )
             R.id.fab -> performMaterialTransitionFor(
                 getViewDataBinding().fab,
-                getViewDataBinding().layoutTransition
+                getViewDataBinding().layoutDeletePet.root
             )
 
             R.id.btn_primary_action -> {
                 getViewModel().deleteAllFavoritePets()
                 performMaterialTransitionFor(
-                    getViewDataBinding().layoutTransition,
+                    getViewDataBinding().layoutDeletePet.root,
                     getViewDataBinding().fab
                 )
             }

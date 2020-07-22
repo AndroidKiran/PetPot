@@ -14,8 +14,7 @@ import com.droid47.petfriend.base.widgets.BaseStateModel
 import com.droid47.petfriend.base.widgets.Empty
 import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
-import com.droid47.petfriend.search.data.models.FilterItemEntity
-import com.droid47.petfriend.search.data.models.SORT
+import com.droid47.petfriend.search.data.models.PetFilterCheckableEntity
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_SORT_FILTER
 import java.util.*
@@ -46,7 +45,7 @@ class SortPopupMenu @JvmOverloads constructor(
 
     fun showPopup() {
         dismissPopup()
-        filterViewModel.sortFilterLiveDataEntity.run {
+        filterViewModel.sortPetFilterLiveDataEntity.run {
             removeObserver(sortStateObserver)
             observe(lifeCycleOwner, sortStateObserver)
         }
@@ -60,13 +59,13 @@ class SortPopupMenu @JvmOverloads constructor(
     }
 
     private fun dismissPopup() {
-        filterViewModel.sortFilterLiveDataEntity.removeObserver(sortStateObserver)
+        filterViewModel.sortPetFilterLiveDataEntity.removeObserver(sortStateObserver)
         filterViewModel.eventLiveData.removeObserver(applySortStateObserver)
         setOnMenuItemClickListener(null)
         dismiss()
     }
 
-    private val sortStateObserver = Observer<BaseStateModel<FilterItemEntity>> {
+    private val sortStateObserver = Observer<BaseStateModel<PetFilterCheckableEntity>> {
         when (it) {
             is Success -> {
                 updateCheckableState(it.data)
@@ -84,10 +83,10 @@ class SortPopupMenu @JvmOverloads constructor(
         }
     }
 
-    private fun updateCheckableState(filterItemEntity: FilterItemEntity) {
+    private fun updateCheckableState(petFilterEntity: PetFilterCheckableEntity) {
         for (item in 0 until menu.size) {
             val menuItem = menu[item]
-            if (menuItem.title.toString().toLowerCase(Locale.US) == filterItemEntity.name) {
+            if (menuItem.title.toString().toLowerCase(Locale.US) == petFilterEntity.name) {
                 menuItem.isChecked = true
                 break
             }

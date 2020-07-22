@@ -28,7 +28,7 @@ class NetworkHeadersInterceptor @Inject constructor(
             val tokenModel = gson.fromJson(tokenStr, TokenModel::class.java)
             "${tokenModel.tokenType} ${tokenModel.accessToken}"
         } catch (e: Exception) {
-            CrashlyticsExt.logHandledException(e)
+            CrashlyticsExt.handleException(e)
             ""
         }
 }

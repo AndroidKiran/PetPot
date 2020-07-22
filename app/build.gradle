@@ -75,9 +75,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -118,6 +118,21 @@ android {
     }
     ndkVersion = '21.0.6113669'
 
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = false
+        dataBinding = true
+        aidl = false
+        renderScript = false
+        resValues = true
+        shaders = false
+    }
+
 //    dexOptions {
 //        preDexLibraries false
 //        javaMaxHeapSize "4g"
@@ -134,7 +149,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "androidx.core:core-ktx:1.3.0"
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
@@ -174,15 +189,19 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "com.google.android.material:material:1.2.0-alpha06"
     implementation "com.google.android:flexbox:2.0.0"
-    implementation 'com.google.android.play:core:1.7.2'
+    implementation 'com.google.android.play:core:1.7.3'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:2.0.3'
+
 
     //FireBase
-    implementation "com.google.firebase:firebase-analytics:17.4.1"
+    implementation "com.google.firebase:firebase-analytics:17.4.2"
     implementation "com.google.firebase:firebase-crashlytics:17.0.0"
     implementation "com.google.firebase:firebase-perf:19.0.7"
-    implementation 'com.google.firebase:firebase-messaging:20.1.7'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation 'com.google.firebase:firebase-config-ktx:19.1.4'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'

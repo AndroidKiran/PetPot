@@ -2,10 +2,10 @@ package com.droid47.petfriend.base.storage.db
 
 import android.annotation.SuppressLint
 import androidx.room.TypeConverter
+import com.droid47.petfriend.organization.data.models.OrganizationCheckableEntity
 import com.droid47.petfriend.search.data.models.search.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -155,4 +155,46 @@ object PetDbConverter {
         df.timeZone = timeZone
         return if (value == null) null else df.format(value)
     }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromAdoption(value: OrganizationCheckableEntity.AdoptionEntity?): String? {
+        val inputValue = value ?: return null
+        return Gson().toJson(inputValue)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun toAdoption(value: String?): OrganizationCheckableEntity.AdoptionEntity {
+        val inputValue = value ?: return OrganizationCheckableEntity.AdoptionEntity()
+        return Gson().fromJson(inputValue, OrganizationCheckableEntity.AdoptionEntity::class.java)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromSocialMedia(value: OrganizationCheckableEntity.SocialMediaEntity?): String? {
+        val inputValue = value ?: return null
+        return Gson().toJson(inputValue)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun toSocialMedia(value: String?): OrganizationCheckableEntity.SocialMediaEntity {
+        val inputValue = value ?: return OrganizationCheckableEntity.SocialMediaEntity()
+        return Gson().fromJson(inputValue, OrganizationCheckableEntity.SocialMediaEntity::class.java)
+    }
+
+//    @TypeConverter
+//    @JvmStatic
+//    fun fromAddress(value: AddressEntity?): String? {
+//        val inputValue = value ?: return null
+//        return Gson().toJson(inputValue)
+//    }
+//
+//    @TypeConverter
+//    @JvmStatic
+//    fun toAddress(value: String?): AddressEntity {
+//        val inputValue = value ?: return AddressEntity()
+//        return Gson().fromJson(inputValue, AddressEntity::class.java)
+//    }
 }

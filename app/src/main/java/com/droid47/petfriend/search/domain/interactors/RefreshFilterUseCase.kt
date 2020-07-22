@@ -6,8 +6,8 @@ import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import com.droid47.petfriend.search.data.models.*
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
 import com.droid47.petfriend.search.domain.repositories.PetTypeRepository
-import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_ONE
-import com.droid47.petfriend.search.presentation.models.FilterConstants.SORT_BY_RECENT
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants.PAGE_ONE
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants.SORT_BY_RECENT
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class RefreshFilterUseCase @Inject constructor(
     override fun buildUseCaseCompletable(params: String): Completable =
         petTypeRepository.getSelectedPetType()
             .flatMapCompletable { petType ->
-                filterRepository.refreshFilter(mutableListOf<FilterItemEntity>().apply {
+                filterRepository.refreshFilter(mutableListOf<PetFilterCheckableEntity>().apply {
                     addAll(transformToFilterItemList(petType.breeds ?: emptyList(), BREED))
                     addAll(transformToFilterItemList(petType.colors ?: emptyList(), COLOR))
                     addAll(transformToFilterItemList(petType.coats ?: emptyList(), COAT))
@@ -29,20 +29,20 @@ class RefreshFilterUseCase @Inject constructor(
                     addAll(transformToFilterItemList(petType.size, SIZE))
                     addAll(transformToFilterItemList(petType.age, AGE))
                     addAll(transformToFilterItemList(petType.status, STATUS))
-                    add(FilterItemEntity(petType.name, PET_TYPE,
+                    add(PetFilterCheckableEntity(petType.name, PET_TYPE,
                         selected = true,
                         filterApplied = true
                     ))
-                    add(FilterItemEntity(PAGE_ONE.toString(), PAGE_NUM,
+                    add(PetFilterCheckableEntity(PAGE_ONE.toString(), PAGE_NUM,
                         selected = true,
                         filterApplied = true
                     ))
-                    add(FilterItemEntity(SORT_BY_RECENT, SORT,
+                    add(PetFilterCheckableEntity(SORT_BY_RECENT, SORT,
                         selected = true,
                         filterApplied = true
                     ))
                     if (params.isNotEmpty()) {
-                        add(FilterItemEntity(params, LOCATION,
+                        add(PetFilterCheckableEntity(params, LOCATION,
                             selected = true,
                             filterApplied = true
                         ))
@@ -54,10 +54,10 @@ class RefreshFilterUseCase @Inject constructor(
     private fun transformToFilterItemList(
         strList: List<String>,
         type: String
-    ): List<FilterItemEntity> {
-        val filterItemList = mutableListOf<FilterItemEntity>()
+    ): List<PetFilterCheckableEntity> {
+        val filterItemList = mutableListOf<PetFilterCheckableEntity>()
         strList.forEach { filterName ->
-            val filterItem = FilterItemEntity(
+            val filterItem = PetFilterCheckableEntity(
                 name = filterName,
                 type = type,
                 selected = false,

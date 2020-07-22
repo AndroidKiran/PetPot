@@ -1,5 +1,7 @@
 package com.droid47.petfriend.base.storage
 
+import com.droid47.petfriend.organization.data.models.OrganizationFilter
+
 interface LocalPreferencesRepository {
 
     fun saveToken(tokenStr: String)
@@ -33,4 +35,8 @@ interface LocalPreferencesRepository {
     fun saveLocation(location: String)
 
     fun getLocation(): String?
+
+    fun saveOrganizationFilter(organizationFilter: OrganizationFilter)
+
+    fun getOrganizationFilter(): OrganizationFilter
 }

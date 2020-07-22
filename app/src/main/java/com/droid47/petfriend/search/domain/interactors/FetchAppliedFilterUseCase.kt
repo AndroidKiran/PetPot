@@ -5,8 +5,8 @@ import com.droid47.petfriend.base.usecase.executor.PostExecutionThread
 import com.droid47.petfriend.base.usecase.executor.ThreadExecutor
 import com.droid47.petfriend.search.data.models.*
 import com.droid47.petfriend.search.domain.repositories.FilterRepository
-import com.droid47.petfriend.search.presentation.models.FilterConstants
-import com.droid47.petfriend.search.presentation.models.Filters
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants
+import com.droid47.petfriend.search.presentation.models.PetFilters
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
@@ -15,12 +15,12 @@ class FetchAppliedFilterUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val filterRepository: FilterRepository
-) : SingleUseCase<Filters, Boolean>(
+) : SingleUseCase<PetFilters, Boolean>(
     threadExecutor,
     postExecutionThread
 ) {
 
-    override fun buildUseCaseSingle(params: Boolean): Single<Filters> =
+    override fun buildUseCaseSingle(params: Boolean): Single<PetFilters> =
         filterRepository.getAppliedFilterItemForSearch()
             .map {
                 composeFilter(it, params)
@@ -30,66 +30,66 @@ class FetchAppliedFilterUseCase @Inject constructor(
 
 
     private fun composeFilter(
-        selectedItemEntities: List<FilterItemEntity>,
+        selectedEntityPets: List<PetFilterCheckableEntity>,
         isFirstPage: Boolean
-    ): Filters =
-        Filters().apply {
-            val ageStr = transformListToString(selectedItemEntities, AGE)
+    ): PetFilters =
+        PetFilters().apply {
+            val ageStr = transformListToString(selectedEntityPets, AGE)
             if (ageStr.isNotEmpty()) {
                 age = ageStr
             }
 
-            val genderStr = transformListToString(selectedItemEntities, GENDER)
+            val genderStr = transformListToString(selectedEntityPets, GENDER)
             if (genderStr.isNotEmpty()) {
                 gender = genderStr
             }
 
-            val colorStr = transformListToString(selectedItemEntities, COLOR)
+            val colorStr = transformListToString(selectedEntityPets, COLOR)
             if (colorStr.isNotEmpty()) {
                 color = colorStr
             }
 
-            val coatStr = transformListToString(selectedItemEntities, COAT)
+            val coatStr = transformListToString(selectedEntityPets, COAT)
             if (coatStr.isNotEmpty()) {
                 coat = coatStr
             }
 
-            val sizeStr = transformListToString(selectedItemEntities, SIZE)
+            val sizeStr = transformListToString(selectedEntityPets, SIZE)
             if (sizeStr.isNotEmpty()) {
                 size = sizeStr
             }
 
-            val statusStr = transformListToString(selectedItemEntities, STATUS)
+            val statusStr = transformListToString(selectedEntityPets, STATUS)
             if (statusStr.isNotEmpty()) {
                 status = statusStr
             }
 
-            val breedStr = transformListToString(selectedItemEntities, BREED)
+            val breedStr = transformListToString(selectedEntityPets, BREED)
             if (breedStr.isNotEmpty()) {
                 breed = breedStr
             }
 
-            val typeStr = transformListToString(selectedItemEntities, PET_TYPE).split(",")[0]
+            val typeStr = transformListToString(selectedEntityPets, PET_TYPE).split(",")[0]
                 .replace("_", ",")
             if (typeStr.isNotEmpty()) {
                 type = typeStr
             }
 
             if (isFirstPage) {
-                page = FilterConstants.PAGE_ONE.toString()
+                page = PetFilterConstants.PAGE_ONE.toString()
             } else {
-                val pageStr = transformListToString(selectedItemEntities, PAGE_NUM).split(",")[0]
+                val pageStr = transformListToString(selectedEntityPets, PAGE_NUM).split(",")[0]
                 if (pageStr.isNotEmpty()) {
                     page = pageStr
                 }
             }
 
-            val sortStr = transformListToString(selectedItemEntities, SORT).split(",")[0]
+            val sortStr = transformListToString(selectedEntityPets, SORT).split(",")[0]
             if (sortStr.isNotEmpty()) {
                 sort = sortStr
             }
 
-            val locationStr = transformListToString(selectedItemEntities, LOCATION).split(",")[0]
+            val locationStr = transformListToString(selectedEntityPets, LOCATION).split(",")[0]
             if (locationStr.isNotEmpty()) {
                 location = locationStr
             }
@@ -97,12 +97,12 @@ class FetchAppliedFilterUseCase @Inject constructor(
 
 
     private fun transformListToString(
-        filterItemEntityList: List<FilterItemEntity>,
+        petFilterEntityList: List<PetFilterCheckableEntity>,
         type: String
     ): String =
-        filterItemEntityList.filter { filterItem -> filterItem.type == type }
+        petFilterEntityList.filter { filterItem -> filterItem.type == type }
             .map { filterItem ->
-                val name = filterItem.name.toLowerCase(Locale.US)
+                val name = filterItem.name?.toLowerCase(Locale.US) ?: ""
                 if (name.contains("scale")) {
                     name.replace(",", "_")
                 } else {

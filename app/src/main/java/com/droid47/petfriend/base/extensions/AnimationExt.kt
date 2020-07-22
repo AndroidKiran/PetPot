@@ -3,9 +3,17 @@ package com.droid47.petfriend.base.extensions
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
+import androidx.core.view.ViewCompat
+import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import kotlinx.android.synthetic.main.onboarding_page_item.view.*
+import kotlin.math.abs
 import kotlin.math.roundToInt
+
+
+private const val MIN_SCALE = 0.75f
 
 fun lerp(
     startValue: Float,
@@ -169,3 +177,113 @@ fun View.setParallaxTransformation(position: Float) {
         }
     }
 }
+
+fun View.setScaleTransformation(position: Float, maxTranslateOffsetX: Int) {
+    val viewPager = parent as ViewPager
+    val leftInScreen: Int = left - viewPager.scrollX
+    val centerXInViewPager: Int = leftInScreen + measuredWidth / 2
+    val offsetX: Int = centerXInViewPager - viewPager.measuredWidth / 2
+    val offsetRate: Float = offsetX.toFloat() * 0.38f / viewPager.measuredWidth
+    val scaleFactor = 1 - abs(offsetRate)
+
+    if (scaleFactor > 0) {
+        scaleX = scaleFactor
+        scaleY = scaleFactor
+        translationX = -maxTranslateOffsetX * offsetRate
+    }
+    ViewCompat.setElevation(this, scaleFactor)
+}
+
+
+fun View.setZoomInTransformation(position: Float) {
+    apply {
+        val scale =
+            if (position < 0) position + 1f else Math.abs(1f - position)
+        scaleX = scale
+        scaleY = scale
+        pivotX = width * 0.5f
+        pivotY = height * 0.5f
+        alpha = if (position < -1f || position > 1f) 0f else 1f - (scale - 1f)
+    }
+}
+
+fun View.setDepthPageTransformation(position: Float) {
+    apply {
+        val pageWidth: Int = width
+        when {
+            position < -1 -> { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                alpha = 0f
+            }
+            position <= 0 -> { // [-1,0]
+                // Use the default slide transition when moving to the left page
+                alpha = 1f
+                translationX = 0f
+                translationZ = 0f
+                scaleX = 1f
+                scaleY = 1f
+            }
+            position <= 1 -> { // (0,1]
+                // Fade the page out.
+                alpha = 1 - position
+
+                // Counteract the default slide transition
+                translationX = pageWidth * -position
+                // Move it behind the left page
+                translationZ = -1f
+
+                // Scale the page down (between MIN_SCALE and 1)
+                val scaleFactor: Float =
+                    (MIN_SCALE + (1 - MIN_SCALE) * (1 - abs(
+                        position
+                    )))
+                scaleX = scaleFactor
+                scaleY = scaleFactor
+            }
+            else -> { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                alpha = 0f
+            }
+        }
+    }
+}
+
+/**
+ * A class which adds [DynamicAnimation.OnAnimationEndListener]s to the given `springs` and invokes
+ * `onEnd` when all have finished.
+ */
+class MultiSpringEndListener(
+    onEnd: (Boolean) -> Unit,
+    vararg springs: SpringAnimation
+) {
+    private val listeners = ArrayList<DynamicAnimation.OnAnimationEndListener>(springs.size)
+
+    private var wasCancelled = false
+
+    init {
+        springs.forEach {
+            val listener = object : DynamicAnimation.OnAnimationEndListener {
+                override fun onAnimationEnd(
+                    animation: DynamicAnimation<out DynamicAnimation<*>>?,
+                    canceled: Boolean,
+                    value: Float,
+                    velocity: Float
+                ) {
+                    animation?.removeEndListener(this)
+                    wasCancelled = wasCancelled or canceled
+                    listeners.remove(this)
+                    if (listeners.isEmpty()) {
+                        onEnd(wasCancelled)
+                    }
+                }
+            }
+            it.addEndListener(listener)
+            listeners.add(listener)
+        }
+    }
+}
+
+fun listenForAllSpringsEnd(
+    onEnd: (Boolean) -> Unit,
+    vararg springs: SpringAnimation
+) = MultiSpringEndListener(onEnd, *springs)

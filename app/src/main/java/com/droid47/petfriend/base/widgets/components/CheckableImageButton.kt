@@ -14,7 +14,7 @@ import com.droid47.petfriend.R
 
 
 class CheckableImageButton @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.imageButtonStyle
 ) : AppCompatImageButton(context, attrs, defStyleAttr), Checkable {
@@ -49,8 +49,8 @@ class CheckableImageButton @JvmOverloads constructor(
             this.checked = checked
             refreshDrawableState()
             sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
-            onCheckedChangeListener?.onCheckedChanged(this, checked)
         }
+        onCheckedChangeListener?.onCheckedChanged(this, checked)
     }
 
     override fun isChecked(): Boolean {

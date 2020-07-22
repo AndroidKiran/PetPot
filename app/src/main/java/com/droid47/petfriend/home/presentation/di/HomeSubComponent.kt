@@ -6,6 +6,8 @@ import com.droid47.petfriend.search.presentation.ui.BookmarkFragment
 import com.droid47.petfriend.home.presentation.ui.BottomNavDrawerFragment
 import com.droid47.petfriend.home.presentation.ui.HomeActivity
 import com.droid47.petfriend.home.presentation.ui.SettingFragment
+import com.droid47.petfriend.organization.presentation.ui.OrganizationFragment
+import com.droid47.petfriend.organization.presentation.ui.OrganizationMap
 import com.droid47.petfriend.petDetails.presentation.ui.PetDetailsFragment
 import com.droid47.petfriend.petDetails.presentation.ui.SimilarPetsFragment
 import com.droid47.petfriend.search.presentation.ui.FilterFragment
@@ -32,4 +34,6 @@ interface HomeSubComponent {
     fun inject(settingFragment: SettingFragment)
     fun inject(petDetailsFragment: PetDetailsFragment)
     fun inject(similarPetsFragment: SimilarPetsFragment)
+    fun inject(organizationFragment: OrganizationFragment)
+    fun inject(organizationMap: OrganizationMap)
 }

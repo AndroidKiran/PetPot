@@ -2,6 +2,7 @@ package com.droid47.petfriend.app.di.modules
 
 import android.app.Application
 import com.droid47.petfriend.BuildConfig
+import com.droid47.petfriend.app.data.LocalPreferenceDataSource
 import com.droid47.petfriend.base.network.NetworkHeadersInterceptor
 import com.droid47.petfriend.base.network.TokenAuthenticator
 import com.droid47.petfriend.base.storage.LocalPreferencesRepository
@@ -92,9 +93,9 @@ object NetworkModule {
     ): OkHttpClient =
         OkHttpClient.Builder()
             .cache(cache)
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
             .authenticator(authenticator)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(headersInterceptor)
@@ -136,4 +137,5 @@ object NetworkModule {
     @Singleton
     fun provideAnimalTypeApi(retrofit: Retrofit): SearchNetworkSource =
         retrofit.create(SearchNetworkSource::class.java)
+
 }

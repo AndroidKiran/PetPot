@@ -1,18 +1,12 @@
 package com.droid47.petfriend.base.extensions
 
 import android.view.View
-import androidx.arch.core.util.Function
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.paging.PagedList
-import com.droid47.petfriend.base.widgets.BaseStateModel
-import com.droid47.petfriend.search.data.models.search.PetEntity
-import com.droid47.petfriend.search.presentation.models.Filters
-import org.reactivestreams.Publisher
 
 inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
     provider: ViewModelProvider.Factory
@@ -44,6 +38,20 @@ fun <T : CoordinatorLayout.Behavior<*>> View.findBehavior(): T = layoutParams.ru
         ?: throw IllegalArgumentException("Layout's behavior is not current behavior")
 }
 
+fun <T, K, R> LiveData<T>.combineWith(
+    liveData: LiveData<K>,
+    block: (T?, K?) -> R
+): LiveData<R> {
+    val result = MediatorLiveData<R>()
+    result.addSource(this) {
+        result.value = block.invoke(this.value, liveData.value)
+    }
+    result.addSource(liveData) {
+        result.value = block.invoke(this.value, liveData.value)
+    }
+    return result
+}
+
 inline fun <T> dependantLiveData(
     vararg dependencies: LiveData<out Any>,
     defaultValue: T? = null,
@@ -57,4 +65,6 @@ inline fun <T> dependantLiveData(
     }.apply { value = defaultValue }
 
 val <T> T.exhaustive get() = this
+
+
 

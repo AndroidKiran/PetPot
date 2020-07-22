@@ -67,10 +67,10 @@ class InAppUpdateManager private constructor(
     private fun registerListener() {
         if (updateType == AppUpdateType.FLEXIBLE) return
         appUpdateManager?.registerListener {
-            val installState = it ?: return@registerListener
-            inAppUpdateStatus.setInstallState(installState)
+            val instalState = it ?: return@registerListener
+            inAppUpdateStatus.setInstallState(instalState)
             reportStatus()
-            when (installState.installStatus()) {
+            when (instalState.installStatus()) {
                 InstallStatus.DOWNLOADED -> popupSnackBarForUserConfirmation()
                 InstallStatus.INSTALLED -> unRegisterListener()
                 else -> {

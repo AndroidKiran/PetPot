@@ -1,6 +1,8 @@
 package com.droid47.petfriend.app.di.modules
 
+import android.app.Application
 import com.droid47.petfriend.app.data.LocalPreferenceDataSource
+import com.droid47.petfriend.app.domain.ActivityLifecycleCallbacks
 import com.droid47.petfriend.app.domain.JobExecutor
 import com.droid47.petfriend.app.domain.UIThread
 import com.droid47.petfriend.base.storage.LocalPreferencesRepository
@@ -24,4 +26,8 @@ interface AppModule {
     @Binds
     @Singleton
     fun bindLocalSharedPreference(localSharedPreferenceDataSource: LocalPreferenceDataSource): LocalPreferencesRepository
+
+    @Binds
+    @Singleton
+    fun bindActivityLifeCycleCallback(activityLifecycleCallbacks: ActivityLifecycleCallbacks): Application.ActivityLifecycleCallbacks
 }

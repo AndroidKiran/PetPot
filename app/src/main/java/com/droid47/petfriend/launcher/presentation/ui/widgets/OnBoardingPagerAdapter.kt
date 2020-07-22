@@ -8,31 +8,28 @@ import com.droid47.petfriend.databinding.OnboardingPageItemBinding
 import com.droid47.petfriend.launcher.presentation.ui.models.OnBoardingPage
 
 class OnBoardingPagerAdapter constructor(private val onBoardingPageList: Array<OnBoardingPage> = OnBoardingPage.values()) :
-    RecyclerView.Adapter<BaseViewHolder>() {
+    RecyclerView.Adapter<BaseViewHolder<OnBoardingPage>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<OnBoardingPage> =
         OnBoardingViewHolder(
-            OnboardingPageItemBinding.inflate(
-                LayoutInflater.from(
-                    parent.context
-                ), parent, false
-            )
+            OnboardingPageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
     override fun getItemCount(): Int = onBoardingPageList.size
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position)
+    override fun onBindViewHolder(holder: BaseViewHolder<OnBoardingPage>, position: Int) {
+        holder.onBind(onBoardingPageList[position])
     }
 
     private inner class OnBoardingViewHolder(private val itemBinding: OnboardingPageItemBinding) :
-        BaseViewHolder(itemBinding.root) {
+        BaseViewHolder<OnBoardingPage>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
-            val onBoardingPage = onBoardingPageList[position]
-            itemBinding.onBoardingPage = onBoardingPage
+        override fun onBind(item: OnBoardingPage) {
+            itemBinding.onBoardingPage = item
             itemBinding.executePendingBindings()
         }
-
     }
 }

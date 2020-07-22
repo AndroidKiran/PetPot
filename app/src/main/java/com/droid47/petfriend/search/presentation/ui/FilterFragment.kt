@@ -1,5 +1,6 @@
 package com.droid47.petfriend.search.presentation.ui
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -14,9 +15,10 @@ import com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration
 import com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petfriend.base.extensions.*
 import com.droid47.petfriend.base.widgets.*
+import com.droid47.petfriend.base.widgets.anim.SpringAddItemAnimator
 import com.droid47.petfriend.databinding.FragmentFilterBinding
 import com.droid47.petfriend.home.presentation.ui.HomeActivity
-import com.droid47.petfriend.search.data.models.FilterItemEntity
+import com.droid47.petfriend.search.data.models.PetFilterCheckableEntity
 import com.droid47.petfriend.search.presentation.ui.widgets.FilterAdapter
 import com.droid47.petfriend.search.presentation.ui.widgets.SortPopupMenu
 import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel
@@ -26,6 +28,8 @@ import com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel.Compa
 import com.droid47.petfriend.search.presentation.viewmodel.SearchViewModel
 import com.google.android.flexbox.*
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import java.util.*
 import javax.inject.Inject
 
@@ -47,38 +51,21 @@ class FilterFragment :
         requireParentFragment().parentFragmentViewModelProvider<SearchViewModel>()
     }
 
-//    private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
-//        MaterialShapeDrawable(
-//            requireContext(),
-//            null,
-//            R.attr.materialCardViewStyle,
-//            0
-//        ).apply {
-//            fillColor = ColorStateList.valueOf(
-//                requireContext().themeColor(R.attr.colorPrimarySurface)
-//            )
-//            elevation = requireContext().resources.getDimension(R.dimen.plane_08)
-//            shadowCompatibilityMode = MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS
-//            initializeElevationOverlay(context)
-//            shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-//                .setTopRightCorner(
-//                    CornerFamily.ROUNDED,
-//                    requireContext().resources.getDimension(R.dimen.pet_small_component_corner_radius)
-//                )
-//                .setTopLeftCorner(
-//                    CornerFamily.ROUNDED,
-//                    requireContext().resources.getDimension(R.dimen.pet_small_component_corner_radius)
-//                )
-//                .setBottomRightCorner(
-//                    CornerFamily.ROUNDED,
-//                    requireContext().resources.getDimension(R.dimen.zero)
-//                )
-//                .setBottomLeftCorner(
-//                    CornerFamily.ROUNDED,
-//                    requireContext().resources.getDimension(R.dimen.zero)
-//                ).build()
-//        }
-//    }
+    private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
+        MaterialShapeDrawable(
+            requireContext(),
+            null,
+            R.attr.bottomSheetStyle,
+            0
+        ).apply {
+            fillColor = ColorStateList.valueOf(
+                requireContext().themeColor(R.attr.colorPrimarySurface)
+            )
+            elevation = requireContext().resources.getDimension(R.dimen.plane_16)
+            shadowCompatibilityMode = MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS
+            initializeElevationOverlay(requireContext())
+        }
+    }
 
     override fun getLayoutId(): Int = R.layout.fragment_filter
 
@@ -145,7 +132,8 @@ class FilterFragment :
 
     private fun setUpViews() {
         val context = context ?: return
-        getViewDataBinding().navigationMenuView.apply {
+        getViewDataBinding().cdlFilter.background = backGroundPrimaryColorDrawable
+        with(getViewDataBinding().navigationMenuView) {
             itemBackground = navigationItemBackground(context)
             setCheckedItem(R.id.menu_filter_gender)
             setNavigationItemSelectedListener(
@@ -154,17 +142,21 @@ class FilterFragment :
         }
 
         with(getViewDataBinding().rvFilters) {
+            if (getCategoryAdapter() != null) return@with
+            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
             layoutManager = FlexboxLayoutManager(context, FlexDirection.ROW).apply {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
                 alignItems = AlignItems.STRETCH
             }
-            adapter = FilterAdapter(FilterAdapter.CATEGORY_FILTER, getViewModel())
+            adapter = FilterAdapter(FilterAdapter.CATEGORY_FILTER, getViewModel().onItemCheck)
         }
 
         with(getViewDataBinding().rvSelectedFilter) {
+            if (getSelectFilterAdapter() != null) return@with
+            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionX)
             setHasFixedSize(true)
-            adapter = FilterAdapter(FilterAdapter.ALL_FILTER, getViewModel())
+            adapter = FilterAdapter(FilterAdapter.SELECTED_FILTER, getViewModel().onItemCheck)
         }
 
         with(getViewDataBinding().bottomFilterBar) {
@@ -186,6 +178,12 @@ class FilterFragment :
             .map { menuItem -> menuItem.title.toString().toLowerCase(Locale.US) }
             .toList().let { getViewModel().menuItemListLiveData.postValue(it) }
     }
+
+    private fun getCategoryAdapter(): FilterAdapter? =
+        getViewDataBinding().rvFilters.adapter as? FilterAdapter
+
+    private fun getSelectFilterAdapter(): FilterAdapter? =
+        getViewDataBinding().rvSelectedFilter.adapter as? FilterAdapter
 
     private val navigationItemListener =
         NavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -228,14 +226,12 @@ class FilterFragment :
         }
     }
 
-    private fun updateCategoryFilterData(list: List<FilterItemEntity>) {
-        val adapter = getViewDataBinding().rvFilters.adapter as? FilterAdapter ?: return
-        adapter.submitFilterList(list, true)
+    private fun updateCategoryFilterData(list: List<PetFilterCheckableEntity>) {
+        getCategoryAdapter()?.submitFilterList(list, true)
     }
 
-    private fun updateSelectedFilterData(list: List<FilterItemEntity>) {
-        val adapter = getViewDataBinding().rvSelectedFilter.adapter as? FilterAdapter ?: return
-        adapter.submitFilterList(list, true)
+    private fun updateSelectedFilterData(list: List<PetFilterCheckableEntity>) {
+        getSelectFilterAdapter()?.submitFilterList(list, true)
     }
 
     private fun subscribeToLiveData() {
@@ -265,7 +261,7 @@ class FilterFragment :
         }
     }
 
-    private val filterListObserver = Observer<BaseStateModel<List<FilterItemEntity>>> {
+    private val filterListObserver = Observer<BaseStateModel<List<PetFilterCheckableEntity>>> {
         val stateModel = it ?: return@Observer
         when (stateModel) {
             is Success -> {
@@ -283,15 +279,16 @@ class FilterFragment :
         getViewModel().clearSearch()
     }
 
-    private val selectedFilterListObserver = Observer<BaseStateModel<List<FilterItemEntity>>> {
-        val stateModel = it ?: return@Observer
-        menuRefreshItem?.isVisible = stateModel is Success
-        when (stateModel) {
-            is Success -> {
-                updateSelectedFilterData(stateModel.data)
+    private val selectedFilterListObserver =
+        Observer<BaseStateModel<List<PetFilterCheckableEntity>>> {
+            val stateModel = it ?: return@Observer
+            menuRefreshItem?.isVisible = stateModel is Success
+            when (stateModel) {
+                is Success -> {
+                    updateSelectedFilterData(stateModel.data)
+                }
             }
         }
-    }
 
     private val eventObserver = Observer<Long> {
         when (it ?: return@Observer) {
@@ -307,14 +304,15 @@ class FilterFragment :
         adapter.filter.filter(query)
     }
 
-    private val lastAppliedFilterObserver = Observer<BaseStateModel<List<FilterItemEntity>>> {
-        val stateModel = it?:return@Observer
-        if(stateModel is Success) {
-            getParentViewModel().appliedFilterItemsLiveEvent.postValue(stateModel.data)
-        } else {
-            getParentViewModel().appliedFilterItemsLiveEvent.postValue(emptyList())
+    private val lastAppliedFilterObserver =
+        Observer<BaseStateModel<List<PetFilterCheckableEntity>>> {
+            val stateModel = it ?: return@Observer
+            if (stateModel is Success) {
+                getParentViewModel().appliedFilterItemsLiveEvent.postValue(stateModel.data)
+            } else {
+                getParentViewModel().appliedFilterItemsLiveEvent.postValue(emptyList())
+            }
         }
-    }
 
     private fun showFab() {
         getViewDataBinding().filterFab.postDelayed({

@@ -7,7 +7,7 @@ import android.view.animation.Transformation
 class ResizeAnimation(view: View, targetHeight: Int) : Animation() {
     private val startHeight: Int = view.height
     private val targetHeight: Int = targetHeight
-    var view: View = view
+    val view: View = view
     override fun applyTransformation(
         interpolatedTime: Float,
         transformation: Transformation?

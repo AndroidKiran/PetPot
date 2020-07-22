@@ -50,8 +50,7 @@
                 android:id="@+id/foreground_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/grid_3"
-                tools:background="?attr/colorPrimarySurface">
+                android:layout_marginTop="@dimen/grid_3">
 
                 <com.google.android.material.navigation.NavigationView
                     android:id="@+id/navigationMenuView"

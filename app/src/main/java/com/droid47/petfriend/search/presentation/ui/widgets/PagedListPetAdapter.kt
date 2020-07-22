@@ -28,7 +28,7 @@ class PagedListPetAdapter @Inject constructor(
     private val context: Context,
     private val type: AdapterType = AdapterType.Search,
     private val onItemClickListener: OnItemClickListener
-) : PagedListAdapter<PetEntity, BaseViewHolder>(SearchDiff) {
+) : PagedListAdapter<PetEntity, BaseViewHolder<PetEntity>>(SearchDiff) {
 
     private var recyclerView: RecyclerView? = null
     private val screenWidth = context.getScreenWidth()
@@ -100,7 +100,7 @@ class PagedListPetAdapter @Inject constructor(
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<PetEntity> =
         when (type) {
             AdapterType.Favorite -> BookmarkViewHolder(
                 ItemBookMarkBinding.inflate(
@@ -131,8 +131,8 @@ class PagedListPetAdapter @Inject constructor(
 
     override fun getItemId(position: Int): Long = getItem(position)?.id?.toLong() ?: -1L
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position)
+    override fun onBindViewHolder(holder: BaseViewHolder<PetEntity>, position: Int) {
+        holder.onBind(getItem(position)?:return)
     }
 
     object SearchDiff : DiffUtil.ItemCallback<PetEntity>() {
@@ -144,10 +144,9 @@ class PagedListPetAdapter @Inject constructor(
     }
 
     open inner class SearchViewHolder(private val itemBinding: ItemPetBinding) :
-        BaseViewHolder(itemBinding.root) {
+        BaseViewHolder<PetEntity>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
-            val item = getItem(position) ?: return
+        override fun onBind(item: PetEntity) {
             itemBinding.cibStar.background = bookMarkShapeDrawable
             itemBinding.run {
                 setVariable(BR.pet, item)
@@ -169,10 +168,9 @@ class PagedListPetAdapter @Inject constructor(
     }
 
     private inner class BookmarkViewHolder(private val itemBinding: ItemBookMarkBinding) :
-        BaseViewHolder(itemBinding.root) {
+        BaseViewHolder<PetEntity>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
-            val item = getItem(position) ?: return
+        override fun onBind(item: PetEntity) {
             itemBinding.apply {
                 setVariable(BR.pet, item)
                 executePendingBindings()
@@ -196,13 +194,12 @@ class PagedListPetAdapter @Inject constructor(
     }
 
     private inner class SimilarViewHolder(private val itemBinding: ItemSimilarPetBinding) :
-        BaseViewHolder(itemBinding.root) {
+        BaseViewHolder<PetEntity>(itemBinding.root) {
 
-        override fun onBind(position: Int) {
+        override fun onBind(item: PetEntity) {
             itemBinding.ivPetPic.updateWidth(imgWidth)
             itemBinding.cvPetInfo.updateWidth(screenWidth.minus(diffWidth))
 
-            val item = getItem(position) ?: return
             itemBinding.run {
                 setVariable(BR.pet, item)
                 executePendingBindings()

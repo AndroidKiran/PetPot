@@ -80,7 +80,7 @@
                 app:layout_anchor="@+id/fl_container"
                 app:layout_anchorGravity="center"
                 app:spanCount="1"
-                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
+                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
                 tools:listitem="@layout/item_book_mark"
                 tools:visibility="visible" />
 
@@ -92,7 +92,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
                 app:errorViewConfig="@{errorStateConfig}"
-                app:isVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
+                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
                 tools:visibility="gone" />
 
             <include
@@ -103,7 +103,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
                 app:emptyViewConfig="@{emptyStateConfig}"
-                app:isVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
+                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
                 tools:visibility="gone" />
 
         </FrameLayout>
@@ -114,6 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:minHeight="@dimen/grid_6"
+            app:contentInsetEnd="@dimen/zero"
+            app:contentInsetStart="@dimen/zero"
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
@@ -133,6 +135,7 @@
                     android:text="@string/favourite"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
+                    app:iconTint="?attr/colorOnPrimarySurface"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -145,7 +148,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/fab_delete_all_favorite"
+            android:contentDescription="@string/fab_rate_us_description"
             android:elevation="@dimen/plane_06"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
@@ -160,24 +163,24 @@
             android:contentDescription="@string/fab_search_filter_content_description"
             android:visibility="invisible" />
 
-        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-            android:id="@+id/layout_transition"
-            style="@style/Widget.MaterialComponents.CardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/grid_6"
-            android:visibility="invisible"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardElevation="@dimen/zero"
-            app:cardPreventCornerOverlap="true"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
+<!--        <com.google.android.material.circularreveal.cardview.CircularRevealCardView-->
+<!--            android:id="@+id/cv_delete_favorite"-->
+<!--            style="@style/Widget.MaterialComponents.CardView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_marginBottom="@dimen/grid_6"-->
+<!--            android:visibility="invisible"-->
+<!--            app:cardBackgroundColor="?attr/colorSurface"-->
+<!--            app:cardElevation="@dimen/zero"-->
+<!--            app:cardPreventCornerOverlap="true"-->
+<!--            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">-->
 
             <include
                 android:id="@+id/layout_delete_pet"
                 layout="@layout/dialog_fragment_delete_pets" />
 
-        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+<!--        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>-->
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

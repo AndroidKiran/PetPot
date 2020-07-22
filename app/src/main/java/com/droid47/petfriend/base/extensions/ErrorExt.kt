@@ -16,10 +16,9 @@ fun Throwable.getErrorRequestMessage(context: Context): Triple<String, String, S
 
     when {
         this is HttpException -> {
-            val errorBody = this.response()?.errorBody()?.string() ?: ""
-            val errorEntity = Gson().fromJson(errorBody, ErrorEntity::class.java)
-
             try {
+                val errorBody = this.response()?.errorBody()?.string() ?: ""
+                val errorEntity = Gson().fromJson(errorBody, ErrorEntity::class.java)
                 errorMessage = errorEntity.invalidParams?.get(0)?.message ?: ""
                 if (errorMessage.contains("location")) {
                     errorMessage = context.getString(R.string.non_serving_location)
@@ -27,7 +26,7 @@ fun Throwable.getErrorRequestMessage(context: Context): Triple<String, String, S
                     actionText = context.getString(R.string.clear)
                 }
             } catch (exception: Exception) {
-                CrashlyticsExt.logHandledException(exception)
+                CrashlyticsExt.handleException(exception)
             }
         }
 

@@ -48,7 +48,6 @@ class SettingFragment : PreferenceFragmentCompat(),
     private fun setUpViews() {
         with(bottom_app_bar) {
             setFullScreenBottomPadding(true)
-//            setNavigationIcon(R.drawable.vc_nav_menu)
             setNavigationOnClickListener {
                 homeViewModel.eventLiveData.postValue(HomeViewModel.EVENT_TOGGLE_NAVIGATION)
             }

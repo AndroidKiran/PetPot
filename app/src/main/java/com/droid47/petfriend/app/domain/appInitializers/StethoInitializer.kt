@@ -14,7 +14,7 @@ class StethoInitializer @Inject constructor(): AppInitializer {
             try {
                 Stetho.initializeWithDefaults(application)
             } catch (exception: Exception) {
-                CrashlyticsExt.logHandledException(exception)
+                CrashlyticsExt.handleException(exception)
             }
         }
     }

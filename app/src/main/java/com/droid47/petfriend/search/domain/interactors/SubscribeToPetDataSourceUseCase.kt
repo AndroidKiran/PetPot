@@ -11,7 +11,7 @@ import com.droid47.petfriend.base.widgets.Failure
 import com.droid47.petfriend.base.widgets.Success
 import com.droid47.petfriend.search.data.models.search.PetEntity
 import com.droid47.petfriend.search.domain.repositories.PetRepository
-import com.droid47.petfriend.search.presentation.models.FilterConstants.PAGE_SIZE
+import com.droid47.petfriend.search.presentation.models.PetFilterConstants.PAGE_SIZE
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import javax.inject.Inject

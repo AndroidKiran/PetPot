@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="organizationEntity"
+            type="com.droid47.petfriend.organization.data.models.OrganizationCheckableEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_organization"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="@dimen/grid_1"
+        android:layout_marginEnd="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="@dimen/grid_2"
+        app:cardElevation="@dimen/plane_02"
+        app:cardPreventCornerOverlap="true">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/cdl_organization"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar_organization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:elevation="@dimen/zero"
+                app:elevation="@dimen/zero">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_organization_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:padding="@dimen/grid_1"
+                    android:text="@{organizationEntity.name}"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Banjara Hills" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_organisation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:paddingBottom="@dimen/grid_2"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/csl_organization"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_our_mission_title"
+                        android:layout_width="@dimen/zero"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/grid_1"
+                        android:layout_marginEnd="@dimen/grid_1"
+                        android:gravity="center_vertical"
+                        android:text="@string/our_mission"
+                        android:textAppearance="?attr/textAppearanceHeadline1"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:visible="@{!TextUtils.isEmpty(organizationEntity.missionStatement)}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_our_mission_desc"
+                        android:layout_width="@dimen/zero"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/grid_1"
+                        android:layout_marginEnd="@dimen/grid_1"
+                        android:paddingTop="@dimen/grid_0_25"
+                        android:paddingBottom="@dimen/grid_1"
+                        android:text="@{organizationEntity.missionStatement}"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@id/btn_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_our_mission_title"
+                        app:visible="@{!TextUtils.isEmpty(organizationEntity.missionStatement)}"
+                        tools:text="Cat People of Oahu is a 501(c)(3) nonprofit with a mission to help people help cats. We provide information, education, and resources for individuals who own or care for pet, feral, and free-roaming cats." />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_phone"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="@dimen/zero"
+                        android:layout_height="@dimen/grid_4"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:insetLeft="@dimen/grid_1"
+                        android:insetTop="@dimen/zero"
+                        android:insetRight="@dimen/grid_1"
+                        android:insetBottom="@dimen/zero"
+                        android:lines="1"
+                        android:text="@{organizationEntity.phone}"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="8sp"
+                        app:icon="@drawable/vc_phone"
+                        app:iconPadding="@dimen/grid_0_25"
+                        app:iconSize="@dimen/grid_2"
+                        app:iconTint="?attr/colorSecondary"
+                        app:layout_constraintBottom_toTopOf="@id/btn_email"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_our_mission_desc"
+                        app:visible="@{!TextUtils.isEmpty(organizationEntity.phone)}"
+                        tools:text="7204730956 ddjgdjgdghhdghgdhghgdhgdhgdhgdhghdghdghdghdgdhhdghd" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_email"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="@dimen/zero"
+                        android:layout_height="@dimen/grid_4"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:insetLeft="@dimen/grid_1"
+                        android:insetTop="@dimen/zero"
+                        android:insetRight="@dimen/grid_1"
+                        android:insetBottom="@dimen/zero"
+                        android:lines="1"
+                        android:text="@{organizationEntity.email}"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="8sp"
+                        app:icon="@drawable/vc_mail"
+                        app:iconPadding="@dimen/grid_0_25"
+                        app:iconSize="@dimen/grid_2"
+                        app:iconTint="?attr/colorSecondary"
+                        app:layout_constraintBottom_toTopOf="@id/btn_website"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_phone"
+                        app:visible="@{!TextUtils.isEmpty(organizationEntity.email)}"
+                        tools:text="ravikiran@gmail.com" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_website"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="@dimen/zero"
+                        android:layout_height="@dimen/grid_4"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:insetLeft="@dimen/grid_1"
+                        android:insetTop="@dimen/zero"
+                        android:insetRight="@dimen/grid_1"
+                        android:insetBottom="@dimen/zero"
+                        android:lines="1"
+                        android:text="@{organizationEntity.website}"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="8sp"
+                        app:icon="@drawable/vc_website"
+                        app:iconPadding="@dimen/grid_0_25"
+                        app:iconSize="@dimen/grid_2"
+                        app:iconTint="?attr/colorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_email"
+                        app:visible="@{!TextUtils.isEmpty(organizationEntity.website)}"
+                        tools:text="ravikiran.com" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <CheckBox
+            android:id="@+id/checkbox_selected"
+            android:layout_width="@dimen/grid_4"
+            android:layout_height="@dimen/grid_4"
+            android:layout_gravity="bottom|end"
+            android:button="@drawable/selector_checked_add"
+            android:checked="@{organizationEntity.selected}"
+            android:foreground="?attr/selectableItemBackground"
+            app:buttonTint="?attr/colorSecondary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Checkable
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityEventCompat
@@ -14,10 +15,10 @@ import com.droid47.petfriend.R
 
 
 class CheckableImageView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.imageButtonStyle
-) : ImageView(context, attrs, defStyleAttr), Checkable {
+) : AppCompatImageView(context, attrs, defStyleAttr), Checkable {
 
     private var onCheckedChangeListener: OnCheckedChangeListener? = null
     private var checked = false

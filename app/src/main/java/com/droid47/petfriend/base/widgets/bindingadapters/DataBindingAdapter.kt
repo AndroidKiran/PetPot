@@ -56,6 +56,15 @@ fun CheckedTextView.bindStartDrawableResource(_imageResource: Int?) {
     setCompoundDrawablesWithIntrinsicBounds(imageResource, 0, 0, 0)
 }
 
+@BindingAdapter(value = ["animateVisible"])
+fun View.bindViewAnimateVisibility(visible: Boolean?) {
+    if (visible == true) {
+        animateVisible()
+    } else {
+        animateGone()
+    }
+}
+
 
 @BindingAdapter(value = ["visible"])
 fun View.bindViewVisibility(visible: Boolean?) {
@@ -118,7 +127,7 @@ fun View.bindCircularReveal(state: Boolean) {
             animatorSet.start()
         }
     } catch (exception: Exception) {
-        CrashlyticsExt.logHandledException(exception)
+        CrashlyticsExt.handleException(exception)
     }
 }
 
@@ -171,7 +180,7 @@ fun View.bindRevealVisibility(state: Boolean?) {
             gone()
         }
     } catch (exception: Exception) {
-        CrashlyticsExt.logHandledException(exception)
+        CrashlyticsExt.handleException(exception)
     }
 }
 

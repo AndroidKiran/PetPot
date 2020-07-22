@@ -10,10 +10,13 @@ import com.droid47.petfriend.databinding.ItemPetPhotoBinding
 import com.droid47.petfriend.search.data.models.search.PhotosItemEntity
 
 class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerListener) :
-    ListAdapter<PhotosItemEntity, BaseViewHolder>(UrlDiff) {
+    ListAdapter<PhotosItemEntity, BaseViewHolder<PhotosItemEntity>>(UrlDiff) {
     private var modifiedAt: Long = 0L
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<PhotosItemEntity> =
         PetPhotoViewHolder(
             ItemPetPhotoBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -21,8 +24,8 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
             )
         )
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position)
+    override fun onBindViewHolder(holder: BaseViewHolder<PhotosItemEntity>, position: Int) {
+        holder.onBind(getItem(position))
     }
 
     object UrlDiff : DiffUtil.ItemCallback<PhotosItemEntity>() {
@@ -42,10 +45,10 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
     }
 
     inner class PetPhotoViewHolder(private val binding: ItemPetPhotoBinding) :
-        BaseViewHolder(binding.root) {
+        BaseViewHolder<PhotosItemEntity>(binding.root) {
 
-        override fun onBind(position: Int) {
-            val photoUrl = getItem(position)?.getPetFullPhoto() ?: ""
+        override fun onBind(item: PhotosItemEntity) {
+            val photoUrl = item.getPetFullPhoto()
             binding.apply {
                 petPhotoUrl = photoUrl
                 this.modifiedAt = modifiedAt
