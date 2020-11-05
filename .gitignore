@@ -1,6 +1,5 @@
 *.iml
 .gradle
-/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -11,7 +10,9 @@
 /build
 /captures
 .externalNativeBuild
-/gradle.properties
+/keystore.properties
+/secrets.properties
+/petpot.jks
 /app/google-services.json
 /app/schemas
 /app/src/debug
