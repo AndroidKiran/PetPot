@@ -10,7 +10,7 @@
 
         <variable
             name="onBoardingPage"
-            type="com.droid47.petfriend.launcher.presentation.ui.models.OnBoardingPage" />
+            type="com.droid47.petpot.launcher.presentation.ui.models.OnBoardingPage" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,19 +24,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
             android:text="@{onBoardingPage.titleResource}"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/onboarding_page_app_tite" />
 
         <TextView
             android:id="@+id/subTitleTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
             android:layout_marginEnd="@dimen/grid_2"
             android:text="@{onBoardingPage.subTitleResource}"
             android:textAppearance="?attr/textAppearanceHeadline6"
@@ -44,7 +47,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTv" />
+            app:layout_constraintTop_toBottomOf="@+id/titleTv"
+            tools:text="@string/onboarding_page_app_desc" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img"
@@ -60,7 +64,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.4"
             app:srcCompat="@{ContextCompat.getDrawable(context, onBoardingPage.logoResource)}"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/ic_a_day_at_the_park" />
 
         <TextView
             android:id="@+id/descTV"

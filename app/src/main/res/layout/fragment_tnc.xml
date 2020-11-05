@@ -5,31 +5,37 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Success" />
+        <import type="com.droid47.petpot.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Success" />
 
-        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Loading" />
+        <import type="com.droid47.petpot.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Loading" />
 
-        <import type="com.droid47.petfriend.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Failure" />
+        <import type="com.droid47.petpot.launcher.presentation.ui.models.WebViewModel.ViewStateModel.Failure" />
 
         <variable
             name="tncViewModel"
-            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.TnCViewModel" />
+            type="com.droid47.petpot.launcher.presentation.ui.viewmodels.TnCViewModel" />
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cdl_tnc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="@string/launcher_transition">
 
-        <WebView
+        <com.droid47.petpot.base.widgets.components.PetWebView
             android:id="@+id/web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/grid_12"
+            android:layout_width="@dimen/zero"
+            android:layout_height="@dimen/zero"
+            android:layout_marginBottom="@dimen/grid_6"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/grid_6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:loadUrl="@{tncViewModel.webViewModel.url}"
-            app:paddingBottomSystemWindowInsets="@{true}"
+            app:marginBottomSystemWindowInsets="@{true}"
             app:setWebViewClient="@{tncViewModel.webViewModel.webViewClient}" />
 
         <androidx.core.widget.ContentLoadingProgressBar
@@ -41,21 +47,28 @@
             android:elevation="24dp"
             android:theme="@style/Widget.PetGoogle.ContentProgress"
             android:visibility="visible"
-            app:animateVisible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}" />
+            app:animateVisible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}"
+            app:elevationOverlay="@{@dimen/grid_1}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/tnc_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_4"
             android:text="@string/i_accept"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceButton"
+            android:visibility="gone"
+            app:animateVisible="@{tncViewModel.acceptStateLiveData}"
             app:icon="@drawable/vc_edit"
-            app:layout_anchor="@id/web_view"
-            app:layout_anchorGravity="center|bottom"
-            app:marginBottomSystemWindowInsets="@{true}"
-            app:animateVisible="@{tncViewModel.webViewModel.viewStateModel instanceof Success}" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:marginBottomSystemWindowInsets="@{true}" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,9 +5,11 @@
 
     <data>
 
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
+
         <variable
             name="aboutUsViewModel"
-            type="com.droid47.petfriend.aboutUs.presentation.viewmodel.AboutUsViewModel" />
+            type="com.droid47.petpot.aboutUs.presentation.viewmodel.AboutUsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -91,8 +93,10 @@
                         android:id="@+id/tv_about_us"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/loperum_sum"
-                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:autoLink="web"
+                        android:linksClickable="true"
+                        android:text="@{StringExtKt.fromHtml(@string/about_us_info)}"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         android:textColor="?attr/colorOnSurface"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -133,6 +137,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/about_us"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"

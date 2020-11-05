@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
         <variable
             name="pet"
-            type="com.droid47.petfriend.search.data.models.search.PetEntity" />
+            type="com.droid47.petpot.search.data.models.search.PetEntity" />
 
     </data>
 
@@ -55,7 +55,7 @@
                 app:placeholder="@{@drawable/vc_paw}"
                 app:srcUrl="@{pet.getPetPhoto()}" />
 
-            <com.droid47.petfriend.base.widgets.components.CheckableImageButton
+            <com.droid47.petpot.base.widgets.components.CheckableImageButton
                 android:id="@+id/cib_star"
                 android:layout_width="@dimen/grid_5"
                 android:layout_height="@dimen/grid_5"

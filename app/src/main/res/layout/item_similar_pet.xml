@@ -8,7 +8,7 @@
 
         <variable
             name="pet"
-            type="com.droid47.petfriend.search.data.models.search.PetEntity" />
+            type="com.droid47.petpot.search.data.models.search.PetEntity" />
     </data>
 
 

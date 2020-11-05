@@ -15,6 +15,7 @@
     <item name="navigation_dialog_delete_favorite" type="id"/>
     <item name="similar_pets" type="id" />
     <item name="navigation_organisation" type="id"/>
+    <item name="navigation_launcher" type="id"/>
 
     <!--    <item name="filter_gender" type="id" />-->
 

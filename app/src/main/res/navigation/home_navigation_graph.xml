@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.droid47.petfriend.search.presentation.ui.SearchFragment"
+        android:name="com.droid47.petpot.search.presentation.ui.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search">
 
@@ -16,13 +16,13 @@
 
         <action
             android:id="@+id/to_organizations"
-            app:destination="@id/navigation_organisation"/>
+            app:destination="@id/navigation_organisation" />
 
     </fragment>
 
     <fragment
         android:id="@+id/navigation_pet_details"
-        android:name="com.droid47.petfriend.petDetails.presentation.ui.PetDetailsFragment"
+        android:name="com.droid47.petpot.petDetails.presentation.ui.PetDetailsFragment"
         android:label="@string/nav_animal_details_label"
         tools:layout="@layout/fragment_pet_details">
 
@@ -34,18 +34,22 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.droid47.petfriend.home.presentation.ui.SettingFragment"
-        android:label="@string/settings" />
+        android:name="com.droid47.petpot.home.presentation.ui.SettingFragment"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/to_launcher"
+            app:destination="@id/navigation_launcher" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_about_us"
-        android:name="com.droid47.petfriend.aboutUs.presentation.AboutUsFragment"
+        android:name="com.droid47.petpot.aboutUs.presentation.ui.AboutUsFragment"
         android:label="@string/about_us"
         tools:layout="@layout/fragment_about_us" />
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.droid47.petfriend.search.presentation.ui.BookmarkFragment"
+        android:name="com.droid47.petpot.search.presentation.ui.BookmarkFragment"
         android:label="@string/favourite"
         tools:layout="@layout/fragment_book_mark">
 
@@ -57,9 +61,20 @@
 
     <fragment
         android:id="@id/navigation_organisation"
-        android:name="com.droid47.petfriend.organization.presentation.ui.OrganizationFragment"
+        android:name="com.droid47.petpot.organization.presentation.ui.OrganizationFragment"
         android:label="@string/organisation"
-        tools:layout="@layout/fragment_organisation"/>
+        tools:layout="@layout/fragment_organisation" />
 
+    <activity
+        android:id="@+id/navigation_launcher"
+        android:name="com.droid47.petpot.launcher.presentation.ui.LauncherActivity"
+        tools:layout="@layout/activity_launcher">
 
+        <argument
+            android:name="deepLinkBundle"
+            android:defaultValue="@null"
+            app:argType="android.os.Bundle"
+            app:nullable="true" />
+
+    </activity>
 </navigation>

@@ -6,53 +6,51 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.widgets.Success" />
+        <import type="com.droid47.petpot.base.widgets.Success" />
 
-        <import type="com.droid47.petfriend.base.widgets.Failure" />
+        <import type="com.droid47.petpot.base.widgets.Failure" />
 
-        <import type="com.droid47.petfriend.base.widgets.Empty" />
+        <import type="com.droid47.petpot.base.widgets.Empty" />
 
         <variable
             name="newFilterViewModel"
-            type="com.droid47.petfriend.search.presentation.viewmodel.FilterViewModel" />
+            type="com.droid47.petpot.search.presentation.viewmodel.FilterViewModel" />
 
         <variable
             name="errorStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
             name="emptyStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.EmptyScreenConfiguration" />
 
     </data>
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_filter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
+        android:transitionName="@string/transition_filter"
         android:visibility="invisible"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/csl_filter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.google.android.material.navigation.NavigationView
                 android:id="@+id/navigation_menu_view"
                 style="@style/Widget.PetGoogle.NavigationView"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:paddingTop="@dimen/grid_4"
                 android:paddingBottom="@dimen/grid_12"
-                app:itemBackground="@drawable/navigation_item_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/crl_filter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
                 app:menu="@menu/category_menu" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,7 +99,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_selected_filter"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/zero"
                     android:layout_height="46dp"
                     android:clipToPadding="false"
                     android:minHeight="@dimen/grid_3"
@@ -131,10 +129,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
-                        android:orientation="vertical"
                         android:paddingStart="@dimen/grid_1"
                         android:paddingEnd="@dimen/grid_1"
-                        android:paddingBottom="@dimen/grid_12"
                         app:paddingBottomSystemWindowInsets="@{true}"
                         app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Success}"
                         tools:listitem="@layout/item_pet_filter_chip" />
@@ -144,8 +140,8 @@
                         layout="@layout/layout_error_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:animateVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
                         app:errorViewConfig="@{errorStateConfig}"
+                        app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
                         tools:visibility="gone" />
 
                     <include
@@ -153,8 +149,8 @@
                         layout="@layout/layout_empty_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:animateVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
                         app:emptyViewConfig="@{emptyStateConfig}"
+                        app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
                         tools:visibility="gone" />
 
                 </com.google.android.material.circularreveal.CircularRevealFrameLayout>

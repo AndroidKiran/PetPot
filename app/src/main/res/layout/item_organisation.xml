@@ -10,7 +10,7 @@
 
         <variable
             name="organizationEntity"
-            type="com.droid47.petfriend.organization.data.models.OrganizationCheckableEntity" />
+            type="com.droid47.petpot.organization.data.models.OrganizationCheckableEntity" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

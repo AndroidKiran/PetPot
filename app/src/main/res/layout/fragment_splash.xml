@@ -5,26 +5,26 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.widgets.Loading" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
-        <import type="com.droid47.petfriend.base.widgets.Success" />
+        <import type="com.droid47.petpot.base.widgets.Loading" />
 
-        <import type="com.droid47.petfriend.base.widgets.Failure" />
+        <import type="com.droid47.petpot.base.widgets.Success" />
 
-        <import type="com.droid47.petfriend.base.widgets.Empty" />
+        <import type="com.droid47.petpot.base.widgets.Failure" />
+
+        <import type="com.droid47.petpot.base.widgets.Empty" />
 
         <variable
             name="splashViewModel"
-            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.SplashViewModel" />
+            type="com.droid47.petpot.launcher.presentation.ui.viewmodels.SplashViewModel" />
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layoutFullscreen="@{true}">
+        android:layout_height="match_parent">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/iv_logo"
@@ -32,17 +32,41 @@
             android:layout_height="@dimen/full_screen_place_holder_size"
             android:layout_gravity="center"
             android:transitionName="@string/launcher_transition"
+            app:layout_constraintBottom_toTopOf="@id/tv_wait_msg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_fileName="good_boy.json"
             app:lottie_loop="true" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_wait_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_0_5"
+            android:text="@string/please_wait"
+            android:textAllCaps="true"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="?attr/colorSecondary"
+            app:elevationOverlay="@{@dimen/plane_16}"
+            app:layout_constraintBottom_toTopOf="@id/progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:visible="@{!splashViewModel.tncStatus}" />
+
         <ProgressBar
+            android:id="@+id/progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="140dp"
             android:layout_height="4dp"
             android:layout_gravity="center"
             android:indeterminate="@{splashViewModel.resultEvent instanceof Loading || splashViewModel.resultEvent instanceof Success}"
-            android:indeterminateTint="?attr/colorSecondary" />
+            android:indeterminateTint="?attr/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visible="@{!splashViewModel.tncStatus}" />
 
         <TextView
             android:id="@+id/title"
@@ -52,7 +76,10 @@
             android:layout_margin="@dimen/grid_2"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textAppearance="?attr/textAppearanceHeadline3" />
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress_bar" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_retry"
@@ -63,11 +90,21 @@
             android:layout_margin="@dimen/grid_2"
             android:backgroundTint="?attr/colorSecondary"
             android:gravity="center"
-            android:onClick="@{() -> splashViewModel.startOneTimeAuthRequest()}"
+            android:onClick="@{() -> splashViewModel.retryStartOneTimeAuthRequest()}"
             android:text="@string/retry"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
-            app:animateVisible="@{splashViewModel.resultEvent instanceof Failure}" />
+            app:animateVisible="@{splashViewModel.resultEvent instanceof Failure}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

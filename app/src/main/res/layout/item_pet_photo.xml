@@ -15,7 +15,7 @@
 
         <variable
             name="imageLoadListener"
-            type="com.droid47.petfriend.base.extensions.GlideDrawableLoadListener" />
+            type="com.droid47.petpot.base.extensions.GlideDrawableLoadListener" />
 
     </data>
 

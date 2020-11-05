@@ -7,13 +7,14 @@
 
         <variable
             name="homeViewModel"
-            type="com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel" />
+            type="com.droid47.petpot.home.presentation.viewmodels.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:transitionName="@string/activity_transition"
         app:layoutFullscreen="@{true}">
 
         <fragment
@@ -26,7 +27,7 @@
 
         <fragment
             android:id="@+id/bottom_nav_drawer"
-            android:name="com.droid47.petfriend.home.presentation.ui.BottomNavDrawerFragment"
+            android:name="com.droid47.petpot.home.presentation.ui.BottomNavDrawerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

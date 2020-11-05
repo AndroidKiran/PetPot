@@ -6,15 +6,15 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.widgets.Success" />
+        <import type="com.droid47.petpot.base.widgets.Success" />
 
-        <import type="com.droid47.petfriend.search.presentation.models.LoadingState" />
+        <import type="com.droid47.petpot.search.presentation.models.LoadingState" />
 
-        <import type="com.droid47.petfriend.search.presentation.models.PaginatingState" />
+        <import type="com.droid47.petpot.search.presentation.models.PaginatingState" />
 
         <variable
             name="organizationViewModel"
-            type="com.droid47.petfriend.organization.presentation.viewmodel.OrganizationViewModel" />
+            type="com.droid47.petpot.organization.presentation.viewmodel.OrganizationViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,7 +32,7 @@
 
             <fragment
                 android:id="@+id/map"
-                android:name="com.droid47.petfriend.organization.presentation.ui.OrganizationMap"
+                android:name="com.droid47.petpot.organization.presentation.ui.OrganizationMap"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/zero"
                 app:layout_constraintBottom_toTopOf="@id/back_drop"

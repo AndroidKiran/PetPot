@@ -5,18 +5,18 @@
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/vc_share"
-        android:title="@string/share"
+        android:title="@string/share_pet_details"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_email"
         android:icon="@drawable/vc_mail"
-        android:title="@string/email"
+        android:title="@string/write_mail_to_shelter_team"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_phone"
         android:icon="@drawable/vc_phone"
-        android:title="@string/phone"
+        android:title="@string/call_shelter"
         app:showAsAction="ifRoom" />
 </menu>

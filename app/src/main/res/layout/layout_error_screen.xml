@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
         <variable
             name="errorViewConfig"
-            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
             name="isVisible"

@@ -7,68 +7,86 @@
 
         <variable
             name="homeBoardViewModel"
-            type="com.droid47.petfriend.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
+            type="com.droid47.petpot.launcher.presentation.ui.viewmodels.HomeBoardViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/cdl_home_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@string/launcher_transition">
+        android:transitionName="@string/launcher_transition"
+        app:layoutDescription="@xml/fragment_home_board_scene"
+        app:marginBottomSystemWindowInsets="@{true}">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:layout_width="@dimen/zero"
+            android:layout_height="@dimen/zero"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_intro"
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_prev"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:marginBottomSystemWindowInsets="@{true}">
+            android:layout_marginStart="@dimen/grid_2"
+            android:text="@string/previous"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicator" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_prev"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/previous"
-                android:textAppearance="?attr/textAppearanceButton"
-                android:textColor="?attr/colorOnSurface"
-                app:invisible="@{homeBoardViewModel.positionLiveData &gt; homeBoardViewModel.START_POSITION}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
 
-            <com.droid47.petfriend.base.widgets.components.IndefinitePagerIndicator
-                android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:dotColor="?attr/colorOnPrimarySurface"
-                app:selectedDotRadius="@dimen/grid_1"
-                app:dotRadius="@dimen/grid_0_5"
-                app:dotSeparation="@dimen/grid_2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_next"
-                app:layout_constraintStart_toEndOf="@id/btn_prev"
-                app:layout_constraintTop_toTopOf="parent"
-                app:selectedDotColor="?attr/colorSecondary" />
+        <com.droid47.petpot.base.widgets.components.IndefinitePagerIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotColor="?attr/colorSecondaryVariant"
+            app:dotRadius="@dimen/grid_0_5"
+            app:dotSeparation="@dimen/grid_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            app:selectedDotColor="?attr/colorSecondary"
+            app:selectedDotRadius="@dimen/grid_1" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_next"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{homeBoardViewModel.positionLiveData &lt; homeBoardViewModel.END_POSITION ? @string/next : @string/finish}"
-                android:textAppearance="?attr/textAppearanceButton"
-                android:textColor="?attr/colorOnSurface"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:text="@string/next"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicator" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            android:text="@string/get_start"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicator"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

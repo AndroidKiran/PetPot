@@ -6,23 +6,23 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.widgets.Success" />
+        <import type="com.droid47.petpot.base.widgets.Success" />
 
-        <import type="com.droid47.petfriend.base.widgets.Loading" />
+        <import type="com.droid47.petpot.base.widgets.Loading" />
 
-        <import type="com.droid47.petfriend.base.widgets.Failure" />
+        <import type="com.droid47.petpot.base.widgets.Failure" />
 
         <variable
             name="petDetailsViewModel"
-            type="com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewModel" />
+            type="com.droid47.petpot.petDetails.presentation.viewmodels.PetDetailsViewModel" />
 
         <variable
             name="loadingStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.ContentLoadingConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.ContentLoadingConfiguration" />
 
         <variable
             name="errorStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration" />
 
     </data>
 
@@ -54,7 +54,7 @@
                     android:orientation="horizontal"
                     app:layout_collapseMode="parallax" />
 
-                <com.droid47.petfriend.base.widgets.components.IndefinitePagerIndicator
+                <com.droid47.petpot.base.widgets.components.IndefinitePagerIndicator
                     android:id="@+id/indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
 
                     <fragment
                         android:id="@+id/similar_pets"
-                        android:name="com.droid47.petfriend.petDetails.presentation.ui.SimilarPetsFragment"
+                        android:name="com.droid47.petpot.petDetails.presentation.ui.SimilarPetsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -183,6 +183,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/nav_animal_details_label"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_close"

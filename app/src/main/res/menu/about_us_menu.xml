@@ -5,7 +5,7 @@
     <item
         android:id="@+id/menu_email"
         android:icon="@drawable/vc_mail"
-        android:title="@string/email"
+        android:title="@string/write_mail_to_team"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">PetPot</string>
     <string name="menu_home_board">Home</string>
-    <string name="search">Search</string>
-    <string name="about_us">About Us</string>
-    <string name="favourite">Favourite</string>
-    <string name="organisation">Organisations</string>
-    <string name="hint_search">City/State/postal code</string>
 
     <!--Nav target label-->
+    <string name="search">Search</string>
+    <string name="about_us">About Us</string>
+    <string name="favourite">Favorite</string>
+    <string name="organisation">Organisations</string>
+    <string name="hint_search">City/State/postal code</string>
     <string name="nav_animal_details_label">Details</string>
 
     <string name="retry">Retry</string>
@@ -54,7 +54,8 @@
     <string name="go_to_search">To search</string>
     <string name="remove_bookmark">Pet  removed from favorite</string>
     <string name="undo">Undo</string>
-    <string name="clear_pets">Are you sure?\nWant to delete all the favourite pets</string>
+    <string name="clear_pets">Are you sure?\nNot recoverable, still Want to delete all the
+        favourite pets</string>
     <string name="search_filters">Search Filters</string>
     <string name="no_items_found">No items found</string>
     <string name="apply_filter">Apply Filter</string>
@@ -74,23 +75,25 @@
     <string name="characteristics">Characteristics:</string>
 
     <string name="pet_card_transition_name">pet_card_%1$s</string>
-    <string name="email">Email</string>
-    <string name="phone">Phone</string>
-    <string name="key_app_version">key_app_version</string>
+    <string name="write_mail_to_team">Write a mail to Team</string>
+    <string name="call_shelter">Call Pet Shelter</string>
+    <string name="write_mail_to_shelter_team">Write a mail to Shelter team</string>
     <string name="summary_app_version">About current app version</string>
     <string name="title_app_version">App Version</string>
-    <string name="key_current_theme">current_theme</string>
     <string name="category_personal">Personal</string>
-    <string name="key_search_limit">search_limit</string>
+
     <string name="title_search_limit">Search Items limit</string>
     <string name="category_search">Search</string>
     <string name="title_choose_theme">Choose Theme</string>
     <string name="action_view">actionView</string>
-    <string name="loperum_sum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere ultrices quam, eget scelerisque quam suscipit ac. In ac mollis risus, nec porttitor arcu. Morbi at gravida quam, eu commodo nunc. Phasellus blandit, neque et pellentesque rutrum, massa odio ultricies sem, quis molestie elit urna non nisl. Vestibulum velit massa, faucibus ut tristique at, faucibus sed leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur eu lacus laoreet orci mollis lobortis non ut nulla. Etiam viverra dui vel tellus dapibus hendrerit.
-
-Curabitur ut ultricies arcu. In sodales, augue eu aliquam condimentum, nisl enim luctus leo, nec maximus mauris ipsum ac dolor. Proin lobortis quam et felis malesuada, iaculis blandit elit laoreet. Mauris auctor congue sapien. Praesent tempor suscipit imperdiet. Morbi eleifend quis ante quis vehicula. Proin sed lorem venenatis, varius velit luctus, cursus velit. Quisque vitae mollis lorem. Fusce dictum vel tortor a auctor.
-
-Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra purus a, bibendum neque. Morbi nec dolor at turpis varius ultricies et vitae tortor. Ut quis sagittis justo, lacinia vehicula ligula. Duis convallis dapibus viverra. Duis pharetra dolor quis mattis dignissim. Suspendisse vel mi nisi. Suspendisse imperdiet tellus vel felis aliquet auctor. Curabitur ut magna semper, vulputate massa sit amet, viverra eros. Nunc sed nulla non ante consequat pharetra.</string>
+    <string name="about_us_info"><![CDATA[<p>
+    PetPot is Free to use app build by Droid47 for Pet lovers inorder to provide new home for homeless pet.
+    The search engine is <b>Powered by Petfinder</b>
+    <a href="https://www.petfinder.com" target="_blank">PetFinder.com</a>.</p>
+    <p>Petfinder is an online, searchable database of animals who need homes. It is also a directory of
+    nearly 11,000 animal shelters and adoption organizations across the U.S., Canada and Mexico.
+    Organizations maintain their own home pages and available-pet databases.</p>
+    ]]></string>
     <string name="my_email">ravikiran.surpur@gmail.com</string>
     <string name="search_order">Search result order</string>
     <string name="no_animal_found">No pet found!</string>
@@ -100,7 +103,7 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="i_accept">I accept</string>
-    <string name="share">Share</string>
+    <string name="share_pet_details">Share Pet Details</string>
     <string name="check_cute_one">Hey, check this cute fellow</string>
     <string name="share_with">Share with</string>
     <string name="rate_app">Rate us</string>
@@ -136,5 +139,21 @@ Phasellus a cursus mauris, nec elementum arcu. Cras id est pretium, pharetra pur
     <string name="our_policy">Our Policy</string>
     <string name="organization_name">Organization Name</string>
     <string name="transition_organization">transition_organization</string>
+    <string name="transition_fab">transition_fab</string>
+    <string name="transition_filter">transition_filter</string>
+    <string name="transition_bottom_dialog">transition_bottom_dialog</string>
+    <string name="please_wait">Please wait!</string>
+    <string name="get_start">Get Started</string>
+    <string
+        name="dual_color_app_name">"<![CDATA[<font color=#121212>Pet</font> <font color=#ffffff>Pot</font>]]></string>
+    <string name="notification_enabled">Notification Enabled</string>
+    <string name="notification_disabled">Notification Disabled</string>
+    <string name="category_app_info">App info</string>
+    <string name="choose_theme">Choose theme</string>
 
+    <!--Setting screen-->
+    <string name="key_app_version">key_app_version</string>
+    <string name="key_current_theme">current_theme</string>
+    <string name="key_search_limit">search_limit</string>
+    <string name="key_notification_enabled">Notification Enabled</string>
 </resources>

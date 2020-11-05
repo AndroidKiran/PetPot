@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_splash"
-        android:name="com.droid47.petfriend.launcher.presentation.ui.SplashFragment"
+        android:name="com.droid47.petpot.launcher.presentation.ui.SplashFragment"
         tools:layout="@layout/fragment_splash">
 
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/navigation_home_board"
-        android:name="com.droid47.petfriend.launcher.presentation.ui.HomeBoardFragment"
+        android:name="com.droid47.petpot.launcher.presentation.ui.HomeBoardFragment"
         tools:layout="@layout/fragment_home_board">
         <action
             android:id="@+id/to_tnc"
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/navigation_tnc"
-        android:name="com.droid47.petfriend.launcher.presentation.ui.TnCFragment"
+        android:name="com.droid47.petpot.launcher.presentation.ui.TnCFragment"
         tools:layout="@layout/fragment_tnc" >
 
         <action
@@ -47,7 +47,7 @@
 
     <activity
         android:id="@+id/navigation_home"
-        android:name="com.droid47.petfriend.home.presentation.ui.HomeActivity"
+        android:name="com.droid47.petpot.home.presentation.ui.HomeActivity"
         tools:layout="@layout/activity_home">
 
         <argument

@@ -8,11 +8,11 @@
 
         <variable
             name="navigationViewModel"
-            type="com.droid47.petfriend.home.presentation.viewmodels.NavigationViewModel" />
+            type="com.droid47.petpot.home.presentation.viewmodels.NavigationViewModel" />
 
         <variable
             name="homeViewModel"
-            type="com.droid47.petfriend.home.presentation.viewmodels.HomeViewModel" />
+            type="com.droid47.petpot.home.presentation.viewmodels.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -57,7 +57,6 @@
                     style="@style/Widget.PetGoogle.NavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/grid_2"
                     android:clipToPadding="false"
                     app:menu="@menu/home_nav_menu"
                     app:paddingBottomSystemWindowInsets="@{true}"

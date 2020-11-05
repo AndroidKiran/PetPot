@@ -6,49 +6,31 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.widgets.Loading" />
+        <import type="com.droid47.petpot.base.widgets.Loading" />
 
-        <import type="com.droid47.petfriend.base.widgets.Success" />
+        <import type="com.droid47.petpot.base.widgets.Success" />
 
-        <import type="com.droid47.petfriend.base.widgets.Empty" />
+        <import type="com.droid47.petpot.base.widgets.Empty" />
 
-        <import type="com.droid47.petfriend.base.widgets.Failure" />
+        <import type="com.droid47.petpot.base.widgets.Failure" />
 
         <variable
             name="bookmarkViewModel"
-            type="com.droid47.petfriend.search.presentation.viewmodel.BookmarkViewModel" />
+            type="com.droid47.petpot.search.presentation.viewmodel.BookmarkViewModel" />
 
         <variable
             name="errorStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.ErrorViewConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
             name="emptyStateConfig"
-            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.EmptyScreenConfiguration" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:paddingTop="@dimen/grid_4"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/tool_bar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways"
-                app:titleEnabled="false">
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/fl_container"
@@ -68,6 +50,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/grid_1"
                 android:paddingBottom="@dimen/grid_12"
                 android:scrollbars="none"
                 app:fastScrollEnabled="true"
@@ -80,7 +63,7 @@
                 app:layout_anchor="@+id/fl_container"
                 app:layout_anchorGravity="center"
                 app:spanCount="1"
-                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
+                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
                 tools:listitem="@layout/item_book_mark"
                 tools:visibility="visible" />
 
@@ -91,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:errorViewConfig="@{errorStateConfig}"
                 app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
+                app:errorViewConfig="@{errorStateConfig}"
                 tools:visibility="gone" />
 
             <include
@@ -102,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:emptyViewConfig="@{emptyStateConfig}"
                 app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
+                app:emptyViewConfig="@{emptyStateConfig}"
                 tools:visibility="gone" />
 
         </FrameLayout>
@@ -132,6 +115,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/favourite"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
@@ -150,6 +134,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/fab_rate_us_description"
             android:elevation="@dimen/plane_06"
+            android:transitionName="@string/transition_fab"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/vc_delete_sweep" />
@@ -163,25 +148,9 @@
             android:contentDescription="@string/fab_search_filter_content_description"
             android:visibility="invisible" />
 
-<!--        <com.google.android.material.circularreveal.cardview.CircularRevealCardView-->
-<!--            android:id="@+id/cv_delete_favorite"-->
-<!--            style="@style/Widget.MaterialComponents.CardView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:layout_marginBottom="@dimen/grid_6"-->
-<!--            android:visibility="invisible"-->
-<!--            app:cardBackgroundColor="?attr/colorSurface"-->
-<!--            app:cardElevation="@dimen/zero"-->
-<!--            app:cardPreventCornerOverlap="true"-->
-<!--            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">-->
-
-            <include
-                android:id="@+id/layout_delete_pet"
-                layout="@layout/dialog_fragment_delete_pets" />
-
-<!--        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>-->
-
+        <include
+            android:id="@+id/layout_delete_pet"
+            layout="@layout/dialog_fragment_delete_pets" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

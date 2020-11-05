@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
         <variable
             name="petDetailsViewModel"
-            type="com.droid47.petfriend.petDetails.presentation.viewmodels.PetDetailsViewModel" />
+            type="com.droid47.petpot.petDetails.presentation.viewmodels.PetDetailsViewModel" />
     </data>
 
     <merge tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">

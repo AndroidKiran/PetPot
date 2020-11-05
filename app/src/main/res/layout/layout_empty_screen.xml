@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
         <variable
             name="emptyViewConfig"
-            type="com.droid47.petfriend.base.bindingConfig.EmptyScreenConfiguration" />
+            type="com.droid47.petpot.base.bindingConfig.EmptyScreenConfiguration" />
 
         <variable
             name="isVisible"
@@ -34,7 +34,7 @@
             android:layout_height="@dimen/full_screen_place_holder_size"
             android:layout_gravity="center"
             app:lottieAnimState="@{isVisible}"
-            app:lottie_autoPlay="false"
+            app:lottie_autoPlay="true"
             app:lottie_fileName="good_boy.json"
             app:lottie_loop="true" />
 

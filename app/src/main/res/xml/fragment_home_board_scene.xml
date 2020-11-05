@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/onboarding_transition"
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000"
+        motion:motionInterpolator="easeInOut">
+        <KeyFrameSet>
+
+            <KeyAttribute
+                android:translationX="-100dp"
+                motion:framePosition="0"
+                motion:motionTarget="@id/btn_prev" />
+
+            <KeyAttribute
+                android:translationX="0dp"
+                motion:framePosition="50"
+                motion:motionTarget="@id/btn_prev" />
+
+            <KeyAttribute
+                android:translationX="-100dp"
+                motion:framePosition="100"
+                motion:motionTarget="@id/btn_prev" />
+
+            <KeyAttribute
+                android:translationX="0dp"
+                motion:framePosition="50"
+                motion:motionTarget="@id/btn_next" />
+
+            <KeyAttribute
+                android:translationX="100dp"
+                motion:framePosition="100"
+                motion:motionTarget="@id/btn_next" />
+
+            <KeyAttribute
+                android:translationY="100dp"
+                motion:framePosition="50"
+                motion:motionTarget="@id/btn_start"/>
+
+            <KeyAttribute
+                android:translationY="0dp"
+                motion:framePosition="100"
+                motion:motionTarget="@id/btn_start"/>
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/btn_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationY="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@id/btn_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="-100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationY="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"/>
+
+    </ConstraintSet>
+</MotionScene>

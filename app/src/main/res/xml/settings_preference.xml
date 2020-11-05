@@ -2,12 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        app:icon="@drawable/vc_paw"
-        app:key="@string/key_app_version"
-        app:singleLineTitle="true"
-        app:summary="@string/versionName"
-        app:title="@string/title_app_version" />
+    <PreferenceCategory
+        app:key="@string/category_app_info"
+        app:title="@string/category_app_info">
+
+        <Preference
+            app:icon="@drawable/vc_paw"
+            app:key="@string/key_app_version"
+            app:singleLineTitle="true"
+            app:summary="@string/versionName"
+            app:title="@string/title_app_version" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:key="@string/category_personal"
@@ -15,7 +21,7 @@
 
         <ListPreference
             app:defaultValue="default"
-            app:dialogTitle="Choose theme"
+            app:dialogTitle="@string/choose_theme"
             app:entries="@array/themeListArray"
             app:entryValues="@array/themeEntryArray"
             app:icon="@drawable/vc_brightness"
@@ -23,11 +29,21 @@
             app:singleLineTitle="true"
             app:title="@string/title_choose_theme"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/vc_notifications"
+            app:key="@string/key_notification_enabled"
+            app:singleLineTitle="true"
+            app:switchTextOff="@string/notification_disabled"
+            app:switchTextOn="@string/notification_enabled"
+            app:title="@string/notification_enabled" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="@string/category_search"
         app:isPreferenceVisible="false"
+        app:key="@string/category_search"
         app:title="@string/category_search">
 
         <SeekBarPreference

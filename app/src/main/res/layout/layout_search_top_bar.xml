@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.droid47.petfriend.base.extensions.StringExtKt" />
+        <import type="com.droid47.petpot.base.extensions.StringExtKt" />
 
         <variable
             name="petSpinnerViewModelAndLocation"
-            type="com.droid47.petfriend.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
+            type="com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel" />
 
     </data>
 
@@ -19,8 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fl_search_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/grid_4">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit_org"
@@ -35,6 +34,7 @@
                 android:textAppearance="?attr/textAppearanceButton"
                 android:textColor="?attr/colorOnSecondary"
                 android:transitionName="@string/transition_organization"
+                android:visibility="gone"
                 app:elevation="@dimen/plane_06"
                 app:layout_constraintBottom_toBottomOf="@id/cv_search"
                 app:layout_constraintEnd_toEndOf="@id/cv_search"
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/grid_6"
                 android:layout_marginStart="@dimen/grid_2"
-                android:layout_marginTop="@dimen/grid_4"
+                android:layout_marginTop="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_2"
                 android:layout_marginBottom="@dimen/grid_2"
                 app:cardElevation="@dimen/plane_16"
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_size">
 
-                    <com.droid47.petfriend.search.presentation.ui.widgets.PetSpinner
+                    <com.droid47.petpot.search.presentation.ui.widgets.PetSpinner
                         android:id="@+id/spinnerAnimal"
                         style="@style/Widget.PetGoogle.Spinner"
                         android:layout_width="0dp"

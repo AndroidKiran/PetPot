@@ -8,7 +8,7 @@
 
         <variable
             name="filterItem"
-            type="com.droid47.petfriend.search.data.models.PetFilterCheckableEntity" />
+            type="com.droid47.petpot.search.data.models.PetFilterCheckableEntity" />
     </data>
 
     <com.google.android.material.chip.Chip
