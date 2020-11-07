@@ -1,6 +1,7 @@
 package com.droid47.petpot.home.data
 
 import android.os.Parcelable
+import com.droid47.petpot.BuildConfig
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -11,4 +12,7 @@ data class AppUpgradeEntity(
     var updateType: Int = AppUpdateType.FLEXIBLE,
     @SerializedName("play_store_version_code")
     var currentPlayStoreVersionCode: Int = 0
-) : Parcelable
+) : Parcelable {
+
+    fun isUpdateRequired() = currentPlayStoreVersionCode > BuildConfig.VERSION_CODE
+}

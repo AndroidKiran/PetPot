@@ -259,7 +259,7 @@ class BottomNavDrawerFragment :
             addUpdateListener { sandwichProgress = animatedValue as Float }
             interpolator = sandwichInterp
             duration = (abs(newProgress - initialProgress) *
-                    resources.getInteger(R.integer.pet_motion_duration_medium)).toLong()
+                    resources.getInteger(R.integer.pet_motion_duration_small)).toLong()
         }
         sandwichAnim?.start()
     }

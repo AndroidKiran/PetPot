@@ -167,7 +167,7 @@ class SearchFragment :
                 getViewDataBinding().fab
             )
 
-            R.id.fab ->{
+            R.id.fab -> {
                 getViewModel().trackSearchToFilter()
                 performMaterialTransitionFor(
                     getViewDataBinding().fab,
@@ -236,10 +236,10 @@ class SearchFragment :
             val view = it ?: return@setOnClickListener
 
             exitTransition = MaterialElevationScale(false).apply {
-                duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+                duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             }
             reenterTransition = MaterialElevationScale(true).apply {
-                duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+                duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
             }
 
             val extras = FragmentNavigatorExtras(
@@ -301,10 +301,10 @@ class SearchFragment :
         getViewModel().trackSearchToDetails()
 
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
         }
         val extras = FragmentNavigatorExtras(
             petViewPair.second to petViewPair.second.transitionName
@@ -535,20 +535,26 @@ class SearchFragment :
 
     private fun performMaterialTransitionFor(startView: View, endView: View) {
         activity?.hideKeyboard()
+        val isExpanding = isExpanding(startView)
         val transition = MaterialContainerTransform().apply {
             this.startView = startView
             this.endView = endView
             this.scrimColor = Color.TRANSPARENT
             this.drawingViewId = getViewDataBinding().cdlMain.id
-            this.duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            this.duration = resources.getInteger(
+                    if (isExpanding)
+                        R.integer.pet_motion_duration_medium
+                    else
+                        R.integer.pet_motion_duration_small
+                ).toLong()
             this.interpolator = FastOutSlowInInterpolator()
             this.setPathMotion(MaterialArcMotion())
-            this.fadeMode = MaterialContainerTransform.FADE_MODE_IN
+            this.fadeMode = if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
             this.addTarget(startView)
-            this.isElevationShadowEnabled = true
+            this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition) {
-               updateViewOnTransitionComplete(startView, endView)
+                updateViewOnTransitionComplete(startView, endView)
             }
 
             override fun onTransitionCancel(transition: Transition) {
@@ -560,8 +566,10 @@ class SearchFragment :
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
     }
 
+    private fun isExpanding(startView: View) = startView is FloatingActionButton
+
     private fun updateViewOnTransitionComplete(startView: View, endView: View) {
-        if (startView is FloatingActionButton) {
+        if (isExpanding(startView)) {
             hideBottomBar()
             if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 hidePaginationProgress()
@@ -578,7 +586,6 @@ class SearchFragment :
                 showPaginationProgress()
             }
         }
-        throw RuntimeException("Test Crash") // Force a crash
     }
 
     private fun cancelPaginationRequest() {

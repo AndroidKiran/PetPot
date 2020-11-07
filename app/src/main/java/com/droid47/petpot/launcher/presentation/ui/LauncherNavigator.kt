@@ -15,8 +15,12 @@ class LauncherNavigator @Inject constructor() : INavigator {
         this.navController = navController
     }
 
-    fun toSplash(bundle: Bundle?) {
-        navController.navigate(R.id.navigation_splash, bundle)
+    fun toSplashFromTnc(extras: Navigator.Extras?) {
+        if (extras == null) {
+            navController.navigate(TnCFragmentDirections.toSplash())
+        } else {
+            navController.navigate(TnCFragmentDirections.toSplash(), extras)
+        }
     }
 
     fun toIntroFromSplash(extras: Navigator.Extras?) {
@@ -40,14 +44,6 @@ class LauncherNavigator @Inject constructor() : INavigator {
             navController.navigate(SplashFragmentDirections.toHome(deepLinkBundle))
         } else {
             navController.navigate(SplashFragmentDirections.toHome(deepLinkBundle), extras)
-        }
-    }
-
-    fun toHomeFromTnc(deepLinkBundle: Bundle, extras: Navigator.Extras?) {
-        if (extras == null) {
-            navController.navigate(TnCFragmentDirections.toHome(deepLinkBundle))
-        } else {
-            navController.navigate(TnCFragmentDirections.toHome(deepLinkBundle), extras)
         }
     }
 

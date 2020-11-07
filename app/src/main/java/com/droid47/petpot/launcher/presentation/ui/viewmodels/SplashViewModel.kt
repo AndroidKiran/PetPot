@@ -31,10 +31,6 @@ class SplashViewModel @Inject constructor(
 
     val navigationEvent = LiveEvent<String>()
 
-    init {
-        startOneTimeAuthRequest()
-    }
-
     override fun trackSplashToOnBoarding() {
         firebaseManager.logUiEvent(AnalyticsAction.SPLASH_TO_ON_BOARDING, AnalyticsAction.AUTO)
     }
@@ -58,7 +54,7 @@ class SplashViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     fun startOneTimeAuthRequest() {
-        syncPetTypeUseCase.execute(true, 600, TimeUnit.MILLISECONDS, observer = object :
+        syncPetTypeUseCase.execute(true, 200, TimeUnit.MILLISECONDS, observer = object :
             SingleObserver<BaseStateModel<List<PetTypeEntity>>> {
             override fun onSuccess(baseStateModel: BaseStateModel<List<PetTypeEntity>>) {
                 _resultEvent.postValue(baseStateModel)
@@ -76,7 +72,6 @@ class SplashViewModel @Inject constructor(
                 _resultEvent.postValue(Failure(e, null))
                 CrashlyticsExt.handleException(e)
             }
-
         })
     }
 

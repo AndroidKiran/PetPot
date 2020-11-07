@@ -26,18 +26,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.airbnb.lottie.LottieAnimationView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/iv_logo"
-            android:layout_width="@dimen/full_screen_place_holder_size"
-            android:layout_height="@dimen/full_screen_place_holder_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/grid_1"
+            android:innerRadius="0dp"
+            android:shape="ring"
             android:transitionName="@string/launcher_transition"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="80dp"
+            app:cardElevation="@dimen/plane_02"
             app:layout_constraintBottom_toTopOf="@id/tv_wait_msg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="good_boy.json"
-            app:lottie_loop="true" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:padding="@dimen/grid_2"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/vc_paw"
+                app:tint="?attr/colorOnSurface" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wait_msg"
@@ -48,25 +62,26 @@
             android:textAllCaps="true"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="?attr/colorSecondary"
-            app:elevationOverlay="@{@dimen/plane_16}"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:visible="@{!splashViewModel.tncStatus}" />
+            app:visible="@{splashViewModel.resultEvent instanceof Loading}" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="140dp"
-            android:layout_height="4dp"
+            android:layout_height="@dimen/grid_0_25"
             android:layout_gravity="center"
-            android:indeterminate="@{splashViewModel.resultEvent instanceof Loading || splashViewModel.resultEvent instanceof Success}"
+            android:indeterminate="true"
             android:indeterminateTint="?attr/colorSecondary"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visible="@{!splashViewModel.tncStatus}" />
+            app:visible="@{splashViewModel.resultEvent instanceof Loading}" />
 
         <TextView
             android:id="@+id/title"
@@ -76,6 +91,7 @@
             android:layout_margin="@dimen/grid_2"
             android:gravity="center"
             android:text="@string/app_name"
+            android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +110,7 @@
             android:text="@string/retry"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
-            app:animateVisible="@{splashViewModel.resultEvent instanceof Failure}"
+            app:visible="@{splashViewModel.resultEvent instanceof Failure}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -105,6 +121,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_2"
+            android:text="@string/powered_by_petfinder"
+            android:textAppearance="@style/TextAppearance.pet.Headline6"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:marginBottomSystemWindowInsets="@{true}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

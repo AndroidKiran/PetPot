@@ -15,8 +15,7 @@ import androidx.annotation.Px
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.forEach
+import androidx.core.view.*
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
@@ -125,37 +124,41 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-fun View.animateVisible() {
-    visibility = View.VISIBLE
-    val tySpring = this.spring(
-        SpringAnimation.TRANSLATION_Y,
-        stiffness = 350f,
-        damping = 0.6f
-    )
-    val aSpring = this.spring(
-        SpringAnimation.ALPHA,
-        stiffness = 100f,
-        damping = SpringForce.DAMPING_RATIO_NO_BOUNCY
-    )
+//fun View.animateVisible() {
+//    if (isVisible) return
+//    visible()
+//    val tySpring = this.spring(
+//        SpringAnimation.TRANSLATION_Y,
+//        stiffness = 350f,
+//        damping = 0.6f
+//    )
+//    val aSpring = this.spring(
+//        SpringAnimation.ALPHA,
+//        stiffness = 100f,
+//        damping = SpringForce.DAMPING_RATIO_NO_BOUNCY
+//    )
+//
+//    listenForAllSpringsEnd(
+//        { cancelled ->
+//            if (cancelled) {
+//                this.alpha = 1f
+//                this.translationY = 0f
+//            }
+//        },
+//        tySpring, aSpring
+//    )
+//    aSpring.animateToFinalPosition(1f)
+//    tySpring.animateToFinalPosition(0f)
+//}
 
-    listenForAllSpringsEnd(
-        { cancelled ->
-            if (cancelled) {
-                this.alpha = 1f
-                this.translationY = 0f
-            }
-        },
-        tySpring, aSpring
-    )
-    aSpring.animateToFinalPosition(1f)
-    tySpring.animateToFinalPosition(0f)
-}
-
-fun View.animateGone() {
-    visibility = View.GONE
-    this.alpha = 0f
-    this.translationY = this.height.toFloat()
-}
+//fun View.animateGone() {
+//    if(isGone) return
+//    gone()
+//    run {
+//        this.alpha = 0f
+//        this.translationY = this.height.toFloat()
+//    }
+//}
 
 fun View.showOrHide(show: Boolean) {
     if (show) this.visible()
@@ -173,13 +176,13 @@ fun ShimmerFrameLayout.initHmeShimmer() {
 }
 
 fun ShimmerFrameLayout.showAndStartShimmer() {
+    visible()
     startShimmer()
-    animateVisible()
 }
 
 fun ShimmerFrameLayout.stopAndHideShimmer() {
     stopShimmer()
-    animateGone()
+    gone()
 }
 
 fun LottieAnimationView.playLottie() {

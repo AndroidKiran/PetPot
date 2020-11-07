@@ -14,6 +14,7 @@ import android.widget.CheckedTextView
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.signature.ObjectKey
@@ -56,14 +57,14 @@ fun CheckedTextView.bindStartDrawableResource(_imageResource: Int?) {
     setCompoundDrawablesWithIntrinsicBounds(imageResource, 0, 0, 0)
 }
 
-@BindingAdapter(value = ["animateVisible"])
-fun View.bindViewAnimateVisibility(visible: Boolean?) {
-    if (visible == true) {
-        animateVisible()
-    } else {
-        animateGone()
-    }
-}
+//@BindingAdapter(value = ["animateVisible"])
+//fun View.bindViewAnimateVisibility(visible: Boolean?) {
+//    if (visible == true) {
+//        animateVisible()
+//    } else {
+//        animateGone()
+//    }
+//}
 
 
 @BindingAdapter(value = ["visible"])
@@ -72,15 +73,6 @@ fun View.bindViewVisibility(visible: Boolean?) {
         visible()
     } else {
         gone()
-    }
-}
-
-@BindingAdapter(value = ["invisible"])
-fun View.bindVisibility(visible: Boolean?) {
-    if (visible == true) {
-        visible()
-    } else {
-        invisible()
     }
 }
 
@@ -131,58 +123,58 @@ fun View.bindCircularReveal(state: Boolean) {
     }
 }
 
-@BindingAdapter("circularRevealShow")
-fun View.bindRevealVisibility(state: Boolean?) {
-    if (this !is CircularRevealWidget) return
-    try {
-        val color = ColorStateList.valueOf(
-            context.themeColor(R.attr.colorOnPrimary)
-        ).defaultColor
-
-        val viewWidth = width
-        val viewHeight = height
-
-        val viewDiagonal =
-            sqrt((viewWidth * viewWidth + viewHeight * viewHeight).toDouble())
-                .toInt()
-
-        val animatorSet = AnimatorSet()
-        val animator = ObjectAnimator.ofInt(
-            this,
-            CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR,
-            color,
-            Color.TRANSPARENT
-        )
-        animator.setEvaluator(ArgbEvaluatorCompat.getInstance())
-        animatorSet.duration = 600
-        val startRadius = 10f
-        val endRadius = viewDiagonal / 2f
-        val centerX = viewWidth / 2f
-        val centerY = viewHeight / 2f
-
-        if (state == true) {
-            visible()
-            post {
-                animatorSet.playTogether(
-                    CircularRevealCompat.createCircularReveal(
-                        this,
-                        centerX,
-                        centerY,
-                        startRadius,
-                        endRadius
-                    ),
-                    animator
-                )
-                animatorSet.start()
-
-            }
-        } else {
-            gone()
-        }
-    } catch (exception: Exception) {
-        CrashlyticsExt.handleException(exception)
-    }
-}
+//@BindingAdapter("circularRevealShow")
+//fun View.bindRevealVisibility(state: Boolean?) {
+//    if (this !is CircularRevealWidget) return
+//    if (state == true) {
+//        visible()
+//        try {
+//            val color = ColorStateList.valueOf(
+//                context.themeColor(R.attr.colorOnPrimary)
+//            ).defaultColor
+//
+//            val viewWidth = width
+//            val viewHeight = height
+//
+//            val viewDiagonal =
+//                sqrt((viewWidth * viewWidth + viewHeight * viewHeight).toDouble())
+//                    .toInt()
+//
+//            val animatorSet = AnimatorSet()
+//            val animator = ObjectAnimator.ofInt(
+//                this,
+//                CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR,
+//                color,
+//                Color.TRANSPARENT
+//            )
+//            animator.setEvaluator(ArgbEvaluatorCompat.getInstance())
+//            animatorSet.duration = 600
+//            val startRadius = 10f
+//            val endRadius = viewDiagonal / 2f
+//            val centerX = viewWidth / 2f
+//            val centerY = viewHeight / 2f
+//            post {
+//                animatorSet.playTogether(
+//                    CircularRevealCompat.createCircularReveal(
+//                        this,
+//                        centerX,
+//                        centerY,
+//                        startRadius,
+//                        endRadius
+//                    ),
+//                    animator
+//                )
+//                animatorSet.start()
+//            }
+//
+//        } catch (exception: Exception) {
+//            CrashlyticsExt.handleException(exception)
+//        }
+//    } else {
+//        gone()
+//    }
+//
+//}
 
 @BindingAdapter(
     "srcUrl",
@@ -248,14 +240,14 @@ fun LottieAnimationView.bindAnim(state: Boolean) {
 
 @BindingAdapter("setWebViewClient")
 fun WebView.setWebClient(client: WebViewClient?) {
-    webViewClient = client?:return
+    webViewClient = client ?: return
 }
 
 @BindingAdapter("loadUrl")
 fun WebView.loadWebUrl(url: String?) {
     setBackgroundColor(Color.parseColor("#eef0f2"))
     setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
-    loadUrl(url?:return)
+    loadUrl(url ?: return)
 }
 
 @BindingAdapter("fromHtml")

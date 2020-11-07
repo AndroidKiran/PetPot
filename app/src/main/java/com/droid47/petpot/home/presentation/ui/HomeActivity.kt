@@ -155,21 +155,21 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         window.sharedElementEnterTransition = MaterialContainerTransform().apply {
             addTarget(android.R.id.content)
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_IN
         }
         window.sharedElementReturnTransition = MaterialContainerTransform().apply {
             addTarget(android.R.id.content)
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
             interpolator = themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_IN
         }
         window.sharedElementExitTransition = MaterialContainerTransform().apply {
             addTarget(android.R.id.content)
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
             interpolator = themeInterpolator(R.attr.motionInterpolatorPersistent)
             pathMotion = MaterialArcMotion()
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT

@@ -11,6 +11,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.work.WorkInfo
 import com.droid47.petpot.R
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsScreens
@@ -90,17 +91,17 @@ class SplashFragment :
 
     override fun onStart() {
         super.onStart()
-        getViewDataBinding().ivLogo.playLottie()
+        getViewModel().run {
+            if(getTncStatus()) {
+                startOneTimeAuthRequest()
+            } else {
+                navigateToIntro()
+            }
+        }
     }
-
     override fun onResume() {
         super.onResume()
         trackFragment(getViewModel().firebaseManager)
-    }
-
-    override fun onStop() {
-        getViewDataBinding().ivLogo.pauseLottie()
-        super.onStop()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -110,11 +111,11 @@ class SplashFragment :
 
     private fun initTransition() {
         enterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
 
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
         }
     }
 

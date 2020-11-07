@@ -96,7 +96,6 @@
             app:fabAnimationMode="slide"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fullScreenBottomPadding="@{true}"
             app:menu="@menu/filter_menu" />
 
         <androidx.core.widget.ContentLoadingProgressBar

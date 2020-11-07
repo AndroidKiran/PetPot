@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
+                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
                 app:errorViewConfig="@{errorStateConfig}"
                 tools:visibility="gone" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:animateVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
+                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
                 app:emptyViewConfig="@{emptyStateConfig}"
                 tools:visibility="gone" />
 
@@ -102,8 +102,7 @@
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fullScreenBottomPadding="@{true}">
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom_bar_content"

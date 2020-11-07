@@ -60,7 +60,7 @@ class SyncPetTypeUseCase @Inject constructor(
                 Failure(it)
             }
 
-    private fun getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
+    private fun  getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
         return petRepository.fetchPetTypesFromNetwork()
             .flattenAsObservable { typeResponse -> typeResponse.typeEntities }
             .onErrorResumeNext( Function { Observable.empty() })

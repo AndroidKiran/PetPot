@@ -16,7 +16,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/grid_2"
         app:paddingTopSystemWindowInsets="@{true}">
 
         <TextView
@@ -24,11 +23,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
-            android:layout_marginTop="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_4"
             android:layout_marginEnd="@dimen/grid_2"
             android:text="@{onBoardingPage.titleResource}"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@id/subTitleTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,6 +45,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleTv"
@@ -57,11 +58,11 @@
             android:layout_marginStart="@dimen/grid_4"
             android:layout_marginEnd="@dimen/grid_4"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/descTV"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subTitleTv"
             app:layout_constraintVertical_bias="0.4"
             app:srcCompat="@{ContextCompat.getDrawable(context, onBoardingPage.logoResource)}"
             tools:ignore="ContentDescription"

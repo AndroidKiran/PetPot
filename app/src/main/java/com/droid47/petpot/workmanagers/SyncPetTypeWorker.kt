@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private val REQUEST_TAG = SyncPetTypeWorker::class.java.simpleName
+private val IMMEDIATE_REQUEST_TAG = "${REQUEST_TAG}_IMMEDIATE"
+private val PERIODIC_REQUEST_TAG = "${REQUEST_TAG}_PERIODIC"
 
 class SyncPetTypeWorker @Inject constructor(
     application: Application,
@@ -42,16 +44,24 @@ class SyncPetTypeWorker @Inject constructor(
             PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
             TimeUnit.MINUTES
         ).setConstraints(constraints)
-            .addTag(REQUEST_TAG)
+            .addTag(PERIODIC_REQUEST_TAG)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
                 TimeUnit.MILLISECONDS
             ).build()
 
+        fun enqueuePeriodicRequest(context: Context) {
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                PERIODIC_REQUEST_TAG,
+                ExistingPeriodicWorkPolicy.KEEP,
+                periodicRequest
+            )
+        }
+
         private val request = OneTimeWorkRequest.Builder(SyncPetTypeWorker::class.java)
             .setConstraints(constraints)
-            .addTag(REQUEST_TAG)
+            .addTag(IMMEDIATE_REQUEST_TAG)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 WorkRequest.MIN_BACKOFF_MILLIS,
@@ -60,19 +70,14 @@ class SyncPetTypeWorker @Inject constructor(
 
         fun enqueueRequest(context: Context) {
             WorkManager.getInstance(context).enqueueUniqueWork(
-                REQUEST_TAG,
+                IMMEDIATE_REQUEST_TAG,
                 ExistingWorkPolicy.REPLACE,
                 request
             )
         }
 
-        fun enqueuePeriodicRequest(context: Context) {
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                REQUEST_TAG,
-                ExistingPeriodicWorkPolicy.KEEP,
-                periodicRequest
-            )
-        }
+        fun getOneTimeRequestStatus(context: Context) =
+            WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(REQUEST_TAG)
     }
 
 }

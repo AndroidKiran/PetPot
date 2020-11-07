@@ -127,11 +127,11 @@ class HomeBoardFragment :
 
     private fun initTransition() {
         enterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
 
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
         }
     }
 
@@ -215,7 +215,7 @@ class HomeBoardFragment :
         val context = context ?: return
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.cdl_home_board
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS

@@ -14,8 +14,6 @@
         <item name="colorSurface">@color/pet_white_50</item>
         <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
         <item name="colorError">@color/pet_red_400</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
         <item name="colorOnPrimary">@color/pet_white_50</item>
         <item name="colorOnSecondary">@color/pet_black_900</item>
         <item name="colorOnBackground">@color/pet_black_900</item>
@@ -55,7 +53,9 @@
         <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <!--Styles-->
-        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
+        <item name="bottomAppBarStyle">
+            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+        </item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.PetGoogle.BottomSheetDialog</item>
         <item name="navigationViewStyle">@style/Widget.PetGoogle.NavigationView</item>

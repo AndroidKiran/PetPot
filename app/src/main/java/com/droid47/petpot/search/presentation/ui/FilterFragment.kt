@@ -334,7 +334,7 @@ class FilterFragment :
 
     private fun showBottomBar() {
         getViewDataBinding().bottomFilterBar.apply {
-            visibility = View.VISIBLE
+            visible()
             performShow()
         }
     }

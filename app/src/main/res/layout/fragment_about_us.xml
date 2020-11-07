@@ -123,7 +123,6 @@
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:fullScreenBottomPadding="@{true}"
             app:hideOnScroll="true"
             app:layout_scrollFlags="scroll|enterAlways">
 

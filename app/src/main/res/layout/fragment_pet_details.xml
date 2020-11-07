@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:animateVisible="@{petDetailsViewModel.petLiveData instanceof Failure}"
+                app:visible="@{petDetailsViewModel.petLiveData instanceof Failure}"
                 app:errorViewConfig="@{errorStateConfig}"
                 tools:visibility="gone" />
 
@@ -170,7 +170,6 @@
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
-            app:fullScreenBottomPadding="@{true}"
             app:menu="@menu/search_menu">
 
             <androidx.constraintlayout.widget.ConstraintLayout

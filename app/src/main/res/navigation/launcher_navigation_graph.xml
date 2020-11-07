@@ -37,11 +37,11 @@
     <fragment
         android:id="@+id/navigation_tnc"
         android:name="com.droid47.petpot.launcher.presentation.ui.TnCFragment"
-        tools:layout="@layout/fragment_tnc" >
+        tools:layout="@layout/fragment_tnc">
 
         <action
-            android:id="@+id/to_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/to_splash"
+            app:destination="@id/navigation_splash" />
 
     </fragment>
 

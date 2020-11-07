@@ -250,7 +250,7 @@ class PetDetailsFragment :
                 getViewDataBinding().appbar,
                 backDropHeight
             ).apply {
-                this.duration = 600L
+                this.duration = 300L
                 this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)
             })
         }, 800L)
@@ -301,7 +301,7 @@ class PetDetailsFragment :
         val context = context ?: return
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_IN
@@ -309,7 +309,7 @@ class PetDetailsFragment :
 
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.rv_pets
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT

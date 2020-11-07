@@ -217,10 +217,10 @@ class BookmarkFragment :
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val petViewPair = it ?: return@Observer
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
         }
         val extras = FragmentNavigatorExtras(
             petViewPair.second to petViewPair.second.transitionName
@@ -334,16 +334,24 @@ class BookmarkFragment :
     }
 
     private fun performMaterialTransitionFor(startView: View, endView: View) {
+        val isExpanding = isExpanding(startView)
         val transition = MaterialContainerTransform().apply {
             this.startView = startView
             this.endView = endView
             this.scrimColor = Color.TRANSPARENT
             this.drawingViewId = getViewDataBinding().cdlMain.id
-            this.duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            this.duration = resources.getInteger(
+                if (isExpanding)
+                    R.integer.pet_motion_duration_medium
+                else
+                    R.integer.pet_motion_duration_small
+            ).toLong()
             this.interpolator = FastOutSlowInInterpolator()
             this.setPathMotion(MaterialArcMotion())
-            this.fadeMode = MaterialContainerTransform.FADE_MODE_IN
+            this.fadeMode =
+                if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
             this.addTarget(startView)
+            this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition) {
                 super.onTransitionEnd(transition)
@@ -357,11 +365,12 @@ class BookmarkFragment :
         })
         endView.visible()
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
-
     }
 
+    private fun isExpanding(startView: View) = startView is FloatingActionButton
+
     private fun updateViewAfterTransition(startView: View, endView: View) {
-        if (startView is FloatingActionButton) {
+        if (isExpanding(startView)) {
             startView.invisible()
             hideBottomBar()
             getViewDataBinding().scrim.visible()

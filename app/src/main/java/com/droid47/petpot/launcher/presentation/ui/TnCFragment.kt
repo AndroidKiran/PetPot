@@ -103,11 +103,11 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
 
     private fun initTransition() {
         enterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
 
         exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
         }
     }
 
@@ -115,7 +115,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         with(getViewDataBinding().tncFab) {
             setOnClickListener {
                 updateConsent()
-                navigateToHome()
+                navigateToSplash()
             }
         }
 
@@ -129,16 +129,11 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         getParentViewModel().updateFirebaseCollectionStatus()
     }
 
-    private fun navigateToHome() {
-        getViewModel().trackTncToHome()
-        val bundle = Bundle().apply {
-            putInt(EXTRA_NAVIGATION_FRAGMENT_ID, R.id.navigation_search)
-        }
+    private fun navigateToSplash() {
         val extras = FragmentNavigatorExtras(
-            getViewDataBinding().cdlTnc to getString(R.string.activity_transition)
+            getViewDataBinding().cdlTnc to getViewDataBinding().cdlTnc.transitionName
         )
-        getParentViewModel().launcherNavigator.toHomeFromTnc(bundle, extras)
-        requireActivity().finishAfterTransition()
+        getParentViewModel().launcherNavigator.toSplashFromTnc(extras)
     }
 
     private val closeOnBackPressed = object : OnBackPressedCallback(false) {
@@ -155,7 +150,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         val context = context ?: return
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.cdl_tnc
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_CROSS

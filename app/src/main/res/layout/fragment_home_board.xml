@@ -16,33 +16,21 @@
         android:layout_height="match_parent"
         android:transitionName="@string/launcher_transition"
         app:layoutDescription="@xml/fragment_home_board_scene"
-        app:marginBottomSystemWindowInsets="@{true}">
+        app:paddingBottomSystemWindowInsets="@{true}">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="@dimen/zero"
             android:layout_height="@dimen/zero"
+            android:layoutDirection="ltr"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_prev"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_2"
-            android:text="@string/previous"
-            android:textAppearance="?attr/textAppearanceButton"
-            android:textColor="?attr/colorSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicator" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/top_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -55,11 +43,24 @@
             app:dotColor="?attr/colorSecondaryVariant"
             app:dotRadius="@dimen/grid_0_5"
             app:dotSeparation="@dimen/grid_2"
+            app:layout_constraintBottom_toTopOf="@id/btn_start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/top_guideline"
             app:selectedDotColor="?attr/colorSecondary"
             app:selectedDotRadius="@dimen/grid_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_prev"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:text="@string/previous"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
@@ -71,8 +72,7 @@
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicator" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_start"
@@ -85,8 +85,8 @@
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicator"
             app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

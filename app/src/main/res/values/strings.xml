@@ -156,4 +156,7 @@
     <string name="key_current_theme">current_theme</string>
     <string name="key_search_limit">search_limit</string>
     <string name="key_notification_enabled">Notification Enabled</string>
+    <string name="powered_by_petfinder">Powered by Petfinder</string>
+
+    <string name="pet_notification_default_channel_id">Pet Notification Channel Id</string>
 </resources>

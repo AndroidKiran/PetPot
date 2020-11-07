@@ -24,7 +24,7 @@
         android:gravity="center"
         android:minHeight="200dp"
         android:orientation="vertical"
-        app:circularRevealShow="@{isVisible}"
+        app:visible="@{isVisible}"
         app:paddingBottomSystemWindowInsets="@{true}"
         app:paddingTopSystemWindowInsets="@{true}">
 

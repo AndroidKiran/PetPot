@@ -236,7 +236,7 @@ class OrganizationFragment :
         val context = context ?: return
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_IN
@@ -245,7 +245,7 @@ class OrganizationFragment :
 
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.btn_edit_org
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT

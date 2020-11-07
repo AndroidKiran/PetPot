@@ -40,7 +40,11 @@ class HomeViewModel @Inject constructor(
                         remoteConfigUseCase.getUpgradeInfoEntity(stateModel.data ?: "")
                     when (appUpgradeEntity) {
                         null -> onError(IllegalStateException("AppUpgradeEntity is Null"))
-                        else -> upgradeStatusLiveData.postValue(Success(appUpgradeEntity))
+                        else -> {
+                            if (appUpgradeEntity.isUpdateRequired()) {
+                                upgradeStatusLiveData.postValue(Success(appUpgradeEntity))
+                            }
+                        }
                     }
                 }
 
