@@ -5,12 +5,19 @@ import com.droid47.petpot.organization.domain.repositories.IOrganizationReposito
 import com.droid47.petpot.petDetails.data.PetDetailsRepo
 import com.droid47.petpot.petDetails.domain.PetDetailsRepository
 import com.droid47.petpot.search.data.repos.FilterRepo
+import com.droid47.petpot.search.data.repos.PetRepo
 import com.droid47.petpot.search.domain.repositories.FilterRepository
+import com.droid47.petpot.search.domain.repositories.PetRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Reusable
 
 @Module
 interface AbstractHomeModule {
+
+    @Binds
+    @Reusable
+    fun bindSearchRepository(searchRepository: PetRepo): PetRepository
 
     @Binds
     fun bindFilterRepository(filterRepo: FilterRepo): FilterRepository

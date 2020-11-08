@@ -19,9 +19,11 @@ class FetchDetailsUseCase @Inject constructor(
 
     override fun buildUseCaseSingle(params: Int): Single<BaseStateModel<PetEntity>> =
         petDetailsRepository.getPetDetails(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
             .map { response ->
                 return@map when (response.petEntity) {
-                    null -> Failure<PetEntity>(IllegalStateException("Response is null"))
+                    null -> Failure(IllegalStateException("Response is null"))
                     else -> Success(response.petEntity)
                 }
             }.onErrorReturn { Failure(it) }

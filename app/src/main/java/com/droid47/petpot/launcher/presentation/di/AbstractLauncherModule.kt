@@ -2,8 +2,10 @@ package com.droid47.petpot.launcher.presentation.di
 
 import com.droid47.petpot.app.domain.FirebaseManager
 import com.droid47.petpot.base.firebase.IFirebaseManager
+import com.droid47.petpot.search.data.repos.FavouritePetRepo
 import com.droid47.petpot.search.data.repos.PetRepo
 import com.droid47.petpot.search.data.repos.PetTypeRepo
+import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
 import com.droid47.petpot.search.domain.repositories.PetRepository
 import com.droid47.petpot.search.domain.repositories.PetTypeRepository
 import dagger.Binds
@@ -15,7 +17,7 @@ interface AbstractLauncherModule {
 
     @Binds
     @Reusable
-    fun bindSearchRepository(searchRepository: PetRepo): PetRepository
+    fun bindFavouriteRepository(favouritePetRepo: FavouritePetRepo): FavouritePetRepository
 
     @Binds
     @Reusable

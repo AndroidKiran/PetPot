@@ -15,5 +15,7 @@ class ResetFilterForCategoryUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: String): Completable =
         filterRepository.updateFilterForCategory(false, params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
 }

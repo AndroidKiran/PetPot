@@ -10,6 +10,7 @@ import com.droid47.petpot.base.widgets.Empty
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
 import com.droid47.petpot.search.domain.repositories.PetRepository
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.PAGE_SIZE
 import io.reactivex.BackpressureStrategy
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class SubscribeToPetsUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
-    private val petRepository: PetRepository
+    private val petRepository: PetRepository,
+    private val favouritePetRepository: FavouritePetRepository
 ) : FlowableUseCase<BaseStateModel<out PagedList<PetEntity>>, Pair<DataSourceType, String>>(
     threadExecutor,
     postExecutionThread
@@ -49,8 +51,8 @@ class SubscribeToPetsUseCase @Inject constructor(
         when (dataSourceType) {
             is DataSourceType.DistanceType -> petRepository.fetchNearByPetsFromDb(query)
             is DataSourceType.RecentType -> petRepository.fetchRecentPetsFromDB(query)
-            is DataSourceType.FavoriteType -> petRepository.fetchFavoritePetsFromDB(true)
-            is DataSourceType.NonFavoriteType -> petRepository.fetchFavoritePetsFromDB(false)
+            is DataSourceType.FavoriteType -> favouritePetRepository.fetchFavoritePetsFromDB(true)
+            is DataSourceType.NonFavoriteType -> favouritePetRepository.fetchFavoritePetsFromDB(false)
             else -> petRepository.fetchAllPetsFromDb()
         }
 }

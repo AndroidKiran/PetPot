@@ -36,7 +36,7 @@ class PetDetailsFragment :
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
+    private var resizeAnimation: ResizeAnimation? = null
     private val args: PetDetailsFragmentArgs by navArgs()
     private val petId: Int by lazy(LazyThreadSafetyMode.NONE) { args.petId }
 
@@ -123,6 +123,7 @@ class PetDetailsFragment :
     }
 
     override fun onStop() {
+        resizeAnimation?.cancel()
         getViewDataBinding().viewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         super.onStop()
     }
@@ -135,10 +136,6 @@ class PetDetailsFragment :
     }
 
     private fun setUpView() {
-//        getViewDataBinding().appbar.apply {
-//            updateHeight(backDropHeight)
-//            addOnOffsetChangedListener(appBarOffsetChangedListener)
-//        }
 
         getViewDataBinding().fab.apply {
             setImageResource(R.drawable.vc_favorite)
@@ -244,15 +241,13 @@ class PetDetailsFragment :
     }
 
     private fun animateContentView() {
-        val context = context?:requireContext()
+        val context = context ?: requireContext()
+        resizeAnimation = ResizeAnimation(getViewDataBinding().appbar, backDropHeight).apply {
+            this.duration = 300L
+            this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)
+        }
         getViewDataBinding().appbar.postDelayed({
-            getViewDataBinding().appbar.startAnimation(ResizeAnimation(
-                getViewDataBinding().appbar,
-                backDropHeight
-            ).apply {
-                this.duration = 300L
-                this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)
-            })
+            getViewDataBinding().appbar.startAnimation(resizeAnimation ?: return@postDelayed)
         }, 800L)
     }
 

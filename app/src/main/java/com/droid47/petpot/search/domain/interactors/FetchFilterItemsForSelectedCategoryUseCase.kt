@@ -23,6 +23,8 @@ class FetchFilterItemsForSelectedCategoryUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(params: String): Flowable<BaseStateModel<List<PetFilterCheckableEntity>>> =
         filterRepository.getFilterItemsForSelectedCategory(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
             .map { filterItems ->
                 return@map if (filterItems.isEmpty()) {
                     Empty(filterItems)

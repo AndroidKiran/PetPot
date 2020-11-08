@@ -7,6 +7,7 @@ import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
 import com.droid47.petpot.search.domain.repositories.PetRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class FetchSelectedPetFromDbUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
-    private val petRepository: PetRepository
+    private val favouritePetRepository: FavouritePetRepository
 ) : FlowableUseCase<BaseStateModel<PetEntity>, Int>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseObservable(params: Int): Flowable<BaseStateModel<PetEntity>> =
@@ -24,7 +25,9 @@ class FetchSelectedPetFromDbUseCase @Inject constructor(
                     IllegalStateException("Params is null or negative")
                 )
             )
-            else -> petRepository.subscribeToSelectedPet(params)
+            else -> favouritePetRepository.subscribeToSelectedPet(params)
+                .subscribeOn(threadExecutorScheduler)
+                .observeOn(postExecutionThreadScheduler)
                 .map { petEntity ->
                     Success(petEntity) as BaseStateModel<PetEntity>
                 }.onErrorReturn {

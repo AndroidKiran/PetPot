@@ -7,6 +7,7 @@ import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
 import com.droid47.petpot.search.domain.repositories.PetRepository
 import io.reactivex.Single
 import javax.inject.Inject
@@ -14,11 +15,13 @@ import javax.inject.Inject
 class UpdateFavoritePetUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
-    private val petRepository: PetRepository
+    private val favouritePetRepository: FavouritePetRepository
 ) : SingleUseCase<BaseStateModel<PetEntity>, PetEntity>(threadExecutor, postExecutionThread) {
 
     override fun buildUseCaseSingle(params: PetEntity): Single<BaseStateModel<PetEntity>> =
-        petRepository.updateFavoriteStatus(params)
+        favouritePetRepository.updateFavoriteStatus(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
             .toSingle {
                 Success(params) as BaseStateModel<PetEntity>
             }.onErrorReturn {

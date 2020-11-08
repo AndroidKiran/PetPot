@@ -17,13 +17,8 @@ class UpdateFilterUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: PetFilterCheckableEntity): Completable =
         when (params.type) {
-
             LOCATION -> filterRepository.updateLocationFilter(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
-
             else -> filterRepository.updateOrInsertTheFilter(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
-        }
+        }.subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 }
