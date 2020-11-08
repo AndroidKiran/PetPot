@@ -22,7 +22,6 @@ import javax.inject.Inject
 class SyncPetTypeUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
-    private val petRepository: PetRepository,
     private val petTypeRepository: PetTypeRepository,
     private val application: Application
 ) : SingleUseCase<BaseStateModel<List<PetTypeEntity>>, Boolean>(
@@ -34,7 +33,8 @@ class SyncPetTypeUseCase @Inject constructor(
         when (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(application)) {
             ConnectionResult.SUCCESS -> lookForDbDataThenFetchFromNetwork(params)
             else -> Single.just(Failure(IllegalStateException(PLAY_SERVICE_ERROR)))
-        }
+        }.subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
     private fun lookForDbDataThenFetchFromNetwork(lookForCacheData: Boolean): Single<BaseStateModel<List<PetTypeEntity>>> =
         when {
@@ -60,10 +60,10 @@ class SyncPetTypeUseCase @Inject constructor(
                 Failure(it)
             }
 
-    private fun  getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
-        return petRepository.fetchPetTypesFromNetwork()
+    private fun getPetTypesFromNetwork(): Single<BaseStateModel<List<PetTypeEntity>>> {
+        return petTypeRepository.fetchPetTypesFromNetwork()
             .flattenAsObservable { typeResponse -> typeResponse.typeEntities }
-            .onErrorResumeNext( Function { Observable.empty() })
+            .onErrorResumeNext(Function { Observable.empty() })
             .fetchBreeds()
             .toList()
             .insertAnimalTypes()
@@ -71,7 +71,7 @@ class SyncPetTypeUseCase @Inject constructor(
 
     private fun Observable<PetTypeEntity>.fetchBreeds() =
         flatMapSingle { petType ->
-            petRepository.fetchBreedsFromNetwork(petType.name)
+            petTypeRepository.fetchBreedsFromNetwork(petType.name)
                 .map { breedResponse ->
                     petType.apply {
                         breeds = breedResponse.breeds
@@ -85,7 +85,7 @@ class SyncPetTypeUseCase @Inject constructor(
 
     private fun Single<List<PetTypeEntity>>.insertAnimalTypes() =
         flatMap { animalTypeList ->
-            petRepository.insertPetTypeToDB(animalTypeList)
+            petTypeRepository.insertPetTypeToDB(animalTypeList)
                 .map { petTypeList ->
                     if (petTypeList.isEmpty()) {
                         Failure(IllegalStateException("Empty data"), petTypeList)

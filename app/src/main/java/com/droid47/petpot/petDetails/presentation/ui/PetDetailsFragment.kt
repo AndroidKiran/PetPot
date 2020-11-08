@@ -1,9 +1,11 @@
 package com.droid47.petpot.petDetails.presentation.ui
 
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -24,8 +26,10 @@ import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.petDetails.presentation.adapter.PetPhotoViewerAdapter
 import com.droid47.petpot.petDetails.presentation.viewmodels.PetDetailsViewModel
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
 import com.droid47.petpot.search.data.models.search.PetEntity
 import com.droid47.petpot.search.data.models.search.PhotosItemEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
@@ -33,6 +37,8 @@ import javax.inject.Inject
 
 class PetDetailsFragment :
     BaseBindingFragment<FragmentPetDetailsBinding, PetDetailsViewModel, HomeViewModel>() {
+
+    private var resizeAnimation: ResizeAnimation? = null
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -123,31 +129,31 @@ class PetDetailsFragment :
     }
 
     override fun onStop() {
+        resizeAnimation?.cancel()
         getViewDataBinding().viewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         super.onStop()
     }
 
     private fun handleNavArgs(petId: Int, transitionId: Int) {
-        with(getViewModel()) {
-            this.petId.postValue(petId)
-            this.transitionId.postValue(transitionId)
+        getViewModel().run {
+            this.petId.value = petId
+            this.transitionId.value = transitionId
         }
     }
 
     private fun setUpView() {
-//        getViewDataBinding().appbar.apply {
-//            updateHeight(backDropHeight)
-//            addOnOffsetChangedListener(appBarOffsetChangedListener)
-//        }
-
         getViewDataBinding().fab.apply {
             setImageResource(R.drawable.vc_favorite)
             setOnClickListener {
                 hide()
                 getViewModel().run {
-                    openingAnimationRequired = false
                     onBookMarkClick(
-                        getViewModel().petLiveData.value?.data ?: return@setOnClickListener
+                        when (favouritePetLiveData.value) {
+                            is Success -> favouritePetLiveData.value?.data
+                                ?: return@setOnClickListener
+                            else -> petLiveData.value?.data?.toFavouritePet()
+                                ?: return@setOnClickListener
+                        }
                     )
                 }
             }
@@ -194,6 +200,11 @@ class PetDetailsFragment :
             observe(viewLifecycleOwner, petDetailsObserver)
         }
 
+        getViewModel().favouritePetLiveData.run {
+            removeObserver(favouritePetObserver)
+            observe(viewLifecycleOwner, favouritePetObserver)
+        }
+
         getViewModel().phoneNumLiveData.run {
             removeObserver(phoneObserver)
             observe(viewLifecycleOwner, phoneObserver)
@@ -210,7 +221,7 @@ class PetDetailsFragment :
         }
     }
 
-    private val petDetailsObserver = Observer<BaseStateModel<PetEntity>> {
+    private val petDetailsObserver = Observer<BaseStateModel<SearchPetEntity>> {
         val baseStateModel = it ?: return@Observer
         when (baseStateModel) {
             is Failure -> {
@@ -235,7 +246,7 @@ class PetDetailsFragment :
                 getPetPhotoAdapter()?.submitList(photoList) {
                     getViewDataBinding().appbar.setExpanded(true, true)
                     startPostponedEnterTransition()
-                    if (!getViewModel().openingAnimationRequired) return@submitList
+//                    if (!getViewModel().openingAnimationRequired) return@submitList
                     animateContentView()
                 }
             }
@@ -243,17 +254,8 @@ class PetDetailsFragment :
         }
     }
 
-    private fun animateContentView() {
-        val context = context?:requireContext()
-        getViewDataBinding().appbar.postDelayed({
-            getViewDataBinding().appbar.startAnimation(ResizeAnimation(
-                getViewDataBinding().appbar,
-                backDropHeight
-            ).apply {
-                this.duration = 300L
-                this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)
-            })
-        }, 800L)
+    private val favouritePetObserver = Observer<BaseStateModel<FavouritePetEntity>> {
+        showFab()
     }
 
     private val phoneObserver = Observer<String> { phoneNum ->
@@ -274,12 +276,15 @@ class PetDetailsFragment :
         shareMenuItem.isVisible = url.isNotEmpty()
     }
 
-    private val appBarOffsetChangedListener = object : AppBarStateChangeListener(State.EXPANDED) {
-        override fun onStateChange(appBarLayout: AppBarLayout, state: State) {
+    private fun animateContentView() {
+        val context = context ?: requireContext()
+        resizeAnimation = ResizeAnimation(getViewDataBinding().appbar, backDropHeight).apply {
+            this.duration = 300L
+            this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)
         }
-
-        override fun onOffsetChange(appBarLayout: AppBarLayout, offset: Int) {
-        }
+        getViewDataBinding().appbar.postDelayed({
+            getViewDataBinding().appbar.startAnimation(resizeAnimation ?: return@postDelayed)
+        }, 800L)
     }
 
     private fun updateErrorState(throwable: Throwable) {
@@ -381,9 +386,9 @@ class PetDetailsFragment :
         }
     }
 
-    private val navigationObserver = Observer<Pair<PetEntity, View>> {
+    private val navigationObserver = Observer<Pair<SearchPetEntity, View>> {
         val pair = it ?: return@Observer
-        getViewModel().openingAnimationRequired = true
+//        getViewModel().openingAnimationRequired = true
         handleNavArgs(pair.first.id, petId)
     }
 

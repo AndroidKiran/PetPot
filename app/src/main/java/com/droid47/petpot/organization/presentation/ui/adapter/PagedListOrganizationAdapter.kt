@@ -104,10 +104,10 @@ class PagedListOrganizationAdapter(private val onItemClick: (baseCheckableEntity
     }
 
     sealed class ActionType {
-        class PhoneAction(val phoneNumber: String) : ActionType()
-        class MailAction(val email: String) : ActionType()
-        class WebsiteAction(val website: String) : ActionType()
-        class ItemSelectionAction(val organizationEntity: OrganizationCheckableEntity) :
+        data class PhoneAction(val phoneNumber: String) : ActionType()
+        data class MailAction(val email: String) : ActionType()
+        data class WebsiteAction(val website: String) : ActionType()
+        data class ItemSelectionAction(val organizationEntity: OrganizationCheckableEntity) :
             ActionType()
     }
 }

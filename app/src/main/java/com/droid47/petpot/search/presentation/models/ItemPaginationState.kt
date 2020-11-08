@@ -8,39 +8,39 @@ sealed class ItemPaginationState {
     abstract val totalCount: Int
 }
 
-class DefaultState(
+data class DefaultState(
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int
 ) : ItemPaginationState()
 
-class LoadingState(
+data class LoadingState(
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int
 ) : ItemPaginationState()
 
-class PaginatingState(
+data class PaginatingState(
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int
 ) : ItemPaginationState()
 
-class ErrorState(
+data class ErrorState(
     val error: Throwable,
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int
 ) : ItemPaginationState()
 
-class PaginationErrorState(
+data class PaginationErrorState(
     val error: Throwable,
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int
 ) : ItemPaginationState()
 
-class EmptyState(
+data class EmptyState(
     override val paginationEntity: PaginationEntity,
     override val loadedAllItems: Boolean,
     override val totalCount: Int

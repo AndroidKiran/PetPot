@@ -13,7 +13,7 @@ import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.search.data.models.LOCATION
 import com.droid47.petpot.search.data.models.PET_TYPE
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.droid47.petpot.search.domain.repositories.FilterRepository
 import com.droid47.petpot.search.domain.repositories.PetRepository
 import com.droid47.petpot.search.presentation.models.PetFilterConstants
@@ -26,12 +26,12 @@ class PetDataSourceUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository,
     private val filterRepository: FilterRepository
-) : FlowableUseCase<BaseStateModel<PagedList<PetEntity>>, PetPaginationUseCase>(
+) : FlowableUseCase<BaseStateModel<PagedList<SearchPetEntity>>, PetPaginationUseCase>(
     threadExecutor,
     postExecutionThread
 ) {
 
-    override fun buildUseCaseObservable(params: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<PetEntity>>> =
+    override fun buildUseCaseObservable(params: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<SearchPetEntity>>> =
         filterRepository.getFilterForTypes(listOf(PET_TYPE, LOCATION), true)
             .distinctUntilChanged()
             .reduceToPair()
@@ -52,7 +52,7 @@ class PetDataSourceUseCase @Inject constructor(
             Pair(location, petName)
         }
 
-    private fun Flowable<Pair<String, String>>.createPagedListBuilder(petPaginationUseCase: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<PetEntity>>> =
+    private fun Flowable<Pair<String, String>>.createPagedListBuilder(petPaginationUseCase: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<SearchPetEntity>>> =
         switchMap { pair ->
             RxPagedListBuilder(
                 getDataSourceType(pair.first, pair.second),
@@ -78,7 +78,7 @@ class PetDataSourceUseCase @Inject constructor(
     private fun getDataSourceType(
         location: String?,
         query: String
-    ): DataSource.Factory<Int, PetEntity> =
+    ): DataSource.Factory<Int, SearchPetEntity> =
         if (location.isNullOrEmpty()) {
             petRepository.fetchRecentPetsFromDB(query)
         } else {

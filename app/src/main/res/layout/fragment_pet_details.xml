@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:elevation="@dimen/plane_08"
             app:ensureMinTouchTargetSize="true"
-            app:fabIcon="@{petDetailsViewModel.petLiveData.data.bookmarkStatus}"
+            app:fabIcon="@{petDetailsViewModel.favouritePetLiveData instanceof Success}"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar" />
 

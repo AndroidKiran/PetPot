@@ -10,5 +10,5 @@ class SearchResponseEntity(
     var paginationEntity: PaginationEntity? = null,
 
     @field:SerializedName("animals")
-    var animals: List<PetEntity>? = null
+    var animals: List<SearchPetEntity>? = null
 ) : Parcelable

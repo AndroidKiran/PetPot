@@ -23,9 +23,11 @@ class FetchSelectedOrganizationUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(params: Boolean): Flowable<BaseStateModel<List<OrganizationCheckableEntity>>> {
         return organizationRepository.getSelectedOrganizations(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
             .map {
                 return@map if (it.isEmpty()) {
-                    Empty<List<OrganizationCheckableEntity>>()
+                    Empty()
                 } else {
                     Success(it)
                 }

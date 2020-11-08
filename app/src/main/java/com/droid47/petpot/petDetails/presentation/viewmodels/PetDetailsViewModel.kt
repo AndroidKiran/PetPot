@@ -15,13 +15,16 @@ import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.BaseStateModel
+import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.components.LiveEvent
+import com.droid47.petpot.petDetails.domain.interactors.FetchFavouritePetFromDbUseCase
 import com.droid47.petpot.petDetails.domain.interactors.FetchSelectedPetFromDbUseCase
 import com.droid47.petpot.petDetails.presentation.viewmodels.tracking.TrackPetDetailsViewModel
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.droid47.petpot.search.domain.interactors.DataSourceType
-import com.droid47.petpot.search.domain.interactors.SubscribeToPetsUseCase
-import com.droid47.petpot.search.domain.interactors.UpdateFavoritePetUseCase
+import com.droid47.petpot.search.domain.interactors.SubscribeToPetDataSourceUseCase
+import com.droid47.petpot.search.domain.interactors.AddOrRemoveFavoritePetUseCase
 import com.droid47.petpot.search.presentation.ui.widgets.*
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
@@ -29,30 +32,41 @@ import javax.inject.Inject
 
 class PetDetailsViewModel @Inject constructor(
     application: Application,
-    subscribeToPetsUseCase: SubscribeToPetsUseCase,
+    subscribeToPetsUseCase: SubscribeToPetDataSourceUseCase,
     private val fetchSelectedPetFromDbUseCase: FetchSelectedPetFromDbUseCase,
-    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
+    private val fetchFavouritePetFromDbUseCase: FetchFavouritePetFromDbUseCase,
+    private val addOrRemoveFavoritePetUseCase: AddOrRemoveFavoritePetUseCase,
     val firebaseManager: IFirebaseManager
-) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener,
+) : BaseAndroidViewModel(application), PagedSearchListPetAdapter.OnItemClickListener,
     TrackPetDetailsViewModel {
 
-    private val starSubject = PublishSubject.create<PetEntity>().toSerialized()
-    var openingAnimationRequired = true
+    private val starSubject = PublishSubject.create<FavouritePetEntity>().toSerialized()
+//    var openingAnimationRequired = true
     val transitionId: MutableLiveData<Int> = MutableLiveData()
-    val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
-        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.NonFavoriteType, ""))
+    val petsLiveData: LiveData<BaseStateModel<out PagedList<SearchPetEntity>>> =
+        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.AllType, ""))
             .toLiveData()
 
-    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
-    val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>
+    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<SearchPetEntity, View>>()
+    val navigateToAnimalDetailsAction: LiveEvent<Pair<SearchPetEntity, View>>
         get() = _navigateToAnimalDetailsAction
 
     val petId: MutableLiveData<Int> = MutableLiveData()
     val petLiveData = petId.switchMap {
         if (it == null) {
-            MutableLiveData()
+            MutableLiveData(Failure(IllegalStateException("No Selected Pet")))
         } else {
-            fetchSelectedPetFromDbUseCase.buildUseCaseObservable(it).toLiveData()
+            fetchSelectedPetFromDbUseCase.buildUseCaseObservable(it)
+                .toLiveData()
+        }
+    }
+
+    val favouritePetLiveData = petId.switchMap {
+        if (it == null) {
+            MutableLiveData(Failure(IllegalStateException("No Favourite Pet")))
+        } else {
+            fetchFavouritePetFromDbUseCase.buildUseCaseObservable(it)
+                .toLiveData()
         }
     }
 
@@ -156,7 +170,7 @@ class PetDetailsViewModel @Inject constructor(
         firebaseManager.logUiEvent("Similar Pet Selected", AnalyticsAction.CLICK)
     }
 
-    override fun onBookMarkClick(petEntity: PetEntity) {
+    override fun onBookMarkClick(petEntity: FavouritePetEntity) {
         trackFavoriteSelected(!petEntity.bookmarkStatus)
         starSubject.onNext(petEntity.apply {
             bookmarkStatus = !petEntity.bookmarkStatus
@@ -164,7 +178,7 @@ class PetDetailsViewModel @Inject constructor(
         })
     }
 
-    override fun onItemClick(petEntity: PetEntity, view: View) {
+    override fun onItemClick(petEntity: SearchPetEntity, view: View) {
         trackSimilarPetSelected()
         _navigateToAnimalDetailsAction.postValue(Pair(petEntity, view))
     }
@@ -176,12 +190,12 @@ class PetDetailsViewModel @Inject constructor(
         starSubject.debounce(400, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerDisposableRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
-                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair)
+                addOrRemoveFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair)
             }.applyIOSchedulers()
             .subscribe(this::onPetStarSuccess, this::onPetStarError)
     }
 
-    private fun onPetStarSuccess(baseStateModel: BaseStateModel<PetEntity>) {
+    private fun onPetStarSuccess(baseStateModel: BaseStateModel<FavouritePetEntity>) {
         val baseState = baseStateModel
     }
 

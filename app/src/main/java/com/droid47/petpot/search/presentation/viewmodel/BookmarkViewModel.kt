@@ -12,12 +12,12 @@ import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.components.LiveEvent
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
+import com.droid47.petpot.search.domain.interactors.AddOrRemoveFavoritePetUseCase
 import com.droid47.petpot.search.domain.interactors.DataSourceType
-import com.droid47.petpot.search.domain.interactors.SubscribeToPetsUseCase
-import com.droid47.petpot.search.domain.interactors.UpdateFavoritePetUseCase
-import com.droid47.petpot.search.domain.interactors.UpdateFavouritePetsStatusUseCase
-import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
+import com.droid47.petpot.search.domain.interactors.RemoveAllFavouritePetsUseCase
+import com.droid47.petpot.search.domain.interactors.SubscribeToFavouritePetDataSourceUseCase
+import com.droid47.petpot.search.presentation.ui.widgets.PagedFavouriteListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.tracking.TrackBookmarkViewModel
 import io.reactivex.CompletableObserver
 import io.reactivex.SingleObserver
@@ -26,22 +26,22 @@ import javax.inject.Inject
 
 class BookmarkViewModel @Inject constructor(
     application: Application,
-    subscribeToPetsUseCase: SubscribeToPetsUseCase,
-    private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
-    private val updateFavouritePetsStatusUseCase: UpdateFavouritePetsStatusUseCase,
+    subscribeToPetsUseCase: SubscribeToFavouritePetDataSourceUseCase,
+    private val addOrRemoveFavoritePetUseCase: AddOrRemoveFavoritePetUseCase,
+    private val removeAllFavouritePetsUseCase: RemoveAllFavouritePetsUseCase,
     val firebaseManager: IFirebaseManager
-) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener, TrackBookmarkViewModel {
+) : BaseAndroidViewModel(application), PagedFavouriteListPetAdapter.OnItemClickListener, TrackBookmarkViewModel {
 
-    val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
+    val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<FavouritePetEntity>>> =
         subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, ""))
             .toLiveData()
 
-    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
-    val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>
+    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<FavouritePetEntity, View>>()
+    val navigateToAnimalDetailsAction: LiveEvent<Pair<FavouritePetEntity, View>>
         get() = _navigateToAnimalDetailsAction
 
-    private val _undoBookmarkLiveData = LiveEvent<BaseStateModel<PetEntity>>()
-    val undoBookmarkLiveData: LiveEvent<BaseStateModel<PetEntity>>
+    private val _undoBookmarkLiveData = LiveEvent<BaseStateModel<FavouritePetEntity>>()
+    val undoBookmarkLiveData: LiveEvent<BaseStateModel<FavouritePetEntity>>
         get() = _undoBookmarkLiveData
 
     override fun trackDeleteAll(actionType: Boolean) {
@@ -56,13 +56,13 @@ class BookmarkViewModel @Inject constructor(
         firebaseManager.logUiEvent("UnBookmark Favorite", AnalyticsAction.CLICK)
     }
 
-    override fun onBookMarkClick(petEntity: PetEntity) {
+    override fun onBookMarkClick(petEntity: FavouritePetEntity) {
         trackUnBookmark()
-        updateFavoritePetUseCase.execute(
+        addOrRemoveFavoritePetUseCase.execute(
             petEntity,
-            object : SingleObserver<BaseStateModel<PetEntity>> {
+            object : SingleObserver<BaseStateModel<FavouritePetEntity>> {
 
-                override fun onSuccess(stateModel: BaseStateModel<PetEntity>) {
+                override fun onSuccess(stateModel: BaseStateModel<FavouritePetEntity>) {
                     _undoBookmarkLiveData.postValue(stateModel)
                 }
 
@@ -77,15 +77,15 @@ class BookmarkViewModel @Inject constructor(
             })
     }
 
-    override fun onItemClick(petEntity: PetEntity, view: View) {
+    override fun onItemClick(petEntity: FavouritePetEntity, view: View) {
         trackBookmarkToDetails()
         _navigateToAnimalDetailsAction.postValue(Pair(petEntity, view))
     }
 
     fun deleteAllFavoritePets() {
         trackDeleteAll(true)
-        updateFavouritePetsStatusUseCase.execute(
-            Pair(first = false, second = true),
+        removeAllFavouritePetsUseCase.execute(
+            Unit,
             object : CompletableObserver {
                 override fun onComplete() {
 //                    val test = ""

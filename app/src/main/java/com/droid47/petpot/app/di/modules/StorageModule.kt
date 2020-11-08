@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.droid47.petpot.base.storage.db.PetDb
 import com.droid47.petpot.organization.data.datasource.OrganizationDao
+import com.droid47.petpot.search.data.datasource.FavoritePetDao
 import com.droid47.petpot.search.data.datasource.PetDao
 import com.droid47.petpot.search.data.datasource.PetFilterDao
 import com.droid47.petpot.search.data.datasource.PetTypeDao
@@ -32,6 +33,11 @@ object StorageModule {
     @JvmStatic
     @Singleton
     fun providePetDao(petDb: PetDb): PetDao = petDb.getPetDao()
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideFavouritePetDao(petDb: PetDb): FavoritePetDao = petDb.getFavouritePetDao()
 
     @Provides
     @JvmStatic

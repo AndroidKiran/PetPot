@@ -39,10 +39,10 @@ import com.droid47.petpot.databinding.FragmentSearchBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.droid47.petpot.search.presentation.models.*
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.PAGE_ONE
-import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
+import com.droid47.petpot.search.presentation.ui.widgets.PagedSearchListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petpot.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
 import com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
@@ -86,10 +86,10 @@ class SearchFragment :
         childFragmentManager.findFragmentById(R.id.fragment_filter) as FilterFragment
     }
 
-    private val pagedListPetAdapter: PagedListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        PagedListPetAdapter(
+    private val pagedSearchListPetAdapter: PagedSearchListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        PagedSearchListPetAdapter(
             requireContext(),
-            PagedListPetAdapter.AdapterType.Search,
+            PagedSearchListPetAdapter.AdapterType.Search,
             getViewModel()
         )
     }
@@ -260,7 +260,7 @@ class SearchFragment :
                 setSeekDuration(resources.getInteger(R.integer.pet_motion_default_large))
                 spanSizeLookup = gridSpanListener
             }
-            adapter = pagedListPetAdapter
+            adapter = pagedSearchListPetAdapter
         }
     }
 
@@ -296,7 +296,7 @@ class SearchFragment :
         }
     }
 
-    private val navigationObserver = Observer<Pair<PetEntity, View>> {
+    private val navigationObserver = Observer<Pair<SearchPetEntity, View>> {
         val petViewPair = it ?: return@Observer
         getViewModel().trackSearchToDetails()
 
@@ -312,9 +312,9 @@ class SearchFragment :
         getParentViewModel().homeNavigator.toPetDetailsFromSearch(petViewPair.first.id, extras)
     }
 
-    private val petsObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
+    private val petsObserver = Observer<BaseStateModel<out PagedList<SearchPetEntity>>> {
         val baseStateModel = it ?: return@Observer
-        pagedListPetAdapter.submitList(baseStateModel.data) {
+        pagedSearchListPetAdapter.submitList(baseStateModel.data) {
             val paginationEntity =
                 getViewModel().itemPaginationStateLiveData.value?.paginationEntity
                     ?: return@submitList

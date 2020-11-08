@@ -15,19 +15,19 @@ import com.droid47.petpot.base.extensions.themeColor
 import com.droid47.petpot.base.extensions.updateWidth
 import com.droid47.petpot.base.widgets.BaseViewHolder
 import com.droid47.petpot.base.widgets.components.CheckableImageButton
-import com.droid47.petpot.databinding.ItemBookMarkBinding
 import com.droid47.petpot.databinding.ItemPetBinding
 import com.droid47.petpot.databinding.ItemSimilarPetBinding
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import javax.inject.Inject
 
-class PagedListPetAdapter @Inject constructor(
+class PagedSearchListPetAdapter @Inject constructor(
     private val context: Context,
     private val type: AdapterType = AdapterType.Search,
     private val onItemClickListener: OnItemClickListener
-) : PagedListAdapter<PetEntity, BaseViewHolder<PetEntity>>(SearchDiff) {
+) : PagedListAdapter<SearchPetEntity, BaseViewHolder<SearchPetEntity>>(SearchDiff) {
 
     private var recyclerView: RecyclerView? = null
     private val screenWidth = context.getScreenWidth()
@@ -99,16 +99,8 @@ class PagedListPetAdapter @Inject constructor(
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<PetEntity> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<SearchPetEntity> =
         when (type) {
-            AdapterType.Favorite -> BookmarkViewHolder(
-                ItemBookMarkBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
-
             AdapterType.Similar -> SimilarViewHolder(
                 ItemSimilarPetBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -130,22 +122,22 @@ class PagedListPetAdapter @Inject constructor(
 
     override fun getItemId(position: Int): Long = getItem(position)?.id?.toLong() ?: -1L
 
-    override fun onBindViewHolder(holder: BaseViewHolder<PetEntity>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<SearchPetEntity>, position: Int) {
         holder.onBind(getItem(position)?:return)
     }
 
-    object SearchDiff : DiffUtil.ItemCallback<PetEntity>() {
-        override fun areItemsTheSame(oldItem: PetEntity, newItem: PetEntity): Boolean =
+    object SearchDiff : DiffUtil.ItemCallback<SearchPetEntity>() {
+        override fun areItemsTheSame(oldItem: SearchPetEntity, newItem: SearchPetEntity): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: PetEntity, newItem: PetEntity): Boolean =
+        override fun areContentsTheSame(oldItem: SearchPetEntity, newItem: SearchPetEntity): Boolean =
              oldItem == newItem
     }
 
     open inner class SearchViewHolder(private val itemBinding: ItemPetBinding) :
-        BaseViewHolder<PetEntity>(itemBinding.root) {
+        BaseViewHolder<SearchPetEntity>(itemBinding.root) {
 
-        override fun onBind(item: PetEntity) {
+        override fun onBind(item: SearchPetEntity) {
             itemBinding.cibStar.background = bookMarkShapeDrawable
             itemBinding.run {
                 setVariable(BR.pet, item)
@@ -159,43 +151,17 @@ class PagedListPetAdapter @Inject constructor(
 
             itemBinding.cibStar.setOnClickListener {
                 val checkableImageButton = (it as CheckableImageButton)
-                onItemClickListener.onBookMarkClick(item.apply {
-                    bookmarkStatus = !checkableImageButton.isChecked
-                })
-            }
-        }
-    }
-
-    private inner class BookmarkViewHolder(private val itemBinding: ItemBookMarkBinding) :
-        BaseViewHolder<PetEntity>(itemBinding.root) {
-
-        override fun onBind(item: PetEntity) {
-            itemBinding.apply {
-                setVariable(BR.pet, item)
-                executePendingBindings()
-            }
-
-            itemBinding.cibStar.let { checkableBtn ->
-                checkableBtn.isChecked = item.bookmarkStatus
-                checkableBtn.background = bookMarkRoundedShapeDrawable
-                checkableBtn.setOnClickListener {
-                    checkableBtn.isChecked = !item.bookmarkStatus
-                    onItemClickListener.onBookMarkClick(item.apply {
-                        bookmarkStatus = !item.bookmarkStatus
-                    })
-                }
-            }
-
-            itemBinding.root.setOnClickListener {
-                onItemClickListener.onItemClick(item, it)
+//                onItemClickListener.onBookMarkClick(item.apply {
+//                    bookmarkStatus = !checkableImageButton.isChecked
+//                })
             }
         }
     }
 
     private inner class SimilarViewHolder(private val itemBinding: ItemSimilarPetBinding) :
-        BaseViewHolder<PetEntity>(itemBinding.root) {
+        BaseViewHolder<SearchPetEntity>(itemBinding.root) {
 
-        override fun onBind(item: PetEntity) {
+        override fun onBind(item: SearchPetEntity) {
             itemBinding.ivPetPic.updateWidth(imgWidth)
             itemBinding.cvPetInfo.updateWidth(screenWidth.minus(diffWidth))
 
@@ -211,13 +177,12 @@ class PagedListPetAdapter @Inject constructor(
     }
 
     interface OnItemClickListener {
-        fun onBookMarkClick(petEntity: PetEntity)
-        fun onItemClick(petEntity: PetEntity, view: View)
+        fun onBookMarkClick(petEntity: FavouritePetEntity)
+        fun onItemClick(petEntity: SearchPetEntity, view: View)
     }
 
     sealed class AdapterType {
         object Search : AdapterType()
-        object Favorite : AdapterType()
         object Similar : AdapterType()
     }
 }

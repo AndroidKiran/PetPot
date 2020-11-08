@@ -11,10 +11,10 @@ class RemoveAllPetsUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository
-) : CompletableUseCase<Boolean>(threadExecutor, postExecutionThread) {
+) : CompletableUseCase<Unit>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: Boolean): Completable =
-        petRepository.clearPetsFromDb(params)
+    override fun buildUseCaseCompletable(params: Unit): Completable =
+        petRepository.clearAllPetsFromDb()
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)
 }

@@ -8,141 +8,37 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.droid47.petpot.BR
 import com.droid47.petpot.base.extensions.isNotEmpty
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_AGE
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_ATTR
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_BOOK_MARK_AT
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_BOOK_MARK_STATUS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_BREED
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_COAT
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_COLORS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_CONTACT
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_DESCRIPTION
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_DISTANCE
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_ENV
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_GENDER
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_ID
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_NAME
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_PHOTOS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_PUBLISHED_AT
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_SIZE
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_SPECIES
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_STATUS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_STATUS_CHANGED_AT
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_TAGS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_TYPE
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_URL
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_VIDEOS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-@Entity(tableName = TABLE_NAME)
-@Parcelize
-data class PetEntity(
-    @field:SerializedName("gender")
-    @ColumnInfo(name = COL_GENDER)
-    var gender: String? = null,
-
-    @field:SerializedName("type")
-    @ColumnInfo(name = COL_TYPE, index = true)
-    var type: String? = null,
-
-    @field:SerializedName("photos")
-    @ColumnInfo(name = COL_PHOTOS)
-    var photos: List<PhotosItemEntity>? = null,
-
-    @field:SerializedName("colors")
-    @ColumnInfo(name = COL_COLORS)
-    var colorsEntity: ColorsEntity? = null,
-
-    @field:SerializedName("breeds")
-    @ColumnInfo(name = COL_BREED)
-    var breedEntity: BreedEntity? = null,
-
-    @field:SerializedName("tags")
-    @ColumnInfo(name = COL_TAGS)
-    var tags: List<String>? = null,
-
-    @field:SerializedName("coat")
-    @ColumnInfo(name = COL_COAT)
-    var coat: String? = null,
-
-    @field:SerializedName("environment")
-    @ColumnInfo(name = COL_ENV)
-    var environmentEntity: EnvironmentEntity? = null,
-
-    @field:SerializedName("size")
-    @ColumnInfo(name = COL_SIZE)
-    var size: String? = null,
-
-    @field:SerializedName("species")
-    @ColumnInfo(name = COL_SPECIES)
-    var species: String? = null,
-
-    @field:SerializedName("contact")
-    @ColumnInfo(name = COL_CONTACT)
-    var contactEntity: ContactEntity? = null,
-
-    @field:SerializedName("name")
-    @ColumnInfo(name = COL_NAME, index = true)
-    var name: String? = null,
-
-    @field:SerializedName("attributes")
-    @ColumnInfo(name = COL_ATTR)
-    var attributesEntity: AttributesEntity? = null,
-
-    @field:SerializedName("id")
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = COL_ID, index = true)
-    @get:Bindable
-    var id: Int = -1,
-
-    @field:SerializedName("published_at")
-    @ColumnInfo(name = COL_PUBLISHED_AT, index = true)
-    var publishedAt: Date? = null,
-
-    @field:SerializedName("status_changed_at")
-    @ColumnInfo(name = COL_STATUS_CHANGED_AT)
-    var statusModifiedAt: Date? = null,
-
-    @field:SerializedName("age")
-    @ColumnInfo(name = COL_AGE)
-    var age: String? = null,
-
-    @field:SerializedName("status")
-    @ColumnInfo(name = COL_STATUS)
-    var status: String? = null,
-
-    @field:SerializedName("description")
-    @ColumnInfo(name = COL_DESCRIPTION)
-    var desc: String? = null,
-
-    @field:SerializedName("url")
-    @ColumnInfo(name = COL_URL)
-    var url: String? = null,
-
-    @field:SerializedName("distance")
-    @ColumnInfo(name = COL_DISTANCE, index = true)
-    var distance: Double = 0.0,
-
-    @field:SerializedName("videos")
-    @ColumnInfo(name = COL_VIDEOS)
-    var videos: List<VideoItemEntity>? = null
-) : BaseObservable(), Parcelable {
-
-    @get:Bindable
-    @ColumnInfo(name = COL_BOOK_MARK_STATUS, index = true)
-    @field:SerializedName("bookmark_status")
-    var bookmarkStatus: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.bookmarkStatus)
-        }
-
-    @ColumnInfo(name = COL_BOOK_MARK_AT, index = true)
-    @field:SerializedName("bookmarked_at")
-    var bookmarkedAt: Long = System.currentTimeMillis()
+abstract class PetEntity : BaseObservable(), Parcelable {
+    abstract val gender: String?
+    abstract val type: String?
+    abstract val photos: List<PhotosItemEntity>?
+    abstract val colorsEntity: ColorsEntity?
+    abstract val breedEntity: BreedEntity?
+    abstract val tags: List<String>?
+    abstract val coat: String?
+    abstract val environmentEntity: EnvironmentEntity?
+    abstract val size: String?
+    abstract val species: String?
+    abstract val contactEntity: ContactEntity?
+    abstract val name: String?
+    abstract val attributesEntity: AttributesEntity?
+    abstract val id: Int
+    abstract val publishedAt: Date?
+    abstract val statusModifiedAt: Date?
+    abstract val age: String?
+    abstract val status: String?
+    abstract val desc: String?
+    abstract val url: String?
+    abstract val distance: Double
+    abstract val videos: List<VideoItemEntity>?
+    abstract var bookmarkStatus: Boolean
+    abstract var bookmarkedAt: Long
 
     fun getPetPhoto(): String {
         val photoList = photos ?: emptyList()
@@ -165,7 +61,7 @@ data class PetEntity(
     }
 
     object TableInfo {
-        const val TABLE_NAME = "pets"
+        const val TABLE_NAME_ = "favourite_pets"
         const val COL_GENDER = "gender"
         const val COL_TYPE = "type"
         const val COL_PHOTOS = "photos"
@@ -190,5 +86,229 @@ data class PetEntity(
         const val COL_DISTANCE = "distance"
         const val COL_VIDEOS = "videos"
         const val COL_STATUS_CHANGED_AT = "status_changed_at"
+    }
+}
+
+@Entity(tableName = SearchPetEntity.TABLE_NAME)
+@Parcelize
+data class SearchPetEntity(
+    @field:SerializedName("gender")
+    @ColumnInfo(name = TableInfo.COL_GENDER)
+    override val gender: String? = null,
+
+    @field:SerializedName("type")
+    @ColumnInfo(name = TableInfo.COL_TYPE, index = true)
+    override val type: String? = null,
+
+    @field:SerializedName("photos")
+    @ColumnInfo(name = TableInfo.COL_PHOTOS)
+    override val photos: List<PhotosItemEntity>? = null,
+
+    @field:SerializedName("colors")
+    @ColumnInfo(name = TableInfo.COL_COLORS)
+    override val colorsEntity: ColorsEntity? = null,
+
+    @field:SerializedName("breeds")
+    @ColumnInfo(name = TableInfo.COL_BREED)
+    override val breedEntity: BreedEntity? = null,
+
+    @field:SerializedName("tags")
+    @ColumnInfo(name = TableInfo.COL_TAGS)
+    override val tags: List<String>? = null,
+
+    @field:SerializedName("coat")
+    @ColumnInfo(name = TableInfo.COL_COAT)
+    override val coat: String? = null,
+
+    @field:SerializedName("environment")
+    @ColumnInfo(name = TableInfo.COL_ENV)
+    override val environmentEntity: EnvironmentEntity? = null,
+
+    @field:SerializedName("size")
+    @ColumnInfo(name = TableInfo.COL_SIZE)
+    override val size: String? = null,
+
+    @field:SerializedName("species")
+    @ColumnInfo(name = TableInfo.COL_SPECIES)
+    override val species: String? = null,
+
+    @field:SerializedName("contact")
+    @ColumnInfo(name = TableInfo.COL_CONTACT)
+    override val contactEntity: ContactEntity? = null,
+
+    @field:SerializedName("name")
+    @ColumnInfo(name = TableInfo.COL_NAME, index = true)
+    override val name: String? = null,
+
+    @field:SerializedName("attributes")
+    @ColumnInfo(name = TableInfo.COL_ATTR)
+    override val attributesEntity: AttributesEntity? = null,
+
+    @field:SerializedName("id")
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = TableInfo.COL_ID, index = true)
+    @get:Bindable
+    override val id: Int = -1,
+
+    @field:SerializedName("published_at")
+    @ColumnInfo(name = TableInfo.COL_PUBLISHED_AT, index = true)
+    override val publishedAt: Date? = null,
+
+    @field:SerializedName("status_changed_at")
+    @ColumnInfo(name = TableInfo.COL_STATUS_CHANGED_AT)
+    override val statusModifiedAt: Date? = null,
+
+    @field:SerializedName("age")
+    @ColumnInfo(name = TableInfo.COL_AGE)
+    override val age: String? = null,
+
+    @field:SerializedName("status")
+    @ColumnInfo(name = TableInfo.COL_STATUS)
+    override val status: String? = null,
+
+    @field:SerializedName("description")
+    @ColumnInfo(name = TableInfo.COL_DESCRIPTION)
+    override val desc: String? = null,
+
+    @field:SerializedName("url")
+    @ColumnInfo(name = TableInfo.COL_URL)
+    override val url: String? = null,
+
+    @field:SerializedName("distance")
+    @ColumnInfo(name = TableInfo.COL_DISTANCE, index = true)
+    override val distance: Double = 0.0,
+
+    @field:SerializedName("videos")
+    @ColumnInfo(name = TableInfo.COL_VIDEOS)
+    override val videos: List<VideoItemEntity>? = null
+) : PetEntity() {
+
+    @get:Bindable
+    @ColumnInfo(name = COL_BOOK_MARK_STATUS, index = true)
+    @field:SerializedName("bookmark_status")
+    override var bookmarkStatus: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bookmarkStatus)
+        }
+
+    @ColumnInfo(name = COL_BOOK_MARK_AT, index = true)
+    @field:SerializedName("bookmarked_at")
+    override var bookmarkedAt: Long = System.currentTimeMillis()
+
+    companion object {
+        const val TABLE_NAME = "pets"
+    }
+}
+
+@Entity(tableName = FavouritePetEntity.TABLE_NAME)
+@Parcelize
+data class FavouritePetEntity(
+    @field:SerializedName("gender")
+    @ColumnInfo(name = TableInfo.COL_GENDER)
+    override val gender: String? = null,
+
+    @field:SerializedName("type")
+    @ColumnInfo(name = TableInfo.COL_TYPE, index = true)
+    override val type: String? = null,
+
+    @field:SerializedName("photos")
+    @ColumnInfo(name = TableInfo.COL_PHOTOS)
+    override val photos: List<PhotosItemEntity>? = null,
+
+    @field:SerializedName("colors")
+    @ColumnInfo(name = TableInfo.COL_COLORS)
+    override val colorsEntity: ColorsEntity? = null,
+
+    @field:SerializedName("breeds")
+    @ColumnInfo(name = TableInfo.COL_BREED)
+    override val breedEntity: BreedEntity? = null,
+
+    @field:SerializedName("tags")
+    @ColumnInfo(name = TableInfo.COL_TAGS)
+    override val tags: List<String>? = null,
+
+    @field:SerializedName("coat")
+    @ColumnInfo(name = TableInfo.COL_COAT)
+    override val coat: String? = null,
+
+    @field:SerializedName("environment")
+    @ColumnInfo(name = TableInfo.COL_ENV)
+    override val environmentEntity: EnvironmentEntity? = null,
+
+    @field:SerializedName("size")
+    @ColumnInfo(name = TableInfo.COL_SIZE)
+    override val size: String? = null,
+
+    @field:SerializedName("species")
+    @ColumnInfo(name = TableInfo.COL_SPECIES)
+    override val species: String? = null,
+
+    @field:SerializedName("contact")
+    @ColumnInfo(name = TableInfo.COL_CONTACT)
+    override val contactEntity: ContactEntity? = null,
+
+    @field:SerializedName("name")
+    @ColumnInfo(name = TableInfo.COL_NAME, index = true)
+    override val name: String? = null,
+
+    @field:SerializedName("attributes")
+    @ColumnInfo(name = TableInfo.COL_ATTR)
+    override val attributesEntity: AttributesEntity? = null,
+
+    @field:SerializedName("id")
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = TableInfo.COL_ID, index = true)
+    @get:Bindable
+    override val id: Int = -1,
+
+    @field:SerializedName("published_at")
+    @ColumnInfo(name = TableInfo.COL_PUBLISHED_AT, index = true)
+    override val publishedAt: Date? = null,
+
+    @field:SerializedName("status_changed_at")
+    @ColumnInfo(name = TableInfo.COL_STATUS_CHANGED_AT)
+    override val statusModifiedAt: Date? = null,
+
+    @field:SerializedName("age")
+    @ColumnInfo(name = TableInfo.COL_AGE)
+    override val age: String? = null,
+
+    @field:SerializedName("status")
+    @ColumnInfo(name = TableInfo.COL_STATUS)
+    override val status: String? = null,
+
+    @field:SerializedName("description")
+    @ColumnInfo(name = TableInfo.COL_DESCRIPTION)
+    override val desc: String? = null,
+
+    @field:SerializedName("url")
+    @ColumnInfo(name = TableInfo.COL_URL)
+    override val url: String? = null,
+
+    @field:SerializedName("distance")
+    @ColumnInfo(name = TableInfo.COL_DISTANCE, index = true)
+    override val distance: Double = 0.0,
+
+    @field:SerializedName("videos")
+    @ColumnInfo(name = TableInfo.COL_VIDEOS)
+    override val videos: List<VideoItemEntity>? = null
+) : PetEntity() {
+
+    @get:Bindable
+    @ColumnInfo(name = COL_BOOK_MARK_STATUS, index = true)
+    @field:SerializedName("bookmark_status")
+    override var bookmarkStatus: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bookmarkStatus)
+        }
+
+    @ColumnInfo(name = COL_BOOK_MARK_AT, index = true)
+    @field:SerializedName("bookmarked_at")
+    override var bookmarkedAt: Long = System.currentTimeMillis()
+
+    companion object {
+        const val TABLE_NAME = "favourite_pets"
     }
 }

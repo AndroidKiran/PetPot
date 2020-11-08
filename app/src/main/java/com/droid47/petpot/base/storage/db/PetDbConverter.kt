@@ -184,6 +184,7 @@ object PetDbConverter {
         return Gson().fromJson(inputValue, OrganizationCheckableEntity.SocialMediaEntity::class.java)
     }
 
+
 //    @TypeConverter
 //    @JvmStatic
 //    fun fromAddress(value: AddressEntity?): String? {

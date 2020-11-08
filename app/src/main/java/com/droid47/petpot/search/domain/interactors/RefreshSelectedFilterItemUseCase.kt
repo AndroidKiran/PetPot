@@ -16,5 +16,7 @@ class RefreshSelectedFilterItemUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: PetFilterCheckableEntity): Completable =
             filterRepository.updateFilterItem(params)
+                .subscribeOn(threadExecutorScheduler)
+                .observeOn(postExecutionThreadScheduler)
 
 }

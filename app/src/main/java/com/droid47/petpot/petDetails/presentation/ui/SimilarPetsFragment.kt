@@ -25,8 +25,8 @@ import com.droid47.petpot.databinding.FragmentSimilarPetsBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.petDetails.presentation.viewmodels.PetDetailsViewModel
-import com.droid47.petpot.search.data.models.search.PetEntity
-import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
+import com.droid47.petpot.search.presentation.ui.widgets.PagedSearchListPetAdapter
 import javax.inject.Inject
 
 class SimilarPetsFragment :
@@ -43,10 +43,10 @@ class SimilarPetsFragment :
         requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
-    private val pagedListPetAdapter: PagedListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        PagedListPetAdapter(
+    private val pagedSearchListPetAdapter: PagedSearchListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        PagedSearchListPetAdapter(
             requireContext(),
-            PagedListPetAdapter.AdapterType.Similar,
+            PagedSearchListPetAdapter.AdapterType.Similar,
             getViewModel()
         )
     }
@@ -83,7 +83,7 @@ class SimilarPetsFragment :
         setUpSimilarRvAdapter()
     }
 
-    fun subscribeToSubListSelection(selectionObserver: Observer<Pair<PetEntity, View>>) {
+    fun subscribeToSubListSelection(selectionObserver: Observer<Pair<SearchPetEntity, View>>) {
         getViewModel().navigateToAnimalDetailsAction.run {
             removeObserver(selectionObserver)
             observe(viewLifecycleOwner, selectionObserver)
@@ -103,12 +103,12 @@ class SimilarPetsFragment :
                 setSnapInterpolator(DecelerateInterpolator())
                 setSeekDuration(300)
             }
-            adapter = pagedListPetAdapter
+            adapter = pagedSearchListPetAdapter
         }
     }
 
     private fun getPetAdapter() =
-        getViewDataBinding().rvAlsoLikeList.adapter as? PagedListPetAdapter
+        getViewDataBinding().rvAlsoLikeList.adapter as? PagedSearchListPetAdapter
 
     private fun subscribeToLiveData() {
         getViewModel().petsLiveData.run {
@@ -117,7 +117,7 @@ class SimilarPetsFragment :
         }
     }
 
-    private val similarPetListObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
+    private val similarPetListObserver = Observer<BaseStateModel<out PagedList<SearchPetEntity>>> {
         val stateModel = it ?: return@Observer
         if (stateModel is Empty) {
             getViewDataBinding().clAlsoLike.gone()

@@ -102,7 +102,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
     private fun refreshSelectedPet(petType: String) =
         refreshSelectedPetUseCase.buildUseCaseCompletable(petType)
             .andThen(refreshFilterUseCase.buildUseCaseCompletable(locationLiveData.value ?: ""))
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(Unit))
 
     @SuppressLint("CheckResult")
     private fun initInsertEvent() {

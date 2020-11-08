@@ -1,8 +1,12 @@
 package com.droid47.petpot.search.data.datasource
 
 import androidx.paging.DataSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -11,49 +15,31 @@ import io.reactivex.Single
 interface PetDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPet(petEntity: PetEntity): Single<Long>
+    fun insertPet(petEntity: SearchPetEntity): Single<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPets(list: List<PetEntity>): Single<List<Long>>
+    fun insertPets(list: List<SearchPetEntity>): Single<List<Long>>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_ID} =:id")
-    fun getPetById(id: Int): Single<PetEntity>
+    @Query("SELECT * FROM ${SearchPetEntity.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_ID} =:id")
+    fun getPetById(id: Int): Single<SearchPetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_ID} =:id")
-    fun getSelectedPet(id: Int): Flowable<PetEntity>
-
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
-    fun getFavoritePetsSingle(status: Boolean): Single<List<PetEntity>>
-
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
-    fun getFavoritePetsDataSource(status: Boolean): DataSource.Factory<Int, PetEntity>
-
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY datetime(${PetEntity.TableInfo.COL_PUBLISHED_AT}) DESC")
+    @Query("SELECT * FROM ${SearchPetEntity.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY datetime(${PetEntity.TableInfo.COL_PUBLISHED_AT}) DESC")
     fun getRecentPetsDataSource(
         petType: String
-    ): DataSource.Factory<Int, PetEntity>
+    ): DataSource.Factory<Int, SearchPetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY ${PetEntity.TableInfo.COL_DISTANCE} ASC")
+    @Query("SELECT * FROM ${SearchPetEntity.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY ${PetEntity.TableInfo.COL_DISTANCE} ASC")
     fun getNearByPetsDataSource(
         petType: String
-    ): DataSource.Factory<Int, PetEntity>
+    ): DataSource.Factory<Int, SearchPetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
-    fun getAllPetsDataSource(): DataSource.Factory<Int, PetEntity>
+    @Query("SELECT * FROM ${SearchPetEntity.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")
+    fun getAllPetsDataSource(): DataSource.Factory<Int, SearchPetEntity>
 
-    @Delete
-    fun deletePet(petEntity: PetEntity): Completable
+    @Query("SELECT * FROM ${SearchPetEntity.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_ID} =:id")
+    fun getSelectedPet(id: Int): Flowable<List<SearchPetEntity>>
 
-    @Update
-    fun updatePet(petEntity: PetEntity): Completable
-
-    @Query("DELETE FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status")
-    fun deletePetsFor(status: Boolean): Completable
-
-    @Query("UPDATE ${PetEntity.TableInfo.TABLE_NAME} SET ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:updateStatus WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:currentStatus")
-    fun updatePetsTo(updateStatus: Boolean, currentStatus: Boolean): Completable
-
-    @Query("DELETE FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status")
-    fun deletePets(status: Boolean): Completable
+    @Query("DELETE FROM ${SearchPetEntity.TABLE_NAME}")
+    fun deleteAll(): Completable
 
 }

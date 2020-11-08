@@ -15,5 +15,7 @@ class ClearFilterUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Unit): Completable {
         return organizationRepository.clearFilter()
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
     }
 }

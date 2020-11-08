@@ -7,7 +7,7 @@ import androidx.paging.PagedList
 import com.droid47.petpot.base.extensions.clearDisposable
 import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.search.data.models.search.PaginationEntity
-import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.droid47.petpot.search.data.models.search.SearchResponseEntity
 import com.droid47.petpot.search.presentation.models.*
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.PAGE_ONE
@@ -24,7 +24,7 @@ class PetPaginationUseCase @Inject constructor(
     private val petDataSourceUseCase: PetDataSourceUseCase,
     private val fetchPetFromNetworkAndCacheDbUseCase: FetchPetFromNetworkAndCacheDbUseCase,
     private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase
-) : PagedList.BoundaryCallback<PetEntity>() {
+) : PagedList.BoundaryCallback<SearchPetEntity>() {
 
     private val searchSubject = PublishSubject.create<Boolean>().toSerialized()
     private val compositeDisposable = CompositeDisposable()
@@ -42,20 +42,20 @@ class PetPaginationUseCase @Inject constructor(
         searchSubject.onNext(true)
     }
 
-    override fun onItemAtEndLoaded(itemAtEnd: PetEntity) {
+    override fun onItemAtEndLoaded(itemAtEnd: SearchPetEntity) {
         super.onItemAtEndLoaded(itemAtEnd)
         if (itemPaginationStateLiveData.value?.loadedAllItems == true) return
         searchSubject.onNext(false)
     }
 
-    fun buildPageListObservable(): Flowable<BaseStateModel<PagedList<PetEntity>>> =
+    fun buildPageListObservable(): Flowable<BaseStateModel<PagedList<SearchPetEntity>>> =
         petDataSourceUseCase.buildUseCaseObservable(this)
 
 
     fun retry() {
         when (obtainPagination().currentPage) {
             PAGE_ONE -> onZeroItemsLoaded()
-            else -> onItemAtEndLoaded(PetEntity())
+            else -> onItemAtEndLoaded(SearchPetEntity())
         }
     }
 

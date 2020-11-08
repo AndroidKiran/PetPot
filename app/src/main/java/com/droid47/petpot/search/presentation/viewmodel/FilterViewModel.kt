@@ -106,7 +106,7 @@ class FilterViewModel @Inject constructor(
         trackFilterReset()
         val menuList = menuItemListLiveData.value ?: emptyList()
         resetFilterUseCase.buildUseCaseCompletable(menuList)
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(Unit))
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
 
@@ -126,7 +126,7 @@ class FilterViewModel @Inject constructor(
         trackFilterApplied()
         val menuList = menuItemListLiveData.value ?: emptyList()
         updateFilterOnAppliedUseCase.buildUseCaseCompletable(menuList)
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(Unit))
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
                     eventLiveData.postValue(EVENT_APPLY_FILTER)

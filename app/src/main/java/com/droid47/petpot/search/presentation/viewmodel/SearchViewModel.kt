@@ -12,13 +12,15 @@ import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.components.LiveEvent
 import com.droid47.petpot.search.data.models.LOCATION
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
 import com.droid47.petpot.search.data.models.search.PetEntity
+import com.droid47.petpot.search.data.models.search.SearchPetEntity
 import com.droid47.petpot.search.domain.interactors.FetchAppliedFilterUseCase
 import com.droid47.petpot.search.domain.interactors.PetPaginationUseCase
 import com.droid47.petpot.search.domain.interactors.RemoveAllPetsUseCase
 import com.droid47.petpot.search.domain.interactors.UpdateFilterUseCase
 import com.droid47.petpot.search.presentation.models.ItemPaginationState
-import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
+import com.droid47.petpot.search.presentation.ui.widgets.PagedSearchListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.tracking.TrackSearchViewModel
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
@@ -35,14 +37,13 @@ class SearchViewModel @Inject constructor(
     private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
     private val petPaginationUseCase: PetPaginationUseCase,
     val firebaseManager: IFirebaseManager
-) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener,
+) : BaseAndroidViewModel(application), PagedSearchListPetAdapter.OnItemClickListener,
     TrackSearchViewModel {
 
-    var listState: Parcelable? = null
-    private val bookMarkSubject = PublishSubject.create<PetEntity>().toSerialized()
+//    private val bookMarkSubject = PublishSubject.create<FavouritePetEntity>().toSerialized()
 
-    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
-    val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>
+    private val _navigateToAnimalDetailsAction = LiveEvent<Pair<SearchPetEntity, View>>()
+    val navigateToAnimalDetailsAction: LiveEvent<Pair<SearchPetEntity, View>>
         get() = _navigateToAnimalDetailsAction
 
     val eventLiveData = LiveEvent<Long>()
@@ -52,11 +53,11 @@ class SearchViewModel @Inject constructor(
         petPaginationUseCase.itemPaginationStateLiveData
     val petsLiveData = petPaginationUseCase.buildPageListObservable().toSingleLiveData()
 
-    override fun onBookMarkClick(petEntity: PetEntity) {
-        bookMarkSubject.onNext(petEntity)
+    override fun onBookMarkClick(petEntity: FavouritePetEntity) {
+//        bookMarkSubject.onNext(petEntity)
     }
 
-    override fun onItemClick(petEntity: PetEntity, view: View) {
+    override fun onItemClick(petEntity: SearchPetEntity, view: View) {
         _navigateToAnimalDetailsAction.postValue(Pair(petEntity, view))
     }
 
@@ -90,7 +91,7 @@ class SearchViewModel @Inject constructor(
                             selected = true,
                             filterApplied = true
                         )
-                    ).andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+                    ).andThen(removeAllPetsUseCase.buildUseCaseCompletable(Unit))
                 } else {
                     Completable.complete()
                 }

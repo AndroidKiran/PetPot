@@ -26,8 +26,9 @@ import com.droid47.petpot.base.widgets.anim.SpringAddItemAnimator
 import com.droid47.petpot.databinding.FragmentBookMarkBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
-import com.droid47.petpot.search.data.models.search.PetEntity
-import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
+import com.droid47.petpot.search.data.models.search.FavouritePetEntity
+import com.droid47.petpot.search.presentation.ui.widgets.PagedFavouriteListPetAdapter
+import com.droid47.petpot.search.presentation.ui.widgets.PagedSearchListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.BookmarkViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -55,10 +56,9 @@ class BookmarkFragment :
         requireActivity().activityViewModelProvider<HomeViewModel>()
     }
 
-    private val pagedListPetAdapter: PagedListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        PagedListPetAdapter(
+    private val pagedFavouriteListPetAdapter: PagedFavouriteListPetAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        PagedFavouriteListPetAdapter(
             requireContext(),
-            PagedListPetAdapter.AdapterType.Favorite,
             getViewModel()
         )
     }
@@ -162,11 +162,11 @@ class BookmarkFragment :
         with(getViewDataBinding().rvPets) {
             if (getPetAdapter() != null) return@with
             itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
-            getViewDataBinding().rvPets.adapter = pagedListPetAdapter
+            getViewDataBinding().rvPets.adapter = pagedFavouriteListPetAdapter
         }
     }
 
-    private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PagedListPetAdapter
+    private fun getPetAdapter() = getViewDataBinding().rvPets.adapter as? PagedFavouriteListPetAdapter
 
     private fun subscribeToLiveData() {
         getViewModel().bookmarkListLiveData.run {
@@ -185,7 +185,7 @@ class BookmarkFragment :
         }
     }
 
-    private val bookmarkDataObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
+    private val bookmarkDataObserver = Observer<BaseStateModel<out PagedList<FavouritePetEntity>>> {
         val baseStateModel = it ?: return@Observer
         when (baseStateModel) {
             is Loading -> {
@@ -214,7 +214,7 @@ class BookmarkFragment :
     }
 
 
-    private val navigationObserver = Observer<Pair<PetEntity, View>> {
+    private val navigationObserver = Observer<Pair<FavouritePetEntity, View>> {
         val petViewPair = it ?: return@Observer
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
@@ -228,7 +228,7 @@ class BookmarkFragment :
         getParentViewModel().homeNavigator.toPetDetailsFromFavorite(petViewPair.first.id, extras)
     }
 
-    private val bookmarkStatusObserver = Observer<BaseStateModel<PetEntity>> {
+    private val bookmarkStatusObserver = Observer<BaseStateModel<FavouritePetEntity>> {
         val baseStateModel = it ?: return@Observer
         when {
             baseStateModel is Success && !baseStateModel.data.bookmarkStatus ->
@@ -273,7 +273,7 @@ class BookmarkFragment :
             .show()
     }
 
-    private fun showBookmarkUndoSnackBar(petEntity: PetEntity) {
+    private fun showBookmarkUndoSnackBar(petEntity: FavouritePetEntity) {
         val msg = getString(R.string.remove_bookmark)
         Snackbar.make(getViewDataBinding().bottomAppBar, msg, Snackbar.LENGTH_LONG)
             .setAnchorView(getSnackBarAnchorId())
