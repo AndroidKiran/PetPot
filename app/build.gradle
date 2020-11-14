@@ -74,10 +74,14 @@ android {
 
     buildTypes {
         debug {
+            versionNameSuffix "-dev"
+            applicationIdSuffix '.dev'
+
             minifyEnabled false
             shrinkResources false
             debuggable true
             aaptOptions.cruncherEnabled = false
+            jniDebuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['DEV_GOOGLE_MAP_API_KEY']]
@@ -87,6 +91,9 @@ android {
         }
 
         release {
+            ndk.with {
+                debuggable = true
+            }
             minifyEnabled true
             shrinkResources true
             debuggable false
@@ -117,8 +124,6 @@ android {
     productFlavors {
         free {
             dimension "default"
-            versionNameSuffix "-free"
-            applicationIdSuffix '.free'
         }
     }
 
@@ -235,10 +240,10 @@ dependencies {
 
     //FireBase
     implementation "com.google.firebase:firebase-analytics-ktx:18.0.0"
-    implementation "com.google.firebase:firebase-crashlytics-ktx:17.2.2"
-    implementation "com.google.firebase:firebase-perf-ktx:19.0.9"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:17.3.0"
+    implementation "com.google.firebase:firebase-perf-ktx:19.0.10"
     implementation 'com.google.firebase:firebase-messaging-ktx:21.0.0'
-    implementation 'com.google.firebase:firebase-config-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-config-ktx:20.0.1'
 
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'

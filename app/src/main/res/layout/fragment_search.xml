@@ -50,7 +50,8 @@
         <FrameLayout
             android:id="@+id/search_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_pets"
@@ -59,13 +60,11 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/grid_1"
-                android:paddingTop="@dimen/grid_12"
                 android:paddingEnd="@dimen/grid_1"
                 android:paddingBottom="@dimen/grid_12"
                 android:scrollbars="none"
                 app:hasFixedSize="@{true}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:spanCount="@integer/featured_grid_columns"
                 app:visible="@{searchViewModel.itemPaginationStateLiveData instanceof DefaultState || searchViewModel.itemPaginationStateLiveData instanceof PaginatingState || searchViewModel.itemPaginationStateLiveData instanceof PaginationErrorState || searchViewModel.petsLiveData instanceof Success}"
                 tools:listitem="@layout/item_pet" />
@@ -77,9 +76,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                android:layout_marginTop="@dimen/grid_10"
                 app:errorViewConfig="@{errorStateConfig}"
-                app:visible="@{searchViewModel.itemPaginationStateLiveData instanceof ErrorState}"
+                app:errorViewVisible="@{searchViewModel.itemPaginationStateLiveData instanceof ErrorState}"
                 tools:visibility="gone" />
 
             <include
@@ -89,16 +87,14 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_14"
-                android:layout_marginTop="@dimen/grid_10"
                 app:emptyViewConfig="@{emptyStateConfig}"
-                app:visible="@{searchViewModel.itemPaginationStateLiveData instanceof EmptyState}"
+                app:emptyViewVisible="@{searchViewModel.itemPaginationStateLiveData instanceof EmptyState}"
                 tools:visibility="gone" />
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/grid_10"
                 app:shimmer="@{searchViewModel.itemPaginationStateLiveData instanceof LoadingState}">
 
                 <include layout="@layout/layout_search_loader" />
@@ -120,6 +116,7 @@
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
+            app:fullScreenBottomPadding="@{true}"
             app:hideOnScroll="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/search"
+                    android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
                     app:iconTint="?attr/colorOnPrimarySurface"
@@ -188,7 +186,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/scrimBackground"
-            android:elevation="@dimen/plane_16"
+            android:elevation="@dimen/plane_02"
             app:marginTopSystemWindowInsets="@{true}">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout

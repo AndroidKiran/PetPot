@@ -13,28 +13,26 @@
             type="com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration" />
 
         <variable
-            name="isVisible"
+            name="errorViewVisible"
             type="Boolean" />
     </data>
 
-    <com.google.android.material.circularreveal.CircularRevealLinearLayout
-        android:id="@+id/ll_empty_view"
+    <LinearLayout
+        android:id="@+id/ll_error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/grid_2"
         android:gravity="center"
         android:minHeight="400dp"
         android:orientation="vertical"
-        app:visible="@{isVisible}"
-        app:paddingBottomSystemWindowInsets="@{true}"
-        app:paddingTopSystemWindowInsets="@{true}">
+        app:visible="@{errorViewVisible}">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_error"
             android:layout_width="@dimen/full_screen_place_holder_size"
             android:layout_height="@dimen/full_screen_place_holder_size"
             android:layout_gravity="center"
-            app:lottieAnimState="@{isVisible}"
+            app:lottieAnimState="@{errorViewVisible}"
             app:lottie_autoPlay="true"
             app:lottie_fileName="no_connection.json"
             app:lottie_loop="true" />
@@ -84,9 +82,10 @@
             android:gravity="center"
             android:onClick="@{errorViewConfig.errorRetryClickListener}"
             android:text="@{errorViewConfig.errorBtnText}"
+            android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
             app:visible="@{StringExtKt.isNotEmpty(errorViewConfig.errorBtnText)}"
             tools:text="Post QUestion" />
 
-    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
+    </LinearLayout>
 </layout>

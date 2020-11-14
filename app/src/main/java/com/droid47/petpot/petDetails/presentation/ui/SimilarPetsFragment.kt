@@ -91,7 +91,6 @@ class SimilarPetsFragment :
     }
 
     private fun setUpSimilarRvAdapter() {
-        if (getPetAdapter() != null) return
         with(getViewDataBinding().rvAlsoLikeList) {
             GravitySnapHelper(Gravity.START).attachToRecyclerView(this)
             layoutManager = SnappyLinearLayoutManager(

@@ -10,13 +10,15 @@ interface LocalPreferencesRepository {
 
     fun fetchAppliedTheme(): String
 
+    fun saveAppliedTheme(theme: String)
+
     fun fetchSearchLimit(): Int
 
     fun saveOnBoardingState()
 
     fun getOnBoardingState(): Boolean
 
-    fun saveTnCState()
+    fun saveTnCState(status: Boolean)
 
     fun getTnCState(): Boolean
 
@@ -41,4 +43,8 @@ interface LocalPreferencesRepository {
     fun getOrganizationFilter(): OrganizationFilter
 
     fun getNotificationStatus(): Boolean
+
+    fun savePrivacyPolicyVersion(version: Int)
+
+    fun getPrivacyPolicyVersion(): Int
 }

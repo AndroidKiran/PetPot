@@ -68,6 +68,10 @@ class SearchFragment :
     private var resultOrderMenuItem: MenuItem? = null
     private val locationHandler = Handler(Looper.getMainLooper())
 
+    private val springAddItemAnimator: SpringAddItemAnimator by lazy(LazyThreadSafetyMode.NONE) {
+        SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+    }
+
     private val searchViewModel: SearchViewModel by lazy(LazyThreadSafetyMode.NONE) {
         viewModelProvider<SearchViewModel>(factory)
     }
@@ -153,6 +157,11 @@ class SearchFragment :
     override fun onResume() {
         super.onResume()
         trackFragment(getViewModel().firebaseManager)
+    }
+
+    override fun onPause() {
+        springAddItemAnimator.endAnimations()
+        super.onPause()
     }
 
     override fun onStop() {
@@ -252,7 +261,7 @@ class SearchFragment :
     private fun setupSearchRvAdapter() {
 //        if (getPetAdapter() != null) return
         getViewDataBinding().rvPets.apply {
-            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+            itemAnimator = springAddItemAnimator
 //            GravitySnapHelper(Gravity.TOP).attachToRecyclerView(this)
             layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
                 setSnapType(SnapType.START)
@@ -313,6 +322,7 @@ class SearchFragment :
     }
 
     private val petsObserver = Observer<BaseStateModel<out PagedList<PetEntity>>> {
+        springAddItemAnimator.endAnimations()
         val baseStateModel = it ?: return@Observer
         pagedListPetAdapter.submitList(baseStateModel.data) {
             val paginationEntity =
@@ -542,14 +552,15 @@ class SearchFragment :
             this.scrimColor = Color.TRANSPARENT
             this.drawingViewId = getViewDataBinding().cdlMain.id
             this.duration = resources.getInteger(
-                    if (isExpanding)
-                        R.integer.pet_motion_duration_medium
-                    else
-                        R.integer.pet_motion_duration_small
-                ).toLong()
+                if (isExpanding)
+                    R.integer.pet_motion_duration_medium
+                else
+                    R.integer.pet_motion_duration_small
+            ).toLong()
             this.interpolator = FastOutSlowInInterpolator()
             this.setPathMotion(MaterialArcMotion())
-            this.fadeMode = if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
+            this.fadeMode =
+                if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
             this.addTarget(startView)
             this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {

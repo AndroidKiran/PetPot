@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.droid47.petpot.app.di.scopes.ActivityScope
+import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager

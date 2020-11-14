@@ -6,4 +6,11 @@
             {"update_type":0,"play_store_version_code":1}
         </value>
     </entry>
+
+    <entry>
+        <key>privacy_policy_upgrade</key>
+        <value>
+            {"update_type":0,"privacy_policy_version_code":1}
+        </value>
+    </entry>
 </defaultsMap>

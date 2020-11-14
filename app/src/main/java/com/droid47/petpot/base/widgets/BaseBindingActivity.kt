@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.droid47.petpot.app.PetApplication
 
 abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidViewModel> :
     AppCompatActivity() {

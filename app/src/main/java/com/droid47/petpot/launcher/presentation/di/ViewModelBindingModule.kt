@@ -15,13 +15,13 @@ interface ViewModelBindingModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeBoardViewModel::class)
-    fun bindHomeBoardingViewModel(homeBoardViewModel: HomeBoardViewModel): ViewModel
+    @ViewModelKey(LauncherViewModel::class)
+    fun bindNavigationViewModel(launcherViewModel: LauncherViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(LauncherViewModel::class)
-    fun bindNavigationViewModel(launcherViewModel: LauncherViewModel): ViewModel
+    @ViewModelKey(HomeBoardViewModel::class)
+    fun bindHomeBoardingViewModel(homeBoardViewModel: HomeBoardViewModel): ViewModel
 
     @Binds
     @IntoMap

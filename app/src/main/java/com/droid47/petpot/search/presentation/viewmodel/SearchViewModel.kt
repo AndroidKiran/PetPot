@@ -4,6 +4,9 @@ import android.app.Application
 import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.LiveData
+import com.droid47.petpot.app.di.scopes.ActivityScope
+import com.droid47.petpot.app.di.scopes.FragmentScope
+import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.extensions.toSingleLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
@@ -38,7 +41,6 @@ class SearchViewModel @Inject constructor(
 ) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener,
     TrackSearchViewModel {
 
-    var listState: Parcelable? = null
     private val bookMarkSubject = PublishSubject.create<PetEntity>().toSerialized()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -50,7 +52,7 @@ class SearchViewModel @Inject constructor(
 
     val itemPaginationStateLiveData: LiveData<ItemPaginationState> =
         petPaginationUseCase.itemPaginationStateLiveData
-    val petsLiveData = petPaginationUseCase.buildPageListObservable().toSingleLiveData()
+    val petsLiveData = petPaginationUseCase.buildPageListObservable().toLiveData()
 
     override fun onBookMarkClick(petEntity: PetEntity) {
         bookMarkSubject.onNext(petEntity)

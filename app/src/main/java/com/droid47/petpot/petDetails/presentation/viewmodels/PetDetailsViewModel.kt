@@ -10,6 +10,8 @@ import androidx.lifecycle.toLiveData
 import androidx.paging.PagedList
 import com.droid47.petpot.R
 import com.droid47.petpot.app.PetApplication
+import com.droid47.petpot.app.di.scopes.ActivityScope
+import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.IFirebaseManager
@@ -20,7 +22,7 @@ import com.droid47.petpot.petDetails.domain.interactors.FetchSelectedPetFromDbUs
 import com.droid47.petpot.petDetails.presentation.viewmodels.tracking.TrackPetDetailsViewModel
 import com.droid47.petpot.search.data.models.search.PetEntity
 import com.droid47.petpot.search.domain.interactors.DataSourceType
-import com.droid47.petpot.search.domain.interactors.SubscribeToPetsUseCase
+import com.droid47.petpot.search.domain.interactors.SubscribeToPetDataSourceUseCase
 import com.droid47.petpot.search.domain.interactors.UpdateFavoritePetUseCase
 import com.droid47.petpot.search.presentation.ui.widgets.*
 import io.reactivex.subjects.PublishSubject
@@ -29,7 +31,7 @@ import javax.inject.Inject
 
 class PetDetailsViewModel @Inject constructor(
     application: Application,
-    subscribeToPetsUseCase: SubscribeToPetsUseCase,
+    subscribeToPetsUseCase: SubscribeToPetDataSourceUseCase,
     private val fetchSelectedPetFromDbUseCase: FetchSelectedPetFromDbUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     val firebaseManager: IFirebaseManager

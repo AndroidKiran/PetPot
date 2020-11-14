@@ -21,7 +21,8 @@
         android:id="@+id/cdl_tnc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@string/launcher_transition">
+        android:transitionName="@string/launcher_transition"
+        app:paddingTopSystemWindowInsets="@{true}">
 
         <com.droid47.petpot.base.widgets.components.PetWebView
             android:id="@+id/web_view"
@@ -47,12 +48,12 @@
             android:elevation="24dp"
             android:theme="@style/Widget.PetGoogle.ContentProgress"
             android:visibility="visible"
-            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}"
             app:elevationOverlay="@{@dimen/grid_1}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:visible="@{tncViewModel.webViewModel.viewStateModel instanceof Loading}" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/tnc_fab"
@@ -63,12 +64,12 @@
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceButton"
             android:visibility="gone"
-            app:visible="@{tncViewModel.acceptStateLiveData}"
             app:icon="@drawable/vc_edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:marginBottomSystemWindowInsets="@{true}" />
+            app:marginBottomSystemWindowInsets="@{true}"
+            app:visible="@{tncViewModel.acceptStateLiveData}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

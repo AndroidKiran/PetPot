@@ -2,12 +2,14 @@ package com.droid47.petpot.base.extensions
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.droid47.petpot.base.storage.LocalPreferencesRepository
 
 const val LIGHT_MODE = "light"
 const val DARK_MODE = "dark"
 const val DEFAULT_MODE = "default"
 
-fun applyTheme(themeMode: String, block: ((mode: String) -> Unit)? = null) {
+fun applyTheme(themeMode: String, localPreferencesRepository: LocalPreferencesRepository? = null,
+               block: ((mode: String) -> Unit)? = null) {
     val mode = when (themeMode) {
         LIGHT_MODE -> AppCompatDelegate.MODE_NIGHT_NO
         DARK_MODE -> AppCompatDelegate.MODE_NIGHT_YES
@@ -20,6 +22,7 @@ fun applyTheme(themeMode: String, block: ((mode: String) -> Unit)? = null) {
         }
     }
     AppCompatDelegate.setDefaultNightMode(mode)
+    localPreferencesRepository?.saveAppliedTheme(themeMode)
     block?.invoke(themeMode)
 }
 

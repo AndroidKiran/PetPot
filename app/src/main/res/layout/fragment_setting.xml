@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/settings"
+                    android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
                     app:iconTint="?attr/colorOnPrimarySurface"

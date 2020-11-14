@@ -50,7 +50,7 @@
                 android:layout_marginTop="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_2"
                 android:layout_marginBottom="@dimen/grid_2"
-                app:cardElevation="@dimen/plane_16"
+                app:cardElevation="@dimen/plane_06"
                 app:cardPreventCornerOverlap="true"
                 app:layout_collapseMode="parallax"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +118,8 @@
                         app:fabSize="mini"
                         app:layout_constraintBottom_toBottomOf="@id/tv_location"
                         app:layout_constraintEnd_toEndOf="@id/tv_location"
-                        app:layout_constraintTop_toTopOf="@id/tv_location" />
+                        app:layout_constraintTop_toTopOf="@id/tv_location"
+                        android:contentDescription="TODO" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

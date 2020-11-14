@@ -33,6 +33,12 @@ class LocalPreferenceDataSource @Inject constructor(
         sharedPreferences.getString(application.getString(R.string.key_current_theme), DEFAULT_MODE)
             ?: DEFAULT_MODE
 
+    override fun saveAppliedTheme(theme: String) {
+        sharedPreferences.edit {
+            putString(application.getString(R.string.key_current_theme), theme)
+        }
+    }
+
     override fun fetchSearchLimit(): Int =
         sharedPreferences.getInt(application.getString(R.string.key_search_limit), 20)
 
@@ -45,9 +51,9 @@ class LocalPreferenceDataSource @Inject constructor(
     override fun getOnBoardingState(): Boolean =
         sharedPreferences.getBoolean(KEY_ON_BOARDING_STATE, false)
 
-    override fun saveTnCState() {
+    override fun saveTnCState(status: Boolean) {
         sharedPreferences.edit {
-            putBoolean(KEY_TNC_STATE, true)
+            putBoolean(KEY_TNC_STATE, status)
         }
     }
 
@@ -116,6 +122,15 @@ class LocalPreferenceDataSource @Inject constructor(
     override fun getNotificationStatus(): Boolean =
         sharedPreferences.getBoolean(application.getString(R.string.key_notification_enabled), true)
 
+    override fun savePrivacyPolicyVersion(version: Int) {
+        sharedPreferences.edit {
+            putInt(KEY_PRIVACY_POLICY, version)
+        }
+    }
+
+    override fun getPrivacyPolicyVersion(): Int =
+        sharedPreferences.getInt(KEY_PRIVACY_POLICY, 1)
+
     companion object {
         const val KEY_TOKEN = "token"
         const val KEY_ON_BOARDING_STATE = "on_boarding_state"
@@ -125,5 +140,6 @@ class LocalPreferenceDataSource @Inject constructor(
         const val KEY_SELECTED_PET = "selected_pet"
         const val KEY_LOCATION = "location"
         const val KEY_ORGANIZATION_FILTER = "organization_filter"
+        const val KEY_PRIVACY_POLICY = "privacy_policy"
     }
 }

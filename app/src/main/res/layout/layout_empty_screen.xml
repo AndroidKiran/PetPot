@@ -13,27 +13,25 @@
             type="com.droid47.petpot.base.bindingConfig.EmptyScreenConfiguration" />
 
         <variable
-            name="isVisible"
+            name="emptyViewVisible"
             type="Boolean" />
     </data>
 
-    <com.google.android.material.circularreveal.CircularRevealLinearLayout
+    <LinearLayout
         android:id="@+id/ll_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:minHeight="200dp"
         android:orientation="vertical"
-        app:visible="@{isVisible}"
-        app:paddingBottomSystemWindowInsets="@{true}"
-        app:paddingTopSystemWindowInsets="@{true}">
+        app:visible="@{emptyViewVisible}">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_empty"
             android:layout_width="@dimen/full_screen_place_holder_size"
             android:layout_height="@dimen/full_screen_place_holder_size"
             android:layout_gravity="center"
-            app:lottieAnimState="@{isVisible}"
+            app:lottieAnimState="@{emptyViewVisible}"
             app:lottie_autoPlay="true"
             app:lottie_fileName="good_boy.json"
             app:lottie_loop="true" />
@@ -86,5 +84,5 @@
             app:visible="@{StringExtKt.isNotEmpty(emptyViewConfig.emptyScreenBtnText)}"
             tools:text="Post QUestion" />
 
-    </com.google.android.material.circularreveal.CircularRevealLinearLayout>
+    </LinearLayout>
 </layout>

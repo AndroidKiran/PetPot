@@ -3,6 +3,8 @@ package com.droid47.petpot.search.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.droid47.petpot.app.di.scopes.ActivityScope
+import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.switchMap
 import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction

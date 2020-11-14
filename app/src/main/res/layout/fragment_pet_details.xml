@@ -150,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:visible="@{petDetailsViewModel.petLiveData instanceof Failure}"
                 app:errorViewConfig="@{errorStateConfig}"
+                app:visible="@{petDetailsViewModel.petLiveData instanceof Failure}"
                 tools:visibility="gone" />
 
         </FrameLayout>
@@ -170,6 +170,7 @@
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fullScreenBottomPadding="@{true}"
             app:menu="@menu/search_menu">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/nav_animal_details_label"
+                    android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_close"
                     app:iconTint="?attr/colorOnPrimarySurface"

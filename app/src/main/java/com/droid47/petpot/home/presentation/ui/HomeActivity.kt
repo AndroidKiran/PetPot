@@ -25,7 +25,7 @@ import com.droid47.petpot.base.widgets.inAppUpdate.InAppUpdateManager
 import com.droid47.petpot.base.widgets.inAppUpdate.InAppUpdateManager.Companion.IN_APP_UPDATE_REQUEST_CODE
 import com.droid47.petpot.databinding.ActivityHomeBinding
 import com.droid47.petpot.home.data.AppUpgradeEntity
-import com.droid47.petpot.home.presentation.di.HomeSubComponent
+import com.droid47.petpot.home.presentation.di.HomeActivityComponent
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_NAVIGATE_BACK
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel.Companion.EVENT_TOGGLE_NAVIGATION
@@ -46,7 +46,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var homeComponent: HomeSubComponent
+    lateinit var homeComponent: HomeActivityComponent
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
 
@@ -76,7 +76,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     override fun injectComponent() {
-        homeComponent = (application as PetApplication).appComponent.homeComponent().create().also {
+        homeComponent = (application as PetApplication).provideHomeComponent().also {
             it.inject(this@HomeActivity)
         }
     }
@@ -302,6 +302,12 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
                     )
                     else -> getViewModel().homeNavigator.toFavouriteFromHome()
 
+                }
+            }
+
+            R.id.navigation_favorite -> {
+                if (navController.currentDestination?.id != R.id.navigation_favorite) {
+                    getViewModel().homeNavigator.toFavouriteFromHome()
                 }
             }
         }

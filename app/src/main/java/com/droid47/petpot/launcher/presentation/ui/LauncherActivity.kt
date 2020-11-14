@@ -18,7 +18,7 @@ import com.droid47.petpot.base.livedata.NetworkConnectionLiveData
 import com.droid47.petpot.base.widgets.BaseBindingActivity
 import com.droid47.petpot.base.widgets.BaseBindingFragment
 import com.droid47.petpot.databinding.ActivityLauncherBinding
-import com.droid47.petpot.launcher.presentation.di.LauncherSubComponent
+import com.droid47.petpot.launcher.presentation.di.LauncherActivityComponent
 import com.droid47.petpot.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.platform.MaterialArcMotion
@@ -30,12 +30,9 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var launcherComponent: LauncherSubComponent
+    lateinit var launcherComponent: LauncherActivityComponent
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-
-//    private val arg:LauncherActivityArgs by navArgs()
-//    private val deepLinkBundle: Bundle? by lazy(LazyThreadSafetyMode.NONE) { arg?.deepLinkBundle }
 
     private val launcherViewModel: LauncherViewModel by lazy(LazyThreadSafetyMode.NONE) {
         viewModelProvider<LauncherViewModel>(viewModelFactory)
@@ -54,7 +51,7 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
 
     override fun injectComponent() {
         launcherComponent =
-            (application as PetApplication).appComponent.launcherComponent().create().also {
+            (application as PetApplication).provideLauncherComponent().also {
                 it.inject(this@LauncherActivity)
             }
     }

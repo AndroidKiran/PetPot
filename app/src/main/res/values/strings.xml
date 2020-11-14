@@ -94,7 +94,7 @@
     nearly 11,000 animal shelters and adoption organizations across the U.S., Canada and Mexico.
     Organizations maintain their own home pages and available-pet databases.</p>
     ]]></string>
-    <string name="my_email">ravikiran.surpur@gmail.com</string>
+    <string name="my_email">droidz047@gmail.com</string>
     <string name="search_order">Search result order</string>
     <string name="no_animal_found">No pet found!</string>
     <string name="loperum_sum_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
@@ -159,4 +159,5 @@
     <string name="powered_by_petfinder">Powered by Petfinder</string>
 
     <string name="pet_notification_default_channel_id">Pet Notification Channel Id</string>
+    <string name="privacy_policies">Privacy Policy</string>
 </resources>

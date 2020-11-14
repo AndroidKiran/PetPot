@@ -42,7 +42,7 @@ class FetchPetFromNetworkAndCacheDbUseCase @Inject constructor(
                     filterApplied = true
                 )
             ).toSingleDefault(true),
-                BiFunction { listOfLong: List<Long>, isCompleted: Boolean ->
+                { listOfLong: List<Long>, isCompleted: Boolean ->
                     listOfLong
                 }).subscribeOn(threadExecutorScheduler)
                 .observeOn(postExecutionThreadScheduler)

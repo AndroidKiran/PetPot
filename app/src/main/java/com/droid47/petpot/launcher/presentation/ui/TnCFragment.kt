@@ -1,5 +1,6 @@
 package com.droid47.petpot.launcher.presentation.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +19,11 @@ import com.droid47.petpot.base.widgets.components.PetWebView
 import com.droid47.petpot.databinding.FragmentTncBinding
 import com.droid47.petpot.launcher.presentation.ui.viewmodels.LauncherViewModel
 import com.droid47.petpot.launcher.presentation.ui.viewmodels.TnCViewModel
-import com.droid47.petpot.workmanagers.notification.NotificationModel.Companion.EXTRA_NAVIGATION_FRAGMENT_ID
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import javax.inject.Inject
+
 
 class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, LauncherViewModel>() {
 
@@ -64,7 +65,6 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initTransition()
         requireActivity().onBackPressedDispatcher.addCallback(this, closeOnBackPressed)
         closeOnBackPressed.isEnabled = true
     }
@@ -111,7 +111,12 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setUpView() {
+        getViewDataBinding().webView.run {
+            settings.javaScriptEnabled = true
+        }
+
         with(getViewDataBinding().tncFab) {
             setOnClickListener {
                 updateConsent()
@@ -153,16 +158,16 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
             duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
             interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
             setPathMotion(MaterialArcMotion())
-            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
+            fadeMode = MaterialContainerTransform.FADE_MODE_IN
         }
 
-//        sharedElementReturnTransition = MaterialContainerTransform().apply {
-//            drawingViewId = R.id.cdl_home_board
-//            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-//            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
-//            setPathMotion(MaterialArcMotion())
-//            fadeMode = MaterialContainerTransform.FADE_MODE_CROSS
-//        }
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.cdl_home_board
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+            interpolator = context.themeInterpolator(R.attr.motionInterpolatorPersistent)
+            setPathMotion(MaterialArcMotion())
+            fadeMode = MaterialContainerTransform.FADE_MODE_OUT
+        }
 
         postponeEnterTransition()
 

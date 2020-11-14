@@ -36,15 +36,15 @@
             app:layout_behavior="@string/bottom_sheet_behavior"
             tools:background="?attr/colorPrimarySurfaceVariant">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/profile_image_view"
                 android:layout_width="@dimen/navigation_drawer_profile_image_size"
                 android:layout_height="@dimen/navigation_drawer_profile_image_size"
                 android:layout_gravity="center|top"
                 android:contentDescription="@string/bottom_nav_drawer_image_content_desc"
-                android:tint="@color/pet_white_50"
                 android:padding="@dimen/grid_1"
-                android:src="@drawable/vc_paw" />
+                android:src="@drawable/vc_paw"
+                android:tint="@color/pet_white_50" />
 
             <FrameLayout
                 android:id="@+id/foreground_container"
@@ -57,10 +57,10 @@
                     style="@style/Widget.PetGoogle.NavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/grid_2"
                     android:clipToPadding="false"
                     app:menu="@menu/home_nav_menu"
-                    app:paddingBottomSystemWindowInsets="@{true}"
-                    app:paddingTopSystemWindowInsets="@{true}" />
+                    app:paddingBottomSystemWindowInsets="@{true}" />
 
             </FrameLayout>
 

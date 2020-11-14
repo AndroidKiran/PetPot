@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/privacy_policy"
+        android:icon="@drawable/vc_policy"
+        android:title="@string/privacy_policies"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/menu_email"
         android:icon="@drawable/vc_mail"
         android:title="@string/write_mail_to_team"

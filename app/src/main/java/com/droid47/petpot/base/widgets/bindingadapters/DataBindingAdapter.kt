@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.droid47.petpot.R
 import com.droid47.petpot.app.di.modules.GlideApp
@@ -30,7 +31,6 @@ import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.elevation.ElevationOverlayProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.math.sqrt
-
 
 @BindingAdapter("popupElevationOverlay")
 fun Spinner.bindPopupElevationOverlay(popupElevationOverlay: Float) {
@@ -57,14 +57,14 @@ fun CheckedTextView.bindStartDrawableResource(_imageResource: Int?) {
     setCompoundDrawablesWithIntrinsicBounds(imageResource, 0, 0, 0)
 }
 
-//@BindingAdapter(value = ["animateVisible"])
-//fun View.bindViewAnimateVisibility(visible: Boolean?) {
-//    if (visible == true) {
-//        animateVisible()
-//    } else {
-//        animateGone()
-//    }
-//}
+@BindingAdapter(value = ["animateVisible"])
+fun View.bindViewAnimateVisibility(visible: Boolean?) {
+    if (visible == true) {
+        animateVisible()
+    } else {
+        animateGone()
+    }
+}
 
 
 @BindingAdapter(value = ["visible"])
@@ -205,7 +205,7 @@ fun ImageView.bindSrcUrl(
     if (placeholder != null) request.placeholder(placeholder)
     if (loadListener != null) request.listener(loadListener)
     if (transform) request.transform(BlurTransformation(context))
-    request.into(this)
+    request.transition(DrawableTransitionOptions.withCrossFade()).into(this)
 }
 
 @BindingAdapter(value = ["fabIcon"])
@@ -281,7 +281,7 @@ fun ImageView.setImageResource(resource: Int) {
 
 @BindingAdapter("fullScreenBottomPadding")
 fun View.setFullScreenBottomPadding(isRequired: Boolean) {
-//    if (!isRequired || !hasNavigationBar()) return
+    if (!isRequired || !hasNavBar(context)) return
     val bottomPadding = context.getDimen(R.dimen.grid_6)
     setPadding(0, 0, 0, bottomPadding)
 }

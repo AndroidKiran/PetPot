@@ -67,7 +67,7 @@ class PetDataSourceUseCase @Inject constructor(
                 .buildFlowable(BackpressureStrategy.MISSING)
                 .map {
                     when {
-                        it.isEmpty() -> Empty(it)
+                        it.isNullOrEmpty() -> Empty(it)
                         else -> Success(it)
                     }
                 }.onErrorReturn {

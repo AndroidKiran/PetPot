@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
@@ -46,6 +48,10 @@ class BookmarkFragment :
 
     private val emptyState = EmptyScreenConfiguration()
     private val errorState = ErrorViewConfiguration()
+
+    private val springAddItemAnimator: SpringAddItemAnimator by lazy(LazyThreadSafetyMode.NONE) {
+        SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+    }
 
     private val bookmarkViewModel: BookmarkViewModel by lazy(LazyThreadSafetyMode.NONE) {
         viewModelProvider<BookmarkViewModel>(factory)
@@ -134,6 +140,11 @@ class BookmarkFragment :
         trackFragment(getViewModel().firebaseManager)
     }
 
+    override fun onStop() {
+        springAddItemAnimator.endAnimations()
+        super.onStop()
+    }
+
     private fun setUpView() {
         getViewDataBinding().layoutDeletePet.root.background = backGroundPrimaryColorDrawable
         with(getViewDataBinding().fab) {
@@ -144,7 +155,6 @@ class BookmarkFragment :
         }
 
         with(getViewDataBinding().bottomAppBar) {
-//            setNavigationIcon(R.drawable.vc_nav_menu)
             replaceMenu(R.menu.search_menu)
             menu.findItem(R.id.menu_order).isVisible = false
             setNavigationOnClickListener {
@@ -161,7 +171,7 @@ class BookmarkFragment :
 
         with(getViewDataBinding().rvPets) {
             if (getPetAdapter() != null) return@with
-            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
+            itemAnimator = springAddItemAnimator
             getViewDataBinding().rvPets.adapter = pagedListPetAdapter
         }
     }

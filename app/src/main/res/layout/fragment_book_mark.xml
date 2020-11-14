@@ -37,10 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
             app:paddingBottomSystemWindowInsets="@{true}"
             app:paddingTopSystemWindowInsets="@{true}">
 
@@ -53,16 +49,10 @@
                 android:paddingTop="@dimen/grid_1"
                 android:paddingBottom="@dimen/grid_12"
                 android:scrollbars="none"
-                app:fastScrollEnabled="true"
-                app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
-                app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_line_drawable"
-                app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
-                app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_line_drawable"
                 app:hasFixedSize="@{true}"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_anchor="@+id/fl_container"
                 app:layout_anchorGravity="center"
-                app:spanCount="1"
                 app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Success}"
                 tools:listitem="@layout/item_book_mark"
                 tools:visibility="visible" />
@@ -70,23 +60,23 @@
             <include
                 android:id="@+id/layout_error"
                 layout="@layout/layout_error_screen"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
                 app:errorViewConfig="@{errorStateConfig}"
+                app:errorViewVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
                 tools:visibility="gone" />
 
             <include
                 android:id="@+id/layout_empty"
                 layout="@layout/layout_empty_screen"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
-                app:visible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
                 app:emptyViewConfig="@{emptyStateConfig}"
+                app:emptyViewVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
                 tools:visibility="gone" />
 
         </FrameLayout>
@@ -102,7 +92,8 @@
             app:elevation="@dimen/plane_08"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius">
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
+            app:fullScreenBottomPadding="@{true}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom_bar_content"
@@ -116,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_0_5"
                     android:text="@string/favourite"
+                    android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"
                     app:icon="@drawable/vc_nav_menu"
                     app:iconTint="?attr/colorOnPrimarySurface"

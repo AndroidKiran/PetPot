@@ -12,7 +12,10 @@ import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
 
-@Module(includes = [NetworkModule::class, StorageModule::class])
+@Module(
+    includes = [NetworkModule::class, StorageModule::class, ViewModelModule::class,
+        AbstractBaseModule::class, AppInitializersBindingModule::class]
+)
 interface AppModule {
 
     @Binds

@@ -170,6 +170,7 @@
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
             app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fullScreenBottomPadding="@{true}"
             app:layout_anchor="@id/csl_filter"
             app:layout_anchorGravity="bottom"
             app:menu="@menu/filter_menu" />
@@ -178,6 +179,7 @@
             android:id="@+id/filter_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="TODO"
             android:elevation="@dimen/plane_08"
             android:onClick="@{() -> newFilterViewModel.applyFilter()}"
             app:ensureMinTouchTargetSize="true"

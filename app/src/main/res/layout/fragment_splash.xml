@@ -110,7 +110,8 @@
             android:text="@string/retry"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
-            app:visible="@{splashViewModel.resultEvent instanceof Failure}"
+            android:visibility="gone"
+            app:animateVisible="@{splashViewModel.resultEvent instanceof Failure}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />

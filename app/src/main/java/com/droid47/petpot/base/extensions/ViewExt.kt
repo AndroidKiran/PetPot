@@ -1,5 +1,6 @@
 package com.droid47.petpot.base.extensions
 
+import android.animation.Animator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
@@ -124,41 +125,42 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-//fun View.animateVisible() {
-//    if (isVisible) return
-//    visible()
-//    val tySpring = this.spring(
-//        SpringAnimation.TRANSLATION_Y,
-//        stiffness = 350f,
-//        damping = 0.6f
-//    )
-//    val aSpring = this.spring(
-//        SpringAnimation.ALPHA,
-//        stiffness = 100f,
-//        damping = SpringForce.DAMPING_RATIO_NO_BOUNCY
-//    )
-//
-//    listenForAllSpringsEnd(
-//        { cancelled ->
-//            if (cancelled) {
-//                this.alpha = 1f
-//                this.translationY = 0f
-//            }
-//        },
-//        tySpring, aSpring
-//    )
-//    aSpring.animateToFinalPosition(1f)
-//    tySpring.animateToFinalPosition(0f)
-//}
+fun View.animateVisible() {
+    visible()
+    val tySpring = this.spring(
+        SpringAnimation.TRANSLATION_Y,
+        stiffness = 350f,
+        damping = 0.6f
+    )
+    val aSpring = this.spring(
+        SpringAnimation.ALPHA,
+        stiffness = 100f,
+        damping = SpringForce.DAMPING_RATIO_NO_BOUNCY
+    )
 
-//fun View.animateGone() {
-//    if(isGone) return
-//    gone()
-//    run {
-//        this.alpha = 0f
-//        this.translationY = this.height.toFloat()
-//    }
-//}
+    listenForAllSpringsEnd(
+        { cancelled ->
+            if (cancelled) {
+                this.alpha = 1f
+                this.translationY = 0f
+            }
+        },
+        tySpring, aSpring
+    )
+    aSpring.animateToFinalPosition(1f)
+    tySpring.animateToFinalPosition(0f)
+}
+
+fun View.animateGone() {
+    animate().apply {
+        duration = 200
+        alpha = 0f
+        translationY = this@animateGone.height.toFloat()
+        interpolator = context.themeInterpolator(R.attr.motionInterpolatorOutgoing)
+    }.withEndAction {
+        gone()
+    }.start()
+}
 
 fun View.showOrHide(show: Boolean) {
     if (show) this.visible()

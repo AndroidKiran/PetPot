@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.droid47.petpot.base.extensions.toLiveData
+import com.droid47.petpot.base.extensions.toSingleLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager
@@ -14,7 +15,7 @@ import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.components.LiveEvent
 import com.droid47.petpot.search.data.models.search.PetEntity
 import com.droid47.petpot.search.domain.interactors.DataSourceType
-import com.droid47.petpot.search.domain.interactors.SubscribeToPetsUseCase
+import com.droid47.petpot.search.domain.interactors.SubscribeToPetDataSourceUseCase
 import com.droid47.petpot.search.domain.interactors.UpdateFavoritePetUseCase
 import com.droid47.petpot.search.domain.interactors.UpdateFavouritePetsStatusUseCase
 import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
@@ -26,7 +27,7 @@ import javax.inject.Inject
 
 class BookmarkViewModel @Inject constructor(
     application: Application,
-    subscribeToPetsUseCase: SubscribeToPetsUseCase,
+    private val subscribeToPetsUseCase: SubscribeToPetDataSourceUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     private val updateFavouritePetsStatusUseCase: UpdateFavouritePetsStatusUseCase,
     val firebaseManager: IFirebaseManager
@@ -34,7 +35,7 @@ class BookmarkViewModel @Inject constructor(
 
     val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
         subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, ""))
-            .toLiveData()
+            .toSingleLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
     val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>

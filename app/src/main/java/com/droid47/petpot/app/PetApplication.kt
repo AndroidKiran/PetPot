@@ -7,15 +7,26 @@ import android.os.StrictMode.VmPolicy
 import com.droid47.petpot.app.di.components.AppComponent
 import com.droid47.petpot.app.di.components.DaggerAppComponent
 import com.droid47.petpot.app.di.modules.GlideApp
+import com.droid47.petpot.base.extensions.DARK_MODE
 import com.droid47.petpot.base.extensions.applyTheme
 import com.droid47.petpot.base.extensions.isDeveloperMode
 import com.droid47.petpot.base.firebase.CrashlyticsExt
+import com.droid47.petpot.home.presentation.di.HomeActivityComponent
+import com.droid47.petpot.home.presentation.di.HomeComponentProvider
+import com.droid47.petpot.launcher.presentation.di.LauncherActivityComponent
+import com.droid47.petpot.launcher.presentation.di.LauncherComponentProvider
 
-class PetApplication : Application() {
+class PetApplication : Application(), LauncherComponentProvider, HomeComponentProvider {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(this@PetApplication)
     }
+
+    override fun provideLauncherComponent(): LauncherActivityComponent =
+        appComponent.launcherActivityComponent().create()
+
+    override fun provideHomeComponent(): HomeActivityComponent =
+        appComponent.homeActivityComponent().create()
 
     private val localSharedPreferences = appComponent.sharedPreference()
     private val activityLifecycleCallbacks = appComponent.activityLifecycleCallbacks()
@@ -84,5 +95,4 @@ class PetApplication : Application() {
             CrashlyticsExt.handleException(exception)
         }
     }
-
 }

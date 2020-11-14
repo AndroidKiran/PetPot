@@ -8,6 +8,7 @@ import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.Success
+import com.droid47.petpot.home.data.AppPrivacyPolicyEntity
 import com.droid47.petpot.home.data.AppUpgradeEntity
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -50,9 +51,10 @@ class RemoteConfigUseCase @Inject constructor(
             }
         }.onErrorReturn {
             Failure(it)
-        }
+        }.subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
 
-    fun getUpgradeInfoEntity(value: String): AppUpgradeEntity? =
+    fun getAppUpgradeInfoEntity(value: String): AppUpgradeEntity? =
         try {
             gson.fromJson(value, AppUpgradeEntity::class.java)
         } catch (exception: Exception) {
@@ -60,8 +62,17 @@ class RemoteConfigUseCase @Inject constructor(
             null
         }
 
+    fun getPolicyUpgradeInfoEntity(value: String): AppPrivacyPolicyEntity? =
+        try {
+            gson.fromJson(value, AppPrivacyPolicyEntity::class.java)
+        } catch (exception: Exception) {
+            CrashlyticsExt.handleException(exception)
+            null
+        }
+
     companion object {
         const val KEY_APP_UPGRADE = "app_upgrade"
+        const val KEY_PRIVACY_POLICY_UPGRADE = "privacy_policy_upgrade"
     }
 
 }

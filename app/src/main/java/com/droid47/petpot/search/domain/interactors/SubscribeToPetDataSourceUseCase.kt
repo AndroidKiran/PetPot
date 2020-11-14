@@ -17,7 +17,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class SubscribeToPetsUseCase @Inject constructor(
+class SubscribeToPetDataSourceUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val petRepository: PetRepository,
@@ -38,7 +38,7 @@ class SubscribeToPetsUseCase @Inject constructor(
             .setNotifyScheduler(postExecutionThreadScheduler)
             .buildFlowable(BackpressureStrategy.LATEST)
             .map {
-                if (it.isEmpty()) {
+                if (it.isNullOrEmpty()) {
                     Empty(null)
                 } else {
                     Success(it)

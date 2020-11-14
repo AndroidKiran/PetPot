@@ -93,7 +93,7 @@ class SplashFragment :
         super.onStart()
         getViewModel().run {
             if(getTncStatus()) {
-                startOneTimeAuthRequest()
+                bindPetSyncAndPolicyStatusAsync()
             } else {
                 navigateToIntro()
             }

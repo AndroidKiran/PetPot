@@ -1,6 +1,7 @@
 package com.droid47.petpot.home.presentation.viewmodels
 
 import android.app.Application
+import com.droid47.petpot.app.di.scopes.ActivityScope
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.firebase.RemoteConfigUseCase
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 private const val REQUEST_APP_UPGRADE_STATUS = 2330L
 
+@ActivityScope
 class HomeViewModel @Inject constructor(
     application: Application,
     val homeNavigator: HomeNavigator,
@@ -37,7 +39,7 @@ class HomeViewModel @Inject constructor(
             object : SingleObserver<BaseStateModel<String>> {
                 override fun onSuccess(stateModel: BaseStateModel<String>) {
                     val appUpgradeEntity =
-                        remoteConfigUseCase.getUpgradeInfoEntity(stateModel.data ?: "")
+                        remoteConfigUseCase.getAppUpgradeInfoEntity(stateModel.data ?: "")
                     when (appUpgradeEntity) {
                         null -> onError(IllegalStateException("AppUpgradeEntity is Null"))
                         else -> {
