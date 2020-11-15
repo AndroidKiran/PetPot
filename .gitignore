@@ -11,8 +11,7 @@
 /captures
 .externalNativeBuild
 /keystore.properties
-/secrets.properties
-/petpot.jks
+/PetPot.jks
 /app/google-services.json
 /app/schemas
 /app/src/debug
