@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.droid47.petpot.base.extensions.loadListener
 import com.droid47.petpot.base.widgets.BaseViewHolder
 import com.droid47.petpot.databinding.ItemPetPhotoBinding
@@ -12,6 +13,21 @@ import com.droid47.petpot.search.data.models.search.PhotosItemEntity
 class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerListener) :
     ListAdapter<PhotosItemEntity, BaseViewHolder<PhotosItemEntity>>(UrlDiff) {
     private var modifiedAt: Long = 0L
+
+    private var recyclerView: RecyclerView? = null
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView.apply {
+            setItemViewCacheSize(10)
+        }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

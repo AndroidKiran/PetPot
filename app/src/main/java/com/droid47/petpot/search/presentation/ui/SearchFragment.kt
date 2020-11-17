@@ -379,7 +379,7 @@ class SearchFragment :
     private fun hideKeyboard() {
         Handler(Looper.getMainLooper()).postDelayed({
             getViewDataBinding().topSearchBar.cvSearch.hideKeyboard()
-        }, 2000)
+        }, 1000)
     }
 
     private val locationObserver = Observer<String> { locationStr ->
@@ -498,9 +498,7 @@ class SearchFragment :
 
     private fun getCurrentLocation() {
         val context = context ?: return
-        FetchCurrentLocationLiveData(
-            context
-        ).run {
+        FetchCurrentLocationLiveData(context).run {
             removeObserver(locationUpdateObserver)
             observe(viewLifecycleOwner, locationUpdateObserver)
         }
@@ -513,7 +511,7 @@ class SearchFragment :
                 is EnableLocationState -> {
                     Snackbar.make(
                         getViewDataBinding().fab,
-                        "Turn on location",
+                        getString(R.string.turn_location),
                         Snackbar.LENGTH_LONG
                     )
                         .setAnchorView(getSnackBarAnchorId())

@@ -160,4 +160,5 @@
 
     <string name="pet_notification_default_channel_id">Pet Notification Channel Id</string>
     <string name="privacy_policies">Privacy Policy</string>
+    <string name="turn_location">Turn on location</string>
 </resources>

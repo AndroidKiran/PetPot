@@ -26,10 +26,10 @@ class PetRepo @Inject constructor(
     override fun addPets(list: List<PetEntity>): Single<List<Long>> = petDao.insertPets(list)
 
     override fun fetchRecentPetsFromDB(petType: String): DataSource.Factory<Int, PetEntity> =
-        petDao.getRecentPetsDataSource(petType)
+        petDao.getRecentPetsDataSource(petType, false)
 
     override fun fetchNearByPetsFromDb(petType: String): DataSource.Factory<Int, PetEntity> =
-        petDao.getNearByPetsDataSource(petType)
+        petDao.getNearByPetsDataSource(petType, false)
 
     override fun fetchAllPetsFromDb(): DataSource.Factory<Int, PetEntity> =
         petDao.getAllPetsDataSource()

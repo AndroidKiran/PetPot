@@ -25,10 +25,10 @@ Provide feature to manage there favouite list, read pet bio and contact respecti
 * <a href="https://developer.android.com/kotlin#:~:text=Kotlin%20is%20a%20modern%20statically,developer%20satisfaction%2C%20and%20code%20safety">kotlin Android</a>
 * <a href="https://developer.android.com/topic/libraries/architecture">Architecture Component</a>
 * <a href="https://developer.android.com/guide/navigation/navigation-getting-started">Navigation Component</a>
-* <a href="https://dagger.dev/">Dagger 2</a>
+* <a href="https://dagger.dev/">Dagger2</a>
 * <a href="https://bumptech.github.io/glide/">Glide</a>
 * <a href="https://github.com/airbnb/lottie-android">Lottie</a>
-* <a href="https://github.com/ReactiveX/RxAndroid">Rxjava 2</a>
+* <a href="https://github.com/ReactiveX/RxAndroid">Rxjava2</a>
 * <a href="https://square.github.io/retrofit/">Retrofit</a>
 
 

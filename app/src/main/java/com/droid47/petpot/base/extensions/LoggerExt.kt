@@ -23,32 +23,27 @@ fun isDeveloperMode(): Boolean {
 //        }
 //    }
 
-fun e(tag: String, msg: String, tr: Throwable) {
-    if (isDeveloperMode()) {
-        Log.e(tag, msg, tr)
-    }
+fun logE(tag: String, msg: String, tr: Throwable) {
+    if (!isDeveloperMode()) return
+    Log.e(tag, msg, tr)
 }
 
-fun e(@NonNls tag: String, @NonNls msg: String) {
-    if (isDeveloperMode()) {
-        Log.e(tag, msg)
-    }
+fun logE(@NonNls tag: String, @NonNls msg: String) {
+    if (!isDeveloperMode()) return
+    Log.e(tag, msg)
 }
 
-fun w(tag: String, msg: String) {
-    if (isDeveloperMode()) {
-        Log.w(tag, msg)
-    }
+fun logW(tag: String, msg: String) {
+    if (!isDeveloperMode()) return
+    Log.w(tag, msg)
 }
 
-fun log(@NonNls tag: String, @NonNls message: String) {
-    if (isDeveloperMode()) {
-        Log.d(tag, message)
-    }
+fun logD(@NonNls tag: String, @NonNls message: String) {
+    if (!isDeveloperMode()) return
+    Log.d(tag, message)
 }
 
-fun log(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
-    if (isDeveloperMode()) {
-        Log.d(tag, msg, tr)
-    }
+fun logD(@NonNls tag: String, @NonNls msg: String, tr: Throwable) {
+    if (!isDeveloperMode()) return
+    Log.d(tag, msg, tr)
 }

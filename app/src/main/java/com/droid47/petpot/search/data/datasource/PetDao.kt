@@ -28,14 +28,16 @@ interface PetDao {
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_BOOK_MARK_AT} DESC")
     fun getFavoritePetsDataSource(status: Boolean): DataSource.Factory<Int, PetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY datetime(${PetEntity.TableInfo.COL_PUBLISHED_AT}) DESC")
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType AND ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY datetime(${PetEntity.TableInfo.COL_PUBLISHED_AT}) DESC")
     fun getRecentPetsDataSource(
-        petType: String
+        petType: String,
+        status: Boolean
     ): DataSource.Factory<Int, PetEntity>
 
-    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType ORDER BY ${PetEntity.TableInfo.COL_DISTANCE} ASC")
+    @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} WHERE ${PetEntity.TableInfo.COL_TYPE} LIKE :petType AND ${PetEntity.TableInfo.COL_BOOK_MARK_STATUS}=:status ORDER BY ${PetEntity.TableInfo.COL_DISTANCE} ASC")
     fun getNearByPetsDataSource(
-        petType: String
+        petType: String,
+        status: Boolean
     ): DataSource.Factory<Int, PetEntity>
 
     @Query("SELECT * FROM ${PetEntity.TableInfo.TABLE_NAME} ORDER BY ${PetEntity.TableInfo.COL_PUBLISHED_AT} DESC")

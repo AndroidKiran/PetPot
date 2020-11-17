@@ -43,7 +43,7 @@ class PetDetailsViewModel @Inject constructor(
     val transitionId: MutableLiveData<Int> = MutableLiveData()
     val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
         subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.NonFavoriteType, ""))
-            .toLiveData()
+            .toSingleLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
     val navigateToAnimalDetailsAction: LiveEvent<Pair<PetEntity, View>>

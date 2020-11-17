@@ -93,7 +93,8 @@
             app:fabAlignmentMode="center"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fullScreenBottomPadding="@{true}">
+            app:fullScreenBottomPadding="@{true}"
+            app:hideOnScroll="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom_bar_content"
@@ -126,6 +127,7 @@
             android:contentDescription="@string/fab_rate_us_description"
             android:elevation="@dimen/plane_06"
             android:transitionName="@string/transition_fab"
+            app:ensureMinTouchTargetSize="true"
             app:fabSize="normal"
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/vc_delete_sweep" />

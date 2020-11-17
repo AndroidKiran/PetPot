@@ -91,7 +91,9 @@ class PagedListPetAdapter @Inject constructor(
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
+        this.recyclerView = recyclerView.apply {
+            setItemViewCacheSize(20)
+        }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -128,10 +130,10 @@ class PagedListPetAdapter @Inject constructor(
 
     override fun getItemCount(): Int = currentList?.size ?: 0
 
-    override fun getItemId(position: Int): Long = getItem(position)?.id?.toLong() ?: -1L
+    override fun getItemId(position: Int): Long = getItem(position)?.id?.hashCode()?.toLong() ?: -1L
 
     override fun onBindViewHolder(holder: BaseViewHolder<PetEntity>, position: Int) {
-        holder.onBind(getItem(position)?:return)
+        holder.onBind(getItem(position) ?: return)
     }
 
     object SearchDiff : DiffUtil.ItemCallback<PetEntity>() {
@@ -139,7 +141,7 @@ class PagedListPetAdapter @Inject constructor(
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: PetEntity, newItem: PetEntity): Boolean =
-             oldItem == newItem
+            oldItem.publishedAt == newItem.publishedAt
     }
 
     open inner class SearchViewHolder(private val itemBinding: ItemPetBinding) :
