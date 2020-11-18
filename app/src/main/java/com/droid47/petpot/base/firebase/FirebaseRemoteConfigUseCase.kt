@@ -51,8 +51,7 @@ class RemoteConfigUseCase @Inject constructor(
             }
         }.onErrorReturn {
             Failure(it)
-        }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
+        }
 
     fun getAppUpgradeInfoEntity(value: String): AppUpgradeEntity? =
         try {

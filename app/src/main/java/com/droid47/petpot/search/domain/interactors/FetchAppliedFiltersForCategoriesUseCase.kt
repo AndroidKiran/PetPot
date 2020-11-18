@@ -27,6 +27,5 @@ class FetchAppliedFiltersForCategoriesUseCase @Inject constructor(
                     filterItems.isEmpty() -> Empty(filterItems)
                     else -> Success(filterItems)
                 }
-            }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
+            }
 }

@@ -15,7 +15,5 @@ class UpdateFilterOnCloseUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: List<String>): Completable =
             filterRepository.updateFilterOnClosed(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
 
 }

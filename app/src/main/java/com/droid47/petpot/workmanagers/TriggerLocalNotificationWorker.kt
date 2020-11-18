@@ -56,7 +56,7 @@ class TriggerLocalNotificationWorker @Inject constructor(
     }
 
     private fun getFavouritePet(): Single<NotificationModel> =
-        fetchFavoritePetsUseCase.buildUseCaseSingle(true)
+        fetchFavoritePetsUseCase.buildUseCaseSingleWithSchedulers(true)
             .map { baseStateModel ->
                 createNotificationModelFrom(baseStateModel.data ?: emptyList())
             }

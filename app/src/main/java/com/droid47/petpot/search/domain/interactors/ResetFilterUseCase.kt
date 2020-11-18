@@ -15,6 +15,4 @@ class ResetFilterUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: List<String>): Completable =
         filterRepository.resetFilter(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
 }

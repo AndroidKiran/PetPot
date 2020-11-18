@@ -21,8 +21,6 @@ class FetchFavoritePetsUseCase @Inject constructor(
 
     override fun buildUseCaseSingle(params: Boolean): Single<BaseStateModel<List<PetEntity>>> =
         favouritePetRepository.fetchFavoritePets(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
             .map { petList ->
                 when {
                     petList.isEmpty() -> Empty(petList)

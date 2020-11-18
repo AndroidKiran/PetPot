@@ -19,8 +19,6 @@ class FetchStatesUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(params: Unit): Flowable<List<State>> {
         return organizationRepository.getStates(gson, application)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
     }
 
 }

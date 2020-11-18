@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petpot.app.di.scopes.ActivityScope
 import com.droid47.petpot.app.di.scopes.FragmentScope
+import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.switchMap
 import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
@@ -42,18 +43,18 @@ class FilterViewModel @Inject constructor(
     val eventLiveData = LiveEvent<Long>()
 
     val filterListForSelectedCategoryLiveData = categoryLiveData.switchMap { category ->
-        fetchFilterItemsForSelectedCategoryUseCase.buildUseCaseObservable(category).toLiveData()
+        fetchFilterItemsForSelectedCategoryUseCase.buildUseCaseObservableWithSchedulers(category).toLiveData()
     }
 
     val searchFilterLiveData = MutableLiveData<String>()
     val menuItemListLiveData = MutableLiveData<List<String>>()
 
     val selectedFilterListLiveData = menuItemListLiveData.switchMap { menuList ->
-        fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
+        fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList).toLiveData()
     }
 
     val appliedFilterLiveData = menuItemListLiveData.switchMap { menuList ->
-        fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservable(menuList).toLiveData()
+        fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList).toLiveData()
     }
 
     private val _sortFilterLiveData = MutableLiveData<BaseStateModel<PetFilterCheckableEntity>>()
@@ -107,8 +108,9 @@ class FilterViewModel @Inject constructor(
     fun resetFilter() {
         trackFilterReset()
         val menuList = menuItemListLiveData.value ?: emptyList()
-        resetFilterUseCase.buildUseCaseCompletable(menuList)
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+        resetFilterUseCase.buildUseCaseCompletableWithSchedulers(menuList)
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
+            .applyIOSchedulers()
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
 
@@ -127,8 +129,9 @@ class FilterViewModel @Inject constructor(
     fun applyFilter() {
         trackFilterApplied()
         val menuList = menuItemListLiveData.value ?: emptyList()
-        updateFilterOnAppliedUseCase.buildUseCaseCompletable(menuList)
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+        updateFilterOnAppliedUseCase.buildUseCaseCompletableWithSchedulers(menuList)
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
+            .applyIOSchedulers()
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
                     eventLiveData.postValue(EVENT_APPLY_FILTER)

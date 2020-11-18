@@ -25,8 +25,6 @@ class FetchPetFromNetworkAndCacheDbUseCase @Inject constructor(
     override fun buildUseCaseSingle(params: PetFilters): Single<SearchResponseEntity> {
         return petRepository.fetchPetsFromNetWork(params.transformToMap(gson))
             .addPetsToDbAndUpdatePage()
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
     }
 
     private fun Single<SearchResponseEntity>.addPetsToDbAndUpdatePage(): Single<SearchResponseEntity> =

@@ -19,6 +19,5 @@ class UpdateFilterUseCase @Inject constructor(
         when (params.type) {
             LOCATION -> filterRepository.updateLocationFilter(params)
             else -> filterRepository.updateOrInsertTheFilter(params)
-        }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
+        }
 }

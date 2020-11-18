@@ -6,16 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.droid47.petpot.app.di.scopes.ActivityScope
 import com.droid47.petpot.app.di.scopes.FragmentScope
+import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.components.LiveEvent
-import com.droid47.petpot.search.domain.interactors.FetchPetNamesUseCase
-import com.droid47.petpot.search.domain.interactors.RefreshFilterUseCase
-import com.droid47.petpot.search.domain.interactors.RefreshSelectedPetUseCase
-import com.droid47.petpot.search.domain.interactors.RemoveAllPetsUseCase
+import com.droid47.petpot.search.domain.interactors.*
 import com.droid47.petpot.search.presentation.viewmodel.tracking.TrackPetSpinnerAndLocationViewModel
 import io.reactivex.CompletableObserver
 import io.reactivex.SingleObserver
@@ -33,6 +31,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
     private val refreshSelectedPetUseCase: RefreshSelectedPetUseCase,
     private val fetchPetNamesUseCase: FetchPetNamesUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase,
+    private val subscribeToLocationChangeUseCase: SubscribeToLocationChangeUseCase,
     val localPreferenceDataSource: LocalPreferencesRepository,
     private val firebaseManager: IFirebaseManager
 ) : BaseAndroidViewModel(application), TrackPetSpinnerAndLocationViewModel {
@@ -102,15 +101,16 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
         })
 
     private fun refreshSelectedPet(petType: String) =
-        refreshSelectedPetUseCase.buildUseCaseCompletable(petType)
-            .andThen(refreshFilterUseCase.buildUseCaseCompletable(locationLiveData.value ?: ""))
-            .andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+        refreshSelectedPetUseCase.buildUseCaseCompletableWithSchedulers(petType)
+            .andThen(refreshFilterUseCase.buildUseCaseCompletableWithSchedulers(locationLiveData.value ?: ""))
+            .andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
 
     @SuppressLint("CheckResult")
     private fun initInsertEvent() {
         subject.debounce(400, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .switchMapCompletable { refreshSelectedPet(it) }
+            .applyIOSchedulers()
             .subscribeWith(object : CompletableObserver {
                 override fun onComplete() {
                 }

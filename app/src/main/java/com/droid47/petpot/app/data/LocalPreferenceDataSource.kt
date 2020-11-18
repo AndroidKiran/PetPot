@@ -17,7 +17,7 @@ class LocalPreferenceDataSource @Inject constructor(
     private val gson: Gson
 ) : LocalPreferencesRepository {
 
-    private val sharedPreferences: SharedPreferences by lazy {
+    override val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(application)
     }
 

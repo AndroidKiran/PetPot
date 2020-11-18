@@ -3,6 +3,9 @@ package com.droid47.petpot.base.usecase
 import com.droid47.petpot.base.usecase.executor.PostExecutionThread
 import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import io.reactivex.Observable
+import io.reactivex.SingleObserver
+import io.reactivex.observers.DisposableObserver
+import java.util.concurrent.TimeUnit
 
 abstract class ObservableUseCase<Results, in Params>(
     threadExecutor: ThreadExecutor,
@@ -11,13 +14,19 @@ abstract class ObservableUseCase<Results, in Params>(
 
     abstract fun buildUseCaseObservable(params: Params? = null): Observable<Results>
 
-//    fun execute(observer: DisposableObserver<Results>, params: Params? = null) {
-//        val observable = buildUseCaseObservableWithSchedulers(params)
-//    }
+    fun execute(observer: DisposableObserver<Results>, params: Params? = null) {
+        buildUseCaseObservableWithSchedulers(params).subscribe(observer)
+    }
 
-//    private fun buildUseCaseObservableWithSchedulers(params: Params?): Observable<Results> {
-//        return buildUseCaseObservable(params)
-//            .subscribeOn(threadExecutorScheduler)
-//            .observeOn(postExecutionThreadScheduler)
-//    }
+    fun execute(params: Params, delay:Long, timeUnit: TimeUnit, observer: DisposableObserver<Results>) {
+        buildUseCaseObservableWithSchedulers(params)
+            .delay(delay, timeUnit)
+            .subscribe(observer)
+    }
+
+    fun buildUseCaseObservableWithSchedulers(params: Params?): Observable<Results> {
+        return buildUseCaseObservable(params)
+            .subscribeOn(threadExecutorScheduler)
+            .observeOn(postExecutionThreadScheduler)
+    }
 }

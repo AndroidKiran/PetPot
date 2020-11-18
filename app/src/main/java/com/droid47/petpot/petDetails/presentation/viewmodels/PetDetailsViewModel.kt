@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 class PetDetailsViewModel @Inject constructor(
     application: Application,
-    subscribeToPetsUseCase: SubscribeToPetDataSourceUseCase,
+    subscribeToPetDataSourceUseCase: SubscribeToPetDataSourceUseCase,
     private val fetchSelectedPetFromDbUseCase: FetchSelectedPetFromDbUseCase,
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     val firebaseManager: IFirebaseManager
@@ -42,7 +42,7 @@ class PetDetailsViewModel @Inject constructor(
     var openingAnimationRequired = true
     val transitionId: MutableLiveData<Int> = MutableLiveData()
     val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
-        subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.NonFavoriteType, ""))
+        subscribeToPetDataSourceUseCase.buildUseCaseObservableWithSchedulers(Pair(DataSourceType.NonFavoriteType, ""))
             .toSingleLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()
@@ -54,7 +54,7 @@ class PetDetailsViewModel @Inject constructor(
         if (it == null) {
             MutableLiveData()
         } else {
-            fetchSelectedPetFromDbUseCase.buildUseCaseObservable(it).toLiveData()
+            fetchSelectedPetFromDbUseCase.buildUseCaseObservableWithSchedulers(it).toLiveData()
         }
     }
 
@@ -178,7 +178,7 @@ class PetDetailsViewModel @Inject constructor(
         starSubject.debounce(400, TimeUnit.MILLISECONDS)
             .doOnSubscribe { registerDisposableRequest(REQUEST_STAR_PET, it) }
             .switchMapSingle { bookMarkStatusAndPetPair ->
-                updateFavoritePetUseCase.buildUseCaseSingle(bookMarkStatusAndPetPair)
+                updateFavoritePetUseCase.buildUseCaseSingleWithSchedulers(bookMarkStatusAndPetPair)
             }.applyIOSchedulers()
             .subscribe(this::onPetStarSuccess, this::onPetStarError)
     }

@@ -15,6 +15,4 @@ class FetchPetNamesUseCase @Inject constructor(
 
     override fun buildUseCaseSingle(params: Unit): Single<List<String>> =
         petTypeRepository.getPetNames()
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
 }

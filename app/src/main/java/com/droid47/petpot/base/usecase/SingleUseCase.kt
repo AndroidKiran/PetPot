@@ -23,7 +23,7 @@ abstract class SingleUseCase<Results, in Params>(
             .subscribe(observer)
     }
 
-    private fun buildUseCaseSingleWithSchedulers(params: Params): Single<Results> {
+    fun buildUseCaseSingleWithSchedulers(params: Params): Single<Results> {
         return buildUseCaseSingle(params)
             .subscribeOn(threadExecutorScheduler)
             .observeOn(postExecutionThreadScheduler)

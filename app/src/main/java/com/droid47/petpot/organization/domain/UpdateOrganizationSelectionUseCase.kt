@@ -16,7 +16,5 @@ class UpdateOrganizationSelectionUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: OrganizationCheckableEntity): Completable {
         return organizationRepository.updateOrganization(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
     }
 }

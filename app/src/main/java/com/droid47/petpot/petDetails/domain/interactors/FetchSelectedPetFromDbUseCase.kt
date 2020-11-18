@@ -26,8 +26,6 @@ class FetchSelectedPetFromDbUseCase @Inject constructor(
                 )
             )
             else -> favouritePetRepository.subscribeToSelectedPet(params)
-                .subscribeOn(threadExecutorScheduler)
-                .observeOn(postExecutionThreadScheduler)
                 .map { petEntity ->
                     Success(petEntity) as BaseStateModel<PetEntity>
                 }.onErrorReturn {

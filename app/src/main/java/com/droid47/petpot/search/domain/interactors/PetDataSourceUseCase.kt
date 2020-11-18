@@ -32,7 +32,7 @@ class PetDataSourceUseCase @Inject constructor(
 ) {
 
     override fun buildUseCaseObservable(params: PetPaginationUseCase): Flowable<BaseStateModel<PagedList<PetEntity>>> =
-        filterRepository.getFilterForTypes(listOf(PET_TYPE, LOCATION), true)
+        filterRepository.listenToFilterTypes(listOf(PET_TYPE, LOCATION), true)
             .distinctUntilChanged()
             .reduceToPair()
             .createPagedListBuilder(params)

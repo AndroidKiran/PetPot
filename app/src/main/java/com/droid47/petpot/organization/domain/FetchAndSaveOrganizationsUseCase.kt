@@ -22,8 +22,6 @@ class FetchAndSaveOrganizationsUseCase @Inject constructor(
     override fun buildUseCaseSingle(params: OrganizationFilter): Single<OrganizationResponseEntity> {
         return organizationRepository.fetchOrganizationsFromNetwork(params.transformToMap(gson))
             .saveToDb()
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
     }
 
     private fun Single<OrganizationResponseEntity>.saveToDb(): Single<OrganizationResponseEntity> {

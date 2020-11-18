@@ -43,10 +43,10 @@ class OrganizationViewModel @Inject constructor(
     val itemPaginationStateLiveData = organizationPaginationUseCase.itemPaginationStateLiveData
     val eventLiveData = LiveEvent<Long>()
     val selectedOrganizationsLiveData =
-        fetchSelectedOrganizationUseCase.buildUseCaseObservable(true).toLiveData()
+        fetchSelectedOrganizationUseCase.buildUseCaseObservableWithSchedulers(true).toLiveData()
 
     val statesLiveData: LiveData<List<State>> =
-        fetchStatesUseCase.buildUseCaseObservable(Unit).distinctUntilChanged().toSingleLiveData()
+        fetchStatesUseCase.buildUseCaseObservableWithSchedulers(Unit).distinctUntilChanged().toSingleLiveData()
     val selectedPositionLiveData = LiveEvent<Int>()
     private val stateAbbreviationLiveData: LiveData<String?> =
         selectedPositionLiveData.switchMap { position ->

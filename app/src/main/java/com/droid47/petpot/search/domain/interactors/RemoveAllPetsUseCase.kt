@@ -15,6 +15,4 @@ class RemoveAllPetsUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Boolean): Completable =
         petRepository.clearPetsFromDb(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.clearDisposable
 import com.droid47.petpot.organization.data.models.OrganizationCheckableEntity
 import com.droid47.petpot.organization.data.models.OrganizationFilterConstants.PAGE_ONE
@@ -57,7 +58,7 @@ class OrganisationPaginationUseCase @Inject constructor(
             this.page = PAGE_ONE.toString()
         }
         organizationFilterUseCase.setOrganizationFilter(organizationFilter)
-        return subscribeToOrganizationDataSourceUseCase.buildUseCaseObservable(
+        return subscribeToOrganizationDataSourceUseCase.buildUseCaseObservableWithSchedulers(
             Pair(Pair("${name?:""}%", "${state?:""}%"), this)
         )
     }
@@ -73,6 +74,7 @@ class OrganisationPaginationUseCase @Inject constructor(
     private fun subscribeToSearchSubject() {
         searchSubject.debounce(2, TimeUnit.SECONDS)
             .performSearchTask()
+            .applyIOSchedulers()
             .subscribe(object : DisposableObserver<ItemPaginationState>() {
                 override fun onComplete() {
                 }
@@ -93,7 +95,7 @@ class OrganisationPaginationUseCase @Inject constructor(
             val organizationFilter = organizationFilterUseCase.getOrganizationFilter().apply {
                 this.page = (if (isFirstPage) PAGE_ONE else this.page.toInt().plus(PAGE_ONE)).toString()
             }
-            fetchAndSaveOrganizationsUseCase.buildUseCaseSingle(organizationFilter)
+            fetchAndSaveOrganizationsUseCase.buildUseCaseSingleWithSchedulers(organizationFilter)
                 .doOnSubscribe {
                     _itemPaginationStateLiveData.postValue(updateLoadingState(isFirstPage))
                     compositeDisposable.add(it)

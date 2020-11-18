@@ -70,7 +70,7 @@ class FilterRepo @Inject constructor(
     override fun resetFilter(categories: List<String>): Completable =
         petFilterDao.resetFilters(false, categories)
 
-    override fun getFilterForTypes(
+    override fun listenToFilterTypes(
         types: List<String>,
         selected: Boolean
     ): Flowable<List<PetFilterCheckableEntity>> =

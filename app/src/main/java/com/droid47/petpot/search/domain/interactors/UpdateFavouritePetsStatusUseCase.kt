@@ -16,6 +16,4 @@ class UpdateFavouritePetsStatusUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Pair<Boolean, Boolean>): Completable =
         favouritePetRepository.updateFavoritePetStatus(params.first, params.second)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
 }

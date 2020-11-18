@@ -33,8 +33,7 @@ class SyncPetTypeUseCase @Inject constructor(
         when (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(application)) {
             ConnectionResult.SUCCESS -> lookForDbDataThenFetchFromNetwork(params)
             else -> Single.just(Failure(IllegalStateException(PLAY_SERVICE_ERROR)))
-        }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
+        }
 
     private fun lookForDbDataThenFetchFromNetwork(lookForCacheData: Boolean): Single<BaseStateModel<List<PetTypeEntity>>> =
         when {

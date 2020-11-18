@@ -21,8 +21,7 @@ class SyncPetTypeWorker @Inject constructor(
 ) : RxWorker(application, workerParameters) {
 
     override fun createWork(): Single<Result> =
-        syncPetTypeUseCase.buildUseCaseSingle(false)
-            .applyIOSchedulers()
+        syncPetTypeUseCase.buildUseCaseSingleWithSchedulers(false)
             .map {
                 when (it) {
                     is Failure -> Result.failure()

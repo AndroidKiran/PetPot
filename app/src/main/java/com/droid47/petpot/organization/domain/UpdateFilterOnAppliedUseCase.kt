@@ -15,7 +15,5 @@ class UpdateFilterOnAppliedUseCase @Inject constructor(
 
     override fun buildUseCaseCompletable(params: Unit): Completable {
         return organizationFilterRepository.updateFilterOnApplied()
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
     }
 }

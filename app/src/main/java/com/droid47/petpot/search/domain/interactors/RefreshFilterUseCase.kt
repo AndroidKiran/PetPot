@@ -71,8 +71,7 @@ class RefreshFilterUseCase @Inject constructor(
                         )
                     }
                 })
-            }.subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
+            }
 
     private fun transformToFilterItemList(
         strList: List<String>,

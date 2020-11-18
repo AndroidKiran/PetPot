@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.clearDisposable
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.widgets.BaseStateModel
@@ -50,7 +51,7 @@ class PetPaginationUseCase @Inject constructor(
     }
 
     fun buildPageListObservable(): Flowable<BaseStateModel<PagedList<PetEntity>>> =
-        petDataSourceUseCase.buildUseCaseObservable(this)
+        petDataSourceUseCase.buildUseCaseObservableWithSchedulers(this)
 
 
     fun retry() {
@@ -72,6 +73,7 @@ class PetPaginationUseCase @Inject constructor(
     private fun subscribeToSearchSubject() {
         searchSubject.debounce(400, TimeUnit.MILLISECONDS)
             .performSearchTask()
+            .applyIOSchedulers()
             .subscribe(object : DisposableObserver<ItemPaginationState>() {
                 override fun onComplete() {
                 }
@@ -89,12 +91,12 @@ class PetPaginationUseCase @Inject constructor(
 
     private fun Observable<Boolean>.performSearchTask(): Observable<ItemPaginationState> =
         switchMapSingle { isFirstPage ->
-            fetchAppliedFilterUseCase.buildUseCaseSingle(isFirstPage)
+            fetchAppliedFilterUseCase.buildUseCaseSingleWithSchedulers(isFirstPage)
                 .doOnSubscribe {
                     _itemPaginationStateLiveData.postValue(updateLoadingState(isFirstPage))
                     compositeDisposable.add(it)
                 }.flatMap { filters ->
-                    fetchPetFromNetworkAndCacheDbUseCase.buildUseCaseSingle(filters)
+                    fetchPetFromNetworkAndCacheDbUseCase.buildUseCaseSingleWithSchedulers(filters)
                 }.processResponse()
                 .onErrorReturn {
                     processError(it)

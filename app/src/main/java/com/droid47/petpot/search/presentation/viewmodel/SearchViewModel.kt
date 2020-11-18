@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import com.droid47.petpot.app.di.scopes.ActivityScope
 import com.droid47.petpot.app.di.scopes.FragmentScope
+import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.extensions.toSingleLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
@@ -82,20 +83,20 @@ class SearchViewModel @Inject constructor(
     }
 
     fun updateLocation(location: String) {
-        fetchAppliedFilterUseCase.buildUseCaseSingle(true)
+        fetchAppliedFilterUseCase.buildUseCaseSingleWithSchedulers(true)
             .flatMapCompletable { filters ->
                 if (!(filters.location ?: "").equals(location, true)) {
-                    updateFilterUseCase.buildUseCaseCompletable(
+                    updateFilterUseCase.buildUseCaseCompletableWithSchedulers(
                         PetFilterCheckableEntity(
                             location,
                             LOCATION,
                             selected = true,
                             filterApplied = true
                         )
-                    ).andThen(removeAllPetsUseCase.buildUseCaseCompletable(false))
+                    ).andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
                 } else {
                     Completable.complete()
-                }
+                }.applyIOSchedulers()
             }.subscribe(object : CompletableObserver {
                 override fun onComplete() {
                 }

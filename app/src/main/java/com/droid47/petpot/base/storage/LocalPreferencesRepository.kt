@@ -1,8 +1,11 @@
 package com.droid47.petpot.base.storage
 
+import android.content.SharedPreferences
 import com.droid47.petpot.organization.data.models.OrganizationFilter
 
 interface LocalPreferencesRepository {
+
+    val sharedPreferences: SharedPreferences
 
     fun fetchAppliedTheme(): String
 

@@ -25,8 +25,6 @@ class FetchAppliedFilterUseCase @Inject constructor(
             .map {
                 composeFilter(it, params)
             }
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
 
 
     private fun composeFilter(

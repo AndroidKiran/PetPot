@@ -20,8 +20,6 @@ class UpdateFavoritePetUseCase @Inject constructor(
 
     override fun buildUseCaseSingle(params: PetEntity): Single<BaseStateModel<PetEntity>> =
         favouritePetRepository.updateFavoriteStatus(params)
-            .subscribeOn(threadExecutorScheduler)
-            .observeOn(postExecutionThreadScheduler)
             .toSingle {
                 Success(params) as BaseStateModel<PetEntity>
             }.onErrorReturn {

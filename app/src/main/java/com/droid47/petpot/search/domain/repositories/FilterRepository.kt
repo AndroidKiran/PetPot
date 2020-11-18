@@ -27,9 +27,10 @@ interface FilterRepository {
 
     fun refreshFilter(list: List<PetFilterCheckableEntity>): Completable
 
-    fun getFilterForTypes(types: List<String>, selected: Boolean): Flowable<List<PetFilterCheckableEntity>>
+    fun listenToFilterTypes(types: List<String>, selected: Boolean): Flowable<List<PetFilterCheckableEntity>>
 
     fun getAppliedFilterItemsForCategories(categories: List<String>): Flowable<List<PetFilterCheckableEntity>>
 
     fun updateFilterOnClosed(categories: List<String>): Completable
+
 }
