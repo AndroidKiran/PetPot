@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class NextEntity(
+data class NextEntity(
     @field:SerializedName("href")
     val href: String? = null
 ) : Parcelable

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.droid47.petpot.base.extensions.clearDisposable
+import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.search.data.models.search.PaginationEntity
 import com.droid47.petpot.search.data.models.search.PetEntity
@@ -114,8 +115,9 @@ class PetPaginationUseCase @Inject constructor(
             }
         }
 
-    private fun processError(throwable: Throwable): ItemPaginationState =
-        if (PAGE_ONE == obtainPagination().currentPage) {
+    private fun processError(throwable: Throwable): ItemPaginationState {
+        CrashlyticsExt.handleException(throwable)
+        return if (PAGE_ONE == obtainPagination().currentPage) {
             ErrorState(
                 throwable,
                 obtainPagination(),
@@ -132,6 +134,7 @@ class PetPaginationUseCase @Inject constructor(
                 obtainTotalCount()
             )
         }
+    }
 
     private fun updateLoadingState(isFirstPage: Boolean): ItemPaginationState =
         if (isFirstPage)

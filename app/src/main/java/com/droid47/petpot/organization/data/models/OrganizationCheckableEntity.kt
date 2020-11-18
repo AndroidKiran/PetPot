@@ -45,7 +45,7 @@ data class OrganizationCheckableEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = COL_ID, index = true)
     @field:SerializedName("id")
-    val id: String,
+    val id: String = "",
     @ColumnInfo(name = COL_MISSION_STATEMENT)
     @field:SerializedName("mission_statement")
     var missionStatement: String? = null,

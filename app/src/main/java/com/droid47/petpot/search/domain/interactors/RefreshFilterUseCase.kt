@@ -7,6 +7,7 @@ import com.droid47.petpot.search.data.models.*
 import com.droid47.petpot.search.domain.repositories.FilterRepository
 import com.droid47.petpot.search.domain.repositories.PetTypeRepository
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.PAGE_ONE
+import com.droid47.petpot.search.presentation.models.PetFilterConstants.SORT_BY_DISTANCE
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.SORT_BY_RECENT
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -29,23 +30,45 @@ class RefreshFilterUseCase @Inject constructor(
                     addAll(transformToFilterItemList(petType.size, SIZE))
                     addAll(transformToFilterItemList(petType.age, AGE))
                     addAll(transformToFilterItemList(petType.status, STATUS))
-                    add(PetFilterCheckableEntity(petType.name, PET_TYPE,
-                        selected = true,
-                        filterApplied = true
-                    ))
-                    add(PetFilterCheckableEntity(PAGE_ONE.toString(), PAGE_NUM,
-                        selected = true,
-                        filterApplied = true
-                    ))
-                    add(PetFilterCheckableEntity(SORT_BY_RECENT, SORT,
-                        selected = true,
-                        filterApplied = true
-                    ))
-                    if (params.isNotEmpty()) {
-                        add(PetFilterCheckableEntity(params, LOCATION,
+                    add(
+                        PetFilterCheckableEntity(
+                            petType.name, PET_TYPE,
                             selected = true,
                             filterApplied = true
-                        ))
+                        )
+                    )
+                    add(
+                        PetFilterCheckableEntity(
+                            PAGE_ONE.toString(), PAGE_NUM,
+                            selected = true,
+                            filterApplied = true
+                        )
+                    )
+
+                    if (params.isNotEmpty()) {
+                        add(
+                            PetFilterCheckableEntity(
+                                SORT_BY_DISTANCE, SORT,
+                                selected = true,
+                                filterApplied = true
+                            )
+                        )
+
+                        add(
+                            PetFilterCheckableEntity(
+                                params, LOCATION,
+                                selected = true,
+                                filterApplied = true
+                            )
+                        )
+                    } else {
+                        add(
+                            PetFilterCheckableEntity(
+                                SORT_BY_RECENT, SORT,
+                                selected = true,
+                                filterApplied = true
+                            )
+                        )
                     }
                 })
             }.subscribeOn(threadExecutorScheduler)

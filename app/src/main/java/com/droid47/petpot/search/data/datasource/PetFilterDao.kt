@@ -1,6 +1,7 @@
 package com.droid47.petpot.search.data.datasource
 
 import androidx.room.*
+import com.droid47.petpot.search.data.models.LOCATION
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
 import com.droid47.petpot.search.data.models.SORT
 import com.droid47.petpot.search.presentation.models.PetFilterConstants.SORT_BY_DISTANCE
@@ -43,7 +44,10 @@ interface PetFilterDao {
 //    fun getFilterForFirstPage(name: String, type: String, selected: Boolean): Flowable<List<PetFilterEntity>>
 //
     @Query("SELECT * FROM ${PetFilterCheckableEntity.TABLE_NAME} WHERE ${PetFilterCheckableEntity.COL_TYPE} IN(:types) AND ${PetFilterCheckableEntity.COL_SELECTED}=:selected")
-    fun getFilterForTypes(types: List<String>, selected: Boolean): Flowable<List<PetFilterCheckableEntity>>
+    fun getFilterForTypes(
+        types: List<String>,
+        selected: Boolean
+    ): Flowable<List<PetFilterCheckableEntity>>
 
     @Update
     fun updateFilterForItem(petFilterEntity: PetFilterCheckableEntity): Completable
@@ -104,7 +108,10 @@ interface PetFilterDao {
         insertOrUpdateFilterItem(petFilterEntity)
         insertOrUpdateFilterItem(
             PetFilterCheckableEntity(
-                if (petFilterEntity.name?.isNotEmpty() == true) SORT_BY_DISTANCE else SORT_BY_RECENT,
+                if (petFilterEntity.name?.isNotEmpty() == true && petFilterEntity.type == LOCATION)
+                    SORT_BY_DISTANCE
+                else
+                    SORT_BY_RECENT,
                 SORT,
                 selected = true,
                 filterApplied = true

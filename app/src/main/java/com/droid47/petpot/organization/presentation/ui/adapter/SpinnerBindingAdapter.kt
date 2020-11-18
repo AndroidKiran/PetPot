@@ -14,7 +14,7 @@ import com.droid47.petpot.organization.data.models.State
 
 @BindingAdapter(value = ["stateEntries"])
 fun AppCompatSpinner.bindAppSpinner(list: List<State>?) {
-    val stateStrList: List<String> = list?.map { state -> state.name } ?: emptyList()
+    val stateStrList: List<String> = list?.mapNotNull { state -> state.name } ?: emptyList()
     adapter = ArrayAdapter(
         context,
         R.layout.spinner_list_style,

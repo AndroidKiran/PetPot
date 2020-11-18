@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class EnvironmentEntity(
+data class EnvironmentEntity(
     @field:SerializedName("cats")
     val cats: Boolean? = null,
 

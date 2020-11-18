@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class PetResponseEntity(
+data class PetResponseEntity(
     @field:SerializedName("animal")
     val petEntity: PetEntity? = null
 ) : Parcelable

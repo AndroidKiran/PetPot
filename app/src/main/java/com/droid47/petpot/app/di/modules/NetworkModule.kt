@@ -2,27 +2,27 @@ package com.droid47.petpot.app.di.modules
 
 import android.app.Application
 import com.droid47.petpot.BuildConfig
-import com.droid47.petpot.base.network.NetworkHeadersInterceptor
-import com.droid47.petpot.base.network.TokenAuthenticator
+import com.droid47.petpot.base.network.OffsetDateTimeConverter
+import com.droid47.petpot.base.network.TokenAuthenticatorInterceptor
 import com.droid47.petpot.base.network.TokenNetworkSource
-import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.droid47.petpot.search.data.datasource.SearchNetworkSource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.CallAdapter
-import retrofit2.Converter
+import org.threeten.bp.OffsetDateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 object NetworkModule {
@@ -39,39 +39,28 @@ object NetworkModule {
         }
     }
 
+
     @Provides
     @JvmStatic
     @Singleton
-    fun provideGson(): Gson = GsonBuilder()
+    fun provideOffsetDateTimeAdapter(): OffsetDateTimeConverter = OffsetDateTimeConverter()
+
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideGson(offsetDateTimeConverter: OffsetDateTimeConverter): Gson = GsonBuilder()
         .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        .registerTypeAdapter(object : TypeToken<OffsetDateTime>() {}.type, offsetDateTimeConverter)
         .create()
 
     @Provides
     @JvmStatic
     @Singleton
-    fun provideNetworkHeaderInterceptor(
-        localPreferencesRepository: LocalPreferencesRepository,
-        gson: Gson
-    ): NetworkHeadersInterceptor =
-        NetworkHeadersInterceptor(
-            localPreferencesRepository,
-            gson
-        )
-
-    @Provides
-    @JvmStatic
-    @Singleton
     fun provideAuthenticator(
-        localPreferencesRepository: LocalPreferencesRepository,
-        gson: Gson,
         tokenNetworkSource: Lazy<TokenNetworkSource>
-    ): TokenAuthenticator =
-        TokenAuthenticator(
-            localPreferencesRepository,
-            gson,
-            tokenNetworkSource
-        )
+    ): TokenAuthenticatorInterceptor =
+        TokenAuthenticatorInterceptor(tokenNetworkSource)
 
     @Provides
     @JvmStatic
@@ -86,8 +75,7 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        headersInterceptor: NetworkHeadersInterceptor,
-        authenticator: TokenAuthenticator,
+        authenticatorInterceptor: TokenAuthenticatorInterceptor,
         cache: Cache
     ): OkHttpClient =
         OkHttpClient.Builder()
@@ -95,33 +83,22 @@ object NetworkModule {
             .connectTimeout(5, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
             .readTimeout(5, TimeUnit.SECONDS)
-            .authenticator(authenticator)
+            .authenticator(authenticatorInterceptor)
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(headersInterceptor)
+            .addInterceptor(authenticatorInterceptor)
             .build()
 
-    @Provides
-    @JvmStatic
-    @Singleton
-    fun providesGsonConverterFactory(gson: Gson): Converter.Factory =
-        GsonConverterFactory.create(gson)
-
-    @Provides
-    @JvmStatic
-    @Singleton
-    fun providesCallAdapterFactory(): CallAdapter.Factory = RxJava2CallAdapterFactory.create()
 
     @Provides
     @JvmStatic
     @Singleton
     fun provideNetworkClient(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: Converter.Factory,
-        callAdapterFactor: CallAdapter.Factory
+        gson: Gson
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.API_URL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(callAdapterFactor)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build()
 

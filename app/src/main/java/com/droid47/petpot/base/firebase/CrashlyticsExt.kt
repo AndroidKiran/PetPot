@@ -36,4 +36,8 @@ object CrashlyticsExt {
     fun setCollectionEnabled(status: Boolean) {
         getCrashlytics().setCrashlyticsCollectionEnabled(status)
     }
+
+    fun crash() {
+        throw RuntimeException("Test Crash")
+    }
 }

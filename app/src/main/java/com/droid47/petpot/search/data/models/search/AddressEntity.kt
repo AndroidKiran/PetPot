@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class AddressEntity(
+data class AddressEntity(
     @field:SerializedName("address1")
     val address1: String? = null,
     @field:SerializedName("address2")

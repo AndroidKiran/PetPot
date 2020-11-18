@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class BreedResponseEntity(
+data class BreedResponseEntity(
     @field:SerializedName("breeds")
     val breeds: List<BreedsItemEntity>? = null
 ) : Parcelable

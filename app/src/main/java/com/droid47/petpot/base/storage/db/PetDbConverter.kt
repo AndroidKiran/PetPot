@@ -1,18 +1,15 @@
 package com.droid47.petpot.base.storage.db
 
-import android.annotation.SuppressLint
 import androidx.room.TypeConverter
 import com.droid47.petpot.organization.data.models.OrganizationCheckableEntity
 import com.droid47.petpot.search.data.models.search.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
-import java.util.*
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.temporal.TemporalQuery
 
 object PetDbConverter {
-
-    @SuppressLint("SimpleDateFormat")
-    private val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
     @TypeConverter
     @JvmStatic
@@ -136,24 +133,19 @@ object PetDbConverter {
 
     @TypeConverter
     @JvmStatic
-    fun fromTimestamp(value: String?): Date? {
-        val inputValue = value ?: return null
-        return try {
-            val timeZone: TimeZone = TimeZone.getTimeZone("UTC")
-            df.timeZone = timeZone
-            df.parse(inputValue)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    fun fromTimestamp(value: String?): OffsetDateTime? {
+        return DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(value ?: return null, tq)
     }
+
+    private val tq: TemporalQuery<OffsetDateTime> =
+        TemporalQuery<OffsetDateTime> { temporal ->
+            OffsetDateTime.from(temporal)
+        }
 
     @TypeConverter
     @JvmStatic
-    fun dateToTimestamp(value: Date?): String? {
-        val timeZone = TimeZone.getTimeZone("UTC")
-        df.timeZone = timeZone
-        return if (value == null) null else df.format(value)
+    fun dateToTimestamp(value: OffsetDateTime?): String? {
+        return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value) ?: return null
     }
 
     @TypeConverter
@@ -181,20 +173,9 @@ object PetDbConverter {
     @JvmStatic
     fun toSocialMedia(value: String?): OrganizationCheckableEntity.SocialMediaEntity {
         val inputValue = value ?: return OrganizationCheckableEntity.SocialMediaEntity()
-        return Gson().fromJson(inputValue, OrganizationCheckableEntity.SocialMediaEntity::class.java)
+        return Gson().fromJson(
+            inputValue,
+            OrganizationCheckableEntity.SocialMediaEntity::class.java
+        )
     }
-
-//    @TypeConverter
-//    @JvmStatic
-//    fun fromAddress(value: AddressEntity?): String? {
-//        val inputValue = value ?: return null
-//        return Gson().toJson(inputValue)
-//    }
-//
-//    @TypeConverter
-//    @JvmStatic
-//    fun toAddress(value: String?): AddressEntity {
-//        val inputValue = value ?: return AddressEntity()
-//        return Gson().fromJson(inputValue, AddressEntity::class.java)
-//    }
 }

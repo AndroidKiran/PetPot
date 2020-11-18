@@ -4,10 +4,6 @@ import com.droid47.petpot.organization.data.models.OrganizationFilter
 
 interface LocalPreferencesRepository {
 
-    fun saveToken(tokenStr: String)
-
-    fun fetchToken(): String
-
     fun fetchAppliedTheme(): String
 
     fun saveAppliedTheme(theme: String)

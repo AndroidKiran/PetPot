@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ClientCredentialModel(
+data class ClientCredentialModel(
     @field:SerializedName("grant_type")
     val grantType: String = "client_credentials",
     @field:SerializedName("client_id")

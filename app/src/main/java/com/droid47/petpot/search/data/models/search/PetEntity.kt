@@ -27,7 +27,6 @@ import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_PUBL
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_SIZE
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_SPECIES
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_STATUS
-import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_STATUS_CHANGED_AT
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_TAGS
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_TYPE
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_URL
@@ -35,7 +34,7 @@ import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.COL_VIDE
 import com.droid47.petpot.search.data.models.search.PetEntity.TableInfo.TABLE_NAME
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.util.*
+import org.threeten.bp.OffsetDateTime
 
 @Entity(tableName = TABLE_NAME)
 @Parcelize
@@ -100,11 +99,7 @@ data class PetEntity(
 
     @field:SerializedName("published_at")
     @ColumnInfo(name = COL_PUBLISHED_AT, index = true)
-    var publishedAt: Date? = null,
-
-    @field:SerializedName("status_changed_at")
-    @ColumnInfo(name = COL_STATUS_CHANGED_AT)
-    var statusModifiedAt: Date? = null,
+    var publishedAt: OffsetDateTime? = null,
 
     @field:SerializedName("age")
     @ColumnInfo(name = COL_AGE)
@@ -156,12 +151,8 @@ data class PetEntity(
         return picUrl
     }
 
-    fun getStatusChangedAtInLong(): Long {
-        return statusModifiedAt?.time ?: 0L
-    }
-
     fun getPublishedAtInLong(): Long {
-        return publishedAt?.time ?: 0L
+        return publishedAt?.toInstant()?.toEpochMilli() ?: 0L
     }
 
     object TableInfo {

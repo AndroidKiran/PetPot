@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class VideoItemEntity(
+data class VideoItemEntity(
     @field:SerializedName("embed")
     val embed: String? = null
 ) : Parcelable

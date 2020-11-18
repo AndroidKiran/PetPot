@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ColorsEntity(
+data class ColorsEntity(
     @field:SerializedName("secondary")
     val secondary: String? = null,
 

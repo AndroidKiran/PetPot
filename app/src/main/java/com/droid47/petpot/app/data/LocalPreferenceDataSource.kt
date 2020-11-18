@@ -21,14 +21,6 @@ class LocalPreferenceDataSource @Inject constructor(
         PreferenceManager.getDefaultSharedPreferences(application)
     }
 
-    override fun saveToken(tokenStr: String) {
-        sharedPreferences.edit {
-            putString(KEY_TOKEN, tokenStr).apply()
-        }
-    }
-
-    override fun fetchToken(): String = sharedPreferences.getString(KEY_TOKEN, "") ?: ""
-
     override fun fetchAppliedTheme(): String =
         sharedPreferences.getString(application.getString(R.string.key_current_theme), DEFAULT_MODE)
             ?: DEFAULT_MODE
@@ -132,7 +124,6 @@ class LocalPreferenceDataSource @Inject constructor(
         sharedPreferences.getInt(KEY_PRIVACY_POLICY, 1)
 
     companion object {
-        const val KEY_TOKEN = "token"
         const val KEY_ON_BOARDING_STATE = "on_boarding_state"
         const val KEY_TNC_STATE = "tnc_state"
         const val KEY_FCM_TOKEN = "fcm_token"

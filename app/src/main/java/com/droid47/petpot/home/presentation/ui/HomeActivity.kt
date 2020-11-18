@@ -19,6 +19,7 @@ import com.droid47.petpot.app.PetApplication
 import com.droid47.petpot.base.extensions.themeInterpolator
 import com.droid47.petpot.base.extensions.viewModelProvider
 import com.droid47.petpot.base.firebase.AnalyticsScreens
+import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.livedata.NetworkConnectionLiveData
 import com.droid47.petpot.base.widgets.*
 import com.droid47.petpot.base.widgets.inAppUpdate.InAppUpdateManager
@@ -95,7 +96,6 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
                 R.id.navigation_home)
             deepLinkBundle.putInt( NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, currentNavId)
         }
-        navigateTo(deepLinkBundle)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

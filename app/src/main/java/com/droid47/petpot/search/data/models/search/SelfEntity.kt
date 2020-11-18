@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class SelfEntity(
+data class SelfEntity(
 
     @field:SerializedName("href")
     val href: String? = null

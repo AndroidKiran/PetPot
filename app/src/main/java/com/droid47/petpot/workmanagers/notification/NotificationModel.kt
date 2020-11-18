@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class NotificationModel(
-    val channelId: String,
-    val contentTitle: String,
-    val contentText: String,
+    val channelId: String? = null,
+    val contentTitle: String? = null,
+    val contentText: String? = null,
     val contentUrl: String? = null,
     val notificationStyle: NotificationStyle = BigPictureStyle,
     val navigationGraphId: Int = R.navigation.launcher_navigation_graph,
@@ -18,14 +18,14 @@ data class NotificationModel(
     val navigationArgs: Bundle = Bundle(),
     val actionPrimary: String? = null,
     val actionSecondary: String? = null,
-    val notificationChannel: NotificationChannel = NotificationChannel(channelId),
+    val notificationChannel: NotificationChannel = NotificationChannel(channelId?:""),
     val priority: Int = NotificationCompat.PRIORITY_DEFAULT,
     val notificationAutoCancel: Boolean = true
 ) : Parcelable {
 
     @Parcelize
     data class NotificationChannel(
-        val channelId: String,
+        val channelId: String? = null,
         val channelName: String = CHANNEL_SEARCH,
         val channelDescription: String = CHANNEL_DESCRIPTION,
         val channelImportance: Int = android.app.NotificationManager.IMPORTANCE_DEFAULT

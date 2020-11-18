@@ -141,7 +141,7 @@ class PagedListPetAdapter @Inject constructor(
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: PetEntity, newItem: PetEntity): Boolean =
-            oldItem.publishedAt == newItem.publishedAt
+            oldItem == newItem
     }
 
     open inner class SearchViewHolder(private val itemBinding: ItemPetBinding) :

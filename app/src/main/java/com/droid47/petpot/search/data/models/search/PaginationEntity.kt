@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class PaginationEntity(
+data class PaginationEntity(
 
     @field:SerializedName("count_per_page")
     val countPerPage: Int = 0,

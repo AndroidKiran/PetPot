@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class SearchResponseEntity(
+data class SearchResponseEntity(
     @field:SerializedName("pagination")
     var paginationEntity: PaginationEntity? = null,
 

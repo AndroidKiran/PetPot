@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class AttributesEntity(
+data class AttributesEntity(
 
     @field:SerializedName("shots_current")
     val shotsCurrent: Boolean? = null,

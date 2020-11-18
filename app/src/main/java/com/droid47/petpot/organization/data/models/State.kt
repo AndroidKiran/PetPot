@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class State(
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("abbreviation")
-    val abbreviation: String
+    val abbreviation: String? = null
 ): Parcelable

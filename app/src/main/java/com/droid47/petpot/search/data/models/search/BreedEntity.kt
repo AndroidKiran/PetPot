@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class BreedEntity(
+data class BreedEntity(
     @field:SerializedName("secondary")
     val secondary: String? = null,
 

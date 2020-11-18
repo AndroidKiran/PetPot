@@ -11,6 +11,7 @@ import com.droid47.petpot.R
 import com.droid47.petpot.base.extensions.BuildVersionUtil
 import com.droid47.petpot.base.extensions.getDimen
 import com.droid47.petpot.base.extensions.getScreenWidth
+import com.droid47.petpot.workmanagers.notification.NotificationModel.NotificationChannel.Companion.CHANNEL_ID
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -39,7 +40,7 @@ class PetNotificationManager @Inject constructor(private val context: Applicatio
     }
 
     private fun buildNotification(notificationModel: NotificationModel): Notification =
-        NotificationCompat.Builder(context, notificationModel.channelId)
+        NotificationCompat.Builder(context, notificationModel.channelId ?: CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_name)
             .setContentTitle(notificationModel.contentTitle)
             .setContentText(notificationModel.contentText)
