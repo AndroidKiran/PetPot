@@ -11,14 +11,15 @@ import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Success
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import javax.inject.Inject
 
-class SubscribeToLocationChangeUseCase(
+class SubscribeToLocationChangeUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val preferencesRepository: LocalPreferencesRepository
-) : FlowableUseCase<BaseStateModel<String>, String>(threadExecutor, postExecutionThread) {
+) : FlowableUseCase<BaseStateModel<String>, Unit>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: String): Flowable<BaseStateModel<String>> {
+    override fun buildUseCaseObservable(params: Unit): Flowable<BaseStateModel<String>> {
         return Flowable.create({ emitter ->
             val emitCurrentKey =
                 { emitter.onNext(Success(preferencesRepository.getLocation() ?: "")) }

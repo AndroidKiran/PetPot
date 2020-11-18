@@ -25,7 +25,7 @@ fun PetSpinner.bindSpinner(list: List<String>?) {
 @BindingAdapter(value = ["selectedValue", "selectedValueAttrChanged"], requireAll = false)
 fun PetSpinner.bindSpinnerData(
     newSelectedValue: String?,
-    newTextAttrChanged: InverseBindingListener
+    newTextAttrChanged: InverseBindingListener?
 ) {
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(
@@ -38,7 +38,7 @@ fun PetSpinner.bindSpinnerData(
             if (!TextUtils.isEmpty(selectedItem)
                 && !selectedItem.equals(newSelectedValue, true)
             ) {
-                newTextAttrChanged.onChange()
+                newTextAttrChanged?.onChange()
                 setSelection(position)
                 onPetSelected(selectedItem)
             }

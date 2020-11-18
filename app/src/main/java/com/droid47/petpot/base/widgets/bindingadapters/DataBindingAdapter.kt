@@ -7,13 +7,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.text.Editable
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.CheckedTextView
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
@@ -284,4 +282,9 @@ fun View.setFullScreenBottomPadding(isRequired: Boolean) {
     if (!isRequired || !hasNavBar(context)) return
     val bottomPadding = context.getDimen(R.dimen.grid_6)
     setPadding(0, 0, 0, bottomPadding)
+}
+
+@BindingAdapter("editTextSelection")
+fun EditText.updateText(value: Int?) {
+    setSelection(value ?: 0)
 }

@@ -71,7 +71,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         app:entries="@{petSpinnerViewModelAndLocation.petNamesLiveData}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/tv_location"
+                        app:layout_constraintEnd_toStartOf="@id/et_location"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.35"
@@ -88,39 +88,41 @@
                         app:layout_constraintEnd_toEndOf="@id/spinnerAnimal"
                         app:layout_constraintTop_toTopOf="@id/spinnerAnimal" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_location"
+                    <com.droid47.petpot.search.presentation.ui.widgets.LocationEditText
+                        android:id="@+id/et_location"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@null"
                         android:gravity="start|center"
                         android:hint="@string/hint_search"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:paddingStart="@dimen/grid_1"
                         android:paddingEnd="@dimen/grid_6"
-                        android:inputType="text"
-                        android:text="@={petSpinnerViewModelAndLocation.locationLiveData}"
+                        android:text="@{petSpinnerViewModelAndLocation.locationLiveData.data}"
                         android:textAppearance="?attr/textAppearanceSubtitle2"
                         android:textColor="?attr/colorOnSurface"
+                        app:editTextSelection="@{petSpinnerViewModelAndLocation.locationLiveData.data.length()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/spinnerAnimal"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:petSpinnerViewModelAndLocation="@{petSpinnerViewModelAndLocation}"
                         tools:text="New jersy" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/clear_text_fab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="TODO"
                         android:onClick="@{() -> petSpinnerViewModelAndLocation.onMiniFabClick()}"
-                        android:src="@{StringExtKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData) ? @drawable/vc_close : @drawable/vc_my_location}"
+                        android:src="@{StringExtKt.isNotEmpty(petSpinnerViewModelAndLocation.locationLiveData.data) ? @drawable/vc_close : @drawable/vc_my_location}"
                         app:elevation="@dimen/plane_08"
                         app:fabCustomSize="@dimen/grid_4"
                         app:fabSize="mini"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_location"
-                        app:layout_constraintEnd_toEndOf="@id/tv_location"
-                        app:layout_constraintTop_toTopOf="@id/tv_location"
-                        android:contentDescription="TODO" />
+                        app:layout_constraintBottom_toBottomOf="@id/et_location"
+                        app:layout_constraintEnd_toEndOf="@id/et_location"
+                        app:layout_constraintTop_toTopOf="@id/et_location" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

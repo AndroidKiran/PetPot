@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.text.Editable
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -46,6 +48,7 @@ import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_APPLY_FILTER
 import com.droid47.petpot.search.presentation.viewmodel.FilterViewModel.Companion.EVENT_CLOSE_FILTER
 import com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
+import com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CLEAR_LOCATION
 import com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel.Companion.EVENT_CURRENT_LOCATION
 import com.droid47.petpot.search.presentation.viewmodel.SearchViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -53,6 +56,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.android.synthetic.main.fragment_organisation.view.*
+import kotlinx.android.synthetic.main.layout_search_top_bar.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -290,8 +295,8 @@ class SearchFragment :
         }
 
         petSpinnerAndLocationViewModel.locationLiveData.run {
-            removeObserver(locationObserver)
-            observe(requireActivity(), locationObserver)
+//            removeObserver(locationObserver)
+//            observe(requireActivity(), locationObserver)
         }
 
         getViewModel().eventLiveData.run {
@@ -404,9 +409,8 @@ class SearchFragment :
 
     private val petSpinnerEventObserver = Observer<Long> {
         when (it ?: return@Observer) {
-            EVENT_CURRENT_LOCATION -> {
-                getCurrentLocation()
-            }
+            EVENT_CURRENT_LOCATION -> getCurrentLocation()
+            EVENT_CLEAR_LOCATION -> setLocationText("")
         }
     }
 
@@ -443,7 +447,7 @@ class SearchFragment :
             this.errorBtnText = errorTriple.third
             this.errorRetryClickListener = View.OnClickListener {
                 if (getString(R.string.clear) == errorTriple.third) {
-                    petSpinnerAndLocationViewModel.onClearLocation()
+                    setLocationText("")
                 } else {
                     getViewModel().retryPagination()
                 }
@@ -527,7 +531,7 @@ class SearchFragment :
                 is UpdatedLocationState -> {
                     val location = currentLocationState.location ?: return@Observer
                     val address = context?.getAddressFromLocation(location) ?: return@Observer
-                    petSpinnerAndLocationViewModel.locationLiveData.postValue(address)
+                    setLocationText(address)
                 }
             }
         }
@@ -600,6 +604,11 @@ class SearchFragment :
     private fun cancelPaginationRequest() {
         getViewModel().cancelPagination()
         hidePaginationProgress()
+    }
+
+    private fun setLocationText(location: String) {
+        getViewDataBinding().topSearchBar.etLocation.text =
+            Editable.Factory.getInstance().newEditable("")
     }
 
     companion object {

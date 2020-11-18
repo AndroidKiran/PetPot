@@ -17,9 +17,9 @@ class RefreshFilterUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread,
     private val petTypeRepository: PetTypeRepository,
     private val filterRepository: FilterRepository
-) : CompletableUseCase<String>(threadExecutor, postExecutionThread) {
+) : CompletableUseCase<String?>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseCompletable(params: String): Completable =
+    override fun buildUseCaseCompletable(params: String?): Completable =
         petTypeRepository.getSelectedPetType()
             .flatMapCompletable { petType ->
                 filterRepository.refreshFilter(mutableListOf<PetFilterCheckableEntity>().apply {
@@ -45,7 +45,15 @@ class RefreshFilterUseCase @Inject constructor(
                         )
                     )
 
-                    if (params.isNotEmpty()) {
+                    if (params.isNullOrEmpty()) {
+                        add(
+                            PetFilterCheckableEntity(
+                                SORT_BY_RECENT, SORT,
+                                selected = true,
+                                filterApplied = true
+                            )
+                        )
+                    } else {
                         add(
                             PetFilterCheckableEntity(
                                 SORT_BY_DISTANCE, SORT,
@@ -57,14 +65,6 @@ class RefreshFilterUseCase @Inject constructor(
                         add(
                             PetFilterCheckableEntity(
                                 params, LOCATION,
-                                selected = true,
-                                filterApplied = true
-                            )
-                        )
-                    } else {
-                        add(
-                            PetFilterCheckableEntity(
-                                SORT_BY_RECENT, SORT,
                                 selected = true,
                                 filterApplied = true
                             )

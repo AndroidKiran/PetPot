@@ -21,23 +21,27 @@ class PetSpinner @JvmOverloads constructor(
         }
     }
 
-    override fun getSelectedItemPosition(): Int =
-        getPreference()?.getSelectedPetPosition() ?: 0
+    override fun getSelectedItemPosition(): Int = getPreference()?.getSelectedPetPosition() ?: 0
 
     fun setPetSpinnerViewModelAndLocation(petSpinnerAndLocationViewModel: PetSpinnerAndLocationViewModel) {
         this.petSpinnerAndLocationViewModel = petSpinnerAndLocationViewModel
     }
 
-    fun onPetSelected(item: String) {
-        if(item != getSelectedPet()) {
-            petSpinnerAndLocationViewModel?.onPetSelected(item)
-            getPreference()?.saveSelectedPet(item)
+    fun onPetSelected(petName: String) {
+        if (petName != getSelectedPet()) {
+            petSpinnerAndLocationViewModel?.onPetOrLocationSelected(
+                petName,
+                getSelectedLocation()
+            )
+            getPreference()?.saveSelectedPet(petName)
         } else {
 //            petSpinnerAndLocationViewModel?.onExistingPetSelected(item)
         }
     }
 
     private fun getSelectedPet() = getPreference()?.getSelectedPet()
+
+    private fun getSelectedLocation() = getPreference()?.getLocation()
 
     private fun getPreference(): LocalPreferencesRepository? =
         petSpinnerAndLocationViewModel?.localPreferenceDataSource

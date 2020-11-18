@@ -81,6 +81,7 @@ android {
             shrinkResources false
             debuggable true
             aaptOptions.cruncherEnabled = false
+            jniDebuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['DEV_GOOGLE_MAP_API_KEY']]
@@ -93,6 +94,7 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
+            jniDebuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['RELEASE_GOOGLE_MAP_API_KEY']]

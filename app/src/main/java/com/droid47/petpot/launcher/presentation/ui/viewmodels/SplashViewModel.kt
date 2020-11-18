@@ -54,17 +54,10 @@ class SplashViewModel @Inject constructor(
         bindPetSyncAndPolicyStatusAsync()
     }
 
-
-    private fun getPetTypeSyncData(): Single<BaseStateModel<List<PetTypeEntity>>> =
-        syncPetTypeUseCase.buildUseCaseSingleWithSchedulers(true)
-
-    private fun getPolicyUpgradeStatus(): Single<BaseStateModel<String>> =
-        remoteConfigUseCase.buildUseCaseSingleWithSchedulers(RemoteConfigUseCase.KEY_PRIVACY_POLICY_UPGRADE)
-
     fun bindPetSyncAndPolicyStatusAsync() {
         Single.zip(
-            getPetTypeSyncData(),
-            getPolicyUpgradeStatus(),
+            syncPetTypeUseCase.buildUseCaseSingleWithSchedulers(true),
+            remoteConfigUseCase.buildUseCaseSingleWithSchedulers(RemoteConfigUseCase.KEY_PRIVACY_POLICY_UPGRADE),
             { petTypeEntityStateModel: BaseStateModel<List<PetTypeEntity>>, policyConfigStateModel: BaseStateModel<String> ->
                 Pair(petTypeEntityStateModel, policyConfigStateModel)
             }).applyIOSchedulers()
