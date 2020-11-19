@@ -63,8 +63,7 @@
         <attr name="verticalSupport" format="boolean" />
     </declare-styleable>
 
-    <attr name="colorHint" format="reference|color" />
-    <attr name="colorLoader" format="reference|color" />
+    <attr name="colorOnSurfaceReverse" format="reference|color" />
 
     <declare-styleable name="DiscreteScrollView">
         <attr name="dsv_orientation" format="enum">

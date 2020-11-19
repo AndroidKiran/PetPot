@@ -17,7 +17,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_1"
+        android:layout_margin="@dimen/grid_0_2"
         android:clickable="true"
         android:focusable="true"
         android:stateListAnimator="@animator/selector_lift_on_touch"
@@ -41,7 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_pet"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -100,7 +100,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:lines="1"
-                        android:padding="@dimen/grid_0_5"
+                        android:padding="@dimen/grid_0_4"
                         android:text="@{StringExtKt.wordCapitalize(pet.name)}"
                         android:textAppearance="?attr/textAppearanceHeadline5"
                         android:textColor="?attr/colorOnSurface"
@@ -117,8 +117,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:lines="1"
-                        android:paddingStart="@dimen/grid_0_5"
-                        android:paddingEnd="@dimen/grid_0_5"
+                        android:paddingStart="@dimen/grid_0_4"
+                        android:paddingEnd="@dimen/grid_0_4"
                         android:text="@{@string/age_breed(pet.age, pet.breedEntity.primary)}"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         android:textColor="?attr/colorOnSurface"
@@ -135,8 +135,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:lines="1"
-                        android:paddingStart="@dimen/grid_0_5"
-                        android:paddingEnd="@dimen/grid_0_5"
+                        android:paddingStart="@dimen/grid_0_4"
+                        android:paddingEnd="@dimen/grid_0_4"
                         android:text="@{StringExtKt.wordCapitalize(pet.status)}"
                         android:textAppearance="?attr/textAppearanceSubtitle2"
                         android:textSize="10sp"

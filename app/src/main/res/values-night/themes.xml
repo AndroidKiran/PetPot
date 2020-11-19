@@ -22,7 +22,7 @@
         <item name="colorOnSurface">@color/pet_white_50</item>
         <item name="colorOnError">@color/pet_black_900</item>
         <item name="colorOnPrimarySurface">@color/pet_white_50</item>
-        <item name="colorLoader">@color/pet_white_50</item>
+        <item name="colorOnSurfaceReverse">@color/pet_black_900</item>
 
         <item name="scrimBackground">@color/pet_black_900_alpha_060</item>
         <item name="android:statusBarColor">@color/pet_black_900_alpha_060</item>

@@ -23,7 +23,7 @@
         <item name="scrimBackground">@color/pet_blue_50_alpha_060</item>
         <item name="android:statusBarColor">@color/pet_blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
-        <item name="colorLoader">@color/pet_black_900</item>
+        <item name="colorOnSurfaceReverse">@color/pet_white_50</item>
         <!--Shape style-->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.pet.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.pet.MediumComponent

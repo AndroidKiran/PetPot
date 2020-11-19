@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:dotColor="?attr/colorSecondaryVariant"
-            app:dotRadius="@dimen/grid_0_5"
+            app:dotRadius="@dimen/grid_0_4"
             app:dotSeparation="@dimen/grid_2"
             app:layout_constraintBottom_toTopOf="@id/btn_start"
             app:layout_constraintEnd_toEndOf="parent"

@@ -122,7 +122,7 @@
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fabCradleVerticalOffset="@dimen/grid_0_4"
             app:fullScreenBottomPadding="@{true}"
             app:hideOnScroll="true"
             app:layout_scrollFlags="scroll|enterAlways">
@@ -137,7 +137,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_0_5"
+                    android:layout_marginStart="@dimen/grid_0_4"
                     android:text="@string/about_us"
                     android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"

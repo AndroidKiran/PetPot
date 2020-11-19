@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                android:visibility="gone"
                 app:errorViewConfig="@{errorStateConfig}"
                 app:errorViewVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Failure}"
                 tools:visibility="gone" />
@@ -75,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                android:visibility="gone"
                 app:emptyViewConfig="@{emptyStateConfig}"
                 app:emptyViewVisible="@{bookmarkViewModel.bookmarkListLiveData instanceof Empty}"
                 tools:visibility="gone" />
@@ -106,7 +108,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_0_5"
+                    android:layout_marginStart="@dimen/grid_0_4"
                     android:text="@string/favourite"
                     android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"

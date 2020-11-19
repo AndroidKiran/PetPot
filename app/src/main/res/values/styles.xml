@@ -19,12 +19,16 @@
     </style>
 
     <style name="Widget.PetGoogle.ContentProgress" parent="@style/Widget.AppCompat.ProgressBar">
-        <item name="colorAccent">?attr/colorLoader</item>
+        <item name="colorAccent">?attr/colorOnSurface</item>
         <item name="android:elevation">@dimen/plane_16</item>
     </style>
 
-    <style name="Widget.PetGoogle.AccentContentProgress"
-        parent="@style/Widget.AppCompat.ProgressBar">
+    <style name="Widget.PetGoogle.ContentProgress.Reverse" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">?attr/colorOnSurfaceReverse</item>
+        <item name="android:elevation">@dimen/plane_16</item>
+    </style>
+
+    <style name="Widget.PetGoogle.AccentContentProgress" parent="@style/Widget.AppCompat.ProgressBar">
         <item name="colorAccent">?attr/colorSecondary</item>
         <item name="android:elevation">@dimen/plane_16</item>
     </style>
@@ -37,13 +41,14 @@
         <item name="android:layout">@layout/fragment_setting</item>
     </style>
 
-    <style name="ThemeOverlay.PetGoogle.BottomSheetDialog"
-        parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+    <style name="ThemeOverlay.PetGoogle.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.PetGoogle.BottomSheet</item>
     </style>
 
     <style name="Widget.PetGoogle.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
         <item name="android:colorBackground">?attr/scrimBackground</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialComponents.LargeComponent</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearance.MaterialComponents.LargeComponent
+        </item>
     </style>
 </resources>

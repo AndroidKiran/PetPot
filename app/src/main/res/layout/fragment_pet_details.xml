@@ -95,13 +95,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:cardElevation="@dimen/plane_02"
+                        app:cardElevation="@dimen/plane_12"
                         app:cardPreventCornerOverlap="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/similar_pets"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.LargeComponent.Top">
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.pet.SmallComponent.Top">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -169,7 +170,7 @@
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
             app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
-            app:fabCradleVerticalOffset="@dimen/grid_0_5"
+            app:fabCradleVerticalOffset="@dimen/grid_0_4"
             app:fullScreenBottomPadding="@{true}"
             app:menu="@menu/search_menu">
 
@@ -183,7 +184,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_0_5"
+                    android:layout_marginStart="@dimen/grid_0_4"
                     android:text="@string/nav_animal_details_label"
                     android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"
@@ -201,6 +202,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="TODO"
             android:elevation="@dimen/plane_08"
             app:ensureMinTouchTargetSize="true"
             app:fabIcon="@{petDetailsViewModel.petLiveData.data.bookmarkStatus}"

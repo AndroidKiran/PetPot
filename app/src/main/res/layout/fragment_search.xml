@@ -76,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_12"
+                android:visibility="gone"
                 app:errorViewConfig="@{errorStateConfig}"
                 app:errorViewVisible="@{searchViewModel.itemPaginationStateLiveData instanceof ErrorState}"
                 tools:visibility="gone" />
@@ -87,6 +88,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/grid_14"
+                android:visibility="gone"
                 app:emptyViewConfig="@{emptyStateConfig}"
                 app:emptyViewVisible="@{searchViewModel.itemPaginationStateLiveData instanceof EmptyState}"
                 tools:visibility="gone" />
@@ -95,6 +97,7 @@
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:shimmer="@{searchViewModel.itemPaginationStateLiveData instanceof LoadingState}">
 
                 <include layout="@layout/layout_search_loader" />
@@ -129,7 +132,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_0_5"
+                    android:layout_marginStart="@dimen/grid_0_4"
                     android:text="@string/search"
                     android:textAppearance="?attr/textAppearanceButton"
                     android:textColor="?attr/colorOnPrimarySurface"

@@ -25,7 +25,7 @@
         android:layout_width="@dimen/full_screen_place_holder_size"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />
 
@@ -41,7 +41,7 @@
         android:layout_width="@dimen/grid_6"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />
 
@@ -57,13 +57,13 @@
         android:layout_width="@dimen/grid_12"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/grid_0_5"
+        android:layout_height="@dimen/grid_0_4"
         android:layout_marginStart="@dimen/grid_2"
         android:layout_marginTop="@dimen/grid_2"
         android:layout_marginEnd="@dimen/grid_2"
@@ -89,7 +89,7 @@
         android:layout_width="@dimen/full_screen_place_holder_size"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />
 
@@ -105,7 +105,7 @@
         android:layout_width="@dimen/grid_6"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />
 
@@ -121,7 +121,7 @@
         android:layout_width="@dimen/grid_12"
         android:layout_height="@dimen/grid_2"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_0_5"
+        android:layout_marginTop="@dimen/grid_0_4"
         android:layout_marginEnd="@dimen/grid_2"
         android:layout_marginBottom="@dimen/grid_2"
         android:background="?attr/colorOnSurface" />

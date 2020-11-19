@@ -51,7 +51,7 @@ class PetApplication : Application(), LauncherComponentProvider, HomeComponentPr
 
     override fun onLowMemory() {
         super.onLowMemory()
-        GlideApp.get(this).clearMemory()
+        GlideApp.get(this@PetApplication).clearMemory()
     }
 
     override fun onTrimMemory(level: Int) {

@@ -7,12 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.text.Editable
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
-import androidx.core.view.isGone
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -203,7 +201,9 @@ fun ImageView.bindSrcUrl(
     if (placeholder != null) request.placeholder(placeholder)
     if (loadListener != null) request.listener(loadListener)
     if (transform) request.transform(BlurTransformation(context))
-    request.transition(DrawableTransitionOptions.withCrossFade()).into(this)
+    request
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
 }
 
 @BindingAdapter(value = ["fabIcon"])

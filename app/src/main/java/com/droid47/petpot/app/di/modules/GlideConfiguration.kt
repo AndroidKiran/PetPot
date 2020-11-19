@@ -71,6 +71,4 @@ class GlideConfiguration : AppGlideModule() {
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .format(DecodeFormat.PREFER_ARGB_8888)
             .skipMemoryCache(false)
-
-
 }
