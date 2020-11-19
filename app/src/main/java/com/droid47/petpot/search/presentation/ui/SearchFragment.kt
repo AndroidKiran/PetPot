@@ -71,7 +71,6 @@ class SearchFragment :
     private val emptyState = EmptyScreenConfiguration()
     private val errorState = ErrorViewConfiguration()
     private var resultOrderMenuItem: MenuItem? = null
-    private val locationHandler = Handler(Looper.getMainLooper())
 
     private val springAddItemAnimator: SpringAddItemAnimator by lazy(LazyThreadSafetyMode.NONE) {
         SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
@@ -146,18 +145,6 @@ class SearchFragment :
         setUpView()
         setupSearchRvAdapter()
     }
-
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        getViewModel().listState?.let { state ->
-//            getViewDataBinding().rvPets.layoutManager?.onRestoreInstanceState(state)
-//        }
-//    }
-//
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        getViewModel().listState = getViewDataBinding().rvPets.layoutManager?.onSaveInstanceState()
-//    }
 
     override fun onResume() {
         super.onResume()
@@ -264,10 +251,8 @@ class SearchFragment :
     }
 
     private fun setupSearchRvAdapter() {
-//        if (getPetAdapter() != null) return
         getViewDataBinding().rvPets.apply {
             itemAnimator = springAddItemAnimator
-//            GravitySnapHelper(Gravity.TOP).attachToRecyclerView(this)
             layoutManager = SnappyGridLayoutManager(requireContext(), 3).apply {
                 setSnapType(SnapType.START)
                 setSnapInterpolator(FastOutSlowInInterpolator())
@@ -292,11 +277,6 @@ class SearchFragment :
         getViewModel().navigateToAnimalDetailsAction.run {
             removeObserver(navigationObserver)
             observe(requireActivity(), navigationObserver)
-        }
-
-        petSpinnerAndLocationViewModel.locationLiveData.run {
-//            removeObserver(locationObserver)
-//            observe(requireActivity(), locationObserver)
         }
 
         getViewModel().eventLiveData.run {
@@ -385,15 +365,6 @@ class SearchFragment :
         Handler(Looper.getMainLooper()).postDelayed({
             getViewDataBinding().topSearchBar.cvSearch.hideKeyboard()
         }, 1000)
-    }
-
-    private val locationObserver = Observer<String> { locationStr ->
-        val location = locationStr ?: return@Observer
-        val locationRunnable = Runnable {
-            getViewModel().updateLocation(location)
-        }
-        locationHandler.removeCallbacks(locationRunnable)
-        locationHandler.postDelayed(locationRunnable, 600L)
     }
 
     private val homeEventObserver = Observer<Long> {

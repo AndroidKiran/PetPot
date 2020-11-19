@@ -30,13 +30,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-//private const val LIST_STATE = "list"
-
 class SearchViewModel @Inject constructor(
     application: Application,
-    private val updateFilterUseCase: UpdateFilterUseCase,
-    private val removeAllPetsUseCase: RemoveAllPetsUseCase,
-    private val fetchAppliedFilterUseCase: FetchAppliedFilterUseCase,
     private val petPaginationUseCase: PetPaginationUseCase,
     val firebaseManager: IFirebaseManager
 ) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener,
@@ -80,35 +75,6 @@ class SearchViewModel @Inject constructor(
     fun retryPagination() {
         trackRetrySearch()
         petPaginationUseCase.retry()
-    }
-
-    fun updateLocation(location: String) {
-        fetchAppliedFilterUseCase.buildUseCaseSingleWithSchedulers(true)
-            .flatMapCompletable { filters ->
-                if (!(filters.location ?: "").equals(location, true)) {
-                    updateFilterUseCase.buildUseCaseCompletableWithSchedulers(
-                        PetFilterCheckableEntity(
-                            location,
-                            LOCATION,
-                            selected = true,
-                            filterApplied = true
-                        )
-                    ).andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
-                } else {
-                    Completable.complete()
-                }.applyIOSchedulers()
-            }.subscribe(object : CompletableObserver {
-                override fun onComplete() {
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    registerDisposableRequest(REQUEST_UPDATE_FILTER, d)
-                }
-
-                override fun onError(e: Throwable) {
-                    CrashlyticsExt.handleException(e)
-                }
-            })
     }
 
     fun cancelPagination() {

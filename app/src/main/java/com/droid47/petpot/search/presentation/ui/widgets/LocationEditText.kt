@@ -25,9 +25,7 @@ class LocationEditText @JvmOverloads constructor(
         super.onTextChanged(text, start, lengthBefore, lengthAfter)
         val newText = text?.toString() ?: ""
         if (newText != getSelectedLocation()) {
-            petSpinnerAndLocationViewModel?.onPetOrLocationSelected(
-                getSelectedPet() ?: return, newText
-            )
+            petSpinnerAndLocationViewModel?.onLocationSelected(newText)
             getPreference()?.saveLocation(newText)
         }
     }

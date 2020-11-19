@@ -4,25 +4,20 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.applyIOSchedulers
-import com.droid47.petpot.base.extensions.logD
-import com.droid47.petpot.base.extensions.switchMap
 import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.droid47.petpot.base.widgets.BaseAndroidViewModel
-import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.base.widgets.Failure
-import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.base.widgets.components.LiveEvent
+import com.droid47.petpot.search.data.models.LOCATION
+import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
 import com.droid47.petpot.search.domain.interactors.*
 import com.droid47.petpot.search.presentation.viewmodel.tracking.TrackPetSpinnerAndLocationViewModel
 import io.reactivex.CompletableObserver
-import io.reactivex.Observer
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -31,6 +26,7 @@ import javax.inject.Inject
 
 private const val REQUEST_FETCH_NAMES = 111L
 private const val REQUEST_REFRESH_SELECTED_PET = 112L
+private const val REQUEST_UPDATE_FILTER = 113L
 
 class PetSpinnerAndLocationViewModel @Inject constructor(
     application: Application,
@@ -39,12 +35,14 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
     private val fetchPetNamesUseCase: FetchPetNamesUseCase,
     private val removeAllPetsUseCase: RemoveAllPetsUseCase,
     private val subscribeToLocationChangeUseCase: SubscribeToLocationChangeUseCase,
+    private val updateFilterUseCase: UpdateFilterUseCase,
     val localPreferenceDataSource: LocalPreferencesRepository,
     private val firebaseManager: IFirebaseManager
 ) : BaseAndroidViewModel(application), TrackPetSpinnerAndLocationViewModel {
 
     private val petAndLocationUpdateSubject =
         PublishSubject.create<Pair<String, String?>>().toSerialized()
+    private val locationUpdateSubject = PublishSubject.create<String>().toSerialized()
     private val _petNamesLiveData = MutableLiveData<List<String>>()
     val petNamesLiveData: LiveData<List<String>>
         get() = _petNamesLiveData
@@ -59,7 +57,8 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
 
     init {
         fetchPetNames()
-        initInsertEvent()
+        updateFilters()
+        updateLocationFilter()
     }
 
     override fun trackWhatPetSelected(petName: String) {
@@ -94,6 +93,13 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
         petAndLocationUpdateSubject.onNext(Pair(petName, locationName))
     }
 
+    fun onLocationSelected(locationName: String) {
+        locationName.takeIf { it.isNotEmpty() }?.run {
+            trackWhatLocationSelected(this)
+        }
+        locationUpdateSubject.onNext(locationName)
+    }
+
     private fun fetchPetNames() =
         fetchPetNamesUseCase.execute(Unit, observer = object : SingleObserver<List<String>> {
 
@@ -113,7 +119,7 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
 
 
     @SuppressLint("CheckResult")
-    private fun initInsertEvent() {
+    private fun updateFilters() {
         petAndLocationUpdateSubject.debounce(400, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .switchMapCompletable { petLocationPair ->
@@ -139,6 +145,34 @@ class PetSpinnerAndLocationViewModel @Inject constructor(
                 }
 
             })
+    }
+
+    private fun updateLocationFilter() {
+        locationUpdateSubject.debounce(400, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .switchMapCompletable { location ->
+                updateFilterUseCase.buildUseCaseCompletableWithSchedulers(
+                    PetFilterCheckableEntity(
+                        location,
+                        LOCATION,
+                        selected = true,
+                        filterApplied = true
+                    )
+                ).andThen(removeAllPetsUseCase.buildUseCaseCompletableWithSchedulers(false))
+            }.applyIOSchedulers()
+            .subscribe(
+                object : CompletableObserver {
+                    override fun onComplete() {
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        registerDisposableRequest(REQUEST_UPDATE_FILTER, d)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        CrashlyticsExt.handleException(e)
+                    }
+                })
     }
 
     companion object {
