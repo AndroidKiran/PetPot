@@ -142,7 +142,7 @@ class PetDetailsFragment :
             setOnClickListener {
                 hide()
                 getViewModel().run {
-                    openingAnimationRequired = false
+                    resizeAnimationRequired = false
                     onBookMarkClick(
                         getViewModel().petLiveData.value?.data ?: return@setOnClickListener
                     )
@@ -221,7 +221,6 @@ class PetDetailsFragment :
             }
 
             is Success -> {
-                showFab()
                 val petEntity = baseStateModel.data
                 val photoList = if (petEntity.photos.isNullOrEmpty()) {
                     listOf(PhotosItemEntity(full = ""))
@@ -230,9 +229,9 @@ class PetDetailsFragment :
                 }
                 getPetPhotoAdapter()?.setModifiedAt(petEntity.getPublishedAtInLong())
                 getPetPhotoAdapter()?.submitList(photoList) {
-                    getViewDataBinding().appbar.setExpanded(true, true)
                     startPostponedEnterTransition()
-                    if (!getViewModel().openingAnimationRequired) return@submitList
+                    showFab()
+                    if (!getViewModel().resizeAnimationRequired) return@submitList
                     animateContentView()
                 }
             }
@@ -309,17 +308,6 @@ class PetDetailsFragment :
             setPathMotion(MaterialArcMotion())
             fadeMode = MaterialContainerTransform.FADE_MODE_OUT
         }
-//
-//        setExitSharedElementCallback(object : SharedElementCallback() {
-//            override fun onSharedElementEnd(
-//                sharedElementNames: MutableList<String>?,
-//                sharedElements: MutableList<View>?,
-//                sharedElementSnapshots: MutableList<View>?
-//            ) {
-//                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
-//                subscribeToLiveData()
-//            }
-//        })
 
         postponeEnterTransition()
     }
@@ -378,8 +366,11 @@ class PetDetailsFragment :
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val pair = it ?: return@Observer
-        getViewModel().openingAnimationRequired = true
+        hideFab()
+        getViewModel().resizeAnimationRequired = false
         handleNavArgs(pair.first.id, petId)
+        getViewDataBinding().appbar.setExpanded(true)
+        getViewDataBinding().nsvPetDetails.fullScroll(View.FOCUS_UP)
     }
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {

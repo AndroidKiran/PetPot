@@ -39,7 +39,7 @@ class PetDetailsViewModel @Inject constructor(
     TrackPetDetailsViewModel {
 
     private val starSubject = PublishSubject.create<PetEntity>().toSerialized()
-    var openingAnimationRequired = true
+    var resizeAnimationRequired = true
     val transitionId: MutableLiveData<Int> = MutableLiveData()
     val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
         subscribeToPetDataSourceUseCase.buildUseCaseObservableWithSchedulers(Pair(DataSourceType.NonFavoriteType, ""))

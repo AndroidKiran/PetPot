@@ -43,8 +43,9 @@
                 android:id="@+id/ctl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="@android:color/transparent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/scrimBackground"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
                 <androidx.viewpager2.widget.ViewPager2

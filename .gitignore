@@ -19,3 +19,4 @@ app/.externalNativeBuild/
 app/.cxx/
 *log
 *.apk
+*.aab
