@@ -17,6 +17,7 @@ import com.droid47.petpot.base.widgets.bindingadapters.setFullScreenBottomPaddin
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.search.presentation.viewmodel.SettingsViewModel
 import com.droid47.petpot.workmanagers.notification.NotificationModel
+import com.google.android.material.transition.MaterialElevationScale
 import kotlinx.android.synthetic.main.fragment_setting.*
 import javax.inject.Inject
 
@@ -37,6 +38,11 @@ class SettingFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChang
         super.onAttach(context)
         (activity as HomeActivity).homeComponent.inject(this)
     }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        initTransition()
+//    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey)
@@ -59,6 +65,20 @@ class SettingFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChang
         when (preference?.key) {
             else -> false
         }
+
+    private fun initTransition() {
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+        }
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
+        }
+
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+        }
+    }
 
     private fun trackFragment(firebaseManager: IFirebaseManager) {
         val baseActivity = requireActivity() as BaseBindingActivity<*, *>

@@ -17,8 +17,4 @@ class LauncherViewModel @Inject constructor(
     fun updateFirebaseCollectionStatus() {
         firebaseManager.setCollectionEnabled()
     }
-
-    companion object {
-        const val EVENT_NAVIGATE_TO_HOME = 19080L
-    }
 }

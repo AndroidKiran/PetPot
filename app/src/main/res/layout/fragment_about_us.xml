@@ -117,7 +117,7 @@
             android:minHeight="@dimen/grid_6"
             app:contentInsetEnd="@dimen/zero"
             app:contentInsetStart="@dimen/zero"
-            app:elevation="@dimen/plane_08"
+            app:elevation="@dimen/plane_12"
             app:fabAlignmentMode="center"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"

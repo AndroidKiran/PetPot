@@ -37,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import javax.inject.Inject
 
 class BookmarkFragment :
@@ -121,9 +122,9 @@ class BookmarkFragment :
         subscribeToLiveData()
     }
 
-//    override fun onDestroy() {
-//        hideBottomBar()
-//        super.onDestroy()
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        initTransition()
 //    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -143,6 +144,20 @@ class BookmarkFragment :
     override fun onStop() {
         springAddItemAnimator.endAnimations()
         super.onStop()
+    }
+
+    private fun initTransition() {
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+        }
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
+        }
+
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+        }
     }
 
     private fun setUpView() {
@@ -226,12 +241,6 @@ class BookmarkFragment :
 
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val petViewPair = it ?: return@Observer
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
-        }
         val extras = FragmentNavigatorExtras(
             petViewPair.second to petViewPair.second.transitionName
         )
@@ -360,34 +369,33 @@ class BookmarkFragment :
             this.setPathMotion(MaterialArcMotion())
             this.fadeMode =
                 if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
-            this.addTarget(startView)
+            this.addTarget(endView)
             this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition) {
-                super.onTransitionEnd(transition)
                 updateViewAfterTransition(startView, endView)
+                super.onTransitionEnd(transition)
             }
 
             override fun onTransitionCancel(transition: Transition) {
-                super.onTransitionCancel(transition)
                 updateViewAfterTransition(startView, endView)
+                super.onTransitionCancel(transition)
             }
         })
-        endView.visible()
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
     }
 
     private fun isExpanding(startView: View) = startView is FloatingActionButton
 
     private fun updateViewAfterTransition(startView: View, endView: View) {
+        startView.invisible()
+        endView.visible()
         if (isExpanding(startView)) {
-            startView.invisible()
             hideBottomBar()
             getViewDataBinding().scrim.visible()
         } else {
             getViewDataBinding().scrim.invisible()
             showBottomBar()
-            startView.invisible()
         }
     }
 }

@@ -27,7 +27,7 @@
             android:minHeight="@dimen/grid_6"
             app:contentInsetEnd="@dimen/zero"
             app:contentInsetStart="@dimen/zero"
-            app:elevation="@dimen/plane_08">
+            app:elevation="@dimen/plane_12">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom_bar_content"

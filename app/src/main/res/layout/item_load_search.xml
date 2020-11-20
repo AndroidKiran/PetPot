@@ -8,5 +8,5 @@
     android:layout_marginEnd="@dimen/grid_0_2"
     app:cardBackgroundColor="?attr/colorOnPrimarySurface"
     app:cardCornerRadius="@dimen/grid_2"
-    app:cardElevation="@dimen/plane_06"
-    app:cardPreventCornerOverlap="true"/>
+    app:cardElevation="@dimen/plane_08"
+    app:cardPreventCornerOverlap="true" />

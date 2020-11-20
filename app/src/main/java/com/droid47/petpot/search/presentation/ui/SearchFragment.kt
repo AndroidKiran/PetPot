@@ -12,7 +12,6 @@ import android.provider.Settings
 import android.text.Editable
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -56,8 +55,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
-import kotlinx.android.synthetic.main.fragment_organisation.view.*
-import kotlinx.android.synthetic.main.layout_search_top_bar.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -136,6 +133,11 @@ class SearchFragment :
         subscribeToLiveData()
     }
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        initTransition()
+//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition(1000L, TimeUnit.MILLISECONDS)
@@ -192,10 +194,14 @@ class SearchFragment :
 
     private fun initTransition() {
         enterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
 
         exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
+        }
+
+        reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
     }
@@ -235,18 +241,11 @@ class SearchFragment :
 
         getViewDataBinding().topSearchBar.btnEditOrg.setOnClickListener {
             val view = it ?: return@setOnClickListener
-
-            exitTransition = MaterialElevationScale(false).apply {
-                duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-            }
-            reenterTransition = MaterialElevationScale(true).apply {
-                duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
-            }
-
             val extras = FragmentNavigatorExtras(
                 view to view.transitionName
             )
             getParentViewModel().homeNavigator.toOrganizationFromSearch(extras)
+            cancelPaginationRequest()
         }
     }
 
@@ -293,13 +292,6 @@ class SearchFragment :
     private val navigationObserver = Observer<Pair<PetEntity, View>> {
         val petViewPair = it ?: return@Observer
         getViewModel().trackSearchToDetails()
-
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
-        }
         val extras = FragmentNavigatorExtras(
             petViewPair.second to petViewPair.second.transitionName
         )
@@ -488,8 +480,7 @@ class SearchFragment :
                         getViewDataBinding().fab,
                         getString(R.string.turn_location),
                         Snackbar.LENGTH_LONG
-                    )
-                        .setAnchorView(getSnackBarAnchorId())
+                    ).setAnchorView(getSnackBarAnchorId())
                         .setAction(getString(R.string.to_settings)) {
                             requireActivity().startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                         }.show()
@@ -534,52 +525,56 @@ class SearchFragment :
             this.setPathMotion(MaterialArcMotion())
             this.fadeMode =
                 if (isExpanding) MaterialContainerTransform.FADE_MODE_IN else MaterialContainerTransform.FADE_MODE_OUT
-            this.addTarget(startView)
+            this.addTarget(endView)
+            this.scrimColor = requireContext().themeColor(R.attr.scrimBackground)
             this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {
             override fun onTransitionEnd(transition: Transition) {
                 updateViewOnTransitionComplete(startView, endView)
+                super.onTransitionEnd(transition)
             }
 
             override fun onTransitionCancel(transition: Transition) {
-                super.onTransitionCancel(transition)
                 updateViewOnTransitionComplete(startView, endView)
+                super.onTransitionCancel(transition)
             }
         })
-        endView.visible()
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
     }
 
     private fun isExpanding(startView: View) = startView is FloatingActionButton
 
     private fun updateViewOnTransitionComplete(startView: View, endView: View) {
+        startView.invisible()
+        endView.visible()
         if (isExpanding(startView)) {
             hideBottomBar()
             if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 hidePaginationProgress()
             }
-            startView.gone()
             getViewDataBinding().scrim.visible()
             filterFragment.onFilterExpanded()
         } else {
-            showBottomBar()
             filterFragment.onFilterCollapsed()
-            getViewDataBinding().scrim.gone()
-            startView.gone()
+            getViewDataBinding().scrim.invisible()
             if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 showPaginationProgress()
             }
+            showBottomBar()
         }
     }
 
     private fun cancelPaginationRequest() {
-        getViewModel().cancelPagination()
+        getViewModel().run {
+            cancelAllRequests()
+            cancelPagination()
+        }
         hidePaginationProgress()
     }
 
     private fun setLocationText(location: String) {
         getViewDataBinding().topSearchBar.etLocation.text =
-            Editable.Factory.getInstance().newEditable("")
+            Editable.Factory.getInstance().newEditable(location)
     }
 
     companion object {

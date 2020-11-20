@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/pet_motion_duration_medium"
+    android:duration="@android:integer/config_mediumAnimTime"
     android:fromYDelta="100%"
-    android:interpolator="?attr/motionInterpolatorPersistent"
+    android:interpolator="@android:anim/anticipate_overshoot_interpolator"
     android:toYDelta="0%" />

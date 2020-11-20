@@ -33,6 +33,14 @@ class SplashViewModel @Inject constructor(
 
     val navigationEvent = LiveEvent<String>()
 
+    init {
+        if (getTncStatus()) {
+            bindPetSyncAndPolicyStatusAsync()
+        } else {
+            navigationEvent.postValue(executeNavigationFlow())
+        }
+    }
+
     override fun trackSplashToOnBoarding() {
         firebaseManager.logUiEvent(AnalyticsAction.SPLASH_TO_ON_BOARDING, AnalyticsAction.AUTO)
     }
@@ -54,7 +62,7 @@ class SplashViewModel @Inject constructor(
         bindPetSyncAndPolicyStatusAsync()
     }
 
-    fun bindPetSyncAndPolicyStatusAsync() {
+    private fun bindPetSyncAndPolicyStatusAsync() {
         Single.zip(
             syncPetTypeUseCase.buildUseCaseSingleWithSchedulers(true),
             remoteConfigUseCase.buildUseCaseSingleWithSchedulers(RemoteConfigUseCase.KEY_PRIVACY_POLICY_UPGRADE),
@@ -91,49 +99,6 @@ class SplashViewModel @Inject constructor(
             privacyPolicyUpgradeEntity.updatePreference(localPreferencesRepository)
         }
     }
-
-
-//    @SuppressLint("CheckResult")
-//    fun startOneTimeAuthRequest() {
-//        syncPetTypeUseCase.execute(true, 200, TimeUnit.MILLISECONDS, observer = object :
-//            SingleObserver<BaseStateModel<List<PetTypeEntity>>> {
-//            override fun onSuccess(baseStateModel: BaseStateModel<List<PetTypeEntity>>) {
-//                _resultEvent.postValue(baseStateModel)
-//                if (baseStateModel is Success) {
-//                    navigationEvent.postValue(executeNavigationFlow())
-//                }
-//            }
-//
-//            override fun onSubscribe(d: Disposable) {
-//                registerDisposableRequest(ONE_TIME_AUTH_TOKEN_REQUEST, d)
-//                _resultEvent.postValue(Loading())
-//            }
-//
-//            override fun onError(e: Throwable) {
-//                _resultEvent.postValue(Failure(e, null))
-//                CrashlyticsExt.handleException(e)
-//            }
-//        })
-//    }
-//
-//    private fun findPolicyUpgradeRequired() {
-//        remoteConfigUseCase.execute(
-//            RemoteConfigUseCase.KEY_PRIVACY_POLICY_UPGRADE,
-//            object : SingleObserver<BaseStateModel<String>> {
-//                override fun onSuccess(stateModel: BaseStateModel<String>) {
-//
-//                }
-//
-//                override fun onSubscribe(d: Disposable) {
-//                    registerDisposableRequest(REQUEST_POLICY_UPGRADE, d)
-//                }
-//
-//                override fun onError(e: Throwable) {
-//                    CrashlyticsExt.handleException(e)
-//                }
-//
-//            })
-//    }
 
     fun getTncStatus() = localPreferencesRepository.getTnCState()
 

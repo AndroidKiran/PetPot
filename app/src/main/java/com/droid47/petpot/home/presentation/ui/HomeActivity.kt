@@ -13,13 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navArgs
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.droid47.petpot.R
 import com.droid47.petpot.app.PetApplication
 import com.droid47.petpot.base.extensions.themeInterpolator
 import com.droid47.petpot.base.extensions.viewModelProvider
 import com.droid47.petpot.base.firebase.AnalyticsScreens
-import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.livedata.NetworkConnectionLiveData
 import com.droid47.petpot.base.widgets.*
 import com.droid47.petpot.base.widgets.inAppUpdate.InAppUpdateManager
@@ -51,7 +49,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
 
-    private var currentNavId: Int = NAV_ID_NONE
+    private var currentNavId: Int = R.id.navigation_search
     private var inAppUpdateManager: InAppUpdateManager? = null
 
     private val arg by navArgs<HomeActivityArgs>()
@@ -92,10 +90,12 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         setUpViews()
         subscribeToLiveData()
         savedInstanceState?.let {
-            currentNavId =  it.getInt(NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID,
-                R.id.navigation_home)
-            deepLinkBundle.putInt( NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID, currentNavId)
+            currentNavId = it.getInt(
+                NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID,
+                R.id.navigation_home
+            )
         }
+        navigateWithBundle(deepLinkBundle)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -115,15 +115,6 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         arguments: Bundle?
     ) {
         currentNavId = destination.id
-//        getCurrentFragment()?.apply {
-//            exitTransition = MaterialFadeThrough().apply {
-//                duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
-//            }
-//
-//            reenterTransition = MaterialElevationScale(true).apply {
-//                duration = resources.getInteger(R.integer.pet_motion_default_large).toLong()
-//            }
-//        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -137,8 +128,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         navController = findNavController(R.id.nav_host_fragment).apply {
             addOnDestinationChangedListener(this@HomeActivity)
         }
-        bottomNavDrawer.getViewDataBinding()
-            .navigationMenuView.setupWithNavController(navController)
+        bottomNavDrawer.setNavController(navController)
         getViewModel().homeNavigator.inject(navController)
     }
 
@@ -266,67 +256,33 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
         navHostFragment.childFragmentManager
             .primaryNavigationFragment as? BaseBindingFragment<*, *, *>
 
-    private fun navigateTo(bundle: Bundle) {
-        when (bundle.getInt(
+
+    private fun navigateWithBundle(bundle: Bundle?) {
+        val navigateId = bundle?.getInt(
             NotificationModel.EXTRA_NAVIGATION_FRAGMENT_ID,
             R.id.navigation_search
-        )) {
-            R.id.navigation_search -> {
-                if (navController.currentDestination?.id != R.id.navigation_search) {
-                    getViewModel().homeNavigator.toSearchFromHome()
-                }
-            }
-
-            R.id.navigation_settings -> {
-                if (navController.currentDestination?.id != R.id.navigation_settings) {
-                    getViewModel().homeNavigator.toSettingsFromHome()
-                }
-            }
-
-            R.id.navigation_about_us -> {
-                if (navController.currentDestination?.id != R.id.navigation_about_us) {
-                    getViewModel().homeNavigator.toAboutUsFromHome()
-                }
-            }
-
+        )
+        when (navigateId) {
             R.id.navigation_pet_details -> {
                 val petEntity: PetEntity =
                     bundle.getParcelable(NotificationModel.EXTRA_PET_ENTITY) ?: return
 
-                when (getCurrentFragment()?.getFragmentNavId()) {
+                when (currentNavId) {
                     R.id.navigation_favorite -> getViewModel().homeNavigator.toPetDetailsFromFavorite(
                         petEntity.id
                     )
+
                     R.id.navigation_search -> getViewModel().homeNavigator.toPetDetailsFromSearch(
                         petEntity.id
                     )
+
                     else -> getViewModel().homeNavigator.toFavouriteFromHome()
-
                 }
             }
-
-            R.id.navigation_favorite -> {
-                if (navController.currentDestination?.id != R.id.navigation_favorite) {
-                    getViewModel().homeNavigator.toFavouriteFromHome()
-                }
-            }
+            else -> bottomNavDrawer.setNavigationId(currentNavId)
         }
-    }
 
-//    override fun onConfigurationChanged(newConfig: Configuration) {
-//        super.onConfigurationChanged(newConfig)
-//
-//        val currentNightMode = resources.configuration.uiMode
-//        & Configuration.UI_MODE_NIGHT_MASK
-//        switch (currentNightMode) {
-//            case Configuration.UI_MODE_NIGHT_NO:
-//            // Night mode is not active, we're in day time
-//            case Configuration.UI_MODE_NIGHT_YES:
-//            // Night mode is active, we're at night!
-//            case Configuration.UI_MODE_NIGHT_UNDEFINED:
-//            // We don't know what mode we're in, assume notnight
-//        }
-//    }
+    }
 
     companion object {
         private const val NAV_ID_NONE = -1

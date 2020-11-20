@@ -14,6 +14,7 @@ import com.droid47.petpot.databinding.FragmentAboutUsBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import javax.inject.Inject
 
 private const val PRIVACY_URL = "https://sites.google.com/view/petpot-privacy-policies/"
@@ -58,6 +59,11 @@ class AboutUsFragment :
 
     override fun getScreenName(): String = AnalyticsScreens.ABOUT_SCREEN
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        initTransition()
+//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
@@ -85,6 +91,20 @@ class AboutUsFragment :
                 getViewModel().trackRateOnPlayStore()
                 context.rateMyApp()
             }
+        }
+    }
+
+    private fun initTransition() {
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
+        }
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_small).toLong()
+        }
+
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.pet_motion_duration_medium).toLong()
         }
     }
 

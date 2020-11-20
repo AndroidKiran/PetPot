@@ -65,10 +65,8 @@ class GlideConfiguration : AppGlideModule() {
 
     private fun requestOptions(): RequestOptions =
         RequestOptions()
-            .centerCrop()
             .encodeFormat(Bitmap.CompressFormat.PNG)
             .encodeQuality(100)
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .format(DecodeFormat.PREFER_ARGB_8888)
             .skipMemoryCache(false)
 }

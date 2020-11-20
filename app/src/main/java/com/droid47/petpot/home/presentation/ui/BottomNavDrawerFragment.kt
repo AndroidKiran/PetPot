@@ -3,10 +3,13 @@ package com.droid47.petpot.home.presentation.ui
 import android.animation.ValueAnimator
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.ui.setupWithNavController
 import com.droid47.petpot.R
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsScreens
@@ -17,6 +20,7 @@ import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.home.presentation.viewmodels.NavigationViewModel
 import com.droid47.petpot.home.presentation.widgets.SandwichState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
 import javax.inject.Inject
 import kotlin.math.abs
@@ -39,6 +43,13 @@ class BottomNavDrawerFragment :
     private val bottomSheetCallback =
         BottomNavigationDrawerCallback()
     private val sandwichSlideActions = mutableListOf<OnSandwichSlideAction>()
+
+    private val TOP_LEVEL_DESTINATIONS = setOf(
+        R.id.navigation_search,
+        R.id.navigation_favorite,
+        R.id.navigation_settings,
+        R.id.navigation_about_us
+    )
 
     private val backgroundShapeDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
         MaterialShapeDrawable(
@@ -145,6 +156,15 @@ class BottomNavDrawerFragment :
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setUpBottomSheet()
+    }
+
+    fun setNavController(navController: NavController) {
+        getViewDataBinding().navigationMenuView.setupWithNavController(navController)
+    }
+
+    fun setNavigationId(navigationId: Int) {
+        if (!TOP_LEVEL_DESTINATIONS.contains(navigationId)) return
+        getViewDataBinding().navigationMenuView.setCheckedItem(navigationId)
     }
 
     private fun initViews() {

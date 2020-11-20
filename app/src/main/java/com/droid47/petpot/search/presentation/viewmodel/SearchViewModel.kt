@@ -48,7 +48,8 @@ class SearchViewModel @Inject constructor(
 
     val itemPaginationStateLiveData: LiveData<ItemPaginationState> =
         petPaginationUseCase.itemPaginationStateLiveData
-    val petsLiveData = petPaginationUseCase.buildPageListObservable().toLiveData()
+    val petsLiveData = petPaginationUseCase.buildPageListObservable()
+        .toSingleLiveData()
 
     override fun onBookMarkClick(petEntity: PetEntity) {
         bookMarkSubject.onNext(petEntity)
@@ -59,13 +60,17 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun trackSearchToDetails() {
-        firebaseManager.logUiEvent(AnalyticsAction.SEARCH_TO_DETAILS_TRANSITION,
-            AnalyticsAction.CLICK)
+        firebaseManager.logUiEvent(
+            AnalyticsAction.SEARCH_TO_DETAILS_TRANSITION,
+            AnalyticsAction.CLICK
+        )
     }
 
     override fun trackSearchToFilter() {
-        firebaseManager.logUiEvent(AnalyticsAction.SEARCH_TO_FILTER_TRANSITION,
-            AnalyticsAction.CLICK)
+        firebaseManager.logUiEvent(
+            AnalyticsAction.SEARCH_TO_FILTER_TRANSITION,
+            AnalyticsAction.CLICK
+        )
     }
 
     override fun trackRetrySearch() {
@@ -79,9 +84,5 @@ class SearchViewModel @Inject constructor(
 
     fun cancelPagination() {
         petPaginationUseCase.cancelPagination()
-    }
-
-    companion object {
-        private const val REQUEST_UPDATE_FILTER = 1003L
     }
 }

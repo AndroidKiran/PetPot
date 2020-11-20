@@ -22,11 +22,11 @@
         android:stateListAnimator="@animator/selector_lift_on_touch"
         android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
         app:cardBackgroundColor="?attr/colorSurface"
-        app:cardElevation="@dimen/plane_12"
+        app:cardElevation="@dimen/plane_08"
         app:cardPreventCornerOverlap="true"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.pet.MediumComponent">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_pet_bg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/book_mark_image_height"
@@ -41,9 +41,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="@dimen/grid_1">
+            android:elevation="@dimen/plane_02">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_pet_pic"
                 android:layout_width="@dimen/book_mark_image_height"
                 android:layout_height="@dimen/small_card_height"
@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/small_card_height"
                 android:background="@color/pet_blue_50_alpha_070"
-                android:elevation="@dimen/plane_08"
+                android:elevation="@dimen/plane_02"
                 android:padding="@dimen/grid_1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -175,19 +175,15 @@ fun View.bindCircularReveal(state: Boolean) {
 @BindingAdapter(
     "srcUrl",
     "modifiedAt",
-    "circleCrop",
     "placeholder",
     "loadListener",
-    "transform",
     requireAll = false
 )
 fun ImageView.bindSrcUrl(
     url: String?,
     modifiedAt: Long = 0L,
-    circleCrop: Boolean,
     placeholder: Drawable?,
     loadListener: GlideDrawableLoadListener?,
-    transform: Boolean = false
 ) {
 
     val modifiedKey = when (modifiedAt) {
@@ -197,10 +193,8 @@ fun ImageView.bindSrcUrl(
     val request = GlideApp.with(this).load(url ?: "")
         .signature(ObjectKey(modifiedKey))
 
-    if (circleCrop) request.circleCrop()
     if (placeholder != null) request.placeholder(placeholder)
     if (loadListener != null) request.listener(loadListener)
-    if (transform) request.transform(BlurTransformation(context))
     request
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)

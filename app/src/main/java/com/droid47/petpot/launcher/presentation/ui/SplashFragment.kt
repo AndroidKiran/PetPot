@@ -89,16 +89,6 @@ class SplashFragment :
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        getViewModel().run {
-            if(getTncStatus()) {
-                bindPetSyncAndPolicyStatusAsync()
-            } else {
-                navigateToIntro()
-            }
-        }
-    }
     override fun onResume() {
         super.onResume()
         trackFragment(getViewModel().firebaseManager)
@@ -197,19 +187,4 @@ class SplashFragment :
             navigateToTnc()
         }
     }
-
-    private fun appliedThemeTitle() {
-        val startColor = requireContext().themeColor(R.attr.colorOnSurface)
-        val endColor = requireContext().themeColor(R.attr.colorSurface)
-        val inputString = getString(R.string.app_name)
-        val halfLength = inputString.length.div(2)
-        val spannableString = SpannableString(getString(R.string.app_name)).apply {
-            setSpan(ForegroundColorSpan(startColor), 0, halfLength, 0)
-            setSpan(ForegroundColorSpan(endColor), halfLength, inputString.length, 0)
-        }
-        getViewDataBinding().title.setText(SpannableStringBuilder().append(spannableString),
-            TextView.BufferType.SPANNABLE)
-    }
-
-
 }

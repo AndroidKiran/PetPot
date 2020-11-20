@@ -24,7 +24,7 @@
         android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardCornerRadius="@dimen/grid_1"
-        app:cardElevation="@dimen/plane_12"
+        app:cardElevation="@dimen/plane_08"
         app:cardPreventCornerOverlap="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

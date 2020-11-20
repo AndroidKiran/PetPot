@@ -81,7 +81,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <EditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/tv_location"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -114,11 +114,10 @@
                     app:visible="@{newFilterViewModel.selectedFilterListLiveData instanceof Success}"
                     tools:listitem="@layout/item_selected_filter_chip" />
 
-                <com.google.android.material.circularreveal.CircularRevealFrameLayout
+                <FrameLayout
                     android:id="@+id/fl_circular_reveal"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:circularReveal="@{newFilterViewModel.categoryLiveData instanceof String}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +139,9 @@
                         layout="@layout/layout_error_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         app:errorViewConfig="@{errorStateConfig}"
-                        app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
+                        app:errorViewVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Failure}"
                         tools:visibility="gone" />
 
                     <include
@@ -149,11 +149,12 @@
                         layout="@layout/layout_empty_screen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         app:emptyViewConfig="@{emptyStateConfig}"
-                        app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
+                        app:emptyViewVisible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Empty}"
                         tools:visibility="gone" />
 
-                </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+                </FrameLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="TODO"
-            android:elevation="@dimen/plane_08"
+            android:elevation="@dimen/plane_12"
             android:onClick="@{() -> newFilterViewModel.applyFilter()}"
             app:ensureMinTouchTargetSize="true"
             app:fabSize="normal"

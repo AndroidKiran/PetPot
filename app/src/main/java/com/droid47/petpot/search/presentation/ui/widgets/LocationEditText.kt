@@ -35,7 +35,7 @@ class LocationEditText @JvmOverloads constructor(
         this.petSpinnerAndLocationViewModel = petSpinnerAndLocationViewModel
     }
 
-    private fun getSelectedLocation() = getPreference()?.getLocation()
+    private fun getSelectedLocation() = getPreference()?.getLocation() ?: ""
 
     private fun getSelectedPet() = getPreference()?.getSelectedPet()
 

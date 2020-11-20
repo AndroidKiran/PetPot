@@ -16,6 +16,7 @@ import com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsScreens
 import com.droid47.petpot.base.widgets.*
+import com.droid47.petpot.base.widgets.anim.SpringAddItemAnimator
 import com.droid47.petpot.databinding.FragmentFilterBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
@@ -49,6 +50,15 @@ class FilterFragment :
     private val searchViewModel: SearchViewModel by lazy(LazyThreadSafetyMode.NONE) {
         requireParentFragment().parentFragmentViewModelProvider<SearchViewModel>()
     }
+
+    private val filterAdapter: FilterAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        FilterAdapter(FilterAdapter.CATEGORY_FILTER, getViewModel().onItemCheck)
+    }
+
+    private val filterSelectedAdapter: FilterAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        FilterAdapter(FilterAdapter.SELECTED_FILTER, getViewModel().onItemCheck)
+    }
+
 
     private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
         MaterialShapeDrawable(
@@ -146,20 +156,19 @@ class FilterFragment :
 
         with(getViewDataBinding().rvFilters) {
             if (getCategoryAdapter() != null) return@with
-//            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
             layoutManager = FlexboxLayoutManager(context, FlexDirection.ROW).apply {
                 justifyContent = JustifyContent.CENTER
                 flexWrap = FlexWrap.WRAP
                 alignItems = AlignItems.STRETCH
             }
-            adapter = FilterAdapter(FilterAdapter.CATEGORY_FILTER, getViewModel().onItemCheck)
+            adapter = filterAdapter
         }
 
         with(getViewDataBinding().rvSelectedFilter) {
             if (getSelectFilterAdapter() != null) return@with
 //            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionX)
             setHasFixedSize(true)
-            adapter = FilterAdapter(FilterAdapter.SELECTED_FILTER, getViewModel().onItemCheck)
+            adapter = filterSelectedAdapter
         }
 
         with(getViewDataBinding().bottomFilterBar) {
