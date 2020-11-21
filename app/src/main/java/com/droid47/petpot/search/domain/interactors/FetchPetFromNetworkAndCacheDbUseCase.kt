@@ -11,7 +11,6 @@ import com.droid47.petpot.search.domain.repositories.PetRepository
 import com.droid47.petpot.search.presentation.models.PetFilters
 import com.google.gson.Gson
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class FetchPetFromNetworkAndCacheDbUseCase @Inject constructor(

@@ -1,32 +1,19 @@
 package com.droid47.petpot.search.presentation.viewmodel
 
 import android.app.Application
-import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.LiveData
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
-import com.droid47.petpot.base.extensions.applyIOSchedulers
-import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.extensions.toSingleLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
-import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.components.LiveEvent
-import com.droid47.petpot.search.data.models.LOCATION
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity
 import com.droid47.petpot.search.data.models.search.PetEntity
-import com.droid47.petpot.search.domain.interactors.FetchAppliedFilterUseCase
 import com.droid47.petpot.search.domain.interactors.PetPaginationUseCase
-import com.droid47.petpot.search.domain.interactors.RemoveAllPetsUseCase
-import com.droid47.petpot.search.domain.interactors.UpdateFilterUseCase
 import com.droid47.petpot.search.presentation.models.ItemPaginationState
 import com.droid47.petpot.search.presentation.ui.widgets.PagedListPetAdapter
 import com.droid47.petpot.search.presentation.viewmodel.tracking.TrackSearchViewModel
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 

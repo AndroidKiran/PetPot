@@ -6,8 +6,6 @@ import android.view.Window
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ActivityNavigator
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.droid47.petpot.R
 import com.droid47.petpot.app.PetApplication
@@ -31,8 +29,10 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var launcherComponent: LauncherActivityComponent
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
+
+    private val navHostFragment: NavHostFragment by lazy(LazyThreadSafetyMode.NONE) {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
 
     private val launcherViewModel: LauncherViewModel by lazy(LazyThreadSafetyMode.NONE) {
         viewModelProvider<LauncherViewModel>(viewModelFactory)
@@ -107,10 +107,7 @@ class LauncherActivity : BaseBindingActivity<ActivityLauncherBinding, LauncherVi
     }
 
     private fun setUpViews() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = findNavController(R.id.nav_host_fragment)
-        getViewModel().launcherNavigator.inject(navController)
+        getViewModel().launcherNavigator.inject(navHostFragment.navController)
     }
 
     private fun getCurrentFragment(): BaseBindingFragment<*, *, *>? {

@@ -10,8 +10,6 @@ import androidx.lifecycle.toLiveData
 import androidx.paging.PagedList
 import com.droid47.petpot.R
 import com.droid47.petpot.app.PetApplication
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.IFirebaseManager
@@ -42,7 +40,12 @@ class PetDetailsViewModel @Inject constructor(
     var resizeAnimationRequired = true
     val transitionId: MutableLiveData<Int> = MutableLiveData()
     val petsLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
-        subscribeToPetDataSourceUseCase.buildUseCaseObservableWithSchedulers(Pair(DataSourceType.NonFavoriteType, ""))
+        subscribeToPetDataSourceUseCase.buildUseCaseObservableWithSchedulers(
+            Pair(
+                DataSourceType.NonFavoriteType,
+                ""
+            )
+        )
             .toSingleLiveData()
 
     private val _navigateToAnimalDetailsAction = LiveEvent<Pair<PetEntity, View>>()

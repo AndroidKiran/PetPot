@@ -51,9 +51,11 @@ fun AddressEntity.bindAddress(application: Application?): String {
 
     if (this.country.isNotEmpty()) {
         stringBuilder.append(
-            "${context.getString(R.string.country)} ${this.country?.toUpperCase(
-                Locale.US
-            )}"
+            "${context.getString(R.string.country)} ${
+                this.country?.toUpperCase(
+                    Locale.US
+                )
+            }"
         )
     }
     return stringBuilder.toString()

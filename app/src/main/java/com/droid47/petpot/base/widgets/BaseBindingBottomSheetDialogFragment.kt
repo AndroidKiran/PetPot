@@ -25,7 +25,7 @@ abstract class BaseBindingBottomSheetDialogFragment<out B : ViewDataBinding, out
     abstract fun getSnackBarAnchorView(): View
     abstract fun injectSubComponent()
     abstract fun getClassName(): String
-    abstract fun getScreenName() : String
+    abstract fun getScreenName(): String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

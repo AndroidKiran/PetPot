@@ -2,8 +2,6 @@ package com.droid47.petpot.launcher.presentation.ui.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
@@ -21,9 +19,11 @@ class TnCViewModel @Inject constructor(
     val webViewModel = WebViewModel()
     val acceptStateLiveData = MutableLiveData(false)
 
-    override fun trackConsentScroll(scrollDirection : String) {
-        firebaseManager.logUiEvent("Consent scrolling $scrollDirection",
-            AnalyticsAction.SCROLL)
+    override fun trackConsentScroll(scrollDirection: String) {
+        firebaseManager.logUiEvent(
+            "Consent scrolling $scrollDirection",
+            AnalyticsAction.SCROLL
+        )
     }
 
     override fun trackAcceptConsent() {

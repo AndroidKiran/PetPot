@@ -12,6 +12,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 private const val DB_NAME = "petDB.db"
+
 @Module
 object StorageModule {
 

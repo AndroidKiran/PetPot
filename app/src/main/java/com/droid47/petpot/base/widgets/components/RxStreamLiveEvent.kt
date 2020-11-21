@@ -10,7 +10,8 @@ import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import java.util.concurrent.atomic.AtomicReference
 
-class RxStreamLiveEvent<T> constructor(private val publisher: Publisher<T>) : MediatorLiveData<T>() {
+class RxStreamLiveEvent<T> constructor(private val publisher: Publisher<T>) :
+    MediatorLiveData<T>() {
     private val observers = ArraySet<LiveEventObserver<in T>>()
     private val subscriber = AtomicReference<LiveDataSubscriber>()
 

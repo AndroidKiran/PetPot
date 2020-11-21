@@ -1,7 +1,6 @@
 package com.droid47.petpot.home.data
 
 import android.os.Parcelable
-import com.droid47.petpot.BuildConfig
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.gson.annotations.SerializedName

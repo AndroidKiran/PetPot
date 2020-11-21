@@ -8,7 +8,6 @@ import android.os.StatFs
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory
 import com.bumptech.glide.load.engine.cache.LruResourceCache

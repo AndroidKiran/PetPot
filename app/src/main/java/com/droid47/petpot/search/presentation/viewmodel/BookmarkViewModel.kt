@@ -4,7 +4,6 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.droid47.petpot.base.extensions.toLiveData
 import com.droid47.petpot.base.extensions.toSingleLiveData
 import com.droid47.petpot.base.firebase.AnalyticsAction
 import com.droid47.petpot.base.firebase.CrashlyticsExt
@@ -31,7 +30,8 @@ class BookmarkViewModel @Inject constructor(
     private val updateFavoritePetUseCase: UpdateFavoritePetUseCase,
     private val updateFavouritePetsStatusUseCase: UpdateFavouritePetsStatusUseCase,
     val firebaseManager: IFirebaseManager
-) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener, TrackBookmarkViewModel {
+) : BaseAndroidViewModel(application), PagedListPetAdapter.OnItemClickListener,
+    TrackBookmarkViewModel {
 
     val bookmarkListLiveData: LiveData<BaseStateModel<out PagedList<PetEntity>>> =
         subscribeToPetsUseCase.buildUseCaseObservable(Pair(DataSourceType.FavoriteType, ""))

@@ -229,6 +229,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
             android:backgroundTint="?attr/colorSecondary"
             android:insetLeft="@dimen/zero"
             android:insetRight="@dimen/zero"
@@ -239,7 +240,6 @@
             app:iconGravity="textStart"
             app:iconPadding="@dimen/grid_0_4"
             app:iconTint="?attr/colorOnSecondary"
-            android:layout_marginBottom="@dimen/grid_1"
             app:layout_constraintBottom_toTopOf="@id/divider_one"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -462,18 +462,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_1"
             android:backgroundTint="?attr/colorSecondary"
             android:insetLeft="@dimen/zero"
             android:insetRight="@dimen/zero"
             android:text="play"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="?attr/colorOnSecondary"
+            android:visibility="gone"
             app:icon="@drawable/vc_place"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/grid_0_4"
-            android:visibility="gone"
             app:iconTint="?attr/colorOnSecondary"
-            android:layout_marginBottom="@dimen/grid_1"
             app:layout_constraintBottom_toTopOf="@id/divider_two"
             app:layout_constraintEnd_toEndOf="parent" />
 

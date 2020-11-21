@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?attr/colorSurface"
-        android:transitionName="@string/transition_bottom_dialog"
         android:paddingStart="@dimen/grid_2"
         android:paddingTop="@dimen/grid_2"
         android:paddingEnd="@dimen/grid_2"
         android:paddingBottom="?attr/actionBarSize"
+        android:transitionName="@string/transition_bottom_dialog"
         android:visibility="invisible">
 
         <TextView

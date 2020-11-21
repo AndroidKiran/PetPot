@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CircleLayoutManager extends RecyclerView.LayoutManager{
-    
-    private static int INTERVAL_ANGLE = 30;// The default interval angle between each items
-    private static float DISTANCE_RATIO = 10f; // Finger swipe distance divide item rotate angle
+public class CircleLayoutManager extends RecyclerView.LayoutManager {
+
+    private static final int INTERVAL_ANGLE = 30;// The default interval angle between each items
+    private static final float DISTANCE_RATIO = 10f; // Finger swipe distance divide item rotate angle
 
     //Flags of scroll dirction
-    private static int SCROLL_LEFT = 1;
-    private static int SCROLL_RIGHT = 2;
+    private static final int SCROLL_LEFT = 1;
+    private static final int SCROLL_RIGHT = 2;
 
-    private Context context;
+    private final Context context;
 
     // Size of each items
     private int mDecoratedChildWidth;
@@ -43,8 +43,8 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     private int firstChildRotate = 0;
 
     //Sparse array for recording the attachment and rotate angle of each items
-    private SparseBooleanArray itemAttached = new SparseBooleanArray();
-    private SparseArray<Float> itemsRotate = new SparseArray<>();
+    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
+    private final SparseArray<Float> itemsRotate = new SparseArray<>();
 
 
     public CircleLayoutManager(Context context) {
@@ -70,8 +70,8 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
             measureChildWithMargins(scrap, 0, 0);
             mDecoratedChildWidth = getDecoratedMeasuredWidth(scrap);
             mDecoratedChildHeight = getDecoratedMeasuredHeight(scrap);
-            startLeft = contentOffsetX == -1?(getHorizontalSpace() - mDecoratedChildWidth)/2: contentOffsetX;
-            startTop = contentOffsetY ==-1?0: contentOffsetY;
+            startLeft = contentOffsetX == -1 ? (getHorizontalSpace() - mDecoratedChildWidth) / 2 : contentOffsetX;
+            startTop = contentOffsetY == -1 ? 0 : contentOffsetY;
             mRadius = mDecoratedChildHeight;
             detachAndScrapView(scrap, recycler);
         }
@@ -79,44 +79,44 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
         //record the state of each items
         float rotate = firstChildRotate;
         for (int i = 0; i < getItemCount(); i++) {
-            itemsRotate.put(i,rotate);
-            itemAttached.put(i,false);
-            rotate+= intervalAngle;
+            itemsRotate.put(i, rotate);
+            itemAttached.put(i, false);
+            rotate += intervalAngle;
         }
 
         detachAndScrapAttachedViews(recycler);
         fixRotateOffset();
-        layoutItems(recycler,state);
+        layoutItems(recycler, state);
     }
 
-    private void layoutItems(RecyclerView.Recycler recycler,RecyclerView.State state){
-        layoutItems(recycler,state,SCROLL_RIGHT);
+    private void layoutItems(RecyclerView.Recycler recycler, RecyclerView.State state) {
+        layoutItems(recycler, state, SCROLL_RIGHT);
     }
 
     private void layoutItems(RecyclerView.Recycler recycler,
-                             RecyclerView.State state,int oritention){
-        if(state.isPreLayout()) return;
+                             RecyclerView.State state, int oritention) {
+        if (state.isPreLayout()) return;
 
         //remove the views which out of range
-        for(int i = 0;i<getChildCount();i++){
-            View view =  getChildAt(i);
+        for (int i = 0; i < getChildCount(); i++) {
+            View view = getChildAt(i);
             int position = getPosition(view);
-            if(itemsRotate.get(position) - offsetRotate>maxRemoveDegree
-                    || itemsRotate.get(position) - offsetRotate< minRemoveDegree){
-                itemAttached.put(position,false);
-                removeAndRecycleView(view,recycler);
+            if (itemsRotate.get(position) - offsetRotate > maxRemoveDegree
+                    || itemsRotate.get(position) - offsetRotate < minRemoveDegree) {
+                itemAttached.put(position, false);
+                removeAndRecycleView(view, recycler);
             }
         }
 
         //add the views which do not attached and in the range
-        for(int i=0;i<getItemCount();i++){
-            if(itemsRotate.get(i) - offsetRotate<= maxRemoveDegree
-                    && itemsRotate.get(i) - offsetRotate>= minRemoveDegree){
-                if(!itemAttached.get(i)){
+        for (int i = 0; i < getItemCount(); i++) {
+            if (itemsRotate.get(i) - offsetRotate <= maxRemoveDegree
+                    && itemsRotate.get(i) - offsetRotate >= minRemoveDegree) {
+                if (!itemAttached.get(i)) {
                     View scrap = recycler.getViewForPosition(i);
                     measureChildWithMargins(scrap, 0, 0);
-                    if(oritention == SCROLL_LEFT)
-                        addView(scrap,0);
+                    if (oritention == SCROLL_LEFT)
+                        addView(scrap, 0);
                     else
                         addView(scrap);
                     float rotate = itemsRotate.get(i) - offsetRotate;
@@ -125,7 +125,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
                     scrap.setRotation(rotate);
                     layoutDecorated(scrap, startLeft + left, startTop + top,
                             startLeft + left + mDecoratedChildWidth, startTop + top + mDecoratedChildHeight);
-                    itemAttached.put(i,true);
+                    itemAttached.put(i, true);
                 }
             }
         }
@@ -135,22 +135,21 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
         int willScroll = dx;
 
-        float theta = dx/DISTANCE_RATIO; // the angle every item will rotate for each dx
+        float theta = dx / DISTANCE_RATIO; // the angle every item will rotate for each dx
         float targetRotate = offsetRotate + theta;
 
         //handle the boundary
         if (targetRotate < 0) {
-            willScroll = (int) (-offsetRotate*DISTANCE_RATIO);
+            willScroll = (int) (-offsetRotate * DISTANCE_RATIO);
+        } else if (targetRotate > getMaxOffsetDegree()) {
+            willScroll = (int) ((getMaxOffsetDegree() - offsetRotate) * DISTANCE_RATIO);
         }
-        else if (targetRotate > getMaxOffsetDegree()) {
-            willScroll = (int) ((getMaxOffsetDegree() - offsetRotate)*DISTANCE_RATIO);
-        }
-        theta = willScroll/DISTANCE_RATIO;
+        theta = willScroll / DISTANCE_RATIO;
 
-        offsetRotate+=theta; //increase the offset rotate so when re-layout it can recycle the right views
+        offsetRotate += theta; //increase the offset rotate so when re-layout it can recycle the right views
 
         //re-calculate the rotate x,y of each items
-        for(int i=0;i<getChildCount();i++){
+        for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
             float newRotate = view.getRotation() - theta;
             int offsetX = calLeftPosition(newRotate);
@@ -162,27 +161,25 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
         //different direction child will overlap different way
         if (dx < 0)
-            layoutItems(recycler, state,SCROLL_LEFT);
+            layoutItems(recycler, state, SCROLL_LEFT);
         else
-            layoutItems(recycler,state,SCROLL_RIGHT);
+            layoutItems(recycler, state, SCROLL_RIGHT);
         return willScroll;
     }
 
     /**
-     *
      * @param rotate the current rotate of view
      * @return the x of view
      */
-    private int calLeftPosition(float rotate){
+    private int calLeftPosition(float rotate) {
         return (int) (mRadius * Math.cos(Math.toRadians(90 - rotate)));
     }
 
     /**
-     *
      * @param rotate the current rotate of view
      * @return the y of view
      */
-    private int calTopPosition(float rotate){
+    private int calTopPosition(float rotate) {
         return (int) (mRadius - mRadius * Math.sin(Math.toRadians(90 - rotate)));
     }
 
@@ -195,23 +192,22 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     }
 
     /**
-     *  fix the offset rotate angle in case item out of boundary
+     * fix the offset rotate angle in case item out of boundary
      **/
     private void fixRotateOffset() {
-        if(offsetRotate < 0){
+        if (offsetRotate < 0) {
             offsetRotate = 0;
         }
-        if(offsetRotate > getMaxOffsetDegree()){
+        if (offsetRotate > getMaxOffsetDegree()) {
             offsetRotate = getMaxOffsetDegree();
         }
     }
 
     /**
-     *
      * @return the max degrees according to current number of views and interval angle
      */
-    private float getMaxOffsetDegree(){
-       return (getItemCount()-1)* intervalAngle;
+    private float getMaxOffsetDegree() {
+        return (getItemCount() - 1) * intervalAngle;
     }
 
     private PointF computeScrollVectorForPosition(int targetPosition) {
@@ -230,9 +226,9 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     @Override
     public void scrollToPosition(int position) {
-        if(position < 0 || position > getItemCount()-1) return;
+        if (position < 0 || position > getItemCount() - 1) return;
         float targetRotate = position * intervalAngle;
-        if(targetRotate == offsetRotate) return;
+        if (targetRotate == offsetRotate) return;
         offsetRotate = targetRotate;
         fixRotateOffset();
         requestLayout();
@@ -262,23 +258,20 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     }
 
     /**
-     *
      * @return Get the current positon of views
      */
-    public int getCurrentPosition(){
+    public int getCurrentPosition() {
         return Math.round(offsetRotate / intervalAngle);
     }
 
     /**
-     *
      * @return Get the dx should be scrolled to the center
      */
-    public int getOffsetCenterView(){
-        return (int) ((getCurrentPosition()*intervalAngle-offsetRotate)*DISTANCE_RATIO);
+    public int getOffsetCenterView() {
+        return (int) ((getCurrentPosition() * intervalAngle - offsetRotate) * DISTANCE_RATIO);
     }
 
     /**
-     *
      * @return Get the radius of the circle
      */
     public int getRadius() {
@@ -286,7 +279,6 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     }
 
     /**
-     *
      * @param mRadius the radius of the circle,default will be item's height
      */
     public void setRadius(int mRadius) {
@@ -294,7 +286,6 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
     }
 
     /**
-     *
      * @return the interval angle between each items
      */
     public int getIntervalAngle() {
@@ -303,6 +294,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default angle is 30
+     *
      * @param intervalAngle the interval angle between each items
      */
     public void setIntervalAngle(int intervalAngle) {
@@ -311,6 +303,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is center in parent
+     *
      * @return the content offset of x
      */
     public int getContentOffsetX() {
@@ -319,6 +312,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is center in parent
+     *
      * @param contentOffsetX the content offset of x
      */
     public void setContentOffsetX(int contentOffsetX) {
@@ -327,6 +321,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is top in parent
+     *
      * @return the content offset of y
      */
     public int getContentOffsetY() {
@@ -335,6 +330,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is top in parent
+     *
      * @param contentOffsetY the content offset of y
      */
     public void setContentOffsetY(int contentOffsetY) {
@@ -343,6 +339,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is 0
+     *
      * @return the rotate of first child
      */
     public int getFirstChildRotate() {
@@ -351,6 +348,7 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * Default is 0
+     *
      * @param firstChildRotate the rotate of first child
      */
     public void setFirstChildRotate(int firstChildRotate) {
@@ -359,11 +357,12 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager{
 
     /**
      * The rotate of child view in range[min,max] will be shown,default will be [-90,90]
+     *
      * @param min min rotate that will be show
      * @param max max rotate that will be show
      */
-    public void setDegreeRangeWillShow(int min,int max){
-        if(min > max) return;
+    public void setDegreeRangeWillShow(int min, int max) {
+        if (min > max) return;
         minRemoveDegree = min;
         maxRemoveDegree = max;
     }

@@ -3,8 +3,6 @@ package com.droid47.petpot.organization.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.combineWith
 import com.droid47.petpot.base.extensions.switchMap
 import com.droid47.petpot.base.extensions.toLiveData
@@ -46,7 +44,8 @@ class OrganizationViewModel @Inject constructor(
         fetchSelectedOrganizationUseCase.buildUseCaseObservableWithSchedulers(true).toLiveData()
 
     val statesLiveData: LiveData<List<State>> =
-        fetchStatesUseCase.buildUseCaseObservableWithSchedulers(Unit).distinctUntilChanged().toSingleLiveData()
+        fetchStatesUseCase.buildUseCaseObservableWithSchedulers(Unit).distinctUntilChanged()
+            .toSingleLiveData()
     val selectedPositionLiveData = LiveEvent<Int>()
     private val stateAbbreviationLiveData: LiveData<String?> =
         selectedPositionLiveData.switchMap { position ->

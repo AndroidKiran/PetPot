@@ -39,7 +39,7 @@ class FirebaseManager @Inject constructor(
 
     override fun sendScreenView(screenName: String, className: String, activity: Activity) {
         firebaseFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName);
+            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
             param(FirebaseAnalytics.Param.SCREEN_CLASS, className)
             param(FirebaseAnalytics.Param.CONTENT_TYPE, FA_CONTENT_TYPE_SCREENVIEW)
         }

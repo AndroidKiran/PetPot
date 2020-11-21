@@ -52,7 +52,9 @@ class SubscribeToPetDataSourceUseCase @Inject constructor(
             is DataSourceType.DistanceType -> petRepository.fetchNearByPetsFromDb(query)
             is DataSourceType.RecentType -> petRepository.fetchRecentPetsFromDB(query)
             is DataSourceType.FavoriteType -> favouritePetRepository.fetchFavoritePetsFromDB(true)
-            is DataSourceType.NonFavoriteType -> favouritePetRepository.fetchFavoritePetsFromDB(false)
+            is DataSourceType.NonFavoriteType -> favouritePetRepository.fetchFavoritePetsFromDB(
+                false
+            )
             else -> petRepository.fetchAllPetsFromDb()
         }
 }
@@ -62,5 +64,5 @@ sealed class DataSourceType {
     object RecentType : DataSourceType()
     object FavoriteType : DataSourceType()
     object NonFavoriteType : DataSourceType()
-    object AllType: DataSourceType()
+    object AllType : DataSourceType()
 }

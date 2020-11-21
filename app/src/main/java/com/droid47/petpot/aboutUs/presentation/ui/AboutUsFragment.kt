@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.droid47.petpot.R
 import com.droid47.petpot.aboutUs.presentation.viewmodel.AboutUsViewModel
 import com.droid47.petpot.base.extensions.*
@@ -14,7 +13,6 @@ import com.droid47.petpot.databinding.FragmentAboutUsBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialSharedAxis
 import javax.inject.Inject
 
 private const val PRIVACY_URL = "https://sites.google.com/view/petpot-privacy-policies/"

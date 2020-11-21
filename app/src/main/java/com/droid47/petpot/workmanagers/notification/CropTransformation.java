@@ -14,16 +14,8 @@ import java.security.MessageDigest;
 public class CropTransformation extends BitmapTransformation {
     private static final int VERSION = 1;
     private static final String ID = "jp.wasabeef.glide.transformations.CropTransformation." + VERSION;
-
-    public enum CropType {
-        TOP,
-        CENTER,
-        BOTTOM
-    }
-
     private int width;
     private int height;
-
     private CropType cropType = CropType.CENTER;
 
     public CropTransformation(int width, int height) {
@@ -101,5 +93,11 @@ public class CropTransformation extends BitmapTransformation {
     @Override
     public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
         messageDigest.update((ID + width + height + cropType).getBytes(CHARSET));
+    }
+
+    public enum CropType {
+        TOP,
+        CENTER,
+        BOTTOM
     }
 }

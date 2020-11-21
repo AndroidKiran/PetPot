@@ -52,10 +52,12 @@
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
 
-        <meta-data android:name="google_analytics_adid_collection_enabled"
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
             android:value="false" />
 
-        <meta-data android:name="google_analytics_ssaid_collection_enabled"
+        <meta-data
+            android:name="google_analytics_ssaid_collection_enabled"
             android:value="false" />
 
         <meta-data
@@ -68,13 +70,13 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${mapKey}"/>
+            android:value="${mapKey}" />
 
         <activity
             android:name="com.droid47.petpot.launcher.presentation.ui.LauncherActivity"
+            android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,9 +88,9 @@
 
         <activity
             android:name="com.droid47.petpot.home.presentation.ui.HomeActivity"
+            android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <service

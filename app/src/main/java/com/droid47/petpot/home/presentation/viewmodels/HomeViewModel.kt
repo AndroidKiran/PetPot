@@ -3,7 +3,6 @@ package com.droid47.petpot.home.presentation.viewmodels
 import android.app.Application
 import com.droid47.petpot.app.di.scopes.ActivityScope
 import com.droid47.petpot.base.firebase.CrashlyticsExt
-import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.firebase.RemoteConfigUseCase
 import com.droid47.petpot.base.widgets.BaseAndroidViewModel
 import com.droid47.petpot.base.widgets.BaseStateModel
@@ -23,7 +22,6 @@ class HomeViewModel @Inject constructor(
     application: Application,
     val homeNavigator: HomeNavigator,
     private val remoteConfigUseCase: RemoteConfigUseCase,
-    private val firebaseManager: IFirebaseManager
 ) : BaseAndroidViewModel(application) {
 
     val eventLiveData = LiveEvent<Long>()
@@ -65,6 +63,5 @@ class HomeViewModel @Inject constructor(
     companion object {
         const val EVENT_TOGGLE_NAVIGATION = 71L
         const val EVENT_NAVIGATE_BACK = 72L
-        const val EVENT_ACTIVITY_RESTART = 73L
     }
 }

@@ -3,8 +3,6 @@ package com.droid47.petpot.search.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.droid47.petpot.app.di.scopes.ActivityScope
-import com.droid47.petpot.app.di.scopes.FragmentScope
 import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.switchMap
 import com.droid47.petpot.base.extensions.toLiveData
@@ -43,18 +41,21 @@ class FilterViewModel @Inject constructor(
     val eventLiveData = LiveEvent<Long>()
 
     val filterListForSelectedCategoryLiveData = categoryLiveData.switchMap { category ->
-        fetchFilterItemsForSelectedCategoryUseCase.buildUseCaseObservableWithSchedulers(category).toLiveData()
+        fetchFilterItemsForSelectedCategoryUseCase.buildUseCaseObservableWithSchedulers(category)
+            .toLiveData()
     }
 
     val searchFilterLiveData = MutableLiveData<String>()
     val menuItemListLiveData = MutableLiveData<List<String>>()
 
     val selectedFilterListLiveData = menuItemListLiveData.switchMap { menuList ->
-        fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList).toLiveData()
+        fetchSelectedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList)
+            .toLiveData()
     }
 
     val appliedFilterLiveData = menuItemListLiveData.switchMap { menuList ->
-        fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList).toLiveData()
+        fetchAppliedFiltersForCategoriesUseCase.buildUseCaseObservableWithSchedulers(menuList)
+            .toLiveData()
     }
 
     private val _sortFilterLiveData = MutableLiveData<BaseStateModel<PetFilterCheckableEntity>>()

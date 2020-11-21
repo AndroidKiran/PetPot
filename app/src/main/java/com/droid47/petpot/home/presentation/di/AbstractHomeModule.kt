@@ -20,11 +20,14 @@ interface AbstractHomeModule {
     fun bindSearchRepository(searchRepository: PetRepo): PetRepository
 
     @Binds
+    @Reusable
     fun bindFilterRepository(filterRepo: FilterRepo): FilterRepository
 
     @Binds
+    @Reusable
     fun bindPetDetailsRepository(petDetailsRepo: PetDetailsRepo): PetDetailsRepository
 
     @Binds
+    @Reusable
     fun bindOrganizationRepository(organizationRepository: OrganizationRepository): IOrganizationRepository
 }

@@ -16,10 +16,6 @@ class PetFirebaseMessagingService : FirebaseMessagingService() {
         super.onCreate()
     }
 
-    override fun onMessageReceived(message: RemoteMessage) {
-        super.onMessageReceived(message)
-    }
-
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         preferencesRepository.saveFcmToken(token)

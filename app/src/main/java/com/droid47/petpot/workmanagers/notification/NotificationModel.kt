@@ -18,7 +18,7 @@ data class NotificationModel(
     val navigationArgs: Bundle = Bundle(),
     val actionPrimary: String? = null,
     val actionSecondary: String? = null,
-    val notificationChannel: NotificationChannel = NotificationChannel(channelId?:""),
+    val notificationChannel: NotificationChannel = NotificationChannel(channelId ?: ""),
     val priority: Int = NotificationCompat.PRIORITY_DEFAULT,
     val notificationAutoCancel: Boolean = true
 ) : Parcelable {

@@ -3,7 +3,6 @@ package com.droid47.petpot.launcher.presentation.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigator
-import com.droid47.petpot.R
 import com.droid47.petpot.base.navigator.INavigator
 import javax.inject.Inject
 

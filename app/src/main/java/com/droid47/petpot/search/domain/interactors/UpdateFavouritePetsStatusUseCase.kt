@@ -4,7 +4,6 @@ import com.droid47.petpot.base.usecase.CompletableUseCase
 import com.droid47.petpot.base.usecase.executor.PostExecutionThread
 import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
-import com.droid47.petpot.search.domain.repositories.PetRepository
 import io.reactivex.Completable
 import javax.inject.Inject
 

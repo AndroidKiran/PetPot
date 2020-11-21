@@ -180,7 +180,7 @@ class TnCFragment : BaseBindingFragment<FragmentTncBinding, TnCViewModel, Launch
             oldScrollX: Int,
             oldScrollY: Int
         ) {
-            if(!getViewDataBinding().webView.canScrollVertically(scrollY)) {
+            if (!getViewDataBinding().webView.canScrollVertically(scrollY)) {
                 getViewModel().run {
                     trackAcceptBtnState("Visible")
                     acceptStateLiveData.postValue(true)

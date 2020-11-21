@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navArgs
 import androidx.navigation.ui.AppBarConfiguration
@@ -43,17 +42,9 @@ import javax.inject.Inject
 class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     NavController.OnDestinationChangedListener, NavigationHost {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    lateinit var homeComponent: HomeActivityComponent
-    private lateinit var navController: NavController
-    private lateinit var navHostFragment: NavHostFragment
-
-    private var currentNavId: Int = R.id.navigation_search
-    private var inAppUpdateManager: InAppUpdateManager? = null
-
-    private val arg by navArgs<HomeActivityArgs>()
-    private val deepLinkBundle: Bundle by lazy(LazyThreadSafetyMode.NONE) { arg.deepLinkBundle }
+    private val navHostFragment: NavHostFragment by lazy(LazyThreadSafetyMode.NONE) {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
 
     private val bottomNavDrawer: BottomNavDrawerFragment by lazy(LazyThreadSafetyMode.NONE) {
         supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
@@ -62,6 +53,15 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     private val homeViewModel: HomeViewModel by lazy {
         viewModelProvider<HomeViewModel>(factory)
     }
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    lateinit var homeComponent: HomeActivityComponent
+    private var currentNavId: Int = R.id.navigation_search
+    private var inAppUpdateManager: InAppUpdateManager? = null
+
+    private val arg by navArgs<HomeActivityArgs>()
+    private val deepLinkBundle: Bundle by lazy(LazyThreadSafetyMode.NONE) { arg.deepLinkBundle }
 
     override fun getViewModel(): HomeViewModel = homeViewModel
 
@@ -123,17 +123,15 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     private fun setUpViews() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = findNavController(R.id.nav_host_fragment).apply {
+        navHostFragment.navController.run {
             addOnDestinationChangedListener(this@HomeActivity)
+            bottomNavDrawer.setNavController(this)
+            getViewModel().homeNavigator.inject(this)
         }
-        bottomNavDrawer.setNavController(navController)
-        getViewModel().homeNavigator.inject(navController)
     }
 
     override fun registerBottomAppbarWithNavigation(bottomAppBar: BottomAppBar) {
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        val appBarConfiguration = AppBarConfiguration(navHostFragment.navController.graph)
 //        bottomAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 
@@ -204,7 +202,7 @@ class HomeActivity : BaseBindingActivity<ActivityHomeBinding, HomeViewModel>(),
     private val eventObserver = Observer<Long> {
         when (it ?: return@Observer) {
             EVENT_TOGGLE_NAVIGATION -> bottomNavDrawer.toggle()
-            EVENT_NAVIGATE_BACK -> navController.popBackStack()
+            EVENT_NAVIGATE_BACK -> navHostFragment.navController.popBackStack()
         }
     }
 

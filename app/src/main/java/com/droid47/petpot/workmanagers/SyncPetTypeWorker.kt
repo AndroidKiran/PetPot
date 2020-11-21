@@ -3,7 +3,6 @@ package com.droid47.petpot.workmanagers
 import android.app.Application
 import android.content.Context
 import androidx.work.*
-import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.launcher.domain.interactors.SyncPetTypeUseCase
 import io.reactivex.Single

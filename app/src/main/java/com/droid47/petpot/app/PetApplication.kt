@@ -7,7 +7,6 @@ import android.os.StrictMode.VmPolicy
 import com.droid47.petpot.app.di.components.AppComponent
 import com.droid47.petpot.app.di.components.DaggerAppComponent
 import com.droid47.petpot.app.di.modules.GlideApp
-import com.droid47.petpot.base.extensions.DARK_MODE
 import com.droid47.petpot.base.extensions.applyTheme
 import com.droid47.petpot.base.extensions.isDeveloperMode
 import com.droid47.petpot.base.firebase.CrashlyticsExt
@@ -33,7 +32,7 @@ class PetApplication : Application(), LauncherComponentProvider, HomeComponentPr
     private val appInitializers = appComponent.appInitializers()
 
     init {
-       loadNativeLib()
+        loadNativeLib()
     }
 
     override fun onCreate() {
@@ -90,7 +89,7 @@ class PetApplication : Application(), LauncherComponentProvider, HomeComponentPr
 
     private fun loadNativeLib() {
         try {
-            System.loadLibrary("native-lib");
+            System.loadLibrary("native-lib")
         } catch (exception: Exception) {
             CrashlyticsExt.handleException(exception)
         }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     private static final float SCALE_RATE = 1.2f;
 
-    private Context context;
+    private final Context context;
 
     // Size of each items
     private int mDecoratedChildWidth;
@@ -36,8 +36,8 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     private float maxScale; //max scale rate defalut is 1.2f
 
     //Sparse array for recording the attachment and x position of each items
-    private SparseBooleanArray itemAttached = new SparseBooleanArray();
-    private SparseArray<Integer> itemsX = new SparseArray<>();
+    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
+    private final SparseArray<Integer> itemsX = new SparseArray<>();
 
 
     public ScrollZoomLayoutManager(Context context, int itemSpace) {
@@ -62,9 +62,9 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
             measureChildWithMargins(scrap, 0, 0);
             mDecoratedChildWidth = getDecoratedMeasuredWidth(scrap);
             mDecoratedChildHeight = getDecoratedMeasuredHeight(scrap);
-            offsetDistance = (int) (mDecoratedChildWidth*((maxScale-1f)/2f+1)+itemSpace);
+            offsetDistance = (int) (mDecoratedChildWidth * ((maxScale - 1f) / 2f + 1) + itemSpace);
             startLeft = (getHorizontalSpace() - mDecoratedChildWidth) / 2;
-            startTop = contentOffsetY == -1 ? (getVerticalSpace()-mDecoratedChildHeight) / 2 : contentOffsetY;
+            startTop = contentOffsetY == -1 ? (getVerticalSpace() - mDecoratedChildHeight) / 2 : contentOffsetY;
             detachAndScrapView(scrap, recycler);
         }
 
@@ -90,7 +90,7 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
             View view = getChildAt(i);
             int position = getPosition(view);
             if (itemsX.get(position) - offsetScroll + startLeft > getHorizontalSpace()
-                    || itemsX.get(position) - offsetScroll + startLeft < -mDecoratedChildWidth-getPaddingLeft()) {
+                    || itemsX.get(position) - offsetScroll + startLeft < -mDecoratedChildWidth - getPaddingLeft()) {
                 itemAttached.put(position, false);
                 removeAndRecycleView(view, recycler);
             }
@@ -99,17 +99,17 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
         //add the views which do not attached and in the range
         for (int i = 0; i < getItemCount(); i++) {
             if (itemsX.get(i) - offsetScroll + startLeft <= getHorizontalSpace()
-                    && itemsX.get(i) - offsetScroll + startLeft >= -mDecoratedChildWidth-getPaddingLeft()) {
+                    && itemsX.get(i) - offsetScroll + startLeft >= -mDecoratedChildWidth - getPaddingLeft()) {
                 if (!itemAttached.get(i)) {
                     View scrap = recycler.getViewForPosition(i);
                     measureChildWithMargins(scrap, 0, 0);
                     addView(scrap);
                     int x = itemsX.get(i) - offsetScroll;
 
-                    float scale = calculateScale(startLeft+x);
+                    float scale = calculateScale(startLeft + x);
                     scrap.setRotation(0);
-                    layoutDecorated(scrap,startLeft+x, startTop,
-                            startLeft+x + mDecoratedChildWidth, startTop + mDecoratedChildHeight);
+                    layoutDecorated(scrap, startLeft + x, startTop,
+                            startLeft + x + mDecoratedChildWidth, startTop + mDecoratedChildHeight);
                     itemAttached.put(i, true);
                     scrap.setScaleX(scale);
                     scrap.setScaleY(scale);
@@ -134,10 +134,10 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
         offsetScroll += willScroll; //increase the offset x so when re-layout it can recycle the right views
 
         //handle position and scale
-        for(int i = 0;i<getChildCount();i++){
+        for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             float scale = calculateScale(v.getLeft());
-            layoutDecorated(v,v.getLeft()-willScroll,v.getTop(),v.getRight()-willScroll,v.getBottom());
+            layoutDecorated(v, v.getLeft() - willScroll, v.getTop(), v.getRight() - willScroll, v.getBottom());
             v.setScaleX(scale);
             v.setScaleY(scale);
         }
@@ -148,15 +148,14 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     }
 
     /**
-     *
      * @param x start positon of the view you want scale
      * @return the scale rate of current scroll offset
      */
-    private float calculateScale(int x){
-        int deltaX = Math.abs(x-(getHorizontalSpace() - mDecoratedChildWidth) / 2);
+    private float calculateScale(int x) {
+        int deltaX = Math.abs(x - (getHorizontalSpace() - mDecoratedChildWidth) / 2);
         float diff = 0f;
-        if((mDecoratedChildWidth-deltaX)>0) diff = mDecoratedChildWidth-deltaX;
-        return (maxScale-1f)/mDecoratedChildWidth * diff + 1;
+        if ((mDecoratedChildWidth - deltaX) > 0) diff = mDecoratedChildWidth - deltaX;
+        return (maxScale - 1f) / mDecoratedChildWidth * diff + 1;
     }
 
     private int getHorizontalSpace() {
@@ -204,7 +203,7 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     public void scrollToPosition(int position) {
         if (position < 0 || position > getItemCount() - 1) return;
         int target = position * offsetDistance;
-        if(target == offsetScroll) return;
+        if (target == offsetScroll) return;
         offsetScroll = target;
         fixScrollOffset();
         requestLayout();
@@ -237,14 +236,14 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
      * @return Get the current positon of views
      */
     public int getCurrentPosition() {
-        return Math.round(offsetScroll/(float)offsetDistance);
+        return Math.round(offsetScroll / (float) offsetDistance);
     }
 
     /**
      * @return Get the dx should be scrolled to the center
      */
     public int getOffsetCenterView() {
-        return getCurrentPosition()*offsetDistance-offsetScroll;
+        return getCurrentPosition() * offsetDistance - offsetScroll;
     }
 
     /**
@@ -266,7 +265,6 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     }
 
     /**
-     *
      * @return the max scale rate.. default is 1.2f
      */
     public float getMaxScale() {
@@ -274,7 +272,6 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     }
 
     /**
-     *
      * @param maxScale the max scale rate.. default is 1.2f
      */
     public void setMaxScale(float maxScale) {

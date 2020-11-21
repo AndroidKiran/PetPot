@@ -380,13 +380,6 @@ class PetDetailsFragment :
             getViewModel().trackPetImageSwipe()
         }
 
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-        }
     }
 
 }

@@ -4,7 +4,6 @@ import com.droid47.petpot.base.usecase.executor.PostExecutionThread
 import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import io.reactivex.Flowable
 import io.reactivex.FlowableSubscriber
-import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 
 abstract class FlowableUseCase<Results, in Params>(
@@ -18,7 +17,12 @@ abstract class FlowableUseCase<Results, in Params>(
         buildUseCaseObservableWithSchedulers(params).subscribe(observer)
     }
 
-    fun execute(params: Params, delay:Long, timeUnit: TimeUnit, observer: FlowableSubscriber<Results>) {
+    fun execute(
+        params: Params,
+        delay: Long,
+        timeUnit: TimeUnit,
+        observer: FlowableSubscriber<Results>
+    ) {
         buildUseCaseObservableWithSchedulers(params)
             .delay(delay, timeUnit)
             .subscribe(observer)

@@ -4,7 +4,6 @@ import com.droid47.petpot.base.usecase.executor.PostExecutionThread
 import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
-import io.reactivex.SingleObserver
 import java.util.concurrent.TimeUnit
 
 abstract class CompletableUseCase<in Params>(

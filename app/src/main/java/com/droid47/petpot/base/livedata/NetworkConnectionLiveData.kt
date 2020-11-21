@@ -22,7 +22,7 @@ class NetworkConnectionLiveData constructor(context: Context) :
     private val networkStateObject = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {
             super.onLost(network)
-            hasNetworkChanged = true;
+            hasNetworkChanged = true
             postValue(NetworkState.ConnectionLost)
         }
 

@@ -10,4 +10,4 @@ data class State(
     val name: String? = null,
     @SerializedName("abbreviation")
     val abbreviation: String? = null
-): Parcelable
+) : Parcelable

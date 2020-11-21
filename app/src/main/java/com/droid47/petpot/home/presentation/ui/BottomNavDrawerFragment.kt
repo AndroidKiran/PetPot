@@ -3,7 +3,6 @@ package com.droid47.petpot.home.presentation.ui
 import android.animation.ValueAnimator
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
@@ -20,7 +19,6 @@ import com.droid47.petpot.home.presentation.viewmodels.HomeViewModel
 import com.droid47.petpot.home.presentation.viewmodels.NavigationViewModel
 import com.droid47.petpot.home.presentation.widgets.SandwichState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.navigation.NavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
 import javax.inject.Inject
 import kotlin.math.abs

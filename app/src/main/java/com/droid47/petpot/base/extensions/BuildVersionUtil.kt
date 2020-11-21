@@ -7,6 +7,7 @@ import java.lang.reflect.Field
 
 object BuildVersionUtil {
     var OS_VERSION_NAME: String? = null
+
     init {
         OS_VERSION_NAME = osVersionName
     }

@@ -1,10 +1,8 @@
 package com.droid47.petpot.search.presentation.ui.widgets
 
 import android.content.Context
-import android.text.Editable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import com.droid47.petpot.base.extensions.logD
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.droid47.petpot.search.presentation.viewmodel.PetSpinnerAndLocationViewModel
 

@@ -19,7 +19,6 @@ import com.droid47.petpot.R
 import com.droid47.petpot.app.di.modules.GlideApp
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.CrashlyticsExt
-import com.droid47.petpot.base.widgets.anim.BlurTransformation
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.circularreveal.CircularRevealCompat

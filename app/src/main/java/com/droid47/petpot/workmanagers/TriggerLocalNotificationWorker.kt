@@ -119,7 +119,7 @@ class TriggerLocalNotificationWorker @Inject constructor(
 
 
         fun isNotificationEnabled(enabled: Boolean, context: Context) {
-            if(enabled) {
+            if (enabled) {
                 enqueuePeriodicRequest(context)
             } else {
                 dequeuePeriodicRequest(context)

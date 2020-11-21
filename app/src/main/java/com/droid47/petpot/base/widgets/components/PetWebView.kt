@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.webkit.WebView
 
-class PetWebView @JvmOverloads constructor(context: Context,
-                                           attributes: AttributeSet? = null,
-                                           defStyleAttr: Int = 0): WebView(context, attributes, defStyleAttr) {
+class PetWebView @JvmOverloads constructor(
+    context: Context,
+    attributes: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : WebView(context, attributes, defStyleAttr) {
 
     var scrollListener: WebViewScrollListener? = null
 
@@ -19,7 +21,7 @@ class PetWebView @JvmOverloads constructor(context: Context,
         scrollListener?.onScroll(scrollX, scrollY, oldScrollX, oldScrollY)
     }
 
-    interface WebViewScrollListener{
+    interface WebViewScrollListener {
         fun onScroll(scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int)
         fun onScrollDown()
         fun onScrollUp()

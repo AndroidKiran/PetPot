@@ -53,13 +53,13 @@ class OrganisationPaginationUseCase @Inject constructor(
     ): Flowable<PagedList<OrganizationCheckableEntity>> {
         compositeDisposable.clearDisposable()
         val organizationFilter = organizationFilterUseCase.getOrganizationFilter().apply {
-            this.name = if(name.isNullOrEmpty()) null else name
-            this.state = if(state.isNullOrEmpty()) null else state
+            this.name = if (name.isNullOrEmpty()) null else name
+            this.state = if (state.isNullOrEmpty()) null else state
             this.page = PAGE_ONE.toString()
         }
         organizationFilterUseCase.setOrganizationFilter(organizationFilter)
         return subscribeToOrganizationDataSourceUseCase.buildUseCaseObservableWithSchedulers(
-            Pair(Pair("${name?:""}%", "${state?:""}%"), this)
+            Pair(Pair("${name ?: ""}%", "${state ?: ""}%"), this)
         )
     }
 
@@ -93,7 +93,8 @@ class OrganisationPaginationUseCase @Inject constructor(
     private fun Observable<Boolean>.performSearchTask(): Observable<ItemPaginationState> =
         switchMapSingle { isFirstPage ->
             val organizationFilter = organizationFilterUseCase.getOrganizationFilter().apply {
-                this.page = (if (isFirstPage) PAGE_ONE else this.page.toInt().plus(PAGE_ONE)).toString()
+                this.page =
+                    (if (isFirstPage) PAGE_ONE else this.page.toInt().plus(PAGE_ONE)).toString()
             }
             fetchAndSaveOrganizationsUseCase.buildUseCaseSingleWithSchedulers(organizationFilter)
                 .doOnSubscribe {

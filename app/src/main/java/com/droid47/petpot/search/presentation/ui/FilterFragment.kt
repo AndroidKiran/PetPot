@@ -16,7 +16,6 @@ import com.droid47.petpot.base.bindingConfig.ErrorViewConfiguration
 import com.droid47.petpot.base.extensions.*
 import com.droid47.petpot.base.firebase.AnalyticsScreens
 import com.droid47.petpot.base.widgets.*
-import com.droid47.petpot.base.widgets.anim.SpringAddItemAnimator
 import com.droid47.petpot.databinding.FragmentFilterBinding
 import com.droid47.petpot.home.presentation.ui.HomeActivity
 import com.droid47.petpot.search.data.models.PetFilterCheckableEntity

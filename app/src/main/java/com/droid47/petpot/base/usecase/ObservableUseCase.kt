@@ -3,7 +3,6 @@ package com.droid47.petpot.base.usecase
 import com.droid47.petpot.base.usecase.executor.PostExecutionThread
 import com.droid47.petpot.base.usecase.executor.ThreadExecutor
 import io.reactivex.Observable
-import io.reactivex.SingleObserver
 import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 
@@ -18,7 +17,12 @@ abstract class ObservableUseCase<Results, in Params>(
         buildUseCaseObservableWithSchedulers(params).subscribe(observer)
     }
 
-    fun execute(params: Params, delay:Long, timeUnit: TimeUnit, observer: DisposableObserver<Results>) {
+    fun execute(
+        params: Params,
+        delay: Long,
+        timeUnit: TimeUnit,
+        observer: DisposableObserver<Results>
+    ) {
         buildUseCaseObservableWithSchedulers(params)
             .delay(delay, timeUnit)
             .subscribe(observer)

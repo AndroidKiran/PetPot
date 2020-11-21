@@ -7,5 +7,7 @@ sealed class CurrentLocationState {
 }
 
 class EnableLocationState(override val location: Location? = null) : CurrentLocationState()
-class RequestLocationPermissionState(override val location: Location? = null) : CurrentLocationState()
+class RequestLocationPermissionState(override val location: Location? = null) :
+    CurrentLocationState()
+
 class UpdatedLocationState(override val location: Location?) : CurrentLocationState()

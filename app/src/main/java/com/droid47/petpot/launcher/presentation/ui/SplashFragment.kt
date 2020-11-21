@@ -2,18 +2,14 @@ package com.droid47.petpot.launcher.presentation.ui
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.widget.TextView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.work.WorkInfo
 import com.droid47.petpot.R
-import com.droid47.petpot.base.extensions.*
+import com.droid47.petpot.base.extensions.activityViewModelProvider
+import com.droid47.petpot.base.extensions.viewModelProvider
 import com.droid47.petpot.base.firebase.AnalyticsScreens
 import com.droid47.petpot.base.widgets.BaseBindingFragment
 import com.droid47.petpot.base.widgets.BaseStateModel

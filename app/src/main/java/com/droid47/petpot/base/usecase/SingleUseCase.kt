@@ -17,7 +17,12 @@ abstract class SingleUseCase<Results, in Params>(
         buildUseCaseSingleWithSchedulers(params).subscribe(observer)
     }
 
-    fun execute(params: Params, delay:Long, timeUnit: TimeUnit, observer: SingleObserver<Results>) {
+    fun execute(
+        params: Params,
+        delay: Long,
+        timeUnit: TimeUnit,
+        observer: SingleObserver<Results>
+    ) {
         buildUseCaseSingleWithSchedulers(params)
             .delay(delay, timeUnit)
             .subscribe(observer)

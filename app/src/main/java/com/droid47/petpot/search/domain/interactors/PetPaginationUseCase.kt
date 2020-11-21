@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.droid47.petpot.base.extensions.applyIOSchedulers
 import com.droid47.petpot.base.extensions.clearDisposable
-import com.droid47.petpot.base.extensions.disposeDisposable
 import com.droid47.petpot.base.firebase.CrashlyticsExt
 import com.droid47.petpot.base.widgets.BaseStateModel
 import com.droid47.petpot.search.data.models.search.PaginationEntity

@@ -39,7 +39,6 @@ object NetworkModule {
         }
     }
 
-
     @Provides
     @JvmStatic
     @Singleton

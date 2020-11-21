@@ -16,7 +16,7 @@ class OffsetDateTimeConverter @Inject constructor() : JsonSerializer<OffsetDateT
         typeOfSrc: Type?,
         context: JsonSerializationContext?
     ): JsonElement {
-        return JsonPrimitive(ISO_DATE_FORMATTER.format(src));
+        return JsonPrimitive(ISO_DATE_FORMATTER.format(src))
     }
 
     override fun deserialize(

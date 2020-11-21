@@ -5,7 +5,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.droid47.petpot.app.PetApplication
 
 abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidViewModel> :
     AppCompatActivity() {
@@ -19,7 +18,7 @@ abstract class BaseBindingActivity<out B : ViewDataBinding, out V : BaseAndroidV
     abstract fun executePendingVariablesBinding()
     abstract fun injectComponent()
     abstract fun getClassName(): String
-    abstract fun getScreenName() : String
+    abstract fun getScreenName(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectComponent()

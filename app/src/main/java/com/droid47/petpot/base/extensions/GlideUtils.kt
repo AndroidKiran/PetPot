@@ -10,7 +10,10 @@ import com.bumptech.glide.request.target.Target
 fun loadListener(progressView: View? = null, block: (loaded: Boolean) -> Unit) =
     GlideDrawableLoadListener(block, progressView)
 
-class GlideDrawableLoadListener(private val block: (loaded: Boolean) -> Unit, private val progressView: View? = null) :
+class GlideDrawableLoadListener(
+    private val block: (loaded: Boolean) -> Unit,
+    private val progressView: View? = null
+) :
     RequestListener<Drawable> {
 
     override fun onResourceReady(

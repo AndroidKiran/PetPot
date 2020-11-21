@@ -11,8 +11,23 @@ enum class OnBoardingPage(
     @DrawableRes val logoResource: Int
 ) {
 
-    ONE(R.string.onboarding_page_app_tite, R.string.app_name, R.string.onboarding_page_app_desc, R.drawable.ic_a_day_at_the_park),
-    TWO(R.string.onboarding_page_search_tite, R.string.search, R.string.onboarding_page_search_desc, R.drawable.ic_directions),
-    THREE(R.string.onboarding_page_fav_tite, R.string.favourite, R.string.onboarding_page_fav_desc, R.drawable.ic_hang_out)
+    ONE(
+        R.string.onboarding_page_app_tite,
+        R.string.app_name,
+        R.string.onboarding_page_app_desc,
+        R.drawable.ic_a_day_at_the_park
+    ),
+    TWO(
+        R.string.onboarding_page_search_tite,
+        R.string.search,
+        R.string.onboarding_page_search_desc,
+        R.drawable.ic_directions
+    ),
+    THREE(
+        R.string.onboarding_page_fav_tite,
+        R.string.favourite,
+        R.string.onboarding_page_fav_desc,
+        R.drawable.ic_hang_out
+    )
 
 }

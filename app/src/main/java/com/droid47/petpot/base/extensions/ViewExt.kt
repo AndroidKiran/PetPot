@@ -1,6 +1,5 @@
 package com.droid47.petpot.base.extensions
 
-import android.animation.Animator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
@@ -16,7 +15,8 @@ import androidx.annotation.Px
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.forEach
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce

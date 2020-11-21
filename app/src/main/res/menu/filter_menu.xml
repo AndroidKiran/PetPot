@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/menu_refresh_filter"
-        android:title="@string/reset"
         android:icon="@drawable/vc_refresh"
+        android:title="@string/reset"
         app:showAsAction="always" />
 
 </menu>

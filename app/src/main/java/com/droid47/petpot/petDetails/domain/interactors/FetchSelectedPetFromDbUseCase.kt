@@ -8,7 +8,6 @@ import com.droid47.petpot.base.widgets.Failure
 import com.droid47.petpot.base.widgets.Success
 import com.droid47.petpot.search.data.models.search.PetEntity
 import com.droid47.petpot.search.domain.repositories.FavouritePetRepository
-import com.droid47.petpot.search.domain.repositories.PetRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class FetchSelectedPetFromDbUseCase @Inject constructor(
             )
             else -> favouritePetRepository.subscribeToSelectedPet(params)
                 .map { petEntity ->
-                    Success(petEntity) as BaseStateModel<PetEntity>
+                    Success(petEntity)
                 }.onErrorReturn {
                     Failure(it)
                 }
