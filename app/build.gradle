@@ -22,8 +22,8 @@ android {
         applicationId "com.droid47.petpot"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         if (secretProperties != null && secretProperties.containsKey('API_URL')) {
             buildConfigField("String", "API_URL", secretProperties['API_URL'])
@@ -81,7 +81,6 @@ android {
             shrinkResources false
             debuggable true
             aaptOptions.cruncherEnabled = false
-//            jniDebuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['DEV_GOOGLE_MAP_API_KEY']]
@@ -94,7 +93,6 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
-//            jniDebuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['RELEASE_GOOGLE_MAP_API_KEY']]

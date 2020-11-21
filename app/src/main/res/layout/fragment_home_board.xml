@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="@string/launcher_transition"
-        app:layoutDescription="@xml/fragment_home_board_scene"
+        app:layoutDescription="@xml/motion_home_board_scene"
         app:paddingBottomSystemWindowInsets="@{true}">
 
         <androidx.viewpager2.widget.ViewPager2
