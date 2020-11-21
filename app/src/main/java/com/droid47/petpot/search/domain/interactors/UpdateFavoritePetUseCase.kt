@@ -20,7 +20,7 @@ class UpdateFavoritePetUseCase @Inject constructor(
     override fun buildUseCaseSingle(params: PetEntity): Single<BaseStateModel<PetEntity>> =
         favouritePetRepository.updateFavoriteStatus(params)
             .toSingle {
-                Success(params)
+                Success(params) as BaseStateModel<PetEntity>
             }.onErrorReturn {
                 Failure(it)
             }

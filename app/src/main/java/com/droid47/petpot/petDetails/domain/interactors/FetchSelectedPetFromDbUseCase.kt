@@ -26,7 +26,7 @@ class FetchSelectedPetFromDbUseCase @Inject constructor(
             )
             else -> favouritePetRepository.subscribeToSelectedPet(params)
                 .map { petEntity ->
-                    Success(petEntity)
+                    Success(petEntity) as BaseStateModel<PetEntity>
                 }.onErrorReturn {
                     Failure(it)
                 }

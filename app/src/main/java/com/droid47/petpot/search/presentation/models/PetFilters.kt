@@ -49,7 +49,7 @@ data class PetFilters(
 
 object PetFilterConstants {
     const val PAGE_ONE = 1
-    const val PAGE_SIZE = 30
+    const val PAGE_SIZE = 31
     const val INIT_LOAD_SIZE = 2
     const val PRE_FETCH_DISTANCE = 10
     const val SORT_BY_RECENT = "recent"

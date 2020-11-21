@@ -121,7 +121,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_selected_filter">
+                    app:layout_constraintTop_toBottomOf="@id/rv_selected_filter"
+                    app:paddingBottomSystemWindowInsets="@{true}">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_filters"
@@ -130,7 +131,7 @@
                         android:clipToPadding="false"
                         android:paddingStart="@dimen/grid_1"
                         android:paddingEnd="@dimen/grid_1"
-                        app:paddingBottomSystemWindowInsets="@{true}"
+                        android:paddingBottom="@dimen/grid_12"
                         app:visible="@{newFilterViewModel.filterListForSelectedCategoryLiveData instanceof Success}"
                         tools:listitem="@layout/item_pet_filter_chip" />
 
