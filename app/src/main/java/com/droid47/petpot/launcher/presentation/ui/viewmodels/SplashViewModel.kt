@@ -12,6 +12,7 @@ import com.droid47.petpot.launcher.presentation.ui.viewmodels.tracking.TrackSpla
 import com.droid47.petpot.search.data.models.type.PetTypeEntity
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private const val REQUEST_INIT = 101L
@@ -59,7 +60,7 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun performPetSyncCall() {
-        syncPetTypeUseCase.execute(true, object :
+        syncPetTypeUseCase.execute(true, 400, TimeUnit.MILLISECONDS, object :
             SingleObserver<BaseStateModel<List<PetTypeEntity>>> {
             override fun onSubscribe(d: Disposable) {
                 registerDisposableRequest(REQUEST_INIT, d)
