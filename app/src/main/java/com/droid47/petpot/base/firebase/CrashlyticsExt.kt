@@ -1,16 +1,14 @@
 package com.droid47.petpot.base.firebase
 
 import com.droid47.petpot.base.extensions.isDeveloperMode
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 
 object CrashlyticsExt {
 
-    private fun getCrashlytics() = FirebaseCrashlytics.getInstance()
-
     private fun logHandledException(e: Throwable) {
         try {
-            getCrashlytics()
-                .recordException(e)
+            Firebase.crashlytics.recordException(e)
         } catch (e1: Exception) {
         }
     }
@@ -30,11 +28,7 @@ object CrashlyticsExt {
     ) {
         val breadCrumb =
             String.format("%s | %s | %s", category, action, value)
-        getCrashlytics().log(breadCrumb)
-    }
-
-    fun setCollectionEnabled(status: Boolean) {
-        getCrashlytics().setCrashlyticsCollectionEnabled(status)
+        Firebase.crashlytics.log(breadCrumb)
     }
 
     fun crash() {

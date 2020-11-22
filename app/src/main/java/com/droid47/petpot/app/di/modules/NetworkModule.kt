@@ -79,9 +79,9 @@ object NetworkModule {
     ): OkHttpClient =
         OkHttpClient.Builder()
             .cache(cache)
-            .connectTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
             .authenticator(authenticatorInterceptor)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authenticatorInterceptor)

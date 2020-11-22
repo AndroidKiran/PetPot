@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class AppPrivacyPolicyEntity(
-    @SerializedName("update_type")
+    @field:SerializedName("update_type")
     var updateType: Int = AppUpdateType.FLEXIBLE,
-    @SerializedName("privacy_policy_version_code")
+    @field:SerializedName("privacy_policy_version_code")
     var privacyPolicyVersionCode: Int = 0
 ) : Parcelable {
 

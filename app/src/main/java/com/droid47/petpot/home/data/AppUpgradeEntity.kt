@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class AppUpgradeEntity(
-    @SerializedName("update_type")
+    @field:SerializedName("update_type")
     var updateType: Int = AppUpdateType.FLEXIBLE,
-    @SerializedName("play_store_version_code")
+    @field:SerializedName("play_store_version_code")
     var currentPlayStoreVersionCode: Int = 0
 ) : Parcelable {
 

@@ -81,6 +81,7 @@ android {
             shrinkResources false
             debuggable true
             aaptOptions.cruncherEnabled = false
+            jniDebuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (secretProperties != null && secretProperties.containsKey('API_URL')) {
                 manifestPlaceholders = [mapKey: secretProperties['DEV_GOOGLE_MAP_API_KEY']]
@@ -235,11 +236,12 @@ dependencies {
 
 
     //FireBase
-    implementation "com.google.firebase:firebase-analytics-ktx:18.0.0"
-    implementation "com.google.firebase:firebase-crashlytics-ktx:17.3.0"
-    implementation "com.google.firebase:firebase-perf-ktx:19.0.10"
-    implementation 'com.google.firebase:firebase-messaging-ktx:21.0.0'
-    implementation 'com.google.firebase:firebase-config-ktx:20.0.1'
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-perf-ktx"
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-config-ktx"
 
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'

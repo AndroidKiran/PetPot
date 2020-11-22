@@ -23,29 +23,34 @@ class RemoteConfigUseCase @Inject constructor(
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread,
     private val gson: Gson
-) : SingleUseCase<BaseStateModel<String>, String>(threadExecutor, postExecutionThread) {
+) : SingleUseCase<BaseStateModel<Unit>, Unit>(threadExecutor, postExecutionThread) {
 
     private val config: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
         setDefaultsAsync(R.xml.remote_config_defaults)
         setConfigSettingsAsync(
             remoteConfigSettings {
-                minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 0 else ((60 * 8).toLong())
+                minimumFetchIntervalInSeconds =
+                    if (BuildConfig.DEBUG) 1200 else ((60 * 60 * 8).toLong())
             }
         )
     }
 
-    override fun buildUseCaseSingle(params: String): Single<BaseStateModel<String>> =
-        Single.create<BaseStateModel<String>> { emitter ->
+    override fun buildUseCaseSingle(params: Unit): Single<BaseStateModel<Unit>> =
+        Single.create<BaseStateModel<Unit>> { emitter ->
             try {
-                config.fetchAndActivate().addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        emitter.onSuccess(Success(config[params].asString()))
-                    } else {
-                        emitter.onError(
-                            it.exception ?: IllegalStateException("Remote config fetch error")
-                        )
+                config.fetchAndActivate()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful || task.isComplete) {
+                            emitter.onSuccess(Success(Unit))
+                        } else {
+                            emitter.onSuccess(
+                                Failure(
+                                    task.exception
+                                        ?: IllegalStateException("Remote config fetch error")
+                                )
+                            )
+                        }
                     }
-                }
             } catch (exception: Exception) {
                 emitter.onError(exception)
             }
@@ -53,17 +58,23 @@ class RemoteConfigUseCase @Inject constructor(
             Failure(it)
         }
 
-    fun getAppUpgradeInfoEntity(value: String): AppUpgradeEntity? =
+    fun getAppUpgradeInfoEntity(): AppUpgradeEntity? =
         try {
-            gson.fromJson(value, AppUpgradeEntity::class.java)
+            gson.fromJson(
+                config[KEY_APP_UPGRADE].asString(),
+                AppUpgradeEntity::class.java
+            )
         } catch (exception: Exception) {
             CrashlyticsExt.handleException(exception)
             null
         }
 
-    fun getPolicyUpgradeInfoEntity(value: String): AppPrivacyPolicyEntity? =
+    fun getPolicyUpgradeInfoEntity(): AppPrivacyPolicyEntity? =
         try {
-            gson.fromJson(value, AppPrivacyPolicyEntity::class.java)
+            gson.fromJson(
+                config[KEY_PRIVACY_POLICY_UPGRADE].asString(),
+                AppPrivacyPolicyEntity::class.java
+            )
         } catch (exception: Exception) {
             CrashlyticsExt.handleException(exception)
             null
