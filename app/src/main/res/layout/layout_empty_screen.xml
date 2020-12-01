@@ -36,7 +36,7 @@
             app:lottie_fileName="good_boy.json"
             app:lottie_loop="true" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             app:visible="@{StringExtKt.isNotEmpty(emptyViewConfig.emptyScreenTitleText)}"
             tools:text="Curating the best Yoga plan for you" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

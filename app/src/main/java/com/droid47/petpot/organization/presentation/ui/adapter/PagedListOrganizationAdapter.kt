@@ -59,7 +59,7 @@ class PagedListOrganizationAdapter(private val onItemClick: (baseCheckableEntity
         BaseViewHolder<OrganizationCheckableEntity>(itemBinding.root) {
 
         override fun onBind(item: OrganizationCheckableEntity) {
-            itemBinding.apply {
+            itemBinding.run {
                 organizationEntity = item
                 executePendingBindings()
             }
@@ -84,6 +84,13 @@ class PagedListOrganizationAdapter(private val onItemClick: (baseCheckableEntity
                     val website = item.website ?: return@setOnClickListener
                     it.context?.openUrlInBrowser(website)
                 }
+            }
+        }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                organizationEntity = null
+                executePendingBindings()
             }
         }
 

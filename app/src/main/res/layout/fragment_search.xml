@@ -155,7 +155,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/desc_open_filters"
             android:elevation="@dimen/plane_12"
             android:src="@drawable/vc_filter"
             android:transitionName="@string/transition_fab"

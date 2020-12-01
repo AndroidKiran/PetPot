@@ -21,7 +21,7 @@
         android:clickable="true"
         android:focusable="true"
         android:stateListAnimator="@animator/selector_lift_on_touch"
-        android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
+        android:transitionName="@{@string/transition_pet_card(pet.id)}"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardCornerRadius="@dimen/grid_1"
         app:cardElevation="@dimen/plane_08"
@@ -49,6 +49,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/desc_pet_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:modifiedAt="@{pet.getPublishedAtInLong()}"
@@ -93,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -111,7 +112,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Poly" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_desc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

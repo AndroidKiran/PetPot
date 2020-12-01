@@ -96,6 +96,11 @@ class PagedListPetAdapter @Inject constructor(
         }
     }
 
+    override fun onViewRecycled(holder: BaseViewHolder<PetEntity>) {
+        holder.onUnbind()
+        super.onViewRecycled(holder)
+    }
+
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
         super.onDetachedFromRecyclerView(recyclerView)
@@ -166,13 +171,21 @@ class PagedListPetAdapter @Inject constructor(
                 })
             }
         }
+
+        override fun onUnbind() {
+            itemBinding.cibStar.background = null
+            itemBinding.run {
+                setVariable(BR.pet, null)
+                executePendingBindings()
+            }
+        }
     }
 
     private inner class BookmarkViewHolder(private val itemBinding: ItemBookMarkBinding) :
         BaseViewHolder<PetEntity>(itemBinding.root) {
 
         override fun onBind(item: PetEntity) {
-            itemBinding.apply {
+            itemBinding.run {
                 setVariable(BR.pet, item)
                 executePendingBindings()
             }
@@ -192,6 +205,13 @@ class PagedListPetAdapter @Inject constructor(
                 onItemClickListener.onItemClick(item, it)
             }
         }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                setVariable(BR.pet, null)
+                executePendingBindings()
+            }
+        }
     }
 
     private inner class SimilarViewHolder(private val itemBinding: ItemSimilarPetBinding) :
@@ -208,6 +228,13 @@ class PagedListPetAdapter @Inject constructor(
 
             itemBinding.root.setOnClickListener {
                 onItemClickListener.onItemClick(item, itemBinding.cslPetInfo)
+            }
+        }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                setVariable(BR.pet, null)
+                executePendingBindings()
             }
         }
     }

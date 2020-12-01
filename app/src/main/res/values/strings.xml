@@ -74,7 +74,7 @@
     <string name="good_with">Good with:</string>
     <string name="characteristics">Characteristics:</string>
 
-    <string name="pet_card_transition_name">pet_card_%1$s</string>
+    <string name="transition_pet_card">transition_pet_card_%1$s</string>
     <string name="write_mail_to_team">Write a mail to Team</string>
     <string name="call_shelter">Call Pet Shelter</string>
     <string name="write_mail_to_shelter_team">Write a mail to Shelter team</string>
@@ -88,8 +88,8 @@
     <string name="action_view">actionView</string>
     <string name="about_us_info"><![CDATA[<p>
     PetPot is Free to use app build by Droid47 for Pet lovers inorder to provide new home for homeless pet.
-    The search engine is <b>Powered by Petfinder</b>
-    <a href="https://www.petfinder.com" target="_blank">PetFinder.com</a>.</p>
+    The search engine is <b>Powered by petfinder.com</b>
+    <a href="https://www.petfinder.com" target="_blank">petfinder.com</a>.</p>
     <p>Petfinder is an online, searchable database of animals who need homes. It is also a directory of
     nearly 11,000 animal shelters and adoption organizations across the U.S., Canada and Mexico.
     Organizations maintain their own home pages and available-pet databases.</p>
@@ -155,10 +155,18 @@
     <string name="key_current_theme">current_theme</string>
     <string name="key_search_limit">search_limit</string>
     <string name="key_notification_enabled">Notification Enabled</string>
-    <string name="powered_by_petfinder">Powered by Petfinder</string>
+    <string name="powered_by_petfinder">Powered by petfinder.com</string>
 
     <string name="pet_notification_default_channel_id">Pet Notification Channel Id</string>
     <string name="privacy_policies">Privacy Policy</string>
     <string name="turn_location">Turn on location</string>
     <string name="bottom_nav">bottom_nav</string>
+    <string name="desc_add_to_favourite_list">Desc Add To Favourite List</string>
+    <string name="desc_open_filters">Desc Open Filters</string>
+    <string name="desc_clear_location">Desc Clear Location</string>
+    <string name="desc_app_logo">Desc App Logo</string>
+    <string name="desc_favourite_pet_bg">Desc Favourite Pet bg</string>
+    <string name="desc_favourite_pet">Desc Favourite Pet</string>
+    <string name="desc_pet_image">Desc Pet Image</string>
+    <string name="dec_app_onboarding">Desc App Onboarding</string>
 </resources>

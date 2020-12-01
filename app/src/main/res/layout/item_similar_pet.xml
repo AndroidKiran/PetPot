@@ -27,11 +27,12 @@
             android:layout_height="wrap_content"
             android:elevation="@dimen/grid_1">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_pet_pic"
                 android:layout_width="@dimen/book_mark_image_height"
                 android:layout_height="@dimen/small_card_height"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/desc_pet_image"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/csl_details"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
                 app:layout_constraintStart_toEndOf="@id/iv_pet_pic"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_pet_name"
                     android:layout_width="@dimen/zero"
                     android:layout_height="wrap_content"
@@ -69,7 +70,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Rivago" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_details"
                     android:layout_width="@dimen/zero"
                     android:layout_height="wrap_content"

@@ -55,6 +55,7 @@
                         android:layout_height="100dp"
                         android:padding="@dimen/grid_2"
                         android:scaleType="centerCrop"
+                        android:contentDescription="@string/desc_app_logo"
                         app:srcCompat="@drawable/vc_paw"
                         app:tint="?attr/colorOnSurface" />
 
@@ -89,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/grid_2">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_about_us"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

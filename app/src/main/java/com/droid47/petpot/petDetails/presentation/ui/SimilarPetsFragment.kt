@@ -101,6 +101,9 @@ class SimilarPetsFragment :
                 setSnapType(SnapType.START)
                 setSnapInterpolator(DecelerateInterpolator())
                 setSeekDuration(300)
+                initialPrefetchItemCount = 14
+                setHasFixedSize(true)
+                setItemViewCacheSize(14)
             }
             adapter = pagedListPetAdapter
         }

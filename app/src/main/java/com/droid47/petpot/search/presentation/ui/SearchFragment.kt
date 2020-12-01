@@ -256,6 +256,9 @@ class SearchFragment :
                 setSnapType(SnapType.START)
                 setSnapInterpolator(FastOutSlowInInterpolator())
                 setSeekDuration(resources.getInteger(R.integer.pet_motion_default_large))
+                setHasFixedSize(true)
+                setItemViewCacheSize(14)
+                initialPrefetchItemCount = 14
                 spanSizeLookup = gridSpanListener
             }
             adapter = pagedListPetAdapter

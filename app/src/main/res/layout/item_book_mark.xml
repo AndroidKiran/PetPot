@@ -20,7 +20,7 @@
         android:layout_marginEnd="@dimen/grid_2"
         android:layout_marginBottom="@dimen/grid_1"
         android:stateListAnimator="@animator/selector_lift_on_touch"
-        android:transitionName="@{@string/pet_card_transition_name(pet.id)}"
+        android:transitionName="@{@string/transition_pet_card(pet.id)}"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardElevation="@dimen/plane_08"
         app:cardPreventCornerOverlap="true"
@@ -33,6 +33,7 @@
             android:background="?attr/colorPrimarySurface"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/desc_favourite_pet_bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:modifiedAt="@{pet.getPublishedAtInLong()}"
@@ -52,6 +53,7 @@
                 app:layout_constraintEnd_toStartOf="@id/csl_details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/desc_favourite_pet"
                 app:modifiedAt="@{pet.getPublishedAtInLong()}"
                 app:placeholder="@{@drawable/vc_paw}"
                 app:srcUrl="@{pet.getPetPhoto()}" />
@@ -68,7 +70,7 @@
                 app:layout_constraintStart_toEndOf="@id/iv_pet_pic"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_pet_name"
                     android:layout_width="@dimen/zero"
                     android:layout_height="wrap_content"
@@ -85,7 +87,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Rivago" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_details"
                     android:layout_width="@dimen/zero"
                     android:layout_height="wrap_content"

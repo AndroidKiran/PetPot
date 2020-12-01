@@ -26,9 +26,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -47,7 +47,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_breed_heading"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -64,7 +64,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_breed"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:layout_marginBottom="@dimen/grid_2"
@@ -81,7 +81,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cls_age_gender_size"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/grid_2"
             app:layout_constraintBottom_toTopOf="@id/tv_address_heading"
@@ -91,7 +91,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_age_heading"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_2"
                 android:alpha=".6"
@@ -107,7 +107,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_age"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
@@ -124,7 +124,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_gender_heading"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_2"
                 android:alpha=".6"
@@ -140,7 +140,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_gender"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
                 android:text="@{petDetailsViewModel.genderLiveData}"
@@ -155,7 +155,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_size_heading"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_2"
@@ -172,7 +172,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_size"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
@@ -191,7 +191,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_address_heading"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -209,7 +209,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_address"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:layout_marginBottom="@dimen/grid_1"
@@ -245,7 +245,7 @@
 
         <View
             android:id="@+id/divider_one"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="1dp"
             android:background="@drawable/list_divider_all_inset"
             app:layout_constraintBottom_toTopOf="@id/tv_about"
@@ -255,7 +255,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_about"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginTop="@dimen/grid_1"
@@ -272,7 +272,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_characteristics_heading"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -289,7 +289,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_characteristics"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:layout_marginBottom="@dimen/grid_2"
@@ -307,7 +307,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/csl_coat_trained"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/grid_2"
             app:layout_constraintBottom_toTopOf="@id/tv_health_heading"
@@ -317,7 +317,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_coat_heading"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_2"
                 android:alpha=".6"
@@ -333,7 +333,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_coat"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
@@ -350,7 +350,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_trained_heading"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_2"
@@ -368,7 +368,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_trained"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
@@ -387,7 +387,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_health_heading"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -405,7 +405,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_health"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:layout_marginBottom="@dimen/grid_2"
@@ -423,7 +423,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_good_heading"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginEnd="@dimen/grid_2"
@@ -441,7 +441,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_good"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:layout_marginBottom="@dimen/grid_1"
@@ -479,7 +479,7 @@
 
         <View
             android:id="@+id/divider_two"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="1dp"
             android:background="@drawable/list_divider_all_inset"
             app:layout_constraintBottom_toTopOf="@id/tv_meet"
@@ -490,7 +490,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_meet"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_2"
             android:layout_marginTop="@dimen/grid_1"
@@ -510,7 +510,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_meet_desc"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_2"
             android:autoLink="web"

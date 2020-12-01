@@ -58,6 +58,11 @@ class FilterAdapter @Inject constructor(
             else -> throw IllegalStateException("Invalid type")
         } as BaseViewHolder<BaseCheckableEntity>
 
+    override fun onViewRecycled(holder: BaseViewHolder<BaseCheckableEntity>) {
+        holder.onUnbind()
+        super.onViewRecycled(holder)
+    }
+
 
     override fun onBindViewHolder(holder: BaseViewHolder<BaseCheckableEntity>, position: Int) {
         holder.onBind(getItem(position))
@@ -71,22 +76,6 @@ class FilterAdapter @Inject constructor(
         }
         super.submitList(list.toMutableList())
     }
-
-//    override fun onCurrentListChanged(
-//        previousList: MutableList<BaseEntity>,
-//        currentList: MutableList<BaseEntity>
-//    ) {
-//        super.onCurrentListChanged(previousList, currentList)
-//        if (type == ALL_FILTER) {
-//            for (curFilterItem in currentList) {
-//                if (!previousList.contains(curFilterItem)) {
-//                    val index = filterItems.indexOf(curFilterItem)
-//                    recyclerView?.scrollToPosition(index)
-//                    return
-//                }
-//            }
-//        }
-//    }
 
     object FilterDiff : DiffUtil.ItemCallback<BaseCheckableEntity>() {
         override fun areItemsTheSame(
@@ -141,7 +130,7 @@ class FilterAdapter @Inject constructor(
         BaseViewHolder<PetFilterCheckableEntity>(itemBinding.root) {
 
         override fun onBind(item: PetFilterCheckableEntity) {
-            itemBinding.apply {
+            itemBinding.run {
                 filterItem = item
                 executePendingBindings()
             }
@@ -153,13 +142,20 @@ class FilterAdapter @Inject constructor(
                 })
             }
         }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                filterItem = null
+                executePendingBindings()
+            }
+        }
     }
 
     private inner class SelectedPetFilterViewHolder(private val itemBinding: ItemSelectedFilterChipBinding) :
         BaseViewHolder<BaseCheckableEntity>(itemBinding.root) {
 
         override fun onBind(item: BaseCheckableEntity) {
-            itemBinding.apply {
+            itemBinding.run {
                 filterItem = item
                 executePendingBindings()
             }
@@ -168,6 +164,13 @@ class FilterAdapter @Inject constructor(
                 baseCheckableEntityListener.invoke(item.apply {
                     this.selected = false
                 })
+            }
+        }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                filterItem = null
+                executePendingBindings()
             }
         }
     }

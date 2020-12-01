@@ -30,7 +30,7 @@
         android:id="@+id/pet_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@{@string/pet_card_transition_name(petDetailsViewModel.transitionId)}">
+        android:transitionName="@{@string/transition_pet_card(petDetailsViewModel.transitionId)}">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -53,7 +53,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.2" />
 
                 <com.droid47.petpot.base.widgets.components.IndefinitePagerIndicator
                     android:id="@+id/indicator"
@@ -203,7 +204,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/desc_add_to_favourite_list"
             android:elevation="@dimen/plane_12"
             app:ensureMinTouchTargetSize="true"
             app:fabIcon="@{petDetailsViewModel.petLiveData.data.bookmarkStatus}"

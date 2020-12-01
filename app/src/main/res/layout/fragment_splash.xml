@@ -47,6 +47,7 @@
                 android:layout_height="180dp"
                 android:padding="@dimen/grid_2"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/desc_app_logo"
                 app:srcCompat="@drawable/vc_paw"
                 app:tint="?attr/colorOnSurface" />
 
@@ -83,7 +84,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:visible="@{splashViewModel.resultEvent instanceof Loading}" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

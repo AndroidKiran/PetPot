@@ -11,7 +11,7 @@
         android:paddingBottom="@dimen/grid_14"
         android:visibility="gone">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/also_like"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

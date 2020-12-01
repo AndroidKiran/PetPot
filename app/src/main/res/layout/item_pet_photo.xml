@@ -31,6 +31,7 @@
             android:background="?attr/colorSurface"
             android:scaleType="center"
             app:loadListener="@{imageLoadListener}"
+            android:contentDescription="@string/desc_pet_image"
             app:modifiedAt="@{modifiedAt}"
             app:placeholder="@{@drawable/vc_paw}"
             app:srcUrl="@{petPhotoUrl}"

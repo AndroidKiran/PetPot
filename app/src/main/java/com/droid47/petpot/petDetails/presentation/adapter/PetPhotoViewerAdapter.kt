@@ -40,6 +40,11 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
             )
         )
 
+    override fun onViewRecycled(holder: BaseViewHolder<PhotosItemEntity>) {
+        holder.onUnbind()
+        super.onViewRecycled(holder)
+    }
+
     override fun onBindViewHolder(holder: BaseViewHolder<PhotosItemEntity>, position: Int) {
         holder.onBind(getItem(position))
     }
@@ -65,17 +70,26 @@ class PetPhotoViewerAdapter(private val petPhotoViewerListener: PetPhotoViewerLi
 
         override fun onBind(item: PhotosItemEntity) {
             val photoUrl = item.getPetFullPhoto()
-            binding.apply {
+            binding.run {
                 petPhotoUrl = photoUrl
-                this.modifiedAt = modifiedAt
+                modifiedAt = modifiedAt
                 imageLoadListener = loadListener(this.circularProgress) {
                     petPhotoViewerListener.onImageLoaded()
                 }
-            }.run {
                 executePendingBindings()
             }
+
             binding.root.setOnClickListener {
                 petPhotoViewerListener.onItemClickListener()
+            }
+        }
+
+        override fun onUnbind() {
+            binding.run {
+                petPhotoUrl = null
+                modifiedAt = null
+                imageLoadListener = null
+                executePendingBindings()
             }
         }
     }

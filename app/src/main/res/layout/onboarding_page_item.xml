@@ -19,7 +19,7 @@
         android:paddingTop="@dimen/grid_2"
         app:paddingTopSystemWindowInsets="@{true}">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/onboarding_page_app_tite" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subTitleTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,12 +64,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subTitleTv"
+            android:contentDescription="@string/dec_app_onboarding"
             app:layout_constraintVertical_bias="0.4"
             app:srcCompat="@{ContextCompat.getDrawable(context, onBoardingPage.logoResource)}"
             tools:ignore="ContentDescription"
             tools:srcCompat="@drawable/ic_a_day_at_the_park" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/descTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

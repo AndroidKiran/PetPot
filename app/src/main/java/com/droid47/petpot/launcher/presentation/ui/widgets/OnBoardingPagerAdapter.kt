@@ -18,6 +18,11 @@ class OnBoardingPagerAdapter constructor(private val onBoardingPageList: Array<O
             OnboardingPageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
+    override fun onViewRecycled(holder: BaseViewHolder<OnBoardingPage>) {
+        holder.onUnbind()
+        super.onViewRecycled(holder)
+    }
+
     override fun getItemCount(): Int = onBoardingPageList.size
 
     override fun onBindViewHolder(holder: BaseViewHolder<OnBoardingPage>, position: Int) {
@@ -28,8 +33,17 @@ class OnBoardingPagerAdapter constructor(private val onBoardingPageList: Array<O
         BaseViewHolder<OnBoardingPage>(itemBinding.root) {
 
         override fun onBind(item: OnBoardingPage) {
-            itemBinding.onBoardingPage = item
-            itemBinding.executePendingBindings()
+            itemBinding.run {
+                onBoardingPage = item
+                executePendingBindings()
+            }
+        }
+
+        override fun onUnbind() {
+            itemBinding.run {
+                onBoardingPage = null
+                executePendingBindings()
+            }
         }
     }
 }
