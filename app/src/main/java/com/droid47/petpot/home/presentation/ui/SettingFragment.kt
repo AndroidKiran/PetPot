@@ -39,11 +39,6 @@ class SettingFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChang
         (activity as HomeActivity).homeComponent.inject(this)
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        initTransition()
-//    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey)
         listenToThemePreference()

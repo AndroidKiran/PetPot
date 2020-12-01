@@ -3,7 +3,7 @@
 PetPot is a pet search engine (Powered By Petfinder) which help pet lovers to search and find the pets meeting their requirements.
 Provide feature to manage there favouite list, read pet bio and contact respective shelter to adopt pet. Intent of app is to find home for homeless pets<br/>
 
-<a href="https://play.google.com/store/apps/details?id=com.droid47.petpot.free">
+<a href="https://play.google.com/store/apps/details?id=com.droid47.petpot">
     <img alt="Get it on Google Play"
         height="80"
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
