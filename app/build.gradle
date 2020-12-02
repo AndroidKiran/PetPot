@@ -9,7 +9,7 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 def secretProperties = new Properties()
 def secretPropertiesFile = rootProject.file("secrets.properties")
-if(secretPropertiesFile.canRead()) {
+if (secretPropertiesFile.canRead()) {
     secretProperties.load(new FileInputStream(secretPropertiesFile))
 } else {
     println 'secrets.properties not found'

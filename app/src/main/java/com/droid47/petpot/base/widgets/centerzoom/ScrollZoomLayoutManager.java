@@ -17,27 +17,21 @@ public class ScrollZoomLayoutManager extends RecyclerView.LayoutManager {
     private static final float SCALE_RATE = 1.2f;
 
     private final Context context;
-
+    //Sparse array for recording the attachment and x position of each items
+    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
+    private final SparseArray<Integer> itemsX = new SparseArray<>();
     // Size of each items
     private int mDecoratedChildWidth;
     private int mDecoratedChildHeight;
-
     //Property
     private int startLeft;
     private int startTop;
     private int offsetScroll; // The offset distance for each items which will change according to the scroll offset
-
     //initial top position of content
     private int contentOffsetY = -1;
-
     private int itemSpace = 0; //the space between each items
     private int offsetDistance;
-
     private float maxScale; //max scale rate defalut is 1.2f
-
-    //Sparse array for recording the attachment and x position of each items
-    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
-    private final SparseArray<Integer> itemsX = new SparseArray<>();
 
 
     public ScrollZoomLayoutManager(Context context, int itemSpace) {

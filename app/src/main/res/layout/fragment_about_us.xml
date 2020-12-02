@@ -53,9 +53,9 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
+                        android:contentDescription="@string/desc_app_logo"
                         android:padding="@dimen/grid_2"
                         android:scaleType="centerCrop"
-                        android:contentDescription="@string/desc_app_logo"
                         app:srcCompat="@drawable/vc_paw"
                         app:tint="?attr/colorOnSurface" />
 

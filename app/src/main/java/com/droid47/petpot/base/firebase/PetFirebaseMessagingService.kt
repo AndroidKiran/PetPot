@@ -3,7 +3,6 @@ package com.droid47.petpot.base.firebase
 import com.droid47.petpot.app.PetApplication
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import javax.inject.Inject
 
 class PetFirebaseMessagingService : FirebaseMessagingService() {

@@ -1,9 +1,7 @@
 package com.droid47.petpot.petDetails.presentation.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -90,17 +88,9 @@ class PetDetailsFragment :
         backDropHeight = screenHeight - resources.getDimensionPixelOffset(R.dimen.grid_14)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        prepareTransitions()
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareTransitions()
         similarPetsFragment.subscribeToSubListSelection(navigationObserver)
         setUpView()
         setPetPhotoAdapter()
@@ -232,6 +222,7 @@ class PetDetailsFragment :
                     startPostponedEnterTransition()
                     showFab()
                     if (!getViewModel().resizeAnimationRequired) return@submitList
+                    getViewModel().resizeAnimationRequired = false
                     animateContentView()
                 }
             }
@@ -240,7 +231,7 @@ class PetDetailsFragment :
     }
 
     private fun animateContentView() {
-        val context = context ?: requireContext()
+        val context = context ?: return
         resizeAnimation = ResizeAnimation(getViewDataBinding().appbar, backDropHeight).apply {
             this.duration = 300L
             this.interpolator = context.themeInterpolator(R.attr.motionInterpolatorIncoming)

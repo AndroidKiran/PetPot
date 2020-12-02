@@ -1,7 +1,6 @@
 package com.droid47.petpot.app.domain
 
 import android.app.Activity
-import android.app.Application
 import com.droid47.petpot.base.firebase.IFirebaseManager
 import com.droid47.petpot.base.storage.LocalPreferencesRepository
 import com.google.firebase.analytics.FirebaseAnalytics

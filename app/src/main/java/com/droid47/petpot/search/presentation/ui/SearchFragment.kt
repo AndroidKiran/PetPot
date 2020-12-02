@@ -15,6 +15,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.FragmentTransaction
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -68,6 +69,10 @@ class SearchFragment :
     private val emptyState = EmptyScreenConfiguration()
     private val errorState = ErrorViewConfiguration()
     private var resultOrderMenuItem: MenuItem? = null
+
+    private val childFragmentTransaction: FragmentTransaction by lazy(LazyThreadSafetyMode.NONE) {
+        childFragmentManager.beginTransaction()
+    }
 
     private val springAddItemAnimator: SpringAddItemAnimator by lazy(LazyThreadSafetyMode.NONE) {
         SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionY)
@@ -133,11 +138,6 @@ class SearchFragment :
         subscribeToLiveData()
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        initTransition()
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition(1000L, TimeUnit.MILLISECONDS)
@@ -165,11 +165,7 @@ class SearchFragment :
 
     override fun onClick(view: View?) {
         when (view?.id ?: return) {
-            R.id.scrim -> performMaterialTransitionFor(
-                filterFragment.getViewDataBinding().root,
-                getViewDataBinding().fab
-            )
-
+            R.id.scrim -> filterFragment.closeFilterView()
             R.id.fab -> {
                 getViewModel().trackSearchToFilter()
                 performMaterialTransitionFor(
@@ -207,45 +203,43 @@ class SearchFragment :
     }
 
     private fun setUpView() {
-        with(getViewDataBinding().fab) {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
-            setImageResource(R.drawable.vc_filter)
-            setOnClickListener(this@SearchFragment)
-        }
+        childFragmentTransaction.hide(filterFragment)
+        getViewDataBinding().run {
+            scrim.setOnClickListener(this@SearchFragment)
 
-        with(getViewDataBinding().bottomAppBar) {
-            setOnMenuItemClickListener(onMenuClickListener)
-            resultOrderMenuItem = menu.findItem(R.id.menu_order)
-            setNavigationOnClickListener {
+            with(fab) {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+                setImageResource(R.drawable.vc_filter)
+                setOnClickListener(this@SearchFragment)
+            }
+
+            with(bottomAppBar) {
+                setOnMenuItemClickListener(onMenuClickListener)
+                resultOrderMenuItem = menu.findItem(R.id.menu_order)
+                setNavigationOnClickListener {
+                    getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
+                }
+            }
+
+            btnNavSearch.setOnClickListener {
                 getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
             }
-        }
 
-        getViewDataBinding().btnNavSearch.setOnClickListener {
-            getParentViewModel().eventLiveData.postValue(EVENT_TOGGLE_NAVIGATION)
-        }
-
-        resultOrderMenuItem?.actionView?.let { view ->
-            view.setOnClickListener {
-                filterFragment.showSortPopup(view)
+            resultOrderMenuItem?.actionView?.let { view ->
+                view.setOnClickListener {
+                    filterFragment.showSortPopup(view)
+                }
             }
-        }
 
-        getViewDataBinding().scrim.setOnClickListener(this@SearchFragment)
-
-        with(getViewDataBinding().fab) {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
-        }
-
-        getViewDataBinding().topSearchBar.btnEditOrg.setOnClickListener {
-            val view = it ?: return@setOnClickListener
-            val extras = FragmentNavigatorExtras(
-                view to view.transitionName
-            )
-            getParentViewModel().homeNavigator.toOrganizationFromSearch(extras)
-            cancelPaginationRequest()
+            topSearchBar.btnEditOrg.setOnClickListener {
+                val view = it ?: return@setOnClickListener
+                val extras = FragmentNavigatorExtras(
+                    view to view.transitionName
+                )
+                getParentViewModel().homeNavigator.toOrganizationFromSearch(extras)
+                cancelPaginationRequest()
+            }
         }
     }
 
@@ -512,7 +506,9 @@ class SearchFragment :
 
     private fun performMaterialTransitionFor(startView: View, endView: View) {
         activity?.hideKeyboard()
+        TransitionManager.endTransitions(getViewDataBinding().cdlMain)
         val isExpanding = isExpanding(startView)
+        var isTransitionCompleted = false
         val transition = MaterialContainerTransform().apply {
             this.startView = startView
             this.endView = endView
@@ -532,14 +528,26 @@ class SearchFragment :
             this.scrimColor = requireContext().themeColor(R.attr.scrimBackground)
             this.isElevationShadowEnabled = isExpanding
         }.addListener(object : TransitionListenerAdapter() {
+
             override fun onTransitionEnd(transition: Transition) {
+                if (isTransitionCompleted) return
+                isTransitionCompleted = true
                 updateViewOnTransitionComplete(startView, endView)
                 super.onTransitionEnd(transition)
             }
 
             override fun onTransitionCancel(transition: Transition) {
+                if (isTransitionCompleted) return
+                isTransitionCompleted = true
                 updateViewOnTransitionComplete(startView, endView)
                 super.onTransitionCancel(transition)
+            }
+
+            override fun onTransitionPause(transition: Transition) {
+                if (isTransitionCompleted) return
+                isTransitionCompleted = true
+                updateViewOnTransitionComplete(startView, endView)
+                super.onTransitionPause(transition)
             }
         })
         TransitionManager.beginDelayedTransition(getViewDataBinding().cdlMain, transition)
@@ -548,9 +556,10 @@ class SearchFragment :
     private fun isExpanding(startView: View) = startView is FloatingActionButton
 
     private fun updateViewOnTransitionComplete(startView: View, endView: View) {
-        startView.invisible()
         endView.visible()
+        startView.invisible()
         if (isExpanding(startView)) {
+            childFragmentTransaction.show(filterFragment)
             hideBottomBar()
             if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {
                 hidePaginationProgress()
@@ -558,6 +567,7 @@ class SearchFragment :
             getViewDataBinding().scrim.visible()
             filterFragment.onFilterExpanded()
         } else {
+            childFragmentTransaction.hide(filterFragment)
             filterFragment.onFilterCollapsed()
             getViewDataBinding().scrim.invisible()
             if (getViewModel().itemPaginationStateLiveData.value is PaginatingState) {

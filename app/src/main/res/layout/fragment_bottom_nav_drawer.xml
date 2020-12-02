@@ -43,8 +43,8 @@
                 android:layout_gravity="center|top"
                 android:contentDescription="@string/bottom_nav_drawer_image_content_desc"
                 android:padding="@dimen/grid_1"
-                android:src="@drawable/vc_paw"
-                android:tint="@color/pet_white_50" />
+                android:tint="@color/pet_white_50"
+                app:srcCompat="@drawable/vc_paw" />
 
             <FrameLayout
                 android:id="@+id/foreground_container"

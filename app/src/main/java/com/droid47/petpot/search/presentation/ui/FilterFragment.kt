@@ -58,7 +58,6 @@ class FilterFragment :
         FilterAdapter(FilterAdapter.SELECTED_FILTER, getViewModel().onItemCheck)
     }
 
-
     private val backGroundPrimaryColorDrawable: MaterialShapeDrawable by lazy(LazyThreadSafetyMode.NONE) {
         MaterialShapeDrawable(
             requireContext(),
@@ -130,6 +129,10 @@ class FilterFragment :
         closeOnBackPressed.isEnabled = false
     }
 
+    fun closeFilterView() {
+        getViewModel().closeFilter(true)
+    }
+
     fun showSortPopup(view: View) {
         val context = context ?: return
         sortPopMenu =
@@ -144,50 +147,51 @@ class FilterFragment :
 
     private fun setUpViews() {
         val context = context ?: return
-        getViewDataBinding().cslFilter.background = backGroundPrimaryColorDrawable
-        with(getViewDataBinding().navigationMenuView) {
-            itemBackground = navigationItemBackground(context)
-            setCheckedItem(R.id.menu_filter_gender)
-            setNavigationItemSelectedListener(
-                navigationItemListener
-            )
-        }
-
-        with(getViewDataBinding().rvFilters) {
-            if (getCategoryAdapter() != null) return@with
-            layoutManager = FlexboxLayoutManager(context, FlexDirection.ROW).apply {
-                justifyContent = JustifyContent.CENTER
-                flexWrap = FlexWrap.WRAP
-                alignItems = AlignItems.STRETCH
+        getViewDataBinding().run {
+            cslFilter.background = backGroundPrimaryColorDrawable
+            with(navigationMenuView) {
+                itemBackground = navigationItemBackground(context)
+                setCheckedItem(R.id.menu_filter_gender)
+                setNavigationItemSelectedListener(
+                    navigationItemListener
+                )
             }
-            adapter = filterAdapter
-        }
 
-        with(getViewDataBinding().rvSelectedFilter) {
-            if (getSelectFilterAdapter() != null) return@with
-//            itemAnimator = SpringAddItemAnimator(SpringAddItemAnimator.Direction.DirectionX)
-            setHasFixedSize(true)
-            adapter = filterSelectedAdapter
-        }
-
-        with(getViewDataBinding().bottomFilterBar) {
-            setNavigationIcon(R.drawable.vc_close)
-            setNavigationOnClickListener {
-                getViewModel().closeFilter(true)
+            with(rvFilters) {
+                if (getCategoryAdapter() != null) return@with
+                layoutManager = FlexboxLayoutManager(context, FlexDirection.ROW).apply {
+                    justifyContent = JustifyContent.CENTER
+                    flexWrap = FlexWrap.WRAP
+                    alignItems = AlignItems.STRETCH
+                }
+                adapter = filterAdapter
             }
-            replaceMenu(R.menu.filter_menu)
-            setOnMenuItemClickListener(menuClickListener)
-            menuRefreshItem = menu.findItem(R.id.menu_refresh_filter)
-        }
 
-        with(getViewDataBinding().filterFab) {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
-        }
+            with(rvSelectedFilter) {
+                if (getSelectFilterAdapter() != null) return@with
+                setHasFixedSize(true)
+                adapter = filterSelectedAdapter
+            }
 
-        getViewDataBinding().navigationMenuView.menu.children
-            .map { menuItem -> menuItem.title.toString().toLowerCase(Locale.US) }
-            .toList().let { getViewModel().menuItemListLiveData.postValue(it) }
+            with(bottomFilterBar) {
+                setNavigationIcon(R.drawable.vc_close)
+                setNavigationOnClickListener {
+                    getViewModel().closeFilter(true)
+                }
+                replaceMenu(R.menu.filter_menu)
+                setOnMenuItemClickListener(menuClickListener)
+                menuRefreshItem = menu.findItem(R.id.menu_refresh_filter)
+            }
+
+            with(filterFab) {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+            }
+
+            navigationMenuView.menu.children
+                .map { menuItem -> menuItem.title.toString().toLowerCase(Locale.US) }
+                .toList().let { getViewModel().menuItemListLiveData.postValue(it) }
+        }
     }
 
     private fun getCategoryAdapter(): FilterAdapter? =
@@ -365,7 +369,7 @@ class FilterFragment :
 
     private val closeOnBackPressed = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
-            getViewModel().closeFilter(true)
+            closeFilterView()
         }
     }
 }

@@ -157,11 +157,11 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/desc_open_filters"
             android:elevation="@dimen/plane_12"
-            android:src="@drawable/vc_filter"
             android:transitionName="@string/transition_fab"
             app:ensureMinTouchTargetSize="true"
             app:fabSize="normal"
-            app:layout_anchor="@id/bottom_app_bar" />
+            app:layout_anchor="@id/bottom_app_bar"
+            app:srcCompat="@drawable/vc_filter" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/circular_progress"

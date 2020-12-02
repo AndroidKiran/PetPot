@@ -20,31 +20,25 @@ public class CircleLayoutManager extends RecyclerView.LayoutManager {
     private static final int SCROLL_RIGHT = 2;
 
     private final Context context;
-
+    //Sparse array for recording the attachment and rotate angle of each items
+    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
+    private final SparseArray<Float> itemsRotate = new SparseArray<>();
     // Size of each items
     private int mDecoratedChildWidth;
     private int mDecoratedChildHeight;
-
     //Property
     private int startLeft;
     private int startTop;
     private int mRadius;
     private int intervalAngle;
     private float offsetRotate; // The offset angle for each items which will change according to the scroll offset
-
     //the range of remove from parent
     private int minRemoveDegree;
     private int maxRemoveDegree;
-
     //initial position of content
     private int contentOffsetX = -1;
     private int contentOffsetY = -1;
-
     private int firstChildRotate = 0;
-
-    //Sparse array for recording the attachment and rotate angle of each items
-    private final SparseBooleanArray itemAttached = new SparseBooleanArray();
-    private final SparseArray<Float> itemsRotate = new SparseArray<>();
 
 
     public CircleLayoutManager(Context context) {
